@@ -1,0 +1,26 @@
+# ==============================================================
+# standard-document-updater — GitLab CI
+#
+# Minimal governance stage runs the two drift-detection scripts on
+# pushes to master / main and on every merge request.
+# test / build / publish stages are placeholders for when the engine
+# acquires a real pipeline (pytest, mypy, ruff, package build) —
+# see docs/standards/CICD_STANDARDS.md § 2.
+# ==============================================================
+
+stages:
+  - governance
+  # - test       # placeholder — pytest + mypy + ruff once the engine lands
+  # - build      # placeholder — python -m build (wheel/sdist)
+  # - publish    # placeholder — distribute the CLI if/when published
+
+governance:
+  stage: governance
+  image: python:3.11-slim
+  script:
+    - python scripts/check_doc_coverage.py
+    - python scripts/check_test_coverage_drift.py --ci
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"

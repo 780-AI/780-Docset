@@ -1,0 +1,71 @@
+<!-- VERSION: 0.1 -->
+<!-- Last Updated: 2026-06-07 -->
+<!--
+CHANGE LOG
+v0.1 — 2026-06-07 — Project bootstrap. Initial authoritative layout (governance scaffold only; no engine code yet).
+-->
+# Folder Structure
+
+**Authoritative layout for `standard-document-updater`.**
+
+Any change that contradicts this file is Major (per `CLAUDE.md` § 5) and must update this file in the
+same commit.
+
+## Repository root
+
+```
+standard-document-updater/
+├── CLAUDE.md                      # operating contract (binding; 13 standing rules)
+├── README.md                      # project overview
+├── CHANGELOG.md                   # cross-cutting history (newest first)
+├── .gitignore
+├── .gitlab-ci.yml                 # CI scaffold (governance stage)
+├── .gitlab/
+│   └── merge_request_templates/
+│       └── Default.md
+├── docs/
+│   ├── README.md                  # docs index
+│   ├── documents_manifest.md      # version index of all tracked docs + code
+│   ├── folder_structure.md        # this file
+│   ├── SESSION_OPENER.md          # binding session-start pre-flight (Rule 9)
+│   ├── SESSION_CLOSER.md          # binding session-end wrap-up (Rule 12)
+│   ├── standards/                 # adopted standards suite (Set Version v2.6)
+│   │   ├── SET_VERSION_ADOPTED.md
+│   │   ├── CICD_STANDARDS.md
+│   │   ├── ENGINEERING_STANDARDS.md
+│   │   ├── HOW_TO_USE.md
+│   │   ├── MEMORY_PROTOCOL.md
+│   │   ├── NEW_PROJECT_BOOTSTRAP.md
+│   │   ├── PROJECT_INSTRUCTIONS_TEMPLATE.md
+│   │   ├── PROJECT_STANDARDS.md
+│   │   ├── PROMPT_STANDARDS.md
+│   │   ├── README.md
+│   │   ├── SESSION_CLOSER.md
+│   │   ├── SESSION_OPENER.md
+│   │   ├── STANDARDS_INDEX.md
+│   │   └── VALIDATION_STANDARDS.md
+│   └── Plans/                     # committed planning docs (Rule 1); OPEN_TASKS.md is gitignored
+│       └── .gitkeep
+├── scripts/
+│   ├── check_doc_coverage.py
+│   ├── check_test_coverage_drift.py
+│   ├── doc_coverage_allowlist.toml
+│   └── validation_ownership.toml
+└── archive/
+    └── LESSONS.md                 # incident-to-rule archive (L001–L049)
+```
+
+## Planned (added when the engine lands)
+
+```
+standard-document-updater/
+├── src/
+│   └── standard_document_updater/  # the CLI engine (parser / differ / writer / version-bump)
+│       └── __init__.py
+├── tests/                          # pytest suite
+├── docs/architecture.md            # navigable design reference (kept in sync per CLAUDE.md § 4)
+└── pyproject.toml                  # packaging + tool config (ruff / mypy / pytest)
+```
+
+(Code-folder entries are added as the project grows. See `docs/standards/PROJECT_STANDARDS.md` § 6 for
+the standard layout template and `docs/standards/ENGINEERING_STANDARDS.md` for module/layer rules.)

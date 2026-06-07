@@ -1,0 +1,15 @@
+# Per VALIDATION_STANDARDS § 4 — ownership map for source files → tests + docs.
+# Add rules as the project's monitored paths grow.
+#
+# Example rule (adapt for this project):
+# [rules.example]
+# source_paths = ["src/standard_document_updater/engine.py"]
+# test_paths   = ["tests/test_engine.py"]
+# doc_paths    = ["docs/architecture.md"]
+# strictness   = "strict"
+# require_docs = true
+# reason       = "Core engine — behavior must be tested and documented."
+
+[monitored_paths]
+strict = []   # populate as the project grows
+soft   = []

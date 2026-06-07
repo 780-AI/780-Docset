@@ -1,0 +1,14 @@
+# Per VALIDATION_STANDARDS § 4.5 — justified exceptions to doc-coverage checks.
+#
+# Add entries only when genuinely needed; each entry needs author + date + reason + expires.
+# Format:
+#
+# [[exception]]
+# rule = "doc_coverage::manifest_completeness"
+# path = "path/to/file"
+# reason = "Why this is exempted"
+# author = "name@example.com"
+# date = "YYYY-MM-DD"
+# expires = "YYYY-MM-DD"
+
+# (empty — no exceptions at bootstrap)
