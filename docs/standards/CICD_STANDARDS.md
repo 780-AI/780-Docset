@@ -1,11 +1,10 @@
-<!-- VERSION: 1.2 -->
-<!-- Last Updated: 2026-05-16 -->
-<!-- Source: ~/everon-standards/CICD_STANDARDS.md (template). Domain-neutral. EverOn examples in HTML comments. -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-06-07 -->
+<!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
-v1.2 — 2026-05-16 — Phase 4–7 + EA-test-soak refresh. § 4 NEW § 4.7 CI-injected config files are wiped on every deploy (L025 — line-count divergence is a CI-injection tell; verify source-of-truth before manual edits). § 9 NEW § 9.7 24-hour staging soak required before prod deploy (L022), § 9.8 Staging mirrors production — env parity (L023 — every prod change has parallel staging change in same operator session, plan-defined "prod-only" actions are wrong by default), § 9.9 Explicit PROD-action authorization (L030 — never bundle prod in flow summary; each prod action gets its own labelled round). § 11 NEW § 11.4 Never bounce operator to CI UI — agent probes via REST API (L031 — GitLab API recipes; per-project access in Tier B). § 13 anti-patterns: added § 13.11 raw `docker compose up` on staging/prod (L024), § 13.12 bouncing operator to CI UI for status (L031), § 13.13 skipping the 24-hour staging soak (L022), § 13.14 "prod-only" config changes (L023).
-v1.1 — 2026-04-25 — Standards repo restructured to flat layout — Source path updated. The standards repo itself now lives flat (10 files at root); adopting projects still nest under `docs/standards/`.
-v1.0 — 2026-04-25 — Initial release. CI/CD pipeline architecture covering 6-stage pipeline shape, job topology, build → registry → pull pattern, smoke-staging gating production deploys, image-source verification, rollback design, and operator workflows. Distilled from EverOn.Capital-Signal Phases 2-3 pipeline evolution.
+v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
+specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
 # CICD_STANDARDS.md — Pipeline Architecture & Deploy Patterns
@@ -14,7 +13,7 @@ v1.0 — 2026-04-25 — Initial release. CI/CD pipeline architecture covering 6-
 
 For test framework details (which tier runs when, ownership model) → `VALIDATION_STANDARDS.md`. For Docker discipline (image tagging, healthcheck design, container layout) → `ENGINEERING_STANDARDS.md`. For the governance side (CHANGELOG entries, manifest, doc updates that accompany pipeline changes) → `PROJECT_STANDARDS.md`.
 
-**Why this file exists:** CI/CD pipelines are unforgiving. A subtle defect in a job graph or a deploy script can silently corrupt production state, ship the wrong image, or leave operators unable to roll back. Every pattern below was learned from a specific incident on EverOn.Capital-Signal — silent fallback bugs, env-var-export-across-SSH issues, registry-pull refactors, smoke gating, auto-rollback design. The file exists so future projects don't re-discover these the hard way.
+**Why this file exists:** CI/CD pipelines are unforgiving. A subtle defect in a job graph or a deploy script can silently corrupt production state, ship the wrong image, or leave operators unable to roll back. Every pattern below was learned from a specific incident on a reference project — silent fallback bugs, env-var-export-across-SSH issues, registry-pull refactors, smoke gating, auto-rollback design. The file exists so future projects don't re-discover these the hard way.
 
 ---
 
@@ -130,25 +129,25 @@ Naming consistency makes the pipeline visualization readable and makes failures 
 
 ```yaml
 job-name:
-  stage: <stage>
-  image: <runner-image>
-  needs:
-    - <prior-job>          # cross-stage dependencies
-  rules:
-    - if: $CI_COMMIT_BRANCH == "master"
-    - when: manual         # for manual-gate jobs
-  variables:
-    KEY: value
-  before_script:
-    - <setup commands>
-  script:
-    - <main commands>
-  after_script:
-    - <cleanup; runs even on failure>
-  artifacts:
-    paths:
-      - <files to preserve>
-    expire_in: 1 week
+ stage: <stage>
+ image: <runner-image>
+ needs:
+ - <prior-job> # cross-stage dependencies
+ rules:
+ - if: $CI_COMMIT_BRANCH == "master"
+ - when: manual # for manual-gate jobs
+ variables:
+ KEY: value
+ before_script:
+ - <setup commands>
+ script:
+ - <main commands>
+ after_script:
+ - <cleanup; runs even on failure>
+ artifacts:
+ paths:
+ - <files to preserve>
+ expire_in: 1 week
 ```
 
 ### 3.3 `needs:` for cross-stage shortcuts
@@ -218,7 +217,7 @@ When a CI job SSHes to a deploy host and runs commands there, **CI variables are
 Wrong:
 ```yaml
 script:
-  - ssh user@host "docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+ - ssh user@host "docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
 ```
 
 The `$CI_REGISTRY_IMAGE` is interpolated locally before SSH (this part works), but if the remote command needs the variable to exist as an env var (e.g., for a docker-compose substitution), it won't be there.
@@ -226,14 +225,14 @@ The `$CI_REGISTRY_IMAGE` is interpolated locally before SSH (this part works), b
 Right:
 ```yaml
 script:
-  - ssh user@host "export CI_REGISTRY_IMAGE='$CI_REGISTRY_IMAGE' CI_COMMIT_SHORT_SHA='$CI_COMMIT_SHORT_SHA' && docker pull \"\$CI_REGISTRY_IMAGE:\$CI_COMMIT_SHORT_SHA\""
+ - ssh user@host "export CI_REGISTRY_IMAGE='$CI_REGISTRY_IMAGE' CI_COMMIT_SHORT_SHA='$CI_COMMIT_SHORT_SHA' && docker pull \"\$CI_REGISTRY_IMAGE:\$CI_COMMIT_SHORT_SHA\""
 ```
 
 Or pass via environment file scp'd to the host. See § 6 for the canonical deploy pattern that handles this correctly.
 
 <!--
-Example (EverOn Task 2.5c → fixed in Task 2.5d):
-deploy.sh v2.x silently used `everon/backend:latest` because docker-compose's
+Example:
+deploy.sh v2.x silently used `myapp/backend:latest` because docker-compose's
 ${CI_REGISTRY_IMAGE} substitution resolved to empty string in the SSH session
 where CI_REGISTRY_IMAGE wasn't exported. The compose file's fallback `${VAR:-fallback}`
 syntax kicked in and pulled the wrong image. Smoke test passed because the wrong image
@@ -298,10 +297,10 @@ Then alias to canonical names in job-level `variables:` blocks for jobs that rea
 
 ````yaml
 nightly:
-  stage: test
-  variables:
-    TELEGRAM_BOT_TOKEN: "$TELEGRAM_STAGING_BOT_TOKEN"
-    TELEGRAM_CHAT_ID: "$TELEGRAM_STAGING_CHAT_ID"
+ stage: test
+ variables:
+ TELEGRAM_BOT_TOKEN: "$TELEGRAM_STAGING_BOT_TOKEN"
+ TELEGRAM_CHAT_ID: "$TELEGRAM_STAGING_CHAT_ID"
 ````
 
 **Rationale:**
@@ -345,14 +344,14 @@ See also `ENGINEERING_STANDARDS.md` § 3.6 (same rule, code-side framing).
 
 ```yaml
 build:
-  stage: build
-  image: docker:latest
-  services:
-    - docker:dind
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+ stage: build
+ image: docker:latest
+ services:
+ - docker:dind
+ script:
+ - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+ - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
+ - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
 ```
 
 Output: a registry-stored image tagged with the commit SHA. Same image used for staging and (later) production.
@@ -367,7 +366,7 @@ Output: a registry-stored image tagged with the commit SHA. Same image used for 
 
 Smoke tests that verify "the right image is running" can do so at two levels of strictness:
 
-**Prefix-only verification (current EverOn pattern):**
+**Prefix-only verification (current the standards source pattern):**
 - Smoke checks: `RUNNING_IMG` starts with `${EXPECTED_REGISTRY_PREFIX}:` or `${EXPECTED_REGISTRY_PREFIX}@`
 - Catches: wrong-registry deploys (e.g., a Docker Hub image accidentally deployed instead of the project's registry image)
 - Does NOT catch: stale-image silent deploys (e.g., `:latest` tag pointing at an older image because deploy never actually pulled the new SHA)
@@ -382,9 +381,9 @@ This pattern is acceptable when:
 
 When the platform grows, upgrade smoke to verify the running image matches the expected SHA, not just the registry prefix:
 
-- Compose references `${EVERON_IMAGE_TAG}` directly: `image: ${CI_REGISTRY_IMAGE}/backend:${EVERON_IMAGE_TAG}`
-- `deploy.sh` exports `EVERON_IMAGE_TAG=$CI_COMMIT_SHORT_SHA` before `compose up`
-- `rollback.sh` exports `EVERON_IMAGE_TAG=$ROLLBACK_SHA` before `compose up`
+- Compose references `${APP_IMAGE_TAG}` directly: `image: ${CI_REGISTRY_IMAGE}/backend:${APP_IMAGE_TAG}`
+- `deploy.sh` exports `APP_IMAGE_TAG=$CI_COMMIT_SHORT_SHA` before `compose up`
+- `rollback.sh` exports `APP_IMAGE_TAG=$ROLLBACK_SHA` before `compose up`
 - Smoke Section 5 checks: `RUNNING_IMG` ends with `:${CI_COMMIT_SHORT_SHA}` or `@<digest>`
 
 **Trigger conditions for the upgrade:**
@@ -393,15 +392,15 @@ When the platform grows, upgrade smoke to verify the running image matches the e
 - High deploy frequency (more opportunities for the rare Docker bug to hit)
 - Compliance/audit requirements that demand provable image-source freshness
 
-**EverOn status (as of 2026-04-28):** Prefix-only pattern accepted per D10 (see `cicd_setup_tracker.md` Phase 3 Deferred Items). Upgrade to freshness verification deferred to Phase 4 architectural work when one or more trigger conditions hold.
+**the standards source status (as of 2026-04-28):** Prefix-only pattern accepted per D10 (see `cicd_setup_tracker.md` Phase 3 Deferred Items). Upgrade to freshness verification deferred to Phase 4 architectural work when one or more trigger conditions hold.
 
 ### 5.3 The 8-char SHA gotcha
 
 GitLab's `$CI_COMMIT_SHORT_SHA` is **8 characters**, not git's default 7. Image tags use 8 chars throughout. When probing the registry for image existence (e.g., in rollback scripts), use 8-char SHAs:
 
 ```bash
-docker manifest inspect $CI_REGISTRY_IMAGE:${SHA:0:8}    # Correct
-docker manifest inspect $CI_REGISTRY_IMAGE:${SHA:0:7}    # Wrong; returns NOT FOUND
+docker manifest inspect $CI_REGISTRY_IMAGE:${SHA:0:8} # Correct
+docker manifest inspect $CI_REGISTRY_IMAGE:${SHA:0:7} # Wrong; returns NOT FOUND
 ```
 
 Per `ENGINEERING_STANDARDS.md` § 7.3.
@@ -415,7 +414,7 @@ Per `ENGINEERING_STANDARDS.md` § 7.1 — use multi-stage Dockerfiles to keep pr
 Old SHA-tagged images accumulate in the registry. Without cleanup, the registry grows indefinitely. Mitigations:
 
 - **Registry retention policies** at the provider (delete tags older than N days, except specific protected tags)
-- **Periodic manual cleanup** of legacy tags (e.g., the `latest` migration left old `everon/backend:latest` images that are no longer used)
+- **Periodic manual cleanup** of legacy tags (e.g., the `latest` migration left old `myapp/backend:latest` images that are no longer used)
 - **Don't auto-delete tags currently deployed** — provider policies usually have allowlist syntax for this
 
 Track legacy-image cleanup as a tracker Deferred Item; address during quiet windows.
@@ -426,7 +425,7 @@ Per `ENGINEERING_STANDARDS.md` § 7.5 — pin upstream images by digest:
 
 ```yaml
 services:
-  - name: postgres@sha256:abc...
+ - name: postgres@sha256:abc...
 ```
 
 Pair with Renovate/Dependabot to propose digest bumps automatically.
@@ -465,18 +464,18 @@ ssh -i "$SSH_KEY" "$TARGET_USER@$TARGET_HOST" "docker login -u <user> -p <token>
 
 # 2. Pull the SHA-tagged image
 ssh -i "$SSH_KEY" "$TARGET_USER@$TARGET_HOST" \
-  "docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+ "docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
 
 # 3. Update compose file or equivalent to reference the new image
 # (compose substitution requires careful handling — see § 4.4)
 
 # 4. Restart services
 ssh -i "$SSH_KEY" "$TARGET_USER@$TARGET_HOST" \
-  "cd $PROJECT_DIR && docker compose up -d"
+ "cd $PROJECT_DIR && docker compose up -d"
 
 # 5. Record the deploy SHA for rollback
 ssh -i "$SSH_KEY" "$TARGET_USER@$TARGET_HOST" \
-  "echo $CI_COMMIT_SHORT_SHA > $PROJECT_DIR/.last-deploy"
+ "echo $CI_COMMIT_SHORT_SHA > $PROJECT_DIR/.last-deploy"
 
 # 6. Wait briefly for services to start
 sleep 5
@@ -508,8 +507,8 @@ The deploy host needs registry credentials to pull images. Two patterns:
 The CI-credentials pattern is more secure (short-lived, rotatable, scoped to deploy permission only) but introduces an operator-interaction gotcha: after a CI deploy, manual operations (like `rollback.sh` invocation) need re-authentication because CI overwrote the operator's auth.
 
 <!--
-Example (EverOn Phase 3 D8):
-deploy.sh v3.0 overwrites /home/everon/.docker/config.json with CI's deploy token
+Example:
+deploy.sh v3.0 overwrites /home/deploy/.docker/config.json with CI's deploy token
 on every CI run. Manual rollback.sh after a CI deploy fails until operator
 re-logs in. Documented as Phase 3 deferred item; resolution is either save/restore
 of operator credentials in deploy.sh OR document the manual re-auth wrapper as the
@@ -517,8 +516,8 @@ canonical post-CI workflow.
 
 Manual re-auth wrapper:
 read -s -p "Token: " T && echo "$T" | ssh -i ~/.ssh/staging \
-  user@host 'docker login registry.gitlab.com -u <token-name> --password-stdin' \
-  && unset T
+ user@host 'docker login registry.gitlab.com -u <token-name> --password-stdin' \
+ && unset T
 -->
 
 ### 6.5 Deploy host has no source code
@@ -556,13 +555,13 @@ The post-deploy smoke (`scripts/post_deploy_smoke.sh` or equivalent) is the cano
 
 ### 7.2 Image source verification — required
 
-This is the check that catches the silent-fallback bug class (per `LESSONS L005` and Task 2.5c/2.5d on EverOn). For every application service:
+This is the check that catches the silent-fallback bug class (per `LESSONS L005` and Task 2.5c/2.5d on the standards source). For every application service:
 
 ```bash
 ACTUAL_IMAGE=$(docker inspect <container> --format '{{.Config.Image}}')
 case "$ACTUAL_IMAGE" in
-  "$EXPECTED_REGISTRY_PREFIX:$EXPECTED_SHA") ok ;;
-  *) fail "Service <name> running unexpected image: $ACTUAL_IMAGE" ;;
+ "$EXPECTED_REGISTRY_PREFIX:$EXPECTED_SHA") ok ;;
+ *) fail "Service <name> running unexpected image: $ACTUAL_IMAGE" ;;
 esac
 ```
 
@@ -631,13 +630,13 @@ LAST_DEPLOY_FILE="$PROJECT_DIR/.last-deploy"
 TARGET_SHA="${1:-}"
 
 if [[ -z "$TARGET_SHA" ]]; then
-  # Auto-detect: get current deployed SHA, find the one before it
-  TARGET_SHA=$(get_previous_sha_from_history)
+ # Auto-detect: get current deployed SHA, find the one before it
+ TARGET_SHA=$(get_previous_sha_from_history)
 fi
 
 # Validate target SHA exists in registry
 docker manifest inspect "$REGISTRY:$TARGET_SHA" >/dev/null 2>&1 \
-  || fail "Image $REGISTRY:$TARGET_SHA not found in registry"
+ || fail "Image $REGISTRY:$TARGET_SHA not found in registry"
 
 # Pull and switch
 docker pull "$REGISTRY:$TARGET_SHA"
@@ -719,14 +718,14 @@ Production deploys are not autonomous. Every production deploy requires explicit
 
 ```yaml
 deploy-production:
-  stage: deploy-prod
-  needs:
-    - smoke-staging       # gated on staging smoke success
-  rules:
-    - if: $CI_COMMIT_BRANCH == "master"
-      when: manual        # require manual trigger
-  script:
-    - bash scripts/deploy.sh
+ stage: deploy-prod
+ needs:
+ - smoke-staging # gated on staging smoke success
+ rules:
+ - if: $CI_COMMIT_BRANCH == "master"
+ when: manual # require manual trigger
+ script:
+ - bash scripts/deploy.sh
 ```
 
 `when: manual` means the job appears in the pipeline UI but doesn't auto-run. Operator clicks "Play" to trigger it.
@@ -757,7 +756,7 @@ For higher-risk projects, augment the manual gate with scheduled deploy windows:
 - Implement via CI rules with date/time conditions
 - Document the policy in `docs/runbook.md`
 
-EverOn doesn't use scheduled windows currently, but the pattern is available if needed.
+the standards source doesn't use scheduled windows currently, but the pattern is available if needed.
 
 ### 9.6 Operator preparation before clicking
 
@@ -847,15 +846,15 @@ When `smoke-production` fails, auto-rollback returns production to the previous 
 
 ```yaml
 rollback-production:
-  stage: verify-prod
-  needs:
-    - deploy-production
-  rules:
-    - if: $CI_COMMIT_BRANCH == "master"
-      when: on_failure    # only run if a prior job in the stage failed
-  script:
-    - bash scripts/rollback.sh
-    - bash scripts/post_deploy_smoke.sh   # re-verify after rollback
+ stage: verify-prod
+ needs:
+ - deploy-production
+ rules:
+ - if: $CI_COMMIT_BRANCH == "master"
+ when: on_failure # only run if a prior job in the stage failed
+ script:
+ - bash scripts/rollback.sh
+ - bash scripts/post_deploy_smoke.sh # re-verify after rollback
 ```
 
 `when: on_failure` means this job runs only when an earlier same-stage or upstream-needed job failed. Specifically, it runs when `smoke-production` fails (the only job that fails into `verify-prod` stage).
@@ -925,7 +924,7 @@ Some scenarios warrant disabling auto-rollback:
 - More than one operator has push access to master.
 - Customer impact of an accidentally-rolled-back migration is non-trivial (data inconsistency, downtime).
 
-**EverOn status (as of 2026-04-28):** Doc-only mitigation per Task 3.4 e-2 decision. Schema is currently stable (no near-term migrations planned). Upgrade to code override deferred to Phase 4 if/when trigger conditions hold.
+**the standards source status (as of 2026-04-28):** Doc-only mitigation per Task 3.4 e-2 decision. Schema is currently stable (no near-term migrations planned). Upgrade to code override deferred to Phase 4 if/when trigger conditions hold.
 
 ### 10.7 Deliberate-failure test
 
@@ -950,7 +949,7 @@ Without this test, auto-rollback is unverified — the failure path may have a s
 - "How to investigate a smoke failure" (logs, container state, common causes)
 - "How to handle auto-rollback firing" (read alerts, check post-rollback smoke, postmortem the original failure)
 
-### 11.2 Common gotchas (from EverOn experience)
+### 11.2 Common gotchas (from the standards source experience)
 
 **Gotcha 1: 8-char vs 7-char SHA**
 

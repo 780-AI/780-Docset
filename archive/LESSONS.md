@@ -1,21 +1,10 @@
-<!-- VERSION: 1.12 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-06-07 -->
-<!-- Source: ~/everon-standards/LESSONS.md (template). Append-only history. EverOn-specific incidents preserved verbatim — they are the evidence behind each rule. -->
+<!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
-v1.12 — 2026-06-07 — Add L049 (A plan draft is a hypothesis — a mandatory senior-review-and-optimize pass before approval catches what the drafting pass ships — codifies new CLAUDE.md Rule 13). Operator request 2026-06-07 after the PLAN-012 senior-review pass found a non-functional `SYMBOL_TRADE_MODE` market-open check, a backwards panel state (`CLOSING…` shown when the basket was empty), and redundant per-tick recomputation — all shipped by the drafting pass despite the plan looking complete. Resolution: new Rule 13 in CLAUDE.md ("Senior-review-and-optimize pass before a plan goes to approval is MANDATORY") + new § 15.8 with the canonical review prompt; the pass is the last task of plan development, applies fixes in place, records them in the plan CHANGE LOG, and surfaces new decisions to the operator. Plan-level analogue of L027/Rule 10 (code review before commit). § 3 TOC extended with L049 at the top.
-v1.11 — 2026-05-23 — Add L048 (Session wrap-up routine as forcing function against detail loss across session boundaries — codifies new CLAUDE.md Rule 12). Operator request 2026-05-23: "add a wrap up rutine to our rules and make it binding ... and so on make sure no detail will be lost." Without a session-end forcing function, new patterns/rules/lessons emerged during long sessions get forgotten by farewell time; OPEN_TASKS goes stale; /tmp/ artifacts accumulate; next session can't pick up cleanly. Resolution: new binding standards file `docs/SESSION_CLOSER.md` v1.0 (template at `docs/standards/SESSION_CLOSER.md` v1.0) + new Rule 12 in CLAUDE.md ("Session wrap-up routine on operator command is MANDATORY"). Routine has 9 steps including step 7 lessons-learned scan that surfaces candidate codifications to operator with codify/queue/discard recommendations. Symmetric counterpart to L043/Rule 9/SESSION_OPENER.md. § 3 TOC extended with L048 at the top.
-v1.10 — 2026-05-22 — Add L047 (QA scenarios coupled to changes at change-time, not validation-time — codifies new CLAUDE.md Rule 11). Same-commit pattern: every behavior-affecting change adds its QA / smoke-test scenario to the plan's tracker (per § 15.7) or `docs/Plans/OPEN_TASKS.md` "Pending verification" section (for Minor changes outside a § 15 plan). Driven by 2026-05-22 operator observation: PLAN-001..PLAN-004 had scenarios defined at plan-design time but no forcing function at change-time, leaving small / mid-flight changes without paired scenarios. § 3 TOC extended with L047 at the top (above L046).
-v1.9 — 2026-05-22 — Add L045 (Plan tracker discipline — big plans get sibling tracker, small plans expand § 4 in-file) + L046 (Local-only OPEN_TASKS.md register — cross-plan + non-plan "what's open right now" index). Both codified from the EverOn.Equinex 2026-05-22 PLAN-004 close-out session. Cross-project backport landing — Equinex's parallel v2.2 work content lands here as v2.3 (mirroring EverOn.Capital-Signal's same-day v2.3 commit `5ee36ed`), with L045/L046 numbers chosen to follow Capital-Signal's L044 (Code-review meta-lesson). L045 = symmetric plan-tracker discipline (big sibling vs small in-file); L046 = local-only gitignored cross-plan register. § 3 TOC extended.
-v1.8 — 2026-05-22 — Add L044 (Session-scoped checklists don't enforce per-commit discipline; embed the rule in the procedure). Cross-project backport from EverOn.Capital-Signal Standard Set v2.1 → v2.2 (commit `717529a`). Codifies the 2026-05-22 EverOn.Capital-Signal incident — within the same session that codified Rule 9 / SESSION_OPENER.md (L043), the code-review-before-commit discipline was applied unevenly across two consecutive commits (`4b86b4a` honored it, `4110ca8` silently dropped it). Diagnosis: prior forcing functions (memory `feedback_code_review_before_commit` from L027 + SESSION_OPENER § 3 row 3) are both session-scoped — fire once at session start, then go dormant. Per-commit failure modes need per-commit forcing functions. Resolution: new Rule 10 in CLAUDE.md ("Code review before commit is MANDATORY") embeds the discipline in the per-commit procedure itself. Meta-lesson (refines L043): "a forcing function is only as strong as its invocation cadence matches the discipline it's enforcing." § 3 TOC extended with L044 at the top (above L043).
-v1.7 — 2026-05-22 — Add L043 (Session-start pre-flight as forcing function) — backported from EverOn.Capital-Signal Standard Set v2.1 during the Equinex v1.1 → v2.1 cross-project merge. Codifies the 2026-05-22 EverOn.Capital-Signal incident (two repeat-from-known-memory failures in one session — staging↔prod host confusion + missed test-assertion sync on a profile param change) traced to a single root cause: skipping context-load at session start. Resolution that EverOn shipped and Equinex now adopts: new binding standards file `docs/SESSION_OPENER.md` v1.0 (template at `docs/standards/SESSION_OPENER.md` v1.1) + new Rule 9 in CLAUDE.md ("Session start pre-flight is MANDATORY"). § 3 TOC extended with L043 at the top. Project-of-origin field on L043 reads "EverOn.Capital-Signal" per the L-archive convention of preserving the originating project.
-v1.6 — 2026-05-22 — Add L036–L042 (7 lessons from EverOn.Equinex PLAN-001..PLAN-004 multi-plan sequence 2026-05-19..05-22): L036 closed-risk annotation discipline (annotate the earlier plan's risk row in the same commit that ships the mitigation); L037 time-window wrap-fire at minute 0 (HH:MM end="00:00" parsed as integer 0 produces a 1-minute wrap match at start-of-day); L038 ALLOWLIST count is the bullet enumeration, not the prose sentence; L039 grep all reads before splitting a globally-read state variable; L040 fail-safe defaults for external-data sources that may be unavailable in degraded environments (test runners, missing config, third-party outages); L041 pattern-match safety tripwire when matching external string catalogs (event names, error codes); L042 plan-first workflow for vital changes — full plan doc + Phase 2 operator-approval gate + Phase 3 in a fresh agent session prompted from the plan file. § 3 TOC extended. New cross-references from CLAUDE.md § 15 (plan workflow), PROJECT_STANDARDS.md (closed-risk discipline), ENGINEERING_STANDARDS.md (time-window parsing + fail-safe defaults + refactor blast-radius + pattern-match tripwires), PROMPT_STANDARDS.md § 3.2 (ALLOWLIST count discipline).
-v1.5 — 2026-05-16 — Add L020–L035 (16 lessons from EverOn.Capital-Signal Phases 4–7 and EA test soak): L020 Codex handoff protocol; L021 live candle OHLC mutability (D18 root cause); L022 24-hour staging soak before prod; L023 staging mirrors production (env parity); L024 never raw `docker compose up`; L025 CI-injected `.env` wipes; L026 run commits yourself (pushes still operator-gated); L027 code review before every commit; L028 push cadence (batch local, push when necessary); L029 distribute doc sync across split commits (refines L010); L030 always call out PROD actions explicitly; L031 never bounce operator to GitLab UI; L032 investigate underlying data when operator questions answers; L033 Codex retry prompts need PRIOR DEVIATION WARNING; L034 macOS disk full — restart, don't hunt caches; L035 Hetzner web console avoidance for sensitive files. Also fixed pre-existing TOC gap: L017, L018, L019 (added in earlier versions) were missing from § 3 TOC; added now.
-v1.4 — 2026-04-30 — Add L019: Self-contained CI jobs (auth state should not cross job boundaries). Codifies the pattern proven by F-1 verification cycle iteration-1 success on staging 2026-04-30 00:55 UTC. F-1 (commit f269c11) modified rollback.sh v0.3 → v0.4 to self-authenticate when CI env vars present; verification cycle (commits e505542 break + a098e0f revert) confirmed the cascade completes in iteration 1 with no auth intervention required. L019 was deliberately deferred from the F-1 implementation commit (f269c11 incident block noted "to be codified as L019 after verification") per "test before claiming success" discipline — codifying before verification would have violated the principle the lesson teaches.
-v1.3 — 2026-04-29 — Add L018: Cross-job auth state assumptions break silently in CI. Captures the pattern surfaced by Task 3.4 deliberate-failure test cycle iteration 2 (auth gap in rollback-staging CI invocation; D8 escalation in cicd_setup_tracker.md). Substantive content addition warranted version bump per ENGINEERING_STANDARDS § 8 — bump performed in follow-up commit (vd-1) after the documenting commit (1a0a426) shipped without it.
-v1.2 — 2026-04-25 — Standards repo restructured to flat layout — Source path updated. The standards repo itself now lives flat (10 files at root); adopting projects still nest this file under `archive/`.
-v1.1 — 2026-04-25 — § 1 corrected: L-numbers are stable topical identifiers, not chronological markers. Original draft incorrectly claimed chronological ordering. Date metadata on each lesson remains the canonical chronological reference.
-v1.0 — 2026-04-25 — Initial release. 16 lessons captured from EverOn.Capital-Signal Phases 1-3, each with: incident description, codification (which rule was added), and downstream impact. Structured as append-only — new lessons add at top, old lessons never deleted.
+v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
+specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
 # LESSONS.md — Incident-to-Rule Archive
@@ -33,55 +22,55 @@ v1.0 — 2026-04-25 — Initial release. 16 lessons captured from EverOn.Capital
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
-   - [L049 — A plan draft is a hypothesis: a mandatory senior-review-and-optimize pass before approval catches what the drafting pass ships](#l049--a-plan-draft-is-a-hypothesis-a-mandatory-senior-review-and-optimize-pass-before-approval-catches-what-the-drafting-pass-ships)
-   - [L048 — Session wrap-up routine as forcing function against detail loss across session boundaries](#l048--session-wrap-up-routine-as-forcing-function-against-detail-loss-across-session-boundaries)
-   - [L047 — QA / smoke-test scenarios must be coupled to changes at change-time, not validation-time](#l047--qa--smoke-test-scenarios-must-be-coupled-to-changes-at-change-time-not-validation-time)
-   - [L046 — Local-only OPEN_TASKS.md register: cross-plan + non-plan "what's open right now" index](#l046--local-only-open_tasksmd-register-cross-plan--non-plan-whats-open-right-now-index)
-   - [L045 — Plan tracker discipline: big plans get a sibling tracker, small plans expand § 4 in-file](#l045--plan-tracker-discipline-big-plans-get-a-sibling-tracker-small-plans-expand--4-in-file)
-   - [L044 — Session-scoped checklists don't enforce per-commit discipline; embed the rule in the procedure](#l044--session-scoped-checklists-dont-enforce-per-commit-discipline-embed-the-rule-in-the-procedure)
-   - [L043 — Session-start pre-flight as forcing function](#l043--session-start-pre-flight-as-forcing-function)
-   - [L042 — Plan-first for vital changes: full plan + Phase 2 approval + Phase 3 in a fresh session](#l042--plan-first-for-vital-changes-full-plan--phase-2-approval--phase-3-in-a-fresh-session)
-   - [L041 — Pattern-match safety tripwire for external string catalogs](#l041--pattern-match-safety-tripwire-for-external-string-catalogs)
-   - [L040 — Fail-safe defaults for external-data sources that may be unavailable](#l040--fail-safe-defaults-for-external-data-sources-that-may-be-unavailable)
-   - [L039 — Grep all reads before splitting a globally-read state variable](#l039--grep-all-reads-before-splitting-a-globally-read-state-variable)
-   - [L038 — ALLOWLIST count is the bullet enumeration, not the prose sentence](#l038--allowlist-count-is-the-bullet-enumeration-not-the-prose-sentence)
-   - [L037 — Time-window with end=00:00 fires at minute 0 of the same day (wrap-window pitfall)](#l037--time-window-with-end0000-fires-at-minute-0-of-the-same-day-wrap-window-pitfall)
-   - [L036 — Annotate a closed plan-risk in the same commit that ships the mitigation](#l036--annotate-a-closed-plan-risk-in-the-same-commit-that-ships-the-mitigation)
-   - [L035 — Hetzner web console avoidance for sensitive files](#l035--hetzner-web-console-avoidance-for-sensitive-files)
-   - [L034 — macOS disk full: restart frees 30+ GB; don't hunt caches first](#l034--macos-disk-full-restart-frees-30-gb-dont-hunt-caches-first)
-   - [L033 — Codex retry prompts need PRIOR DEVIATION WARNING](#l033--codex-retry-prompts-need-prior-deviation-warning)
-   - [L032 — Investigate underlying data when operator questions answers](#l032--investigate-underlying-data-when-operator-questions-answers)
-   - [L031 — Never bounce operator to UI for status; agent probes via REST API](#l031--never-bounce-operator-to-ui-for-status-agent-probes-via-rest-api)
-   - [L030 — Always call out PROD actions explicitly](#l030--always-call-out-prod-actions-explicitly)
-   - [L029 — Distribute doc sync across split commits](#l029--distribute-doc-sync-across-split-commits)
-   - [L028 — Batch local commits; push only when necessary](#l028--batch-local-commits-push-only-when-necessary)
-   - [L027 — Code review BEFORE every commit (separate from governance)](#l027--code-review-before-every-commit-separate-from-governance)
-   - [L026 — Run commits yourself; don't hand back to user](#l026--run-commits-yourself-dont-hand-back-to-user)
-   - [L025 — CI-injected `.env` files are wiped on every deploy](#l025--ci-injected-env-files-are-wiped-on-every-deploy)
-   - [L024 — Never run raw `docker compose up` on staging or production](#l024--never-run-raw-docker-compose-up-on-staging-or-production)
-   - [L023 — Staging mirrors production — env parity](#l023--staging-mirrors-production--env-parity)
-   - [L022 — 24-hour staging soak required before any production deploy](#l022--24-hour-staging-soak-required-before-any-production-deploy)
-   - [L021 — Live candle OHLC values mutate during first 10 min](#l021--live-candle-ohlc-values-mutate-during-first-10-min)
-   - [L020 — Codex handoff protocol (separate-domain agent collaboration)](#l020--codex-handoff-protocol-separate-domain-agent-collaboration)
-   - [L019 — Self-contained CI jobs: auth state should not cross job boundaries](#l019--self-contained-ci-jobs-auth-state-should-not-cross-job-boundaries)
-   - [L018 — Cross-job auth state assumptions break silently in CI](#l018--cross-job-auth-state-assumptions-break-silently-in-ci)
-   - [L017 — Never-exercised gates fire bugs in cascade](#l017--never-exercised-gates-fire-bugs-in-cascade)
-   - [L016 — Allow-failure jobs become decoration, not checks](#l016--allow-failure-jobs-become-decoration-not-checks)
-   - [L015 — Project Instructions for one project bleed into another](#l015--project-instructions-for-one-project-bleed-into-another)
-   - [L014 — Long single-file standards docs lose recall in the middle](#l014--long-single-file-standards-docs-lose-recall-in-the-middle)
-   - [L013 — Project knowledge precedence prevents fabrication](#l013--project-knowledge-precedence-prevents-fabrication)
-   - [L012 — Gitignore case-sensitivity surprises on macOS](#l012--gitignore-case-sensitivity-surprises-on-macos)
-   - [L011 — Pager-safe verification (avoid `less` ambushing output)](#l011--pager-safe-verification-avoid-less-ambushing-output)
-   - [L010 — Split-commit delivery for substantive doc additions](#l010--split-commit-delivery-for-substantive-doc-additions)
-   - [L009 — Deliberate-failure testing for alerting/check code](#l009--deliberate-failure-testing-for-alertingcheck-code)
-   - [L008 — Manifest completeness: no exclusion lists](#l008--manifest-completeness-no-exclusion-lists)
-   - [L007 — Multi-file Cursor prompts need ALLOWLIST + verbatim FIND/REPLACE](#l007--multi-file-cursor-prompts-need-allowlist--verbatim-findreplace)
-   - [L006 — Verify agent claims via filesystem](#l006--verify-agent-claims-via-filesystem)
-   - [L005 — Local governance does NOT validate CI schema](#l005--local-governance-does-not-validate-ci-schema)
-   - [L004 — Heredoc-piped commit messages corrupt special characters](#l004--heredoc-piped-commit-messages-corrupt-special-characters)
-   - [L003 — Fix-forward via letter suffix preserves the lesson](#l003--fix-forward-via-letter-suffix-preserves-the-lesson)
-   - [L002 — Pre-push governance must be local AND in CI](#l002--pre-push-governance-must-be-local-and-in-ci)
-   - [L001 — Plans folder rule (commit your plans)](#l001--plans-folder-rule-commit-your-plans)
+ - [L049 — A plan draft is a hypothesis: a mandatory senior-review-and-optimize pass before approval catches what the drafting pass ships](#l049--a-plan-draft-is-a-hypothesis-a-mandatory-senior-review-and-optimize-pass-before-approval-catches-what-the-drafting-pass-ships)
+ - [L048 — Session wrap-up routine as forcing function against detail loss across session boundaries](#l048--session-wrap-up-routine-as-forcing-function-against-detail-loss-across-session-boundaries)
+ - [L047 — QA / smoke-test scenarios must be coupled to changes at change-time, not validation-time](#l047--qa--smoke-test-scenarios-must-be-coupled-to-changes-at-change-time-not-validation-time)
+ - [L046 — Local-only OPEN_TASKS.md register: cross-plan + non-plan "what's open right now" index](#l046--local-only-open_tasksmd-register-cross-plan--non-plan-whats-open-right-now-index)
+ - [L045 — Plan tracker discipline: big plans get a sibling tracker, small plans expand § 4 in-file](#l045--plan-tracker-discipline-big-plans-get-a-sibling-tracker-small-plans-expand--4-in-file)
+ - [L044 — Session-scoped checklists don't enforce per-commit discipline; embed the rule in the procedure](#l044--session-scoped-checklists-dont-enforce-per-commit-discipline-embed-the-rule-in-the-procedure)
+ - [L043 — Session-start pre-flight as forcing function](#l043--session-start-pre-flight-as-forcing-function)
+ - [L042 — Plan-first for vital changes: full plan + Phase 2 approval + Phase 3 in a fresh session](#l042--plan-first-for-vital-changes-full-plan--phase-2-approval--phase-3-in-a-fresh-session)
+ - [L041 — Pattern-match safety tripwire for external string catalogs](#l041--pattern-match-safety-tripwire-for-external-string-catalogs)
+ - [L040 — Fail-safe defaults for external-data sources that may be unavailable](#l040--fail-safe-defaults-for-external-data-sources-that-may-be-unavailable)
+ - [L039 — Grep all reads before splitting a globally-read state variable](#l039--grep-all-reads-before-splitting-a-globally-read-state-variable)
+ - [L038 — ALLOWLIST count is the bullet enumeration, not the prose sentence](#l038--allowlist-count-is-the-bullet-enumeration-not-the-prose-sentence)
+ - [L037 — Time-window with end=00:00 fires at minute 0 of the same day (wrap-window pitfall)](#l037--time-window-with-end0000-fires-at-minute-0-of-the-same-day-wrap-window-pitfall)
+ - [L036 — Annotate a closed plan-risk in the same commit that ships the mitigation](#l036--annotate-a-closed-plan-risk-in-the-same-commit-that-ships-the-mitigation)
+ - [L035 — a cloud provider's web console avoidance for sensitive files](#l035--a-cloud-providers-web-console-avoidance-for-sensitive-files)
+ - [L034 — macOS disk full: restart frees 30+ GB; don't hunt caches first](#l034--macos-disk-full-restart-frees-30-gb-dont-hunt-caches-first)
+ - [L033 — Codex retry prompts need PRIOR DEVIATION WARNING](#l033--codex-retry-prompts-need-prior-deviation-warning)
+ - [L032 — Investigate underlying data when operator questions answers](#l032--investigate-underlying-data-when-operator-questions-answers)
+ - [L031 — Never bounce operator to UI for status; agent probes via REST API](#l031--never-bounce-operator-to-ui-for-status-agent-probes-via-rest-api)
+ - [L030 — Always call out PROD actions explicitly](#l030--always-call-out-prod-actions-explicitly)
+ - [L029 — Distribute doc sync across split commits](#l029--distribute-doc-sync-across-split-commits)
+ - [L028 — Batch local commits; push only when necessary](#l028--batch-local-commits-push-only-when-necessary)
+ - [L027 — Code review BEFORE every commit (separate from governance)](#l027--code-review-before-every-commit-separate-from-governance)
+ - [L026 — Run commits yourself; don't hand back to user](#l026--run-commits-yourself-dont-hand-back-to-user)
+ - [L025 — CI-injected `.env` files are wiped on every deploy](#l025--ci-injected-env-files-are-wiped-on-every-deploy)
+ - [L024 — Never run raw `docker compose up` on staging or production](#l024--never-run-raw-docker-compose-up-on-staging-or-production)
+ - [L023 — Staging mirrors production — env parity](#l023--staging-mirrors-production--env-parity)
+ - [L022 — 24-hour staging soak required before any production deploy](#l022--24-hour-staging-soak-required-before-any-production-deploy)
+ - [L021 — Live candle OHLC values mutate during first 10 min](#l021--live-candle-ohlc-values-mutate-during-first-10-min)
+ - [L020 — Codex handoff protocol (separate-domain agent collaboration)](#l020--codex-handoff-protocol-separate-domain-agent-collaboration)
+ - [L019 — Self-contained CI jobs: auth state should not cross job boundaries](#l019--self-contained-ci-jobs-auth-state-should-not-cross-job-boundaries)
+ - [L018 — Cross-job auth state assumptions break silently in CI](#l018--cross-job-auth-state-assumptions-break-silently-in-ci)
+ - [L017 — Never-exercised gates fire bugs in cascade](#l017--never-exercised-gates-fire-bugs-in-cascade)
+ - [L016 — Allow-failure jobs become decoration, not checks](#l016--allow-failure-jobs-become-decoration-not-checks)
+ - [L015 — Project Instructions for one project bleed into another](#l015--project-instructions-for-one-project-bleed-into-another)
+ - [L014 — Long single-file standards docs lose recall in the middle](#l014--long-single-file-standards-docs-lose-recall-in-the-middle)
+ - [L013 — Project knowledge precedence prevents fabrication](#l013--project-knowledge-precedence-prevents-fabrication)
+ - [L012 — Gitignore case-sensitivity surprises on macOS](#l012--gitignore-case-sensitivity-surprises-on-macos)
+ - [L011 — Pager-safe verification (avoid `less` ambushing output)](#l011--pager-safe-verification-avoid-less-ambushing-output)
+ - [L010 — Split-commit delivery for substantive doc additions](#l010--split-commit-delivery-for-substantive-doc-additions)
+ - [L009 — Deliberate-failure testing for alerting/check code](#l009--deliberate-failure-testing-for-alertingcheck-code)
+ - [L008 — Manifest completeness: no exclusion lists](#l008--manifest-completeness-no-exclusion-lists)
+ - [L007 — Multi-file Cursor prompts need ALLOWLIST + verbatim FIND/REPLACE](#l007--multi-file-cursor-prompts-need-allowlist--verbatim-findreplace)
+ - [L006 — Verify agent claims via filesystem](#l006--verify-agent-claims-via-filesystem)
+ - [L005 — Local governance does NOT validate CI schema](#l005--local-governance-does-not-validate-ci-schema)
+ - [L004 — Heredoc-piped commit messages corrupt special characters](#l004--heredoc-piped-commit-messages-corrupt-special-characters)
+ - [L003 — Fix-forward via letter suffix preserves the lesson](#l003--fix-forward-via-letter-suffix-preserves-the-lesson)
+ - [L002 — Pre-push governance must be local AND in CI](#l002--pre-push-governance-must-be-local-and-in-ci)
+ - [L001 — Plans folder rule (commit your plans)](#l001--plans-folder-rule-commit-your-plans)
 
 ---
 
@@ -139,14 +128,14 @@ where it lives now (which standards file, which section).>
 ### L049 — A plan draft is a hypothesis: a mandatory senior-review-and-optimize pass before approval catches what the drafting pass ships
 
 **Date:** 2026-06-07
-**Project:** EverOn.Equinex
+**Project:** a reference project
 **Phase / Task:** Operator-driven binding rule addition (Rule 13 codification — plan-level analogue of Rule 10)
 
 #### Incident
 
 PLAN-012 (force-close before market-stop windows) was drafted across a long multi-turn operator design conversation, then committed as DRAFT. The operator then asked the agent to "act as a very experienced senior developer" and recheck the plan for consistency and code-correctness, optimizing where possible. That review pass — run against the **real EA source** — found defects the drafting pass had shipped even though the plan looked complete and internally plausible:
 
-- a **non-functional market-open check**: the drafted `IsMarketOpenNow()` used `SYMBOL_TRADE_MODE` (a static permission flag) to answer "is the market open right now" — which that API cannot do;
+- a **non-functional market-open check**: the drafted `IsMarketOpenNow` used `SYMBOL_TRADE_MODE` (a static permission flag) to answer "is the market open right now" — which that API cannot do;
 - a **backwards panel state**: `ForceCloseStatusText` returned `CLOSING…` when the basket was *empty* (should be `DONE`), with no state for the actual dumping phase;
 - **redundant per-tick recomputation**: the force-close trigger was computed 3–4× per tick (gate + two panel rows), risking divergence between what the gate did and what the panel showed;
 - a leftover **placeholder ternary**, plus several **cross-section inconsistencies** (panel table vs the R-rule; a risk paragraph referencing the now-removed check).
@@ -172,7 +161,7 @@ A draft is a hypothesis. Any artifact that will be approved by a human or consum
 ### L048 — Session wrap-up routine as forcing function against detail loss across session boundaries
 
 **Date:** 2026-05-23
-**Project:** EverOn.Equinex (cross-project pattern)
+**Project:** a reference project (cross-project pattern)
 **Phase / Task:** Operator-driven binding rule addition (Rule 12 codification — symmetric counterpart to Rule 9 / SESSION_OPENER)
 
 #### Incident
@@ -246,7 +235,7 @@ When a future analogous boundary surfaces (e.g., end-of-week sync, end-of-quarte
 ### L047 — QA / smoke-test scenarios must be coupled to changes at change-time, not validation-time
 
 **Date:** 2026-05-22
-**Project:** EverOn.Equinex (cross-project pattern)
+**Project:** a reference project (cross-project pattern)
 **Phase / Task:** Operator-driven binding rule addition (Rule 11 codification)
 
 #### Incident
@@ -294,7 +283,7 @@ New **Rule 11** in `CLAUDE.md` § 3 — "QA / smoke-test scenario for every chan
 
 **Status markers:** ⏸ pending / ✅ passed / ❌ failed / ⏭ skipped (with annotation).
 
-**Lifecycle:** scenario added same-commit as change (⏸). After operator verification on MT5 demo / backtest → status ✅. ✅ scenarios removed from `OPEN_TASKS.md` (per L046); preserved in per-plan tracker (per L045) and CHANGELOG QA-scenarios sub-section.
+**Lifecycle:** scenario added same-commit as change (⏸). After operator verification on the runtime platform demo / backtest → status ✅. ✅ scenarios removed from `OPEN_TASKS.md` (per L046); preserved in per-plan tracker (per L045) and CHANGELOG QA-scenarios sub-section.
 
 **Exemptions:** pure doc cleanup, lessons-archive additions, manifest version bumps, standards-suite refresh, governance-doc edits with no behavior impact — these do not require scenarios. The exemption is structural (no observable runtime behavior changed) not discretionary.
 
@@ -317,7 +306,7 @@ New **Rule 11** in `CLAUDE.md` § 3 — "QA / smoke-test scenario for every chan
 ### L046 — Local-only OPEN_TASKS.md register: cross-plan + non-plan "what's open right now" index
 
 **Date:** 2026-05-22
-**Project:** EverOn.Equinex (cross-project pattern)
+**Project:** a reference project (cross-project pattern)
 **Phase / Task:** Operator-driven binding rule addition during PLAN-004 close-out
 
 #### Incident
@@ -363,7 +352,7 @@ The deeper lesson here: **not every workflow artifact needs to be shared.** When
 ### L045 — Plan tracker discipline: big plans get a sibling tracker, small plans expand § 4 in-file
 
 **Date:** 2026-05-22
-**Project:** EverOn.Equinex (cross-project pattern)
+**Project:** a reference project (cross-project pattern)
 **Phase / Task:** Operator-driven binding rule addition during PLAN-004 close-out
 
 #### Incident
@@ -419,7 +408,7 @@ The deeper lesson: **the optimal tracker location depends on the work's blast-ra
 ### L044 — Session-scoped checklists don't enforce per-commit discipline; embed the rule in the procedure
 
 **Date:** 2026-05-22
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Operator-driven binding rule addition (code-review-before-commit elevated to CLAUDE.md Rule 10)
 
 #### Incident
@@ -477,7 +466,7 @@ The forcing function must fire at the same granularity as the failure.
 - `CLAUDE.md` § 3 Rule 10 (binding)
 - `CLAUDE.md` § 8 step 5 — detailed code-review checklist (referenced by Rule 10)
 - `CLAUDE.md` § 11 "Code review before staging" — procedural commit-time policy (now cross-references Rule 10 as binding anchor)
-- `SESSION_OPENER.md` template § 3.1 row 3 + project-local § 3.1 row 1 (Equinex's numbering)
+- `SESSION_OPENER.md` template § 3.1 row 3 + project-local § 3.1 row 1 (a reference project's numbering)
 
 #### Meta-lesson (new — beyond L043's "any pattern → forcing function")
 
@@ -492,14 +481,14 @@ This is a refinement on L043, not a replacement: L043's "memory alone isn't enou
 ### L043 — Session-start pre-flight as forcing function
 
 **Date:** 2026-05-22
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Operator-driven binding rule addition (mid-Phase-5 EA soak)
 
 #### Incident
 
 A single session produced two repeat-from-known-memory failures within ~30 minutes:
 
-1. **Wrong-server identification.** Operator asked for a check on staging. Agent SSH'd to `everon-signal@188.245.172.198` (which is production), ran read-only queries, and confidently reported "staging has no EA active." Operator pushed back twice; agent defended the wrong answer once before re-checking. The correct mapping (`everon@91.98.91.129` = STAGING; `everon-signal@188.245.172.198` = PROD) was already in memory (`project_vps_infra.md`) and also in `.gitlab-ci.yml` (`STAGING_*` / `PRODUCTION_*` variables). The agent had access to both and trusted SSH-config ordering instead. Had the task been a write (a lot edit, profile switch, container restart), the mutation would have landed on production while the agent believed it was staging.
+1. **Wrong-server identification.** Operator asked for a check on staging. Agent SSH'd to `app-signal@188.245.172.198` (which is production), ran read-only queries, and confidently reported "staging has no EA active." Operator pushed back twice; agent defended the wrong answer once before re-checking. The correct mapping (`deploy@91.98.91.129` = STAGING; `app-signal@188.245.172.198` = PROD) was already in memory (`project_vps_infra.md`) and also in `.gitlab-ci.yml` (`STAGING_*` / `PRODUCTION_*` variables). The agent had access to both and trusted SSH-config ordering instead. Had the task been a write (a lot edit, profile switch, container restart), the mutation would have landed on production while the agent believed it was staging.
 
 2. **Missed test-assertion sync on a profile param change.** Same session, agent committed `ea_lot_size: 1 → 2` on the active EA profile (`07f4796`) but missed updating a pinned `assert ea["ea_lot_size"] == 1` in `validation/tier1_config/test_strategy_profiles.py`. Governance scripts passed (they validate doc coverage and ownership drift, not assertion pass/fail). The pipeline caught it on the `logic-tests` stage and blocked staging deploy. Required a fix-forward commit (`0b863d4`) per the broken-on-push pattern.
 
@@ -548,12 +537,12 @@ The deeper lesson here: **any pattern that's surfaced more than once is a candid
 ### L042 — Plan-first for vital changes: full plan + Phase 2 approval + Phase 3 in a fresh session
 
 **Date:** 2026-05-22 (codified after PLAN-001 .. PLAN-004 sequence completed)
-**Project:** EverOn.Equinex (cross-project pattern)
+**Project:** a reference project (cross-project pattern)
 **Phase / Task:** PLAN-001 (Codex migration), PLAN-002 (broker-time-everywhere), PLAN-003 (closeout immediate-close), PLAN-004 (news block module)
 
 #### Incident
 
-Across four consecutive Plans landing changes to the EA's central domain logic (`MQL5/Experts/EverOn.Equinex.mq5`), the same workflow proved out across all four: a written plan committed to `docs/Plans/` BEFORE any code is touched, an explicit operator-approval decision point inside the plan (Phase 2 — "operator responds with APPROVE D1.A or alternative"), and Phase 3 implementation in a separate Claude session prompted from the plan file as the authoritative spec.
+Across four consecutive Plans landing changes to the EA's central domain logic (`the application language/Experts/a reference project source file`), the same workflow proved out across all four: a written plan committed to `docs/Plans/` BEFORE any code is touched, an explicit operator-approval decision point inside the plan (Phase 2 — "operator responds with APPROVE D1.A or alternative"), and Phase 3 implementation in a separate Claude session prompted from the plan file as the authoritative spec.
 
 The single-session alternative — drafting the design and implementing it in the same conversation — proved fragile in earlier work: design decisions drift mid-session as new questions surface; the implementer Claude blends old context with new context; the commit log shows the result but not the design conversation that produced it. The split-session pattern fixes all three: the plan IS the design record (committed to git, versioned, manifest-tracked); approval is a discrete artifact (operator response logged in the chat that becomes the next session's starting prompt); the Phase 3 session runs against a frozen plan with no design ambiguity left to resolve.
 
@@ -593,7 +582,7 @@ The two-session split is the load-bearing part. A new Claude session entering Ph
 ### L041 — Pattern-match safety tripwire for external string catalogs
 
 **Date:** 2026-05-22
-**Project:** EverOn.Equinex
+**Project:** a reference project
 **Phase / Task:** PLAN-004 design § 11 risk #1
 
 #### Incident
@@ -626,12 +615,12 @@ The tripwire converts a silent miss into a noisy miss. The operator updates the 
 ### L040 — Fail-safe defaults for external-data sources that may be unavailable
 
 **Date:** 2026-05-22
-**Project:** EverOn.Equinex
+**Project:** a reference project
 **Phase / Task:** PLAN-004 design § 11 risks #2 + #3
 
 #### Incident
 
-PLAN-004 integrates with an external data source (MQL5 economic calendar via `CalendarValueHistory`). The same API behaves differently across environments:
+PLAN-004 integrates with an external data source (the application language economic calendar via `CalendarValueHistory`). The same API behaves differently across environments:
 
 - Production (live broker terminal): returns events.
 - Strategy Tester (backtest environment): returns 0 / -1 depending on tester mode — the calendar feed isn't populated in tester.
@@ -668,7 +657,7 @@ Generalizes to: optional integrations (analytics, feature flags, second-opinion 
 ### L039 — Grep all reads before splitting a globally-read state variable
 
 **Date:** 2026-05-22
-**Project:** EverOn.Equinex
+**Project:** a reference project
 **Phase / Task:** PLAN-004 design § 11 risk #6
 
 #### Incident
@@ -704,7 +693,7 @@ This complements L007 (multi-file Cursor prompts need ALLOWLIST + verbatim trans
 ### L038 — ALLOWLIST count is the bullet enumeration, not the prose sentence
 
 **Date:** 2026-05-22
-**Project:** EverOn.Equinex
+**Project:** a reference project
 **Phase / Task:** PLAN-004 Phase 3 execution (commit `d04450a`)
 
 #### Incident
@@ -737,7 +726,7 @@ Add to PROMPT_STANDARDS § 3.2 ALLOWLIST guidance: "The bullet enumeration is th
 ### L037 — Time-window with end=00:00 fires at minute 0 of the same day (wrap-window pitfall)
 
 **Date:** 2026-05-22
-**Project:** EverOn.Equinex
+**Project:** a reference project
 **Phase / Task:** Operator runtime observation post-v7.08
 
 #### Incident
@@ -767,14 +756,14 @@ Generalize to any project that parses time-of-day windows as integer minute-of-d
 #### Cross-references
 
 - `ENGINEERING_STANDARDS.md` § 1 architecture invariants — sub-section on time-window parsing pitfalls
-- Project-specific application: `docs/business_logic/09_session_filter.md` § Window matching + edge-case table
+- Project-specific application: `docs/<domain-spec>/09_session_filter.md` § Window matching + edge-case table
 
 ---
 
 ### L036 — Annotate a closed plan-risk in the same commit that ships the mitigation
 
 **Date:** 2026-05-21
-**Project:** EverOn.Equinex
+**Project:** a reference project
 **Phase / Task:** PLAN-001 § 11 bookkeeping fix-forward (commit `d769b29`)
 
 #### Incident
@@ -816,15 +805,15 @@ Add to PROJECT_STANDARDS.md as a same-session sync trigger (§ 4): "Closing a do
 
 ---
 
-### L035 — Hetzner web console avoidance for sensitive files
+### L035 — a cloud provider's web console avoidance for sensitive files
 
 **Date:** 2026-04-22 (codified earlier as a project rule; lifted to standards-repo 2026-05-16)
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 1 binding rule
 
 #### Incident
 
-Hetzner's cloud web console (the browser-based VPS terminal accessible from the cloud provider's UI) is unencrypted in transit for displayed content between the browser and Hetzner's servers. Typing or viewing `.env` content, SSH keys, deploy tokens, or any secret in the web console leaks the content over an unencrypted channel. SSH-from-local-terminal is end-to-end encrypted; that's the right path.
+a cloud VPS provider's cloud web console (the browser-based VPS terminal accessible from the cloud provider's UI) is unencrypted in transit for displayed content between the browser and a cloud VPS provider's servers. Typing or viewing `.env` content, SSH keys, deploy tokens, or any secret in the web console leaks the content over an unencrypted channel. SSH-from-local-terminal is end-to-end encrypted; that's the right path.
 
 Caught at design time during Phase 1 setup; never had an actual leak.
 
@@ -834,7 +823,7 @@ Hypothetical-but-likely cost had it not been caught at design time. Codified as 
 
 #### Codification
 
-Never use the Hetzner cloud console (or any web-based VPS terminal) for typing/displaying sensitive files. SCP files to/from the host instead; SSH from local terminal for any interactive work that involves secret content.
+Never use the a cloud VPS provider cloud console (or any web-based VPS terminal) for typing/displaying sensitive files. SCP files to/from the host instead; SSH from local terminal for any interactive work that involves secret content.
 
 Generalizes to: any browser-based remote terminal that isn't end-to-end encrypted for displayed content. Applies to other cloud providers' web consoles too.
 
@@ -880,7 +869,7 @@ Cross-project operational tip; not project-specific.
 ### L033 — Codex retry prompts need PRIOR DEVIATION WARNING
 
 **Date:** 2026-05-09
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 6 Codex collaboration
 
 #### Incident
@@ -919,7 +908,7 @@ Place the warning ABOVE the original prompt's ALLOWLIST / STEPS so the agent pro
 ### L032 — Investigate underlying data when operator questions answers
 
 **Date:** 2026-05-11
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 7 D17 / D18 debugging
 
 #### Incident
@@ -950,7 +939,7 @@ Added to AI behavior rules in `CLAUDE.md` § 10 (Investigate-when-questioned). A
 ### L031 — Never bounce operator to UI for status; agent probes via REST API
 
 **Date:** 2026-05-08
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 6 pipeline-status investigations
 
 #### Incident
@@ -969,8 +958,8 @@ Never bounce operator to UI for status checks. Agent probes pipeline / jobs / tr
 
 For GitLab specifically:
 - Pipeline list: `GET /api/v4/projects/:id/pipelines`
-- Job list:     `GET /api/v4/projects/:id/pipelines/:pipeline_id/jobs`
-- Job trace:    `GET /api/v4/projects/:id/jobs/:job_id/trace`
+- Job list: `GET /api/v4/projects/:id/pipelines/:pipeline_id/jobs`
+- Job trace: `GET /api/v4/projects/:id/jobs/:job_id/trace`
 
 Per-project access details (project ID, base URL, token path) go in the project's Project Instructions Tier B, not in user-wide memory (per L015).
 
@@ -984,7 +973,7 @@ Per-project access details (project ID, base URL, token path) go in the project'
 ### L030 — Always call out PROD actions explicitly
 
 **Date:** 2026-05-09
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 6 prod-deploy bundle authorization
 
 #### Incident
@@ -1016,7 +1005,7 @@ Operator must explicitly confirm "yes, PROD" — never inferred from staging app
 ### L029 — Distribute doc sync across split commits
 
 **Date:** 2026-05-10
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 7 multi-commit feature work
 
 #### Incident
@@ -1049,7 +1038,7 @@ This refines L010 (split-commit pattern): L010 said split content vs wiring; L02
 ### L028 — Batch local commits; push only when necessary
 
 **Date:** 2026-05-08
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 6 / Phase 7
 
 #### Incident
@@ -1083,7 +1072,7 @@ Otherwise commit locally, batch, push once when a trigger is hit.
 ### L027 — Code review BEFORE every commit (separate from governance)
 
 **Date:** 2026-05-07
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 6
 
 #### Incident
@@ -1113,7 +1102,7 @@ Added to the validation checklist (`CLAUDE.md` § 8) as a dedicated step distinc
 ### L026 — Run commits yourself; don't hand back to user
 
 **Date:** 2026-05-07
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 6 multi-session work
 
 #### Incident
@@ -1149,7 +1138,7 @@ Sandbox-failure recovery via scoped path operations — operator authorizes spec
 ### L025 — CI-injected `.env` files are wiped on every deploy
 
 **Date:** 2026-05-05
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 5
 
 #### Incident
@@ -1184,12 +1173,12 @@ Always verify config source-of-truth before manual edits:
 ### L024 — Never run raw `docker compose up` on staging or production
 
 **Date:** 2026-05-04
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 5
 
 #### Incident
 
-Operator SSHed to staging to apply a manual diagnostic, then ran `docker compose up -d` to restart services. Compose's image-tag substitution silently downgraded the container to a stale local-cache tag because `${EVERON_IMAGE_TAG}` wasn't exported in the operator's shell. The downgrade went unnoticed for ~30 min — the older revision happened to be compatible with the diagnostic. Caught only when the next CI deploy's smoke compared running image against the expected SHA.
+Operator SSHed to staging to apply a manual diagnostic, then ran `docker compose up -d` to restart services. Compose's image-tag substitution silently downgraded the container to a stale local-cache tag because `${APP_IMAGE_TAG}` wasn't exported in the operator's shell. The downgrade went unnoticed for ~30 min — the older revision happened to be compatible with the diagnostic. Caught only when the next CI deploy's smoke compared running image against the expected SHA.
 
 Pattern: compose-file env-var substitution is silent. Missing-or-unset vars resolve to empty strings or stale local-cache tags. The interactive `compose up` looks identical for "deploys correctly" and "downgrades silently."
 
@@ -1217,7 +1206,7 @@ Manual `compose up` is an anti-pattern in any environment beyond local developme
 ### L023 — Staging mirrors production — env parity
 
 **Date:** 2026-05-10
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 6
 
 #### Incident
@@ -1251,7 +1240,7 @@ The pattern enforces:
 ### L022 — 24-hour staging soak required before any production deploy
 
 **Date:** 2026-05-06
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 5 close-out
 
 #### Incident
@@ -1281,7 +1270,7 @@ Smoke gates the deploy on the technical level; the 24h soak gates it on the beha
 ### L021 — Live candle OHLC values mutate during first 10 min
 
 **Date:** 2026-05-08 (D18 root cause analysis)
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 7 / D18
 
 #### Incident
@@ -1318,7 +1307,7 @@ For backtest-vs-live reconciliation:
 ### L020 — Codex handoff protocol (separate-domain agent collaboration)
 
 **Date:** 2026-05-04 (codified incrementally over Phases 5–7 multi-agent work)
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 5+ multi-agent collaboration
 
 #### Incident
@@ -1355,19 +1344,19 @@ This is an OPTIONAL pattern in the standards template — only adopt if your pro
 ### L019 — Self-contained CI jobs: auth state should not cross job boundaries
 
 **Date:** 2026-04-30
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** F-1 verification cycle (post-Task 3.4)
 
 **Context:** L018 (added 2026-04-29) identified the anti-pattern: CI jobs that depend on persistent state on remote hosts (docker auth, session tokens, file locks) are fragile because between-job state can be invalidated by anything (token expiration, rotation, other jobs overwriting it). L019 codifies the POSITIVE pattern that resolves it: each CI job should establish whatever state it needs at job start, not assume previous jobs left it in place.
 
-**EverOn-specific evidence:** Tonight's F-1 cycle (2026-04-30 00:55 UTC) verified this pattern works in practice. F-1 modified rollback.sh from "operator pre-authed" model (relied on persistent docker auth on the VPS) to "self-sufficient" model (does its own `docker login` at script start when CI env vars are present, NO-OP otherwise for manual operator workflows). The verification cascade succeeded in iteration 1 — last cycle (Task 3.4 verification, 2026-04-29) needed iteration 2 because of the auth gap. The architectural change (small: one new section in rollback.sh) was the difference between a brittle gate and a trustworthy one.
+**the standards source-specific evidence:** Tonight's F-1 cycle (2026-04-30 00:55 UTC) verified this pattern works in practice. F-1 modified rollback.sh from "operator pre-authed" model (relied on persistent docker auth on the VPS) to "self-sufficient" model (does its own `docker login` at script start when CI env vars are present, NO-OP otherwise for manual operator workflows). The verification cascade succeeded in iteration 1 — last cycle (Task 3.4 verification, 2026-04-29) needed iteration 2 because of the auth gap. The architectural change (small: one new section in rollback.sh) was the difference between a brittle gate and a trustworthy one.
 
 **The pattern (positive form):** Self-contained CI jobs:
 - **Don't trust between-job state.** Establish auth/credentials/tokens at job start. Mirror the deploy job pattern.
 - **Be NO-OP-safe for manual workflows.** If env vars aren't present (manual operator on VPS), the auth-establishing block becomes a NO-OP and the script falls back to "use whatever auth exists." This preserves the manual workflow while making the CI workflow correct.
 - **Document the dual-mode auth.** rollback.sh v0.4's "Auth (v0.4)" comment block describes both modes explicitly. Future operators reading the script know what to expect in both contexts.
 
-**Counter-pattern this prevents:** "I'll trust the previous job set things up correctly." That assumption held in EverOn for ~6 months because the only invocations of rollback.sh were manual (humans who'd run docker login). Auto-rollback wiring (Task 3.4) exposed the bug. The bug existed all along; we just couldn't see it until the gate fired.
+**Counter-pattern this prevents:** "I'll trust the previous job set things up correctly." That assumption held in the standards source for ~6 months because the only invocations of rollback.sh were manual (humans who'd run docker login). Auto-rollback wiring (Task 3.4) exposed the bug. The bug existed all along; we just couldn't see it until the gate fired.
 
 **Architecture parallel:** deploy.sh v3.0 already followed this pattern — does its own docker login at script start (memory rule #18 / D8 documents the side effect: deploy.sh overwrites operator's docker auth). F-1 brings rollback.sh to architectural parity. **What's left:** D8's broader fix (deploy.sh save/restore docker auth so manual rollback workflow isn't broken by CI deploys) is still deferred. L019 doesn't claim to solve D8 wholesale — it documents the correct pattern; D8 manual variant is "honor the pattern in deploy.sh too."
 
@@ -1390,7 +1379,7 @@ This is an OPTIONAL pattern in the standards template — only adopt if your pro
 ### L018 — Cross-job auth state assumptions break silently in CI
 
 **Date:** 2026-04-29
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 3 Task 3.4 deliberate-failure test cycle (post-Phase-3-close)
 
 **Context:** Auto-rollback CI wiring (added in commit 00e711c) needed end-to-end verification per L009 (deliberate-failure testing) + L013 (cascade observation). Test cycle: push deliberately-broken commit A → smoke-staging fails → rollback-staging auto-fires → rollback.sh runs → recovery → push commit B revert.
@@ -1412,9 +1401,9 @@ This is an OPTIONAL pattern in the standards template — only adopt if your pro
 
 **Pattern to adopt:** Self-contained CI jobs. Each job that needs auth establishes it itself, doesn't assume previous jobs left it.
 
-**EverOn-specific manifestation:** Memory rule #18 (D8 in cicd_setup_tracker.md) documented the manual-rollback variant since 2026-04-24 ("manual rollback.sh invocations on VPS 1 fail until operator re-logs in"). The auto-rollback CI variant was theorized but not proven until tonight's test cycle.
+**the standards source-specific manifestation:** Memory rule #18 (D8 in cicd_setup_tracker.md) documented the manual-rollback variant since 2026-04-24 ("manual rollback.sh invocations on VPS 1 fail until operator re-logs in"). The auto-rollback CI variant was theorized but not proven until tonight's test cycle.
 
-**Fix path for EverOn (F-1):** Add explicit `docker login registry.gitlab.com -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD` step to both `rollback-staging` and `rollback-production` jobs in `.gitlab-ci.yml`. Mirrors the auth pattern already in `deploy-staging` and `deploy-production`. Self-contained per CI job. No shell script bumps. After F-1 lands, MUST re-run staging deliberate-failure test cycle to verify.
+**Fix path for the standards source (F-1):** Add explicit `docker login registry.gitlab.com -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD` step to both `rollback-staging` and `rollback-production` jobs in `.gitlab-ci.yml`. Mirrors the auth pattern already in `deploy-staging` and `deploy-production`. Self-contained per CI job. No shell script bumps. After F-1 lands, MUST re-run staging deliberate-failure test cycle to verify.
 
 **Related lessons:** L009 (deliberate-failure testing — surfaced this bug), L013 (cascade observation — auth was iteration-2 surprise), L016 (allow-failure jobs become decoration — this bug WOULD have been hidden by allow_failure: true on rollback jobs, but per Task 3.4 design rollback jobs are NOT allow_failure).
 
@@ -1425,7 +1414,7 @@ This is an OPTIONAL pattern in the standards template — only adopt if your pro
 ### L017 — Never-exercised gates fire bugs in cascade
 
 **Date:** 2026-04-28
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 3 X11 closure (nightly schedule + Telegram wiring)
 
 **Context:** Phase 3 X11 (nightly pipeline schedule) was created Sunday 2026-04-26 — the YAML for the `nightly:` job had been added in Phase 2, but the schedule that would actually fire it had never been created. Per L013 (project knowledge precedence) earlier observation that "gates that have never been exercised cannot be trusted," fired the schedule manually before relying on it for Monday's prod deploy work.
@@ -1459,7 +1448,7 @@ This is an OPTIONAL pattern in the standards template — only adopt if your pro
 ### L016 — Allow-failure jobs become decoration, not checks
 
 **Date:** 2026-04-25
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 3 Task 3.5
 
 #### Incident
@@ -1556,7 +1545,7 @@ Architectural decision: split the standards into focused files, each loaded by d
 ### L013 — Project knowledge precedence prevents fabrication
 
 **Date:** 2026-04-22
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Multiple Phase 2 sessions
 
 #### Incident
@@ -1591,7 +1580,7 @@ This is loaded by every Claude.ai session in the project, blocks the most common
 ### L012 — Gitignore case-sensitivity surprises on macOS
 
 **Date:** 2026-04-22
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Task A (Telegram architecture documentation + Plans folder governance)
 
 #### Incident
@@ -1621,7 +1610,7 @@ Codified more broadly: any `.gitignore` change should be tested by adding a file
 ### L011 — Pager-safe verification (avoid `less` ambushing output)
 
 **Date:** 2026-04-23
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Multiple Phase 2 sessions
 
 #### Incident
@@ -1653,7 +1642,7 @@ Or set `PAGER=cat` for the session/agent environment.
 ### L010 — Split-commit delivery for substantive doc additions
 
 **Date:** 2026-04-22
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Task A (Telegram architecture docs + governance wiring)
 
 #### Incident
@@ -1684,7 +1673,7 @@ Used successfully for Tasks A (Parts 1+2), C (Parts 1+2a+2b), and others through
 ### L009 — Deliberate-failure testing for alerting/check code
 
 **Date:** 2026-04-22
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Tasks 2.5d (image source verification), Task M (healthcheck Telegram delivery)
 
 #### Incident
@@ -1718,7 +1707,7 @@ Explicit phrasing: "passes when correct" is insufficient — code must also "fai
 ### L008 — Manifest completeness: no exclusion lists
 
 **Date:** 2026-04-23
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 3 Task 3.0 (manifest completeness sweep)
 
 #### Incident
@@ -1753,7 +1742,7 @@ Enforcement deferred to `check_doc_coverage.py` long-term; obligation on the aut
 ### L007 — Multi-file Cursor prompts need ALLOWLIST + verbatim FIND/REPLACE
 
 **Date:** 2026-04-23
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Task C Part 2b (CI/CD documentation + governance wiring)
 
 #### Incident
@@ -1793,7 +1782,7 @@ Verbatim FIND/REPLACE eliminates all three failure modes — the agent is doing 
 ### L006 — Verify agent claims via filesystem
 
 **Date:** 2026-04-23
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Task C Part 2b
 
 #### Incident
@@ -1829,7 +1818,7 @@ Operational pattern: every multi-file Cursor prompt now includes mandatory `git 
 ### L005 — Local governance does NOT validate CI schema
 
 **Date:** 2026-04-22
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Task 2.6 (post-deploy smoke gating)
 
 #### Incident
@@ -1870,7 +1859,7 @@ Two acceptable paths:
 ### L004 — Heredoc-piped commit messages corrupt special characters
 
 **Date:** 2026-04-21
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Phase 2 (Task 2.5)
 
 #### Incident
@@ -1887,7 +1876,7 @@ EOF
 
 The commit appeared clean. Push succeeded. ~3 weeks later, doing `git log --grep '`code reference`'` to find the commit returned nothing. The backticks had been silently mangled — the actual commit message contained `\code\ reference\\` with broken escape sequences. The em-dash was replaced with a question mark in some downstream tools that did character-set conversion. The emoji had become a `?`.
 
-Investigation: heredoc + shell expansion + double quotes around the `$()` interaction is fragile. Some characters survive; others get mangled silently. Easy to get wrong; easy to not notice.
+Investigation: heredoc + shell expansion + double quotes around the `$` interaction is fragile. Some characters survive; others get mangled silently. Easy to get wrong; easy to not notice.
 
 #### Cost
 
@@ -1918,7 +1907,7 @@ The single-quoted heredoc to `/tmp/<file>` followed by `git commit -F` is the on
 ### L003 — Fix-forward via letter suffix preserves the lesson
 
 **Date:** 2026-04-22
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Task 2.5b
 
 #### Incident
@@ -1956,7 +1945,7 @@ Used consistently across Phase 2 (2.5b, 2.5c, 2.5d, 2.6b, 3.1b, 3.2b). Each lett
 ### L002 — Pre-push governance must be local AND in CI
 
 **Date:** 2026-04-22
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Task 2.6b, Task A Part 1
 
 #### Incident
@@ -1997,7 +1986,7 @@ Both governance scripts are project-specific (live in `scripts/`) but the rule t
 ### L001 — Plans folder rule (commit your plans)
 
 **Date:** 2026-04-22
-**Project:** EverOn.Capital-Signal
+**Project:** a reference project
 **Phase / Task:** Task A (Telegram architecture documentation)
 
 #### Incident

@@ -1,9 +1,9 @@
 <!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-06-07 -->
-<!-- Source: docs/standards/ (this repo). Bootstrapped from Standard Set v2.6 on 2026-06-07. Independent versions from this point forward. -->
+<!-- Source: docs/standards/ (this repo). Bootstrapped from Standard Set v1.0 on 2026-06-07. Independent versions from this point forward. -->
 <!--
 CHANGE LOG
-v1.0 — 2026-06-07 — Project bootstrap. Operating contract instantiated from the EverOn standards suite at Standard Set Version v2.6 (13 standing rules, 49 lessons L001–L049). Customized for standard-document-updater: § 1 project context (domain-neutral Python CLI tool), § 4 critical files, § 13 single sources of truth. Single-agent project — the optional Codex handoff section (§ 14 in the template) was removed; § 15.7 tracker Owner header noted as optional. All 13 standing rules, change-classification, change-workflow, validation checklist, dispatcher, and § 15 plan workflow retained verbatim from the v2.6 template (domain-neutral). Independent versions from this point forward; backports from the standards source are explicit (see docs/standards/STANDARDS_INDEX.md).
+v1.0 — 2026-06-07 — Project bootstrap. Operating contract instantiated from the standards suite at Standard Set Version v1.0 (13 standing rules, 49 lessons L001–L049). Customized for standard-document-updater: § 1 project context (domain-neutral Python CLI tool), § 4 critical files, § 13 single sources of truth. Single-agent project — the optional Codex handoff section (§ 14 in the template) was removed; § 15.7 tracker Owner header noted as optional. All 13 standing rules, change-classification, change-workflow, validation checklist, dispatcher, and § 15 plan workflow retained verbatim from the v1.0 template (domain-neutral). Independent versions from this point forward; backports from the standards source are explicit (see docs/standards/STANDARDS_INDEX.md).
 -->
 
 # CLAUDE.md — Operating Contract

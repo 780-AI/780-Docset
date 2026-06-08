@@ -1,14 +1,10 @@
-<!-- VERSION: 1.5 -->
-<!-- Last Updated: 2026-05-22 -->
-<!-- Source: ~/everon-standards/PROMPT_STANDARDS.md (template). Domain-neutral. EverOn examples in HTML comments. -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-06-07 -->
+<!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
-v1.5 — 2026-05-22 — Set Version v2.1 fix-forward: bring stale body-text references current. Two non-history occurrences updated — both inside example prompt blocks demonstrating how to reference CLAUDE.md from agent prompts: § 3 example "Binding rules: see `CLAUDE.md` (all 9 standing rules apply)." → "all 9 standing rules apply"; § 3 second example block same substitution. Rule 9 was added in v2.1; the example prompts should reflect the current rule count so adopters copy current-state language.
-v1.4 — 2026-05-22 — § 3.2 ALLOWLIST block — non-negotiable structure: added bullet-vs-prose count discipline (L038 — the bullet enumeration IS the count; prose "Total: N files" sentences can drift during plan revisions; agent verifies `git status --short` line-by-line against the bullets, never against prose). Added agent verification ritual paragraph + EverOn.Equinex PLAN-004 example in HTML comment.
-v1.3 — 2026-05-16 — Phase 4–7 refresh. § 3 NEW § 3.11 Codex handoff variant of Type 1 prompts (L020 — no commit/push steps; agent ends with 7-element structured summary; operator pastes summary to Claude; Claude commits on Codex's behalf). § 6 anti-patterns: added § 6.12 "Popup questions when inline options work" (Claude Code-specific UX rule — render options as inline lists in the chat). § 9 NEW § 9.5 Retry prompts need PRIOR DEVIATION WARNING (L033 — when re-prompting an agent that just deviated, name the prior failure mode at top + non-negotiable outcomes list). § 13 NEW Type 5 sub-section on Codex retry recovery cross-references § 9.5. New worked example for Codex handoff prompts in § 14 templates table.
-v1.2 — 2026-04-30 — Gap-close pass against authored "Prompt Writing Instructions" reference. Added: § 1.1 trigger criteria for full Type 1 protocol vs lighter prompt types; § 3.2.1 TODO checklist requirement (with checkbox-tick discipline) named explicitly; § 3.7 commit subject + body structure conventions; § 3.9 structured final summary requirement (7-point format); § 3.10 single 4-backtick fence delivery rule; § 4.5 six edit pattern templates (single-line, insert-between-anchors, append-after, prepend-before, multi-section shared anchor, just-in-time gather); § 5.5–5.7 verification command snippets (presence/absence/count, diff against commit, bash -n syntax check); § 7.8 pre-draft duplicate check; new § 15 "When the full protocol doesn't fit" with 4 escape hatches (single-line edits, exploratory/read-only work, emergency fix, escalation after 3+ failed iterations). TOC updated to reflect § 15.
-v1.1 — 2026-04-25 — Standards repo restructured to flat layout — Source path updated. The standards repo itself now lives flat (10 files at root); adopting projects still nest under `docs/standards/`.
-v1.0 — 2026-04-25 — Initial release. Five prompt types covered (Type 1 deep, Types 2-5 lightweight). Includes 10 anti-patterns, 7-step verification ritual, two-interpretations recovery protocol. Distilled from EverOn.Capital-Signal Phase 2-3 prompt-craft lessons.
+v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
+specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
 # PROMPT_STANDARDS.md — Drafting Prompts for AI Agents
@@ -106,9 +102,9 @@ States which workflow strictness applies. Without this, the agent guesses — an
 Naming what's *out* of scope is more important than naming what's in. Agents are trained to be helpful and will absorb adjacent improvements without asking. The list of "not in scope" items is the speed brake.
 
 <!--
-Example preamble (from EverOn.Capital-Signal Task 3.5):
+Example preamble (from a reference project Task 3.5):
 
-You are working on EverOn.Capital-Signal, a Python-based trading signal platform.
+You are working on a reference project, a Python-based trading signal platform.
 
 Binding rules: see CLAUDE.md (all 9 standing rules apply).
 
@@ -134,17 +130,17 @@ This is the workhorse prompt for implementing a planned change across multiple f
 ================================================================
 
 Universal preamble (§ 2):
-  - Role/context
-  - Binding rules reference (CLAUDE.md)
-  - Classification
-  - Scope discipline statement
+ - Role/context
+ - Binding rules reference (CLAUDE.md)
+ - Classification
+ - Scope discipline statement
 
 ================================================================
 ALLOWLIST — agent MAY modify ONLY these N files:
 
-  1. path/to/file1
-  2. path/to/file2
-  ...
+ 1. path/to/file1
+ 2. path/to/file2
+ ...
 
 If at any point `git status --short` shows any other file modified,
 STOP and report. Do not absorb mismatches.
@@ -223,7 +219,7 @@ The ALLOWLIST is the single most effective bug-prevention mechanism in the entir
 **Agent verification ritual (Rule 6):** before staging, run `git status --short` and compare LINE-BY-LINE against the ALLOWLIST bullets. If the counts agree, proceed. If they disagree (a bullet has no corresponding `git status` row, or a `git status` row has no corresponding bullet), STOP and report. Never trust a prose "N total" sentence over the bullet enumeration — prose drifts during plan revisions, bullets do not.
 
 <!--
-Example (EverOn.Equinex PLAN-004 § 7):
+Example:
 The plan included `**Total files in execution commit: 12.**` as a prose sentence
 above a 10-entry bullet ALLOWLIST. The bullets were correct; the prose count had
 drifted during plan revisions. Phase 3 execution staged 10 files matching the bullets;
@@ -285,9 +281,9 @@ State the **expected** values. Agent must STOP if any condition fails.
 Example pre-flight assertion:
 
 Required state:
-  - `git status --short` returns ZERO lines.
-  - `git rev-parse --short HEAD` returns `f2f3d3f` (Task 3.2 close-out tip).
-  - `git rev-parse --abbrev-ref HEAD` returns `master`.
+ - `git status --short` returns ZERO lines.
+ - `git rev-parse --short HEAD` returns `f2f3d3f` (Task 3.2 close-out tip).
+ - `git rev-parse --abbrev-ref HEAD` returns `master`.
 
 If any condition fails, STOP.
 -->
@@ -350,15 +346,15 @@ cat > /tmp/commit_msg_<task>.txt <<'EOF'
 <impact statement>
 EOF
 
-cat /tmp/commit_msg_<task>.txt    # Verify message file content (catches heredoc surprises)
+cat /tmp/commit_msg_<task>.txt # Verify message file content (catches heredoc surprises)
 
-git status --short                 # Verify file set matches ALLOWLIST
+git status --short # Verify file set matches ALLOWLIST
 git add -A
-git status --short                 # Verify staged set matches
+git status --short # Verify staged set matches
 
 git commit -F /tmp/commit_msg_<task>.txt
 
-git log -1 --stat                  # Final verification
+git log -1 --stat # Final verification
 git log -1 --name-only --format=
 ```
 
@@ -404,9 +400,9 @@ Final block of every Type 1 prompt:
 ```
 The output of `git log -1 --name-only` must list EXACTLY these N files:
 
-  [ ] path/to/file1
-  [ ] path/to/file2
-  ...
+ [ ] path/to/file1
+ [ ] path/to/file2
+ ...
 
 In your final response, transcribe this checklist with each box marked
 [x] confirmed against actual output, OR mark missing/extra files with
@@ -469,33 +465,33 @@ When the multi-file edit is being handed off to a secondary AI agent (Codex, Dev
 
 2. **Final block replaces "commit + DO NOT PUSH" with the 7-element summary:**
 
-   ```
-   ============================================================
-   SESSION SUMMARY (mandatory; deliver to operator at end of session)
-   ============================================================
+ ```
+ ============================================================
+ SESSION SUMMARY (mandatory; deliver to operator at end of session)
+ ============================================================
 
-   1. Files modified — full list, one-line description each:
-      - <path>: <description>
+ 1. Files modified — full list, one-line description each:
+ - <path>: <description>
 
-   2. Files created — full list, one-line purpose each:
-      - <path>: <purpose>
+ 2. Files created — full list, one-line purpose each:
+ - <path>: <purpose>
 
-   3. Why — 1-2 sentence rationale.
+ 3. Why — 1-2 sentence rationale.
 
-   4. Verification ran — raw stdout of any tests / governance scripts
-      executed locally (paste verbatim, not "exit 0"):
-      <verbatim output>
+ 4. Verification ran — raw stdout of any tests / governance scripts
+ executed locally (paste verbatim, not "exit 0"):
+ <verbatim output>
 
-   5. Tracker reference — which tracker this work belongs to:
-      <tracker file + section> OR "no tracker — operator-driven one-off"
+ 5. Tracker reference — which tracker this work belongs to:
+ <tracker file + section> OR "no tracker — operator-driven one-off"
 
-   6. Anything unexpected or deviated from the plan:
-      <text> OR "none"
+ 6. Anything unexpected or deviated from the plan:
+ <text> OR "none"
 
-   7. Files left out / deferred — anything intentionally not touched + reason:
-      <text> OR "none"
-   ============================================================
-   ```
+ 7. Files left out / deferred — anything intentionally not touched + reason:
+ <text> OR "none"
+ ============================================================
+ ```
 
 3. **No commit step. No `git add`. No `git commit -F`. No DO NOT PUSH reminder** (those are Claude's responsibility after receiving the summary).
 
@@ -564,16 +560,16 @@ These all happened on this project. Each cost at least a "STOP" intervention:
 Real example (Task 3.5 prompt review):
 
 Original anchor:
-  ```
-  - **Date**: 2026-04-24
-  - **Change**: Task 3.0b-ii — manifest completeness sweep complete...
-  ```
+ ```
+ - **Date**: 2026-04-24
+ - **Change**: Task 3.0b-ii — manifest completeness sweep complete...
+ ```
 
 Actual file state (different commit had rotated the block):
-  ```
-  - **Date**: 2026-04-24
-  - **Change**: Phase 3 Task 3.2 close-out — docs/cicd_setup_tracker.md...
-  ```
+ ```
+ - **Date**: 2026-04-24
+ - **Change**: Phase 3 Task 3.2 close-out — docs/cicd_setup_tracker.md...
+ ```
 
 Cursor correctly STOPPED with "literal block mismatch" because the anchor
 didn't match. Resolution: read actual current file state, redraft the
@@ -707,13 +703,13 @@ Without an explicit expectation, "1 match" might mean success or failure — the
 A prompt's verification step said:
 
 ```bash
-grep -n 'validate' docs/ci_cd.md   # Expected: ZERO matches
+grep -n 'validate' docs/ci_cd.md # Expected: ZERO matches
 ```
 
 After the deletions, the grep would have matched the past-tense `validated` (line 287, unrelated to the deleted job) and the agent would have falsely STOPPED. Caught in pre-send audit. **Fix applied:**
 
 ```bash
-grep -nE '\| test \| `validate` \||^### `validate`' docs/ci_cd.md   # Expected: ZERO matches
+grep -nE '\| test \| `validate` \||^### `validate`' docs/ci_cd.md # Expected: ZERO matches
 ```
 
 The regex now matches only the table-cell pattern and the section-header pattern that were deleted — won't match `validated` or any other unrelated word.
@@ -784,11 +780,11 @@ Each entry below caused a real bug on this project. Refuse to write a prompt tha
 
 ❌ Pattern:
 ```bash
-git commit ...                              # Commit
+git commit ... # Commit
 NEW_SHA=$(git log -1 --format=%h)
 sed -i "s/<COMMIT_SHA>/$NEW_SHA/g" tracker.md
 git add tracker.md
-git commit --amend --no-edit                # Amend changes the SHA
+git commit --amend --no-edit # Amend changes the SHA
 ```
 
 The amend changes the commit SHA, so the tracker's row now points at a SHA that doesn't exist in `git log`. Orphan-SHA wart. **Fix:** drop the SHA placeholder entirely; tracker entries reference the commit by message via `git log --grep`. CHANGELOG.md is the canonical record of what landed when.
@@ -819,7 +815,7 @@ Shell escaping is fragile. Single quotes inside double quotes, backticks, dollar
 ❌ Pattern:
 ```bash
 git commit --amend
-git push --force                            # ❌ NEVER for pushed commits
+git push --force # ❌ NEVER for pushed commits
 ```
 
 Erases history. The broken state and the lesson both disappear. **Fix:** create a new commit with letter suffix (e.g., `Task 2.5b`). Per CLAUDE.md Rule 3. **Local-only commits (not yet pushed) may be amended freely.**
@@ -886,7 +882,7 @@ Agent self-reports "passed" without showing output. Per CLAUDE.md Rule 6, self-r
 
 **Edge case:** If the user's mid-execution question reveals that the IN-PROGRESS work is wrong (e.g., "wait, that approach won't work because..."), STOP and discuss. That's not scope expansion — that's bug discovery. Different protocol.
 
-**Source:** EverOn Phase 3 2026-04-28 session — user asked "should we put validators in smoke?" during the X11/D12 commit's execution. Correctly deferred to Phase 4 design rather than reversing course. The deferred D12 row would have needed immediate amending if reversed.
+**Source:** the standards source Phase 3 2026-04-28 session — user asked "should we put validators in smoke?" during the X11/D12 commit's execution. Correctly deferred to Phase 4 design rather than reversing course. The deferred D12 row would have needed immediate amending if reversed.
 
 ### 6.12 Popup questions when inline options work (Claude Code-specific)
 
@@ -1017,11 +1013,11 @@ Cursor reported the manifest's Last Updated block didn't match the FIND
 anchor. Two valid interpretations:
 
 (1) Apply rotation logic to actual current state: new Date=2026-04-25,
-    new Change=(Task 3.5 entry), new Previous change=(current "Phase 3
-    Task 3.2 close-out" content), drop the prior Previous change.
+ new Change=(Task 3.5 entry), new Previous change=(current "Phase 3
+ Task 3.2 close-out" content), drop the prior Previous change.
 
 (2) Update the prompt's literal block to match current state and
-    re-issue.
+ re-issue.
 
 User picked (1). Re-issued only STEP 5B with corrected literal block.
 Resolution time: one turn. If agent had improvised: would have produced
@@ -1093,7 +1089,7 @@ If any of these is unclear, STOP and ask before proceeding.
 
 **Operator's role:** when reading the agent's response, verify the deviation was NOT repeated. If it was, the agent is structurally not following constraints — escalate to manual intervention per § 15.4 ("escalate after 3+ failed iterations").
 
-**Worked example (from Phase 6 Codex collaboration, EverOn.Capital-Signal):**
+**Worked example (from Phase 6 Codex collaboration, a reference project):**
 
 Codex modified `CHANGELOG.md` despite the ALLOWLIST excluding it (per Codex handoff protocol). Operator's retry prompt to Codex included this warning at top:
 
@@ -1137,7 +1133,7 @@ Current state:
 
 Session protocol:
 - Apply session interaction protocol from message 1: brief overview,
-  then ONE command/task/question per message, wait for output. Do not batch.
+ then ONE command/task/question per message, wait for output. Do not batch.
 
 Time budget: <expected duration>
 

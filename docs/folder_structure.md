@@ -1,7 +1,8 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-06-07 -->
 <!--
 CHANGE LOG
+v0.2 — 2026-06-07 — PLAN-001: added canonical suite templates (CLAUDE.md, LESSONS.md, SETUP.md) to the docs/standards/ listing.
 v0.1 — 2026-06-07 — Project bootstrap. Initial authoritative layout (governance scaffold only; no engine code yet).
 -->
 # Folder Structure
@@ -29,8 +30,11 @@ standard-document-updater/
 │   ├── folder_structure.md        # this file
 │   ├── SESSION_OPENER.md          # binding session-start pre-flight (Rule 9)
 │   ├── SESSION_CLOSER.md          # binding session-end wrap-up (Rule 12)
-│   ├── standards/                 # adopted standards suite (Set Version v2.6)
+│   ├── standards/                 # canonical domain-neutral suite (Set Version v1.0)
 │   │   ├── SET_VERSION_ADOPTED.md
+│   │   ├── SETUP.md               # one-shot bootstrap prompt
+│   │   ├── CLAUDE.md             # operating-contract TEMPLATE (with placeholders)
+│   │   ├── LESSONS.md            # lessons archive (canonical template, L001–L049)
 │   │   ├── CICD_STANDARDS.md
 │   │   ├── ENGINEERING_STANDARDS.md
 │   │   ├── HOW_TO_USE.md

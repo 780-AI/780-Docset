@@ -2,31 +2,30 @@
 <!-- Last Updated: 2026-06-07 -->
 <!--
 CHANGE LOG
-v1.0 — 2026-06-07 — Project bootstrap. Records adoption of Standard Set Version v2.6.
+v1.0 — 2026-06-07 — Records adoption of Standard Set Version v1.0 (this repo also authors that baseline).
 -->
 # Standard Set Version Adopted
 
-This project was bootstrapped from the EverOn standards suite at:
+This project adopts the standards suite at:
 
-- **Standard Set Version:** v2.6
+- **Standard Set Version:** v1.0 (clean domain-neutral baseline)
 - **Adopted on:** 2026-06-07
-- **Source set:** the current v2.6 suite (de-facto canonical copy: `~/Documents/EverOn.Equinex/`,
-  which carried CLAUDE.md v3.6 / LESSONS.md v1.12 / 13 standing rules / 49 lessons at adoption time).
+- **Source:** this repository's own `docs/standards/` — `standard-document-updater` both **authors** the
+  canonical domain-neutral suite and **adopts** it to govern its own development.
 
-The adopted state at bootstrap:
+The adopted state:
 
 - **13 standing rules** in `CLAUDE.md` § 3 (Rules 1–13).
 - **49 lessons** (L001–L049) in `archive/LESSONS.md`.
-- **11 binding files** in the suite (13 files present here; `CLAUDE.md` lives at repo root, the rest
-  under `docs/standards/`, plus project-local `docs/SESSION_OPENER.md` + `docs/SESSION_CLOSER.md`).
+- The suite per `docs/standards/STANDARDS_INDEX.md` (11 binding files + meta files + `SETUP.md`).
 
 ## Backport tracking
 
-Backports from the source set are **explicit** (per `STANDARDS_INDEX.md` § 4.3). When a newer Set
-Version becomes available, read its history entry, decide which changes are relevant, cherry-pick the
-per-file edits into this project's copy, bump the affected per-file VERSION headers, and record the
-adoption here.
+Because this repo authors the canonical suite, "backport" here means: when the canonical
+`docs/standards/` suite is bumped to a new Set Version, reconcile this project's own adopter instances
+(root `CLAUDE.md`, `archive/LESSONS.md`, `docs/SESSION_OPENER.md`, `docs/SESSION_CLOSER.md`) and record
+the new adopted version below.
 
-| Set Version | Adopted on | Backport notes |
+| Set Version | Adopted on | Notes |
 |---|---|---|
-| v2.6 | 2026-06-07 | Initial bootstrap. Single-agent customization (Codex § 14 omitted); domain-neutral local-CLI context. |
+| v1.0 | 2026-06-07 | Clean domain-neutral baseline established (PLAN-001). Single-agent adopter (Codex § 14 omitted from this project's own root `CLAUDE.md`; retained in the template). |

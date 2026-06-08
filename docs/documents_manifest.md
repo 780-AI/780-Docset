@@ -1,8 +1,10 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-06-07 -->
 <!--
 CHANGE LOG
-v0.1 — 2026-06-07 — Project bootstrap. Initial manifest scaffold listing the governance suite + supporting docs + scripts.
+v1.0 — 2026-06-07 — PLAN-001: domain-neutral v1.0 baseline. All standards-suite version cells reset to
+1.0; added canonical templates docs/standards/CLAUDE.md + LESSONS.md + SETUP.md. Bumped from v0.1.
+v0.1 — 2026-06-07 — Project bootstrap. Initial manifest scaffold.
 -->
 # Document & Code Manifest
 
@@ -13,10 +15,11 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 | Module / Section | Entry range |
 |---|---|
-| Operating contract + project docs | 1–6 |
-| Standards suite (adopted, Set v2.6) | 7–21 |
-| Governance scripts | 22–23 |
-| Archive | 24 |
+| Operating contract + project docs | 1–8 |
+| Canonical standards suite (Set v1.0) | 9–24 |
+| Governance scripts | 25–26 |
+| Archive | 27 |
+| Plans | 28–29 |
 
 ## Manifest table
 
@@ -26,35 +29,41 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 0.1 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 1.0 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.1 | Governance | `docs/folder_structure.md` |
 | 7 | Session Opener (project-local, binding) | 1.0 | Governance | `docs/SESSION_OPENER.md` |
 | 8 | Session Closer (project-local, binding) | 1.0 | Governance | `docs/SESSION_CLOSER.md` |
-| 9 | Set Version Adopted | 1.0 | Governance | `docs/standards/SET_VERSION_ADOPTED.md` |
-| 10 | Project Standards | 1.4 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
-| 11 | Prompt Standards | 1.5 | Standards | `docs/standards/PROMPT_STANDARDS.md` |
-| 12 | Project Instructions Template | 1.4 | Standards | `docs/standards/PROJECT_INSTRUCTIONS_TEMPLATE.md` |
-| 13 | Memory Protocol | 1.4 | Standards | `docs/standards/MEMORY_PROTOCOL.md` |
-| 14 | Engineering Standards | 1.3 | Standards | `docs/standards/ENGINEERING_STANDARDS.md` |
-| 15 | Validation Standards | 1.2 | Standards | `docs/standards/VALIDATION_STANDARDS.md` |
-| 16 | CI/CD Standards | 1.2 | Standards | `docs/standards/CICD_STANDARDS.md` |
-| 17 | Session Opener (template) | 1.4 | Standards | `docs/standards/SESSION_OPENER.md` |
-| 18 | Session Closer (template) | 1.0 | Standards | `docs/standards/SESSION_CLOSER.md` |
-| 19 | Standards README (meta) | 1.9 | Standards | `docs/standards/README.md` |
-| 20 | Standards Index (meta) | 1.9 | Standards | `docs/standards/STANDARDS_INDEX.md` |
-| 21 | New Project Bootstrap (meta) | 1.1 | Standards | `docs/standards/NEW_PROJECT_BOOTSTRAP.md` |
-| 22 | How To Use (meta) | 1.6 | Standards | `docs/standards/HOW_TO_USE.md` |
-| 23 | Doc Coverage Check | 0.1 | Governance script | `scripts/check_doc_coverage.py` |
-| 24 | Test Coverage Drift Check | 0.1 | Governance script | `scripts/check_test_coverage_drift.py` |
-| 25 | Lessons Archive | 1.12 | Governance | `archive/LESSONS.md` |
+| 9 | Set Version Adopted | 1.0 | Standards | `docs/standards/SET_VERSION_ADOPTED.md` |
+| 10 | CLAUDE.md (template) | 1.0 | Standards | `docs/standards/CLAUDE.md` |
+| 11 | Lessons Archive (template) | 1.0 | Standards | `docs/standards/LESSONS.md` |
+| 12 | Project Standards | 1.0 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
+| 13 | Prompt Standards | 1.0 | Standards | `docs/standards/PROMPT_STANDARDS.md` |
+| 14 | Project Instructions Template | 1.0 | Standards | `docs/standards/PROJECT_INSTRUCTIONS_TEMPLATE.md` |
+| 15 | Memory Protocol | 1.0 | Standards | `docs/standards/MEMORY_PROTOCOL.md` |
+| 16 | Engineering Standards | 1.0 | Standards | `docs/standards/ENGINEERING_STANDARDS.md` |
+| 17 | Validation Standards | 1.0 | Standards | `docs/standards/VALIDATION_STANDARDS.md` |
+| 18 | CI/CD Standards | 1.0 | Standards | `docs/standards/CICD_STANDARDS.md` |
+| 19 | Session Opener (template) | 1.0 | Standards | `docs/standards/SESSION_OPENER.md` |
+| 20 | Session Closer (template) | 1.0 | Standards | `docs/standards/SESSION_CLOSER.md` |
+| 21 | Standards README (meta) | 1.0 | Standards | `docs/standards/README.md` |
+| 22 | Standards Index (meta) | 1.0 | Standards | `docs/standards/STANDARDS_INDEX.md` |
+| 23 | New Project Bootstrap (meta) | 1.0 | Standards | `docs/standards/NEW_PROJECT_BOOTSTRAP.md` |
+| 24 | How To Use (meta) | 1.0 | Standards | `docs/standards/HOW_TO_USE.md` |
+| 25 | Setup — one-shot prompt (meta) | 1.0 | Standards | `docs/standards/SETUP.md` |
+| 26 | Doc Coverage Check | 0.1 | Governance script | `scripts/check_doc_coverage.py` |
+| 27 | Test Coverage Drift Check | 0.1 | Governance script | `scripts/check_test_coverage_drift.py` |
+| 28 | Lessons Archive (adopter copy) | 1.0 | Governance | `archive/LESSONS.md` |
+| 29 | PLAN-001 — domain-neutral suite (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-001_domain_neutral_suite.md` |
+| 30 | PLAN-001 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-001_tracker.md` |
 
-> `.toml` config files (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
+> `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
 > manifest-tracked per Rule 8; they are documented in `docs/folder_structure.md`.
 
 ## Last updated
 
 - **Date**: 2026-06-07
-- **Change**: Project bootstrap — initial manifest scaffold (25 entries).
-- **Previous change**: (none — this is the first entry)
+- **Change**: PLAN-001 — domain-neutral v1.0 baseline; suite version cells reset to 1.0; added
+  `docs/standards/{CLAUDE.md, LESSONS.md, SETUP.md}` + PLAN-001 rows (30 entries).
+- **Previous change**: Project bootstrap — initial manifest scaffold (25 entries).
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

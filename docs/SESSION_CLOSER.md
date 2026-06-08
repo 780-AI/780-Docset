@@ -3,7 +3,7 @@
 <!-- Source: docs/standards/SESSION_CLOSER.md (template) v1.0. Project-local instance for standard-document-updater. -->
 <!--
 CHANGE LOG
-v1.0 — 2026-06-07 — Project bootstrap. Instantiated from the v2.6 template (docs/standards/SESSION_CLOSER.md v1.0). Customized § 1.2 versions (tool engine version + adopted Set Version; no EA / deploy artifact) and § 4 output block. BINDING per CLAUDE.md Rule 12.
+v1.0 — 2026-06-07 — Project bootstrap. Instantiated from the v1.0 template (docs/standards/SESSION_CLOSER.md v1.0). Customized § 1.2 versions (tool engine version + adopted Set Version; no EA / deploy artifact) and § 4 output block. BINDING per CLAUDE.md Rule 12.
 -->
 
 # SESSION_CLOSER.md — Mandatory wrap-up routine on operator command (project-local)

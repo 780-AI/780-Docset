@@ -1,13 +1,10 @@
-<!-- VERSION: 1.4 -->
-<!-- Last Updated: 2026-05-22 -->
-<!-- Source: ~/everon-standards/PROJECT_STANDARDS.md (template). Domain-neutral. EverOn examples in HTML comments. -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-06-07 -->
+<!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
-v1.4 — 2026-05-22 — Set Version v2.1 fix-forward: bring stale body-text references current. Two non-history occurrences updated: § 6 standard-folder-layout ASCII tree comment "The 8 standing rules + project specifics" → "The 9 standing rules + project specifics" (Rule 9 added in v2.1); § 9 sources-of-truth table row "The 8 standing rules" → "The 9 standing rules". No structural changes.
-v1.3 — 2026-05-22 — EverOn.Equinex PLAN-001 § 11 fix-forward codification (L036). § 4 artifact sync trigger table: new row for "Phase 3 commit ships a mitigation for a risk documented in an earlier plan's § 11" → "annotate the earlier plan's risk row CLOSED in the SAME commit (status + closing commit hash + one-line reason)." NEW § 4.3 Closed-risk annotation discipline — full sub-section with annotation format, anti-pattern, fix-forward recovery shape, EverOn.Equinex PLAN-001 § 11 example in HTML comment.
-v1.2 — 2026-05-16 — Phase 4–7 + EA-test-soak refresh. § 1 Step 5 Validate: code-review item added (L027). § 7 Tracker files: NEW § 7.7 Tracker ownership for multi-agent projects (OPTIONAL — cross-references CLAUDE.md § 14; L020 codification). § 8 Commit discipline: § 8.4 split-commit refined with L029 (distribute doc sync across commits, don't concentrate at "final sync"). New § 8.7 Code review before staging (L027), § 8.8 Agent runs commits end-to-end (L026), § 8.9 Push cadence — batch local commits (L028). § 10 Anti-patterns: added § 10.9 push-after-every-commit, § 10.10 concentrating doc-sync in final commit, § 10.11 skipping code review.
-v1.1 — 2026-04-25 — Standards repo restructured to flat layout — Source path updated. The standards repo itself now lives flat (10 files at root); adopting projects still nest under `docs/standards/`.
-v1.0 — 2026-04-25 — Initial release. Governance bible covering 5-step workflow, document manifest mechanics, CHANGELOG conventions, artifact sync triggers, tracker file structure, and document conventions. Distilled from EverOn.Capital-Signal Phases 1-3 governance evolution.
+v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
+specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
 # PROJECT_STANDARDS.md — Governance Reference
@@ -16,7 +13,7 @@ v1.0 — 2026-04-25 — Initial release. Governance bible covering 5-step workfl
 
 The binding rules in `CLAUDE.md` always apply; this file is the dispatcher target for governance specifics — the *how* behind the *what* that CLAUDE.md establishes.
 
-**Why this file exists:** Governance is the mechanical discipline that keeps code, docs, and config aligned. Without it, drift accumulates silently — manifest entries go stale, CHANGELOG gaps appear, source-of-truth docs lag behind the code they describe. After ~3 months, the project has high apparent organization but low actual coherence. Every rule in this file exists because that drift was observed at least once on EverOn.Capital-Signal Phases 1-3.
+**Why this file exists:** Governance is the mechanical discipline that keeps code, docs, and config aligned. Without it, drift accumulates silently — manifest entries go stale, CHANGELOG gaps appear, source-of-truth docs lag behind the code they describe. After ~3 months, the project has high apparent organization but low actual coherence. Every rule in this file exists because that drift was observed at least once on a reference project Phases 1-3.
 
 ---
 
@@ -44,7 +41,7 @@ The binding rules in `CLAUDE.md` always apply; this file is the dispatcher targe
 Before writing any code or doc edit:
 
 - **Read `docs/folder_structure.md`** for placement and naming conventions. New files go where the structure says they go, not where convenience suggests.
-- **Read the source-of-truth doc** for the domain or layer being touched (e.g., `docs/business_logic.md` for trading behavior changes; `docs/api_reference.md` for interface changes).
+- **Read the source-of-truth doc** for the domain or layer being touched (e.g., `docs/<domain-spec>.md` for trading behavior changes; `docs/api_reference.md` for interface changes).
 - **Search for existing implementations** — `grep`, `git log -S`, code search. Prefer reuse over new code. The pattern you're about to add probably exists somewhere already.
 - **If the change conflicts with documented architecture**, do not silently implement. Propose an update to the architecture doc first; implement only after the proposal is reviewed.
 
@@ -179,7 +176,7 @@ The Last Updated block has 4 fields. On each rotation:
 Always exactly **one** Date, **one** Change, **one** Previous change, **one** Previous audit. Never two of any.
 
 <!--
-Example rotation (EverOn Task 3.5 commit, 2026-04-25):
+Example rotation (the standards source Task 3.5 commit, 2026-04-25):
 
 BEFORE rotation:
 - **Date**: 2026-04-24
@@ -294,7 +291,7 @@ Latest entry sits immediately under the file's preamble. Prior entries flow down
 The Files field doesn't have to list every file touched in the commit (`git show` can do that). It lists the **significant** files — the source-of-truth files, the entry points, the docs that downstream readers will care about. Brief description after each in parentheses.
 
 <!--
-Example entry (EverOn Phase 3 Task 3.5, 2026-04-25):
+Example entry (the standards source Phase 3 Task 3.5, 2026-04-25):
 
 ## [2026-04-25] — Phase 3 Task 3.5: remove redundant `validate` job from `.gitlab-ci.yml`
 - **Type:** Major / Infrastructure
@@ -321,7 +318,7 @@ After implementing any change, walk this table top to bottom. For each trigger t
 | DB table created / altered / renamed | `docs/database_schema.md` |
 | Operational procedure changed (deploy, rollback, etc.) | `docs/runbook.md` and/or `docs/docker.md` |
 | Architecture changed (new module, new tier, data flow change) | `docs/system_diagram.md` + `docs/system_architecture.md` |
-| Domain logic / business rules changed | The domain doc (e.g., `docs/business_logic.md`) — IN THE SAME COMMIT |
+| Domain logic / business rules changed | The domain doc (e.g., `docs/<domain-spec>.md`) — IN THE SAME COMMIT |
 | CI/CD pipeline changed | `docs/ci_cd.md` + same-commit verification by real pipeline run |
 | Any meaningful change | `CHANGELOG.md` (newest at top) |
 | Phase or task completed | The relevant tracker doc |
@@ -368,7 +365,7 @@ The annotation includes:
 If a follow-up Phase 3 commit accidentally ships the mitigation without the annotation, the fix-forward (per CLAUDE.md Rule 3) takes the form of a small "bookkeeping fix-forward" commit annotating the earlier plan. Acceptable as recovery; not acceptable as the planned shape.
 
 <!--
-Example (EverOn.Equinex PLAN-001 § 11 fix-forward, commit d769b29):
+Example:
 PLAN-001 documented 7 design risks. Across PLAN-002, v7.06, and PLAN-003,
 risks #1, #2, #3 were systematically closed but PLAN-001's § 11 was never
 updated. Caught by operator status check on 2026-05-21; fix-forward landed
@@ -434,50 +431,50 @@ Some docs are updated continuously and don't carry meaningful versioning. Tracke
 
 ```
 <repo-root>/
-├── CLAUDE.md                          # The 9 standing rules + project specifics
-├── README.md                          # User-facing intro + Quick Start
-├── CHANGELOG.md                       # Cross-cutting history
+├── CLAUDE.md # The 9 standing rules + project specifics
+├── README.md # User-facing intro + Quick Start
+├── CHANGELOG.md # Cross-cutting history
 ├── .gitignore
-├── .gitlab-ci.yml                     # (or .github/workflows/)
+├── .gitlab-ci.yml # (or .github/workflows/)
 ├── .gitlab/
-│   └── merge_request_templates/
-│       └── Default.md                 # Required source-of-truth checklist
+│ └── merge_request_templates/
+│ └── Default.md # Required source-of-truth checklist
 ├── docs/
-│   ├── README.md                      # Index of all docs/
-│   ├── documents_manifest.md          # Version manifest
-│   ├── folder_structure.md            # Authoritative layout
-│   ├── system_architecture.md         # High-level system design
-│   ├── system_diagram.md              # Architecture diagrams
-│   ├── api_reference.md               # Public interfaces
-│   ├── database_schema.md             # All tables, columns, keys
-│   ├── config_reference.md            # All config keys + env vars
-│   ├── runbook.md                     # Operations + deploy procedures
-│   ├── docker.md                      # Container reference
-│   ├── ci_cd.md                       # Pipeline reference
-│   ├── staging_environment.md         # Staging host details
-│   ├── testing.md                     # Test framework reference
-│   ├── troubleshooting.md             # Known issues + fixes
-│   ├── <project>_setup_tracker.md     # Living phase/task tracker
-│   ├── <domain-specific>.md           # e.g., business_logic.md
-│   ├── standards/                     # Standards files copied from this repo
-│   │   ├── PROJECT_STANDARDS.md       # This file
-│   │   ├── PROMPT_STANDARDS.md
-│   │   ├── ENGINEERING_STANDARDS.md
-│   │   ├── CICD_STANDARDS.md
-│   │   ├── VALIDATION_STANDARDS.md
-│   │   └── MEMORY_PROTOCOL.md
-│   └── Plans/                         # All planning docs (committed)
-│       ├── <feature-name>-plan.md
-│       └── ...
+│ ├── README.md # Index of all docs/
+│ ├── documents_manifest.md # Version manifest
+│ ├── folder_structure.md # Authoritative layout
+│ ├── system_architecture.md # High-level system design
+│ ├── system_diagram.md # Architecture diagrams
+│ ├── api_reference.md # Public interfaces
+│ ├── database_schema.md # All tables, columns, keys
+│ ├── config_reference.md # All config keys + env vars
+│ ├── runbook.md # Operations + deploy procedures
+│ ├── docker.md # Container reference
+│ ├── ci_cd.md # Pipeline reference
+│ ├── staging_environment.md # Staging host details
+│ ├── testing.md # Test framework reference
+│ ├── troubleshooting.md # Known issues + fixes
+│ ├── <project>_setup_tracker.md # Living phase/task tracker
+│ ├── <domain-specific>.md # e.g., <domain-spec>.md
+│ ├── standards/ # Standards files copied from this repo
+│ │ ├── PROJECT_STANDARDS.md # This file
+│ │ ├── PROMPT_STANDARDS.md
+│ │ ├── ENGINEERING_STANDARDS.md
+│ │ ├── CICD_STANDARDS.md
+│ │ ├── VALIDATION_STANDARDS.md
+│ │ └── MEMORY_PROTOCOL.md
+│ └── Plans/ # All planning docs (committed)
+│ ├── <feature-name>-plan.md
+│ └── ...
 ├── scripts/
-│   ├── check_doc_coverage.py          # Local governance: surfaces drift across env vars, DB tables, API routes, manifest, folder structure, config docs, CHANGELOG freshness, import boundaries
-│   ├── check_test_coverage_drift.py   # Code↔test↔doc drift detector with ownership map
-│   ├── doc_coverage_allowlist.toml    # Justified exceptions to coverage check
-│   ├── validation_ownership.toml      # File-to-test-to-doc ownership rules
-│   └── pre-commit                     # Optional: git pre-commit hook script
+│ ├── check_doc_coverage.py # Local governance: surfaces drift across env vars, DB tables, API routes, manifest, folder structure, config docs, CHANGELOG freshness, import boundaries
+│ ├── check_test_coverage_drift.py # Code↔test↔doc drift detector with ownership map
+│ ├── doc_coverage_allowlist.toml # Justified exceptions to coverage check
+│ ├── validation_ownership.toml # File-to-test-to-doc ownership rules
+│ └── pre-commit # Optional: git pre-commit hook script
 ├── archive/
-│   ├── LESSONS.md                     # Incident-to-rule history
-│   └── postmortems/                   # Detailed postmortems for major incidents
+│ ├── LESSONS.md # Incident-to-rule history
+│ └── postmortems/ # Detailed postmortems for major incidents
 └── <code folders>/
 ```
 
@@ -691,7 +688,7 @@ Per LESSONS L010 — substantive doc additions split into two commits:
 - **Commit 1:** the risky content (doc additions, sections, examples). Local-only at this point — amendable freely if review surfaces issues.
 - **Commit 2:** the mechanical wiring (manifest entries, CHANGELOG, cross-references in other docs). Built on Commit 1's stable state.
 
-Used successfully for Tasks A (Parts 1+2) and C (Parts 1+2a+2b) on EverOn.Capital-Signal.
+Used successfully for Tasks A (Parts 1+2) and C (Parts 1+2a+2b) on a reference project.
 
 #### Distribute doc sync across split commits — don't concentrate at "final sync"
 
@@ -727,10 +724,10 @@ Procedure:
 
 1. After all edits land but BEFORE `git add`, walk each modified/new file
 2. For each file, ask:
-   - Does it read correctly?
-   - Are edge cases the task implied actually handled?
-   - Is there a subtle bug a future reader would catch?
-   - Are there orphan changes (unintentional edits caught in the diff)?
+ - Does it read correctly?
+ - Are edge cases the task implied actually handled?
+ - Is there a subtle bug a future reader would catch?
+ - Are there orphan changes (unintentional edits caught in the diff)?
 3. If concerns surface: fix and re-review BEFORE staging. Don't add-then-fix — the staging set should match the reviewed set.
 
 Code review is short and incremental. The cost (~2 min per commit) is low compared to the cost of shipping a bug that governance scripts can't catch.
@@ -751,15 +748,15 @@ cat > /tmp/commit_msg_<task>.txt <<'EOF'
 <impact statement>
 EOF
 
-cat /tmp/commit_msg_<task>.txt    # Verify message file content (Rule 4 / L004)
+cat /tmp/commit_msg_<task>.txt # Verify message file content (Rule 4 / L004)
 
-git status --short                 # Pre-add verify (Rule 6 / L006)
+git status --short # Pre-add verify (Rule 6 / L006)
 git add -A
-git status --short                 # Post-add verify (Rule 6 / L006)
+git status --short # Post-add verify (Rule 6 / L006)
 
 git commit -F /tmp/commit_msg_<task>.txt
 
-git log -1 --stat | cat            # Pager-safe verification (L011)
+git log -1 --stat | cat # Pager-safe verification (L011)
 ```
 
 Operator does NOT context-switch to terminal mid-flow to run `git add` manually. That handoff pattern caused multiple Rule 4 (`-m` with escapes) violations before being deprecated.
@@ -798,7 +795,7 @@ If you find content in multiple places, that is a **defect**. Resolve it: keep t
 | Cross-cutting project history | `CHANGELOG.md` (root) |
 | Folder layout authoritative reference | `docs/folder_structure.md` |
 | Standard folder layout (template) | This file (§ 6) |
-| Domain behavior | `<your domain doc>` (e.g., `docs/business_logic.md`) |
+| Domain behavior | `<your domain doc>` (e.g., `docs/<domain-spec>.md`) |
 | Phase/task progress | `docs/<project>_setup_tracker.md` |
 | Memory hygiene rules | `docs/standards/MEMORY_PROTOCOL.md` |
 | Multi-file AI prompt construction | `docs/standards/PROMPT_STANDARDS.md` |
@@ -823,7 +820,7 @@ This is a Major change — goes through full workflow.
 
 ## 10. Anti-patterns to refuse
 
-Each pattern below was observed at some point on EverOn.Capital-Signal. Each costs drift, broken trust in the manifest, or wasted debugging time.
+Each pattern below was observed at some point on a reference project. Each costs drift, broken trust in the manifest, or wasted debugging time.
 
 ### 10.1 Updating the manifest "later"
 

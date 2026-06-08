@@ -1,8 +1,9 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-06-07 -->
-<!-- Status: APPROVED (Phase 2 — operator approved PLAN-001 + D-A on 2026-06-07; executing in-session) -->
+<!-- Status: CLOSED (Phase 3 shipped in-session; Phase 5 push pending — no git remote configured yet) -->
 <!--
 CHANGE LOG
+v1.0 — 2026-06-07 — CLOSED. Phase 3 executed and validated: scrubbed all 13 docs/standards files to domain-neutral v1.0; rewrote STANDARDS_INDEX; added canonical CLAUDE.md + LESSONS.md templates (§ 14 kept per D-A) + SETUP.md; slimmed HOW_TO_USE; reconciled all adopter files to v1.0. Phase 4 dispositive scrub check = 0 hits; all suite files VERSION 1.0; governance exit 0. DEVIATION (noted per § 10): the 5 grouped commits (3.1–3.5) landed as ONE commit — single continuous session, one coherent "v1.0 baseline" deliverable; reviewable as one diff.
 v0.1 — 2026-06-07 — Initial draft. Plan to (A) scrub all project identity from the canonical standards suite → clean domain-neutral v1.0 baseline; (B) add the missing canonical templates (CLAUDE.md, LESSONS.md); (C) add a one-shot SETUP.md bootstrap prompt and slim HOW_TO_USE to a pointer. Senior-review-and-optimize pass (Rule 13) recorded below as the final Phase-1 task.
 -->
 
@@ -48,9 +49,9 @@ Big plan (Phase 3 lands as >1 commit; multi-file). Sibling tracker:
 - Phase 0 — Audit .......... ✅ 2026-06-07 (ref grep complete: ~340 refs, contexts sampled)
 - Phase 1 — Design ......... ✅ 2026-06-07 (this file + tracker + Rule 13 senior pass below)
 - Phase 2 — Approval ....... ✅ 2026-06-07 — operator approved PLAN-001; D-A = keep § 14 in template
-- Phase 3 — Implement ...... ⏸ (see tracker — grouped commits)
-- Phase 4 — Validate ....... ⏸
-- Phase 5 — Operator gate .. ⏸
+- Phase 3 — Implement ...... ✅ 2026-06-07 (landed as one commit; see tracker)
+- Phase 4 — Validate ....... ✅ 2026-06-07 (scrub = 0 hits; suite all v1.0; governance exit 0)
+- Phase 5 — Operator gate .. ⏸ push pending (no git remote configured yet)
 
 ## 5. Transformation rules
 

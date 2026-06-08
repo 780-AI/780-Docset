@@ -26,7 +26,7 @@ the same discipline from the first commit.
 ## How it's organized
 
 - `CLAUDE.md` — the binding operating contract (read first; 13 standing rules).
-- `docs/standards/` — the adopted standards suite (Standard Set Version v2.6) + `SET_VERSION_ADOPTED.md`.
+- `docs/standards/` — the adopted standards suite (Standard Set Version v1.0) + `SET_VERSION_ADOPTED.md`.
 - `docs/SESSION_OPENER.md` / `docs/SESSION_CLOSER.md` — binding session start/end routines (Rules 9 & 12).
 - `docs/documents_manifest.md` — the version index of every tracked doc and code file.
 - `docs/folder_structure.md` — the authoritative layout.
@@ -36,6 +36,6 @@ the same discipline from the first commit.
 
 ## Standards
 
-This project was bootstrapped from the EverOn standards suite at **Standard Set Version v2.6**
+This project was bootstrapped from the standards suite at **Standard Set Version v1.0**
 (see `docs/standards/SET_VERSION_ADOPTED.md`). The binding contract is `CLAUDE.md` at the repo root.
 Backports from the standards source are explicit — see `docs/standards/STANDARDS_INDEX.md` § 4.3.

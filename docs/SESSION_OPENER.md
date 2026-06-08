@@ -3,7 +3,7 @@
 <!-- Source: docs/standards/SESSION_OPENER.md (template) v1.4. Project-local instance for standard-document-updater. -->
 <!--
 CHANGE LOG
-v1.0 — 2026-06-07 — Project bootstrap. Instantiated from the v2.6 template (docs/standards/SESSION_OPENER.md v1.4). Customized for a single-agent, local-CLI, domain-neutral project: § 1.2 live-system probes replaced with "registered target suites" (no remote infra); § 2 environment mapping rewritten as the source-suite + target-repo registry (no staging/prod hosts); § 3.1 universal failure-mode catalog kept (remote rows annotated N/A for this project); § 4 output template trimmed of the live-system block. BINDING per CLAUDE.md Rule 9.
+v1.0 — 2026-06-07 — Project bootstrap. Instantiated from the v1.0 template (docs/standards/SESSION_OPENER.md v1.0). Customized for a single-agent, local-CLI, domain-neutral project: § 1.2 live-system probes replaced with "registered target suites" (no remote infra); § 2 environment mapping rewritten as the source-suite + target-repo registry (no staging/prod hosts); § 3.1 universal failure-mode catalog kept (remote rows annotated N/A for this project); § 4 output template trimmed of the live-system block. BINDING per CLAUDE.md Rule 9.
 -->
 
 # SESSION_OPENER.md — Mandatory session-start pre-flight (project-local)
@@ -58,7 +58,7 @@ Surface 3–5 memories most relevant to the stated task (per `MEMORY_PROTOCOL.md
 | Role | Path | Notes |
 |---|---|---|
 | **This repo (the tool)** | `~/Documents/Standard document updater/` | The CLI tool itself; its own `docs/standards/` is its adopted suite. |
-| **Canonical source suite** | `<to be registered>` | The authoritative standards set the tool propagates FROM (e.g., the most current adopter, currently `~/Documents/EverOn.Equinex/`). |
+| **Canonical source suite** | `<to be registered>` | The authoritative standards set the tool propagates FROM (the most current adopter suite on this machine). |
 | **Target repo(s)** | `<to be registered>` | Adopting project repos the tool updates TO. Supplied at runtime; never assumed. |
 
 **Cross-checks before writing to any target:**
@@ -90,7 +90,7 @@ Each row links to the memory/lesson that codifies it. Recall the linked memory w
 | 10 | Behavior-affecting change without a paired QA scenario | every behavior-affecting commit | `CLAUDE.md` **Rule 11 (binding)** + `LESSONS.md` L047 |
 | 11 | Starting a § 15 plan without granular sub-task tracking | any new `docs/Plans/PLAN-NNN_*.md` | `LESSONS.md` L045 + `CLAUDE.md` § 15.7 |
 | 12 | Local-only OPEN_TASKS.md register stale | every session start | `LESSONS.md` L046 + `CLAUDE.md` § 15.7 |
-| — | Remote/host rows (staging↔prod, SSH, Hetzner web-console) from the template | N/A — this project has no remote infra | `LESSONS.md` L035, L043 (retained for reference) |
+| — | Remote/host rows (staging↔prod, SSH, cloud web-console) from the template | N/A — this project has no remote infra | `LESSONS.md` L035, L043 (retained for reference) |
 
 ### 3.2 Project-specific patterns
 

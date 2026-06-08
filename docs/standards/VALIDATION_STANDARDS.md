@@ -1,11 +1,10 @@
-<!-- VERSION: 1.2 -->
-<!-- Last Updated: 2026-05-16 -->
-<!-- Source: ~/everon-standards/VALIDATION_STANDARDS.md (template). Domain-neutral. EverOn examples in HTML comments. -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-06-07 -->
+<!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
-v1.2 — 2026-05-16 — Phase 4–7 + EA-test-soak refresh. § 1.4 determinism: added "Live data settlement windows" as a non-determinism source (L021 cross-ref to ENGINEERING_STANDARDS § 1.7). § 5 NEW § 5.6 First-fire expectations for new gates (L017 reinforcement — 3-5 iterations to fully green; budget 1-2 hours; each iteration as its own commit). § 7 NEW § 7.5 24-hour staging soak required before production deploy (L022 — slow-burn failure injection complementing deliberate-failure protocol). § 10 anti-patterns: added § 10.11 skipping the 24-hour staging soak (L022), § 10.12 treating first-fire of a new gate as production-grade (L017).
-v1.1 — 2026-04-25 — Standards repo restructured to flat layout — Source path updated. The standards repo itself now lives flat (10 files at root); adopting projects still nest under `docs/standards/`.
-v1.0 — 2026-04-25 — Initial release. Validation framework covering 7-tier test model, ownership/drift detection, CI integration, deliberate-failure protocol, and notification design. Distilled from EverOn.Capital-Signal Phases 1-3 validation framework evolution.
+v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
+specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
 # VALIDATION_STANDARDS.md — Test Framework & Validation Discipline
@@ -14,7 +13,7 @@ v1.0 — 2026-04-25 — Initial release. Validation framework covering 7-tier te
 
 For pipeline structure (jobs, stages, deploy gating) → `CICD_STANDARDS.md`. For coding test code → `ENGINEERING_STANDARDS.md`. For documenting validation in CHANGELOG/manifest → `PROJECT_STANDARDS.md`.
 
-**Why this file exists:** Tests that "pass when correct" but never get exercised against real failures provide false confidence. A validation framework needs explicit tier definitions, ownership rules tying tests to source files, drift detection when tests fall behind code, and a deliberate-failure protocol that proves the failure path actually works. Every rule below was learned from a specific incident on EverOn.Capital-Signal where one of those mechanisms was missing.
+**Why this file exists:** Tests that "pass when correct" but never get exercised against real failures provide false confidence. A validation framework needs explicit tier definitions, ownership rules tying tests to source files, drift detection when tests fall behind code, and a deliberate-failure protocol that proves the failure path actually works. Every rule below was learned from a specific incident on a reference project where one of those mechanisms was missing.
 
 ---
 
@@ -39,7 +38,7 @@ Five principles that govern every test in the suite.
 
 ### 1.1 Test what fails, not just what passes
 
-A test that asserts "happy path produces expected output" only validates the success branch. The failure branch — the `if error: send_alert()` code — is not exercised by happy-path tests. When real failure occurs months later, the alert path may have a syntax bug that has been silently broken since day one.
+A test that asserts "happy path produces expected output" only validates the success branch. The failure branch — the `if error: send_alert` code — is not exercised by happy-path tests. When real failure occurs months later, the alert path may have a syntax bug that has been silently broken since day one.
 
 **Per `LESSONS L009`**: every new alerting, validation, or check code must be tested by **deliberately inducing the failure mode** and confirming the failure path fires correctly.
 
@@ -141,7 +140,7 @@ Post-deploy verification. Runs against the just-deployed environment. Checks:
 Smoke tests must be fast (<2min) and must clearly distinguish "deploy worked" from "deploy worked but the service is broken." Used as the gate for promoting a deploy from staging → production.
 
 <!--
-Example (EverOn.Capital-Signal):
+Example:
 post_deploy_smoke.sh v0.2 — 20 checks across 5 sections:
 1. Container state (all services running)
 2. HTTP endpoints (API, charting return 200)
@@ -183,21 +182,21 @@ Don't write custom test runners. The runner ecosystem provides parallelization, 
 ```
 validation/
 ├── __init__.py
-├── run_all.py               # CLI orchestrator
-├── runner.py                # Tier execution + result collection
-├── result.py                # Result types
-├── conftest.py              # Shared pytest fixtures
-├── fixtures/                # Test data + DB seeding
-│   ├── seed_ci_db.py
-│   ├── ohlc_<instrument>_<n>.py
-│   └── ...
-├── tier1_governance/        # Tier 1 tests
-│   ├── test_<surface>.py
-│   └── ...
-├── tier2_logic/             # Tier 2 tests
+├── run_all.py # CLI orchestrator
+├── runner.py # Tier execution + result collection
+├── result.py # Result types
+├── conftest.py # Shared pytest fixtures
+├── fixtures/ # Test data + DB seeding
+│ ├── seed_ci_db.py
+│ ├── ohlc_<instrument>_<n>.py
+│ └── ...
+├── tier1_governance/ # Tier 1 tests
+│ ├── test_<surface>.py
+│ └── ...
+├── tier2_logic/ # Tier 2 tests
 ├── tier3_integration/
 ├── tier4_contracts/
-├── tier5_smoke/             # OR scripts/post_deploy_smoke.sh
+├── tier5_smoke/ # OR scripts/post_deploy_smoke.sh
 ├── tier6_scheduled/
 └── tier7_audits/
 ```
@@ -245,7 +244,7 @@ The ownership model maps source files to the tests that validate them and the do
 [rules.pattern_engine]
 source_paths = ["core/pattern_engine.py"]
 test_paths = ["validation/tier2_logic/test_pattern_engine.py"]
-doc_paths = ["docs/business_logic.md", "docs/api_reference.md"]
+doc_paths = ["docs/<domain-spec>.md", "docs/api_reference.md"]
 strictness = "strict"
 require_docs = true
 reason = "Core detection logic — silent changes here corrupt every signal."
@@ -253,7 +252,7 @@ reason = "Core detection logic — silent changes here corrupt every signal."
 [rules.signal_filter]
 source_paths = ["strategies/engine/signal_filter.py"]
 test_paths = ["validation/tier2_logic/test_signal_filter.py"]
-doc_paths = ["docs/business_logic.md"]
+doc_paths = ["docs/<domain-spec>.md"]
 strictness = "strict"
 require_docs = true
 reason = "Filter accept/reject decisions are visible in production output."
@@ -357,14 +356,14 @@ Tier 6 (scheduled) needs a database. CI provides this via:
 
 ```yaml
 nightly:
-  services:
-    - name: <db-image>:<version>
-      alias: <db-host-alias>
-      variables:
-        POSTGRES_DB: test_db
-        POSTGRES_USER: test_user
-        POSTGRES_PASSWORD: test_password
-  # ... script: seed DB then run scheduled tier
+ services:
+ - name: <db-image>:<version>
+ alias: <db-host-alias>
+ variables:
+ POSTGRES_DB: test_db
+ POSTGRES_USER: test_user
+ POSTGRES_PASSWORD: test_password
+ # ... script: seed DB then run scheduled tier
 ```
 
 Seeded by `validation/fixtures/seed_ci_db.py` (or equivalent) before the test run begins.
@@ -392,7 +391,7 @@ Per `archive/LESSONS.md` L017 — never-exercised gates fire bugs in cascade. Wh
 - Each fix is its own commit (don't batch fixes — they obscure the cascade in retrospect)
 - Track each iteration in the project's CI/CD tracker so the cascade is visible
 
-This is not pessimism — it's the empirical baseline from EverOn.Capital-Signal Phase 3 (X11 nightly Telegram cascade went 4 iterations before fully green) and Phase 3 Task 3.4 deliberate-failure cycle (2 iterations on auto-rollback before the auth gap was found and fixed via F-1). Trust gates that have been exercised under their full failure mode; investigate gates that haven't.
+This is not pessimism — it's the empirical baseline from a reference project Phase 3 (X11 nightly Telegram cascade went 4 iterations before fully green) and Phase 3 Task 3.4 deliberate-failure cycle (2 iterations on auto-rollback before the auth gap was found and fixed via F-1). Trust gates that have been exercised under their full failure mode; investigate gates that haven't.
 
 ---
 
@@ -476,10 +475,10 @@ Add a checklist item to the prompt for any task that adds such code:
 ### 7.4 Examples
 
 <!--
-EverOn.Capital-Signal deliberate-failure tests:
+a reference project deliberate-failure tests:
 
 Task 2.5d (image source verification):
-- Deliberately deployed with `everon/backend:latest` instead of registry-tagged image
+- Deliberately deployed with `myapp/backend:latest` instead of registry-tagged image
 - Confirmed smoke-staging Section 5 detected the mismatch and exited non-zero
 - Documented the test procedure in tracker incident block for Task 2.5d
 - Caught a genuine bug in the verification regex during the test (over-matched some valid images)
@@ -488,14 +487,14 @@ Task M (healthcheck Telegram delivery):
 - Deliberately stopped the `charts` container
 - Confirmed healthcheck.sh detected the down state, sent NOTICE alert via Telegram
 - Confirmed alert text included hostname tag for routing
-- Bonus catch: discovered cosmetic empty-state bug ("Optional service down: charts ()")
-  added as Phase 3 deferred D6
+- Bonus catch: discovered cosmetic empty-state bug ("Optional service down: charts ")
+ added as Phase 3 deferred D6
 
 Task 3.2 (rollback):
 - Tests 1-5 covered: bad SHA, missing image, explicit happy path with write-back,
-  idempotent NO-OP, auto-detect forward
+ idempotent NO-OP, auto-detect forward
 - Each test deliberately set up the failure or edge condition, then verified rollback.sh
-  responded correctly
+ responded correctly
 -->
 
 ### 7.5 24-hour staging soak required before production deploy
@@ -699,11 +698,11 @@ Why bad: drift starts. By the time anyone notices, there are 5+ unmapped files a
 
 ### 10.10 Catching all exceptions in tests to make them "pass"
 
-❌ Pattern: `try: assert_thing() except: pass`
+❌ Pattern: `try: assert_thing except: pass`
 
 Why bad: the test passes regardless of whether the assertion held. Worse than no test.
 
-✅ Fix: let assertions raise. If the test is genuinely expected to handle multiple outcomes, structure it explicitly with `pytest.raises()` or equivalent.
+✅ Fix: let assertions raise. If the test is genuinely expected to handle multiple outcomes, structure it explicitly with `pytest.raises` or equivalent.
 
 ### 10.11 Skipping the 24-hour staging soak
 

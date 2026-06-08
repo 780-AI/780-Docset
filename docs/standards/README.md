@@ -1,25 +1,17 @@
-<!-- VERSION: 1.9 -->
-<!-- Last Updated: 2026-05-23 -->
-<!-- Source: ~/everon-standards/README.md (root). The entry point for the standards repo. -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-06-07 -->
+<!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
-v1.9 — 2026-05-23 — Set Version v2.5 alignment. § 2 binding-files table: CLAUDE.md row "11 rules incl. Rules 9 + 10 + 11" → "12 rules incl. Rules 9 + 10 + 11 + 12 (session-start pre-flight + code-review-before-commit + QA-scenario-coupling + session-wrap-up)"; LESSONS.md row "47 lessons (L001–L047)" → "48 lessons (L001–L048)"; binding-files count 10 → 11; NEW SESSION_CLOSER row added. Set Version reference reflects v2.5 baseline.
-v1.8 — 2026-05-22 — Set Version v2.4 alignment. § 2 binding-files table: CLAUDE.md row "10 rules incl. Rules 9 + 10" → "11 rules incl. Rules 9 + 10 + 11 (session-start pre-flight + code-review-before-commit + QA-scenario-coupling)"; LESSONS.md row "46 lessons (L001–L046)" → "47 lessons (L001–L047)" reflecting L047 added in v2.4.
-v1.7 — 2026-05-22 — Set Version v2.3 alignment. § 2 binding-files table LESSONS.md row "44 lessons (L001–L044)" → "46 lessons (L001–L046)" reflecting L045 + L046 added in v2.3 (Equinex plan-tracker-discipline + OPEN_TASKS register). No structural changes.
-v1.6 — 2026-05-22 — Set Version v2.2 alignment. § 2 binding-files table: CLAUDE.md row "9 rules" → "10 rules incl. Rules 9 + 10 (session-start pre-flight + code-review-before-commit)"; LESSONS.md row "43 lessons (L001–L043)" → "44 lessons (L001–L044)". No structural changes. Cross-project backport from EverOn.Capital-Signal commit `717529a`.
-v1.5 — 2026-05-22 — Set Version v2.1 fix-forward: bring stale body-text references current. Six non-history occurrences updated in this file: § 1 use-case TOC + § 0 TOC table point at "10-file modular suite" (was "9-file"); § 1.1 prose "the 8 standing rules" → "the 9 standing rules"; § 2 section header "## 2. The 9-file modular suite" → "## 2. The 10-file modular suite" (anchor `#2-the-10-file-modular-suite` aligns with the TOC link); § 2 ASCII tree comment "the 8 standing rules + dispatcher" → "the 9 standing rules + dispatcher"; § 4 bootstrap commit-message example "Establishes the 8 standing rules" → "9 standing rules". CHANGE LOG history entries (v1.0..v1.4) NOT modified — those are append-only records of past state. Set Version reference unchanged at v2.1; no Set-Version bump (clarification-only edits per `STANDARDS_INDEX.md` § 5.1).
-v1.4 — 2026-05-22 — Set Version v1.1 → v2.1 cross-project merge alignment. § 2 file summary table: binding-files count "9 binding + 4 meta" → "10 binding + 4 meta" (new binding file `SESSION_OPENER.md`); LESSONS row lesson count refreshed to "43 lessons (L001–L043, append-only)"; new SESSION_OPENER row added to the binding-files summary table. Set Version reference in § 9.1 bumped from v1.0 baseline language to acknowledge the v2.1 merged baseline.
-v1.3 — 2026-05-16 — Register new meta file HOW_TO_USE.md v1.0 in § 2 file summary table. Total file count 12 → 13 (9 binding + 4 meta). § 1 Use-case quick reference: refined the "Adopt these standards" row to point at NEW_PROJECT_BOOTSTRAP.md and HOW_TO_USE.md § 3; added a new "Find a ready-to-paste prompt for common workflows" row pointing at HOW_TO_USE.md. Set Version unchanged at v1.0 — additive Minor change.
-v1.2 — 2026-05-16 — Phase 4–7 + EA-test-soak refresh. Two new meta files added to the suite (not part of the binding 9-file core): STANDARDS_INDEX.md (versioned set manifest with v1.0 baseline + per-file version table + Set-Version-bump policy) and NEW_PROJECT_BOOTSTRAP.md (detailed Day-Zero bootstrap walkthrough — pulls the adoption procedure out of README § 4.1 to keep README focused on orientation). § 2 file summary table updated to include both new files as "meta" tier. § 4.1 adoption walkthrough refactored to point at NEW_PROJECT_BOOTSTRAP.md for detailed steps while keeping a brief overview here. § 9 versioning discipline expanded to reference STANDARDS_INDEX.md as the canonical set-version record. All 9 binding files refreshed with Phase 4–7 lessons (L020–L035 added to LESSONS.md; cross-references in topical files).
-v1.1 — 2026-04-25 — Standards repo restructured to flat layout. § 2 file tree updated to show all 10 files at root. § 4.1 step 2 (adoption commands) updated to flat-source → nested-target copy pattern. § 10 quick-start commands updated likewise. Adopting projects still nest under `docs/standards/` and `archive/`; only the standards repo itself is flat.
-v1.0 — 2026-04-25 — Initial release. Comprehensive top-down guide covering the 9-file architecture, adoption walkthrough (Day Zero / Day One / Week One / Month One), maintenance protocol, customization checklist, and mental model. Distilled from EverOn.Capital-Signal Phase 1-3 governance evolution.
+v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
+specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
-# everon-standards — Project Standards Repository
+# standards-source — Project Standards Repository
 
 **A modular, portable set of standards for any new project.** Nine focused files covering operating rules, prompt-craft, governance, engineering substrate, validation framework, CI/CD architecture, memory hygiene, lessons learned, and Claude.ai project setup.
 
-Distilled from production lessons on EverOn.Capital-Signal Phases 1-3. Every rule below has at least one incident behind it.
+Distilled from production governance lessons. Every rule below has at least one incident behind it.
 
 ---
 
@@ -90,17 +82,17 @@ The standards repo itself lives **flat** (all 11 files at the repo root). Adopti
 ### Standards repo layout (this repo)
 
 ```
-~/everon-standards/
-├── README.md                              ← this file
-├── CLAUDE.md                              ← repo-root operating contract; the 9 standing rules + dispatcher
-├── PROJECT_STANDARDS.md                   ← governance: workflow, manifest, CHANGELOG, sync, tracker
-├── PROMPT_STANDARDS.md                    ← drafting prompts for AI agents (Cursor, Claude Code)
-├── PROJECT_INSTRUCTIONS_TEMPLATE.md       ← Claude.ai Project Instructions field template
-├── MEMORY_PROTOCOL.md                     ← memory hygiene rules (what to memorize, what NOT to)
-├── ENGINEERING_STANDARDS.md               ← coding standards, architecture, secrets, ops
-├── VALIDATION_STANDARDS.md                ← test framework, tier model, ownership, deliberate-failure
-├── CICD_STANDARDS.md                      ← pipeline architecture, deploy patterns, rollback
-└── LESSONS.md                             ← incident-to-rule history (16 lessons, append-only)
+~/standards-source/
+├── README.md ← this file
+├── CLAUDE.md ← repo-root operating contract; the 9 standing rules + dispatcher
+├── PROJECT_STANDARDS.md ← governance: workflow, manifest, CHANGELOG, sync, tracker
+├── PROMPT_STANDARDS.md ← drafting prompts for AI agents (Cursor, Claude Code)
+├── PROJECT_INSTRUCTIONS_TEMPLATE.md ← Claude.ai Project Instructions field template
+├── MEMORY_PROTOCOL.md ← memory hygiene rules (what to memorize, what NOT to)
+├── ENGINEERING_STANDARDS.md ← coding standards, architecture, secrets, ops
+├── VALIDATION_STANDARDS.md ← test framework, tier model, ownership, deliberate-failure
+├── CICD_STANDARDS.md ← pipeline architecture, deploy patterns, rollback
+└── LESSONS.md ← incident-to-rule history (16 lessons, append-only)
 ```
 
 Flat at 10 files because the overhead of subdirectories isn't worth it at this scale. Files are visible at a glance; `ls` shows the entire repo; copy operations are one-liners.
@@ -111,24 +103,24 @@ When you copy these files into a real project, they slot into the project's exis
 
 ```
 <your-project>/
-├── CLAUDE.md                              ← from standards repo, customized
-├── README.md                              ← your project's README (NOT the standards README)
+├── CLAUDE.md ← from standards repo, customized
+├── README.md ← your project's README (NOT the standards README)
 ├── CHANGELOG.md
 ├── docs/
-│   ├── README.md
-│   ├── documents_manifest.md
-│   ├── folder_structure.md
-│   ├── standards/                         ← standards files copied here
-│   │   ├── PROJECT_STANDARDS.md
-│   │   ├── PROMPT_STANDARDS.md
-│   │   ├── PROJECT_INSTRUCTIONS_TEMPLATE.md
-│   │   ├── MEMORY_PROTOCOL.md
-│   │   ├── ENGINEERING_STANDARDS.md
-│   │   ├── VALIDATION_STANDARDS.md
-│   │   └── CICD_STANDARDS.md
-│   └── Plans/
+│ ├── README.md
+│ ├── documents_manifest.md
+│ ├── folder_structure.md
+│ ├── standards/ ← standards files copied here
+│ │ ├── PROJECT_STANDARDS.md
+│ │ ├── PROMPT_STANDARDS.md
+│ │ ├── PROJECT_INSTRUCTIONS_TEMPLATE.md
+│ │ ├── MEMORY_PROTOCOL.md
+│ │ ├── ENGINEERING_STANDARDS.md
+│ │ ├── VALIDATION_STANDARDS.md
+│ │ └── CICD_STANDARDS.md
+│ └── Plans/
 └── archive/
-    └── LESSONS.md                         ← from standards repo, copied here
+ └── LESSONS.md ← from standards repo, copied here
 ```
 
 The dispatcher table in `CLAUDE.md` § 12 references `docs/standards/` paths because it's pointing at the **adopting project's** structure, not the standards repo's. Two different places; same files.
@@ -224,21 +216,21 @@ The standards repo is flat; the adopting project nests. Two copy operations:
 
 ```bash
 # 1. CLAUDE.md goes to repo root in the adopting project
-cp ~/everon-standards/CLAUDE.md ./CLAUDE.md
+cp ~/standards-source/CLAUDE.md ./CLAUDE.md
 
 # 2. The 7 docs/standards/ files go under docs/standards/
 mkdir -p docs/standards archive
-cp ~/everon-standards/PROJECT_STANDARDS.md \
-   ~/everon-standards/PROMPT_STANDARDS.md \
-   ~/everon-standards/PROJECT_INSTRUCTIONS_TEMPLATE.md \
-   ~/everon-standards/MEMORY_PROTOCOL.md \
-   ~/everon-standards/ENGINEERING_STANDARDS.md \
-   ~/everon-standards/VALIDATION_STANDARDS.md \
-   ~/everon-standards/CICD_STANDARDS.md \
-   docs/standards/
+cp ~/standards-source/PROJECT_STANDARDS.md \
+ ~/standards-source/PROMPT_STANDARDS.md \
+ ~/standards-source/PROJECT_INSTRUCTIONS_TEMPLATE.md \
+ ~/standards-source/MEMORY_PROTOCOL.md \
+ ~/standards-source/ENGINEERING_STANDARDS.md \
+ ~/standards-source/VALIDATION_STANDARDS.md \
+ ~/standards-source/CICD_STANDARDS.md \
+ docs/standards/
 
 # 3. LESSONS.md goes under archive/
-cp ~/everon-standards/LESSONS.md archive/LESSONS.md
+cp ~/standards-source/LESSONS.md archive/LESSONS.md
 
 # Note: README.md from the standards repo does NOT get copied — your project
 # has its own README.md describing your project.
@@ -248,7 +240,7 @@ After this, the new project has its own copy in the standard nested layout. Upda
 
 **Pattern B — Symlink or submodule (shared versions across projects)**
 
-Either git submodule or symlinks (`ln -s ~/everon-standards/docs/standards docs/standards`). Gives you instant updates across all projects but couples them; a standards revision affects every project at once. Only use if you genuinely want lockstep evolution.
+Either git submodule or symlinks (`ln -s ~/standards-source/docs/standards docs/standards`). Gives you instant updates across all projects but couples them; a standards revision affects every project at once. Only use if you genuinely want lockstep evolution.
 
 I recommend Pattern A for solo work, Pattern B only for organizations enforcing identical standards across many projects.
 
@@ -279,7 +271,7 @@ Copy or recreate:
 - `scripts/doc_coverage_allowlist.toml` — empty starter
 - `scripts/validation_ownership.toml` — starter with the project's known critical paths
 
-These scripts come from the project that originated this standards repo (EverOn.Capital-Signal). For a new project, port and adapt them.
+These scripts come from a reference project. For a new project, port and adapt them.
 
 #### Step 6 — Add the CI scaffold
 
@@ -299,7 +291,7 @@ Build out as the project grows; start with `test → build` and add stages as th
 
 ```bash
 git add -A
-git status --short          # Verify expected files (per CLAUDE.md Rule 6)
+git status --short # Verify expected files (per CLAUDE.md Rule 6)
 git commit -F /tmp/bootstrap_msg.txt
 ```
 
@@ -312,7 +304,7 @@ Establishes the 9 standing rules (CLAUDE.md), document manifest scaffold,
 CHANGELOG, governance scripts, CI placeholder, and standards files
 (docs/standards/) before any feature work begins. No runtime code.
 
-Standards files copied from ~/everon-standards/ at <date> — independent
+Standards files copied from ~/standards-source/ at <date> — independent
 versions from this point forward. Backport explicitly when standards
 repo evolves.
 ```
@@ -401,7 +393,7 @@ Each standards file carries the same 4-block HTML header as project files (per `
 ```markdown
 <!-- VERSION: X.Y -->
 <!-- Last Updated: YYYY-MM-DD -->
-<!-- Source: ~/everon-standards/<path> -->
+<!-- Source: ~/standards-source/<path> -->
 <!--
 CHANGE LOG
 vX.Y — YYYY-MM-DD — <one-line summary>
@@ -443,8 +435,8 @@ Sometimes a lesson learned on Project B should backport to the standards repo (a
 5. **Bump that file's VERSION** and add CHANGE LOG entry
 6. **Add CHANGELOG entry** at standards-repo root
 7. **Decide propagation to existing adopters:**
-   - If urgent: notify each project to backport into their adopted copy
-   - If non-urgent: each project picks up on next manual sync
+ - If urgent: notify each project to backport into their adopted copy
+ - If non-urgent: each project picks up on next manual sync
 
 The key insight: standards evolve. Lessons accumulate. The standards repo is the canonical source; per-project copies are snapshots that backport explicitly when the project owner decides.
 
@@ -461,7 +453,7 @@ When adopting these standards in a new project, every `<placeholder>` and HTML-c
 ### CLAUDE.md
 
 - [ ] § 1 Project context — replace project name, domain, primary languages, deployment shape
-- [ ] § 4 Critical files — list this project's actual always-Major paths; delete the EverOn HTML-comment example or replace with project-specific list
+- [ ] § 4 Critical files — list this project's actual always-Major paths; delete the example HTML comment or replace with project-specific list
 - [ ] § 12 Dispatcher status note — once all 9 standards files exist in this repo, delete the status note OR mark all as ✅
 - [ ] § 13 Sources of truth — update the "Domain behavior" row with the project's actual domain doc filename
 
@@ -470,7 +462,7 @@ When adopting these standards in a new project, every `<placeholder>` and HTML-c
 - [ ] § 4 Tier A — replace `<PROJECT NAME>` and `<one-line domain description>` in the role line
 - [ ] § 4 Tier B — fill in critical files, standard commands, environment specifics, domain-specific quirks
 - [ ] § 4 Tier C — leave as comment (this section goes in first user message of each session, not in the field)
-- [ ] § 8 Worked example — review and decide: keep as EverOn reference, or replace with this project's actual filled-in example
+- [ ] § 8 Worked example — review and decide: keep as a reference, or replace with this project's actual filled-in example
 
 ### PROJECT_STANDARDS.md
 
@@ -483,33 +475,33 @@ When adopting these standards in a new project, every `<placeholder>` and HTML-c
 
 ### MEMORY_PROTOCOL.md
 
-- [ ] § 8 Worked example — review the EverOn memory audit example; keep as reference or adapt
+- [ ] § 8 Worked example — review the memory audit example; keep as reference or adapt
 
 ### ENGINEERING_STANDARDS.md
 
 - [ ] § 1.1 Dependency direction — adjust the example layer diagram to match this project's actual layers
 - [ ] § 1.6 Backtest vs live isolation — applies to trading/simulation projects; delete or replace if not relevant
-- [ ] § 3.4 Configuration access pattern — adapt the EverOn-specific notes if needed
+- [ ] § 3.4 Configuration access pattern — adapt the the standards source-specific notes if needed
 - [ ] § 7.4 Image source verification — adjust expected registry pattern to this project's registry
-- [ ] § 9.3 Operator vs CI credentials — adapt the EverOn D8 example or delete if not yet relevant
+- [ ] § 9.3 Operator vs CI credentials — adapt the the standards source D8 example or delete if not yet relevant
 
 ### VALIDATION_STANDARDS.md
 
 - [ ] § 2.5 Tier 5 smoke — adapt the example sections to this project's actual smoke checks
 - [ ] § 4.1 Ownership file structure — fill in actual rules for this project's source files
-- [ ] § 7.4 Examples — replace EverOn examples with this project's deliberate-failure tests as they accumulate
+- [ ] § 7.4 Examples — replace the standards source examples with this project's deliberate-failure tests as they accumulate
 
 ### CICD_STANDARDS.md
 
 - [ ] § 2 Standard 6-stage shape — keep as-is or adapt if this project's pipeline diverges (most won't)
 - [ ] § 4.2 Standard variable taxonomy — fill in this project's actual CI variable names
 - [ ] § 4.4 Export-across-SSH gotcha — keep example as cautionary; replace with this project's actual deploy.sh excerpt if useful
-- [ ] § 6.4 Authentication on the deploy host — adapt EverOn D8 example if applicable
+- [ ] § 6.4 Authentication on the deploy host — adapt the standards source D8 example if applicable
 - [ ] § 8.8 Telegram alert dependency — adapt or remove based on this project's alerting
 
 ### LESSONS.md
 
-- [ ] All 16 lessons — keep as historical record (these are EverOn-specific incidents but the patterns are portable)
+- [ ] All 16 lessons — keep as historical record (these are the standards source-specific incidents but the patterns are portable)
 - [ ] As new lessons accumulate from THIS project: add at top with new L-number, follow the format in § 2
 
 ### Universal customization
@@ -544,7 +536,7 @@ For each major design decision, the alternative considered and the reason this d
 
 **Rejected because:** breaks the "everything you need is in one place" experience. Forcing a context switch to a separate file for an example reduces actual usage of examples.
 
-**This design:** EverOn examples live in HTML comments inside the file's relevant section. Invisible in rendered preview (don't bloat the prose), visible to anyone editing the source (concrete reference where it's needed).
+**This design:** the standards source examples live in HTML comments inside the file's relevant section. Invisible in rendered preview (don't bloat the prose), visible to anyone editing the source (concrete reference where it's needed).
 
 ### Why append-only LESSONS.md instead of a wiki?
 
@@ -669,10 +661,10 @@ less CLAUDE.md
 
 # Skim the 7 focused standards files in any order
 for f in PROJECT_STANDARDS.md PROMPT_STANDARDS.md PROJECT_INSTRUCTIONS_TEMPLATE.md \
-         MEMORY_PROTOCOL.md ENGINEERING_STANDARDS.md VALIDATION_STANDARDS.md \
-         CICD_STANDARDS.md; do
-  echo "=== $f ==="
-  less "$f"
+ MEMORY_PROTOCOL.md ENGINEERING_STANDARDS.md VALIDATION_STANDARDS.md \
+ CICD_STANDARDS.md; do
+ echo "=== $f ==="
+ less "$f"
 done
 
 # Read the lessons archive
@@ -688,21 +680,21 @@ cd "$NEW_PROJECT"
 git init
 
 # Copy CLAUDE.md to repo root
-cp ~/everon-standards/CLAUDE.md ./
+cp ~/standards-source/CLAUDE.md ./
 
 # Create the docs/standards/ folder and copy the 7 standards files
 mkdir -p docs/standards docs/Plans archive
-cp ~/everon-standards/PROJECT_STANDARDS.md \
-   ~/everon-standards/PROMPT_STANDARDS.md \
-   ~/everon-standards/PROJECT_INSTRUCTIONS_TEMPLATE.md \
-   ~/everon-standards/MEMORY_PROTOCOL.md \
-   ~/everon-standards/ENGINEERING_STANDARDS.md \
-   ~/everon-standards/VALIDATION_STANDARDS.md \
-   ~/everon-standards/CICD_STANDARDS.md \
-   docs/standards/
+cp ~/standards-source/PROJECT_STANDARDS.md \
+ ~/standards-source/PROMPT_STANDARDS.md \
+ ~/standards-source/PROJECT_INSTRUCTIONS_TEMPLATE.md \
+ ~/standards-source/MEMORY_PROTOCOL.md \
+ ~/standards-source/ENGINEERING_STANDARDS.md \
+ ~/standards-source/VALIDATION_STANDARDS.md \
+ ~/standards-source/CICD_STANDARDS.md \
+ docs/standards/
 
 # Copy LESSONS.md to archive/
-cp ~/everon-standards/LESSONS.md archive/
+cp ~/standards-source/LESSONS.md archive/
 
 # Create supporting files (these are project-specific, not from standards repo)
 touch README.md CHANGELOG.md .gitignore
@@ -716,7 +708,7 @@ touch docs/Plans/.gitkeep
 ### Maintain the standards repo
 
 ```bash
-cd ~/everon-standards
+cd ~/standards-source
 
 # Add a new lesson (e.g., learned on Project B)
 # 1. Open archive/LESSONS.md, add new lesson at top of § 3 with next L-number
@@ -727,7 +719,7 @@ cd ~/everon-standards
 # 6. Commit per CLAUDE.md Rule 4 (-F /tmp/<file>)
 
 # Verify state before pushing
-git status --short          # Per CLAUDE.md Rule 6
+git status --short # Per CLAUDE.md Rule 6
 git diff --stat
 ```
 

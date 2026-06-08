@@ -1,12 +1,10 @@
-<!-- VERSION: 1.3 -->
-<!-- Last Updated: 2026-05-22 -->
-<!-- Source: ~/everon-standards/ENGINEERING_STANDARDS.md (template). Domain-neutral. EverOn examples in HTML comments. -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-06-07 -->
+<!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
-v1.3 — 2026-05-22 — EverOn.Equinex PLAN-001..PLAN-004 refresh (4 new lessons L037, L039, L040, L041). § 1 NEW § 1.8 Time-window parsing pitfalls (L037 — HH:MM wrap-window with end="00:00" fires for one minute at the start of the same day; recommend "23:59" for end-of-day intent; explicit inclusive/exclusive endpoint documentation). § 1 NEW § 1.9 Refactor blast-radius (L039 — grep all reads of a globally-read state variable before splitting it into typed concerns; classify each read site; route each consumer in the same commit). § 4 NEW § 4.6 Fail-safe defaults for external-data sources that may be unavailable (L040 — zero/empty as the safe state for optional integrations; log once at startup; do not warn or error on absence; complements § 8.7 deliberate-failure testing). § 4 NEW § 4.7 Safety tripwire for pattern-match drift against external catalogs (L041 — log uncategorized "interesting" items as `UNCATEGORIZED <type>: "<value>" — operator: review patterns`; first occurrence per refresh cycle only; operator-visible log stream).
-v1.2 — 2026-05-16 — Phase 4–7 + EA-test-soak refresh. § 1 NEW § 1.7 Live data invariants (L021 live candle OHLC mutability; settled-vs-unsettled row patterns + two acceptable designs). § 3 NEW § 3.6 Verify config source-of-truth before manual edits (L025 CI-injected .env wipes). § 7 NEW § 7.8 Never run raw `docker compose up` on staging/production (L024 silent tag downgrade). § 9 NEW § 9.6 Never type/display sensitive content in web-based VPS consoles (L035 Hetzner web console avoidance — generalizes to all cloud providers). § 9 NEW § 9.7 macOS disk-full recovery (L034 — tmutil snapshots; restart, don't hunt caches first). § 10 anti-patterns: added § 10.11 manual edits to CI-injected config files (L025), § 10.12 raw `docker compose up` on deploy hosts (L024).
-v1.1 — 2026-04-25 — Standards repo restructured to flat layout — Source path updated. The standards repo itself now lives flat (10 files at root); adopting projects still nest under `docs/standards/`.
-v1.0 — 2026-04-25 — Initial release. Engineering substrate covering coding standards, architecture invariants, secrets handling, error/logging philosophy, Docker discipline, healthcheck design, and ops patterns. Distilled from EverOn.Capital-Signal Phases 1-3 engineering decisions.
+v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
+specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
 # ENGINEERING_STANDARDS.md — Engineering Substrate
@@ -43,12 +41,12 @@ These are the load-bearing structural rules. Violating them creates silent coupl
 Modules form a directed acyclic graph. Dependencies flow in **one direction only**:
 
 ```
-config/      ← lowest layer (no upstream deps)
-core/        ← depends on config/
-domain/      ← depends on config/, core/
-strategies/  ← depends on config/, core/, domain/
-live/, api/  ← depends on everything below
-charting/    ← depends on config/, core/, domain/
+config/ ← lowest layer (no upstream deps)
+core/ ← depends on config/
+domain/ ← depends on config/, core/
+strategies/ ← depends on config/, core/, domain/
+live/, api/ ← depends on everything below
+charting/ ← depends on config/, core/, domain/
 ```
 
 **Rule:** lower-layer modules **never** import from higher-layer modules. `config/` and `core/` cannot import from `strategies/`, `live/`, `api/`, `charting/`.
@@ -56,7 +54,7 @@ charting/    ← depends on config/, core/, domain/
 Why: cycles in the dependency graph make the codebase impossible to reason about. A change in a "leaf" module (e.g., a strategy) should never force a change in a "root" module (e.g., config). When that pressure exists, the design is wrong, not the rule.
 
 <!--
-Example (EverOn.Capital-Signal):
+Example:
 config/, core/ → never import from strategies/, live/, api/, charting/
 config/instrument_config_bt.py → import-guarded; only config/config_resolver.py may import it
 strategies/engine/persistence/ → may import from market_data/ but not vice versa
@@ -105,10 +103,10 @@ When a project has both backtest and live execution paths, isolate them at the c
 Why: the most expensive bug class in trading systems is "live config leaked into backtest" or vice versa. Architectural isolation prevents the bug, not runtime checks.
 
 <!--
-Example (EverOn.Capital-Signal):
+Example:
 config/config_resolver.py — the ONLY module that bridges live + backtest
-get_live_config() — returns live config (DB_LOAD_MODE may be live_tail)
-get_backtest_config() — hard-forces db_load_mode="historical"
+get_live_config — returns live config (DB_LOAD_MODE may be live_tail)
+get_backtest_config — hard-forces db_load_mode="historical"
 config/instrument_config_bt.py — runtime import-guarded; only config_resolver may import
 BaseStrategy — gains config_override param; runtime guards detect mutation
 -->
@@ -130,7 +128,7 @@ Projects that operate on time-series live data face a class of bugs invisible to
 Document the settlement window per data provider in the project's domain doc. Backtest-vs-live reconciliation tests must account for the window: divergence within it is expected, not a bug.
 
 <!--
-Example (EverOn.Capital-Signal D18 root cause analysis):
+Example:
 Live data feed: each new candle row gets rewritten 6-7 times during the first ~10 min
 as later ticks arrive (gap-fill window). Pattern detection running inside this window
 sees mutable OHLC; backtest detection operates on settled OHLC. Detection logic adopted
@@ -155,11 +153,11 @@ Projects that parse time-of-day windows (HH:MM strings → integer minute-of-day
 **Inclusive-vs-exclusive endpoints.** Document whether the window includes its endpoints (`now >= start AND now <= end`) or excludes them (`now >= start AND now < end`). Both are valid; both must be documented. Operator-facing spec should show one example per direction (`08:30/12:30` → "matches 08:30:00 through 12:30:59" makes the inclusivity explicit).
 
 <!--
-Example (EverOn.Equinex L037):
+Example:
 Friday_NoTrade_Start=20:00 / Friday_NoTrade_End=00:00 → start=1200 > end=0 →
 wrap-window branch. At Friday 00:00:00 broker time, dt.day_of_week==5 (Friday)
 AND now=0 <= end=0 → matches for one minute. Operator-facing spec recommends
-"23:59" for end-of-Friday intent. Project docs: docs/business_logic/09_session_filter.md.
+"23:59" for end-of-Friday intent. Project docs: docs/<domain-spec>/09_session_filter.md.
 -->
 
 ### 1.9 Refactor blast-radius — grep all reads before splitting a globally-read state variable
@@ -181,7 +179,7 @@ The pattern:
 This complements multi-file prompts (PROMPT_STANDARDS.md § 3): the grep-and-classify pass produces the per-site transformation rules that go into the prompt's § 5.
 
 <!--
-Example (EverOn.Equinex PLAN-004):
+Example:
 g_authStatus (a single string) carried two concerns — auth diagnostics
 ("not_checked", "auth_session_expired") AND trade-block reason codes ("no_trade_time_friday",
 "closeout_management_only"). PLAN-004 split off the trade-block reasons into a
@@ -259,7 +257,7 @@ Higher-priority sources override lower-priority sources.
 
 - **All env vars documented in `docs/config_reference.md`** + `.env.example`
 - **Naming:** UPPERCASE_WITH_UNDERSCORES, prefixed by domain (`DB_HOST`, `TELEGRAM_BOT_TOKEN`, `CI_REGISTRY_IMAGE`)
-- **Booleans:** read as strings, parse explicitly. `os.getenv("FLAG", "false").lower() == "true"`. Don't assume boolean coercion.
+- **Booleans:** read as strings, parse explicitly. `os.getenv("FLAG", "false").lower == "true"`. Don't assume boolean coercion.
 - **Required vars:** fail loudly at startup if missing, not silently with a default
 
 ### 3.3 Secrets handling
@@ -272,16 +270,16 @@ Higher-priority sources override lower-priority sources.
 
 ### 3.4 Configuration access pattern
 
-- Provide a `get_config()` function or equivalent that returns a deep copy
+- Provide a `get_config` function or equivalent that returns a deep copy
 - **Never expose the underlying config dict for mutation**
 - **Read configs via the accessor; never import the dict directly**
 
 Why: mutation-by-reference is the silent-bug pattern. Deep copy at the boundary prevents one module from corrupting config for another.
 
 <!--
-Example (EverOn.Capital-Signal):
-config/instrument_config.py: get_config() returns a deep copy
-config/config_resolver.py: get_live_config() / get_backtest_config()
+Example:
+config/instrument_config.py: get_config returns a deep copy
+config/config_resolver.py: get_live_config / get_backtest_config
 ALLOWED_CFG_OVERRIDES frozenset: explicitly enumerates which keys may be overridden
 -->
 
@@ -324,13 +322,13 @@ For meaningful exception handling, define project-specific exception classes:
 
 ```
 class ProjectError(Exception):
-    """Base for all project exceptions."""
+ """Base for all project exceptions."""
 
 class ConfigError(ProjectError):
-    """Configuration is invalid or missing."""
+ """Configuration is invalid or missing."""
 
 class DataError(ProjectError):
-    """Data is malformed or inconsistent."""
+ """Data is malformed or inconsistent."""
 ```
 
 Catch specific types in handlers; never `except Exception:` except at top-level entry points.
@@ -339,7 +337,7 @@ Catch specific types in handlers; never `except Exception:` except at top-level 
 
 Every long-running process (worker, web server, CLI command) has a top-level exception handler that:
 
-1. Logs the exception with full traceback (`logger.exception()`)
+1. Logs the exception with full traceback (`logger.exception`)
 2. Sends an alert if the failure is operationally significant (Telegram, PagerDuty, etc.)
 3. Exits non-zero with a clear cause message (for CLI / job processes)
 4. Restarts gracefully or crashes loudly (for long-running services)
@@ -372,8 +370,8 @@ This complements § 8.7 deliberate-failure testing: deliberate-failure ensures a
 Generalizes to: optional integrations (analytics, feature flags, second-opinion APIs, observability sinks); environments where production data isn't available (test, CI, staging-without-prod-mirroring); third-party services with regional or quota limits.
 
 <!--
-Example (EverOn.Equinex PLAN-004):
-MQL5 CalendarValueHistory returns 0/-1 in Strategy Tester (calendar feed not populated
+Example:
+the application language CalendarValueHistory returns 0/-1 in Strategy Tester (calendar feed not populated
 in tester mode); brokers without calendar feed return 0 always. The news-block module
 treats this as "no events this poll" — silent skip, no warning, news block stays inactive.
 Backtest runs without news data; EA runs cleanly on brokers without the feature.
@@ -389,9 +387,9 @@ The pattern:
 
 - For each item the matcher receives that does NOT match any known pattern AND meets a "the operator might care about this" predicate (e.g., HIGH-impact tier, fatal error class, top-N volume ticker), log a single operator-visible line:
 
-  ```
-  UNCATEGORIZED <type>: "<value>" (<context>) — operator: review patterns.
-  ```
+ ```
+ UNCATEGORIZED <type>: "<value>" (<context>) — operator: review patterns.
+ ```
 
 - Log only the **first** occurrence per refresh cycle to avoid log spam — `uncategorized` is a "review your config" signal, not a per-event alert.
 - Log location must be **operator-visible** (terminal log, chart panel, monitoring dashboard) — not silent in a debug-only stream.
@@ -399,11 +397,11 @@ The pattern:
 The tripwire converts a silent miss into a noisy miss. The operator updates the pattern (one-line fix) when they see it. No automation needed — the LogInfo line IS the signal.
 
 <!--
-Example (EverOn.Equinex PLAN-004):
+Example:
 RefreshNewsBlockState matches calendar events by substring patterns against event.name.
 Any HIGH or MOD-HIGH event on a tracked currency that does NOT match any pattern logs
 `UNCATEGORIZED news event: "<name>" (<currency>, importance=<n>) — operator: review News_*
-category patterns.` Operator sees it in MT5 Experts log; updates the pattern; one-line fix.
+category patterns.` Operator sees it in the runtime platform Experts log; updates the pattern; one-line fix.
 -->
 
 ---
@@ -479,7 +477,7 @@ Why: scattered SQL is impossible to refactor when schema changes. Single reposit
 ### 6.2 Connection management
 
 - **Connection pool at application level**, not per-request
-- **Connections returned to pool on context exit** — use `with` blocks, not bare `connect()` / `close()`
+- **Connections returned to pool on context exit** — use `with` blocks, not bare `connect` / `close`
 - **No long-held transactions** — keep transaction scope as small as possible
 - **Read replicas** for heavy queries when available; writes always go to primary
 
@@ -493,7 +491,7 @@ Why: scattered SQL is impossible to refactor when schema changes. Single reposit
 
 ### 6.4 Column types & conventions
 
-- **Timestamps:** `TIMESTAMPTZ` (timezone-aware), default `now()`. Never `TIMESTAMP` (naive).
+- **Timestamps:** `TIMESTAMPTZ` (timezone-aware), default `now`. Never `TIMESTAMP` (naive).
 - **Timezone for stored times:** UTC. Convert to user/display timezone at presentation layer.
 - **Primary keys:** auto-incrementing integer or UUID, depending on distribution requirements
 - **Foreign keys:** explicit, with `ON DELETE` behavior specified (CASCADE, RESTRICT, SET NULL)
@@ -541,14 +539,14 @@ docker inspect <container> --format '{{.Config.Image}}'
 
 For each application service, the image should match `<expected_registry_prefix>:<expected_sha>`. For upstream services (postgres, redis), the image should match a hardcoded expected prefix.
 
-This catches silent fallback bugs (e.g., container running `everon/backend:latest` instead of the intended registry-tagged image because of a `docker-compose.yml` substitution issue).
+This catches silent fallback bugs (e.g., container running `myapp/backend:latest` instead of the intended registry-tagged image because of a `docker-compose.yml` substitution issue).
 
 <!--
-Example (EverOn.Capital-Signal Task 2.5d):
+Example:
 post_deploy_smoke.sh v0.2 Section 5 verifies:
 - 6 application services match $EXPECTED_IMAGE_REGISTRY pattern
 - 2 upstream services (postgres, redis) match hardcoded expected prefixes
-Caught silent fallback bug from Task 2.5c where compose substituted `everon/backend:latest`
+Caught silent fallback bug from Task 2.5c where compose substituted `myapp/backend:latest`
 when CI_REGISTRY_IMAGE was unset across SSH boundary.
 -->
 
@@ -696,8 +694,8 @@ If both operators and CI use the same credential type (e.g., docker registry tok
 - Consider save/restore of operator credentials in the CI deploy script, OR document the manual re-auth wrapper as the canonical post-CI workflow
 
 <!--
-Example (EverOn D8):
-deploy.sh v3.0 overwrites /home/everon/.docker/config.json on every CI run
+Example:
+deploy.sh v3.0 overwrites /home/deploy/.docker/config.json on every CI run
 with CI's short-lived deploy token. Manual rollback.sh after a CI deploy
 fails until operator re-logs in. Documented as Phase 3 deferred item D8;
 resolution is either save/restore in deploy.sh or accept the manual wrapper.
@@ -726,7 +724,7 @@ For tokens with expiry dates (deploy tokens, JWT-style tokens):
 
 ### 9.6 Never type/display sensitive content in web-based VPS consoles
 
-Per `archive/LESSONS.md` L035 — browser-based remote-terminal interfaces from cloud providers (Hetzner cloud console, AWS Session Manager web shell, GCP cloud console terminal, etc.) generally render typed and displayed content over the browser-to-cloud connection without the end-to-end encryption that SSH-from-local-terminal provides.
+Per `archive/LESSONS.md` L035 — browser-based remote-terminal interfaces from cloud providers (a cloud VPS provider cloud console, AWS Session Manager web shell, GCP cloud console terminal, etc.) generally render typed and displayed content over the browser-to-cloud connection without the end-to-end encryption that SSH-from-local-terminal provides.
 
 **Rule:** never use a web-based VPS console to type or display sensitive files:
 
@@ -740,7 +738,7 @@ Per `archive/LESSONS.md` L035 — browser-based remote-terminal interfaces from 
 - SSH from your local terminal (end-to-end encrypted)
 - Use the cloud provider's secrets-management UI (which has appropriate masking) for secret rotation
 
-Applies to ALL cloud providers' web consoles, not just one specific provider. Phase 1 of EverOn.Capital-Signal codified this as a binding rule from day 1.
+Applies to ALL cloud providers' web consoles, not just one specific provider. Phase 1 of a reference project codified this as a binding rule from day 1.
 
 ### 9.7 macOS disk-full recovery — restart, don't hunt caches first
 
@@ -769,15 +767,15 @@ Why bad: violates dependency direction (§ 1.1). Creates a cycle that makes both
 
 ### 10.2 Mutation of returned config dicts
 
-❌ Pattern: `cfg = get_config(); cfg["key"] = new_value`
+❌ Pattern: `cfg = get_config; cfg["key"] = new_value`
 
-Why bad: silent cross-module corruption. Other code reading `get_config()` later sees the mutated value without knowing why.
+Why bad: silent cross-module corruption. Other code reading `get_config` later sees the mutated value without knowing why.
 
-✅ Fix: `get_config()` returns a deep copy. Treat the returned dict as immutable in caller code. If you need to override, pass an `override` parameter through the legitimate mechanism.
+✅ Fix: `get_config` returns a deep copy. Treat the returned dict as immutable in caller code. If you need to override, pass an `override` parameter through the legitimate mechanism.
 
 ### 10.3 Bare `except:` in production paths
 
-❌ Pattern: `try: do_thing() except: pass`
+❌ Pattern: `try: do_thing except: pass`
 
 Why bad: silently swallows every error including KeyboardInterrupt and SystemExit. Bugs become invisible.
 

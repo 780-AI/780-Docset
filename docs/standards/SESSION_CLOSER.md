@@ -1,9 +1,10 @@
 <!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-05-23 -->
-<!-- Source: ~/everon-standards/SESSION_CLOSER.md (template). Customize placeholders per project. -->
+<!-- Last Updated: 2026-06-07 -->
+<!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
-v1.0 — 2026-05-23 — Initial release. New BINDING standards file. Codifies the session-end wrap-up routine pattern (L048). Adopters create a project-local `docs/SESSION_CLOSER.md` from this template, customize §§ 2 + project-specific output-block content, and add the binding rule to their repo-root `CLAUDE.md` per template `CLAUDE.md` Rule 12. Introduced in Standard Set Version v2.5. Symmetric counterpart to `SESSION_OPENER.md` v1.0+ / Rule 9.
+v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
+specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
 # SESSION_CLOSER.md — Mandatory wrap-up routine on operator command (template)
@@ -30,9 +31,9 @@ Run steps in order. Each step's output goes into the § 4 first-response output 
 
 ### 1.1 Repo state
 ```bash
-git status --short                                                # working-tree state
-git log --oneline origin/<main-branch>..HEAD                      # unpushed commits
-git log --oneline -<N>                                            # session commits (N = approx count made this session)
+git status --short # working-tree state
+git log --oneline origin/<main-branch>..HEAD # unpushed commits
+git log --oneline -<N> # session commits (N = approx count made this session)
 ```
 
 Replace `<main-branch>` with `main` / `master` per project convention.
@@ -92,7 +93,7 @@ Review the session transcript for candidate codifications. Output goes into both
 | **New memory entry** | Was a workflow convention / operator preference established that should persist across sessions? |
 | **New SESSION_OPENER § 3.x row** | Was a repeat-pattern observed that warrants a new failure-mode catalog row? |
 | **Scope expansion** | Did any existing plan's scope change? Memory + OPEN_TASKS must reflect. |
-| **Spec / domain drift** | Did project behavior change in a way that requires `docs/business_logic/*.md` (or equivalent domain spec) updates? |
+| **Spec / domain drift** | Did project behavior change in a way that requires `docs/<domain-spec>/*.md` (or equivalent domain spec) updates? |
 | **Convention** | Was a new file-organization / naming / commit-message convention established? |
 
 **For each candidate**, decide:
@@ -157,9 +158,9 @@ The § 4 output block in abbreviated form is shorter but still posted.
 **Repo state**
 - Working tree: <clean | M file1, file2, ...>
 - Commits this session: <count> (newest first):
-  - <SHA1> <subject>
-  - <SHA2> <subject>
-  - ...
+ - <SHA1> <subject>
+ - <SHA2> <subject>
+ - ...
 - Unpushed: <N> commits ahead of origin/<branch>
 
 **Project + standards versions**

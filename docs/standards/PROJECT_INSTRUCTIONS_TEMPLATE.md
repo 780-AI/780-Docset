@@ -1,13 +1,10 @@
-<!-- VERSION: 1.4 -->
-<!-- Last Updated: 2026-05-22 -->
-<!-- Source: ~/everon-standards/PROJECT_INSTRUCTIONS_TEMPLATE.md (template). Domain-neutral. EverOn examples in HTML comments. -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-06-07 -->
+<!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
-v1.4 — 2026-05-22 — Set Version v2.1 fix-forward: bring stale body-text references current. § 7.1 anti-pattern label "copying the 8 standing rules into Project Instructions verbatim" → "copying the 9 standing rules into Project Instructions verbatim" (Rule 9 added in v2.1). The historical-narrative "yours grew from 0 → 8 rules over Phase 2-3" in the same section is left untouched — that "8" refers to a past state during EverOn.Capital-Signal Phase 2-3 and is historically accurate.
-v1.3 — 2026-05-16 — Phase 4–7 refresh. § 4 Tier A: added "When I question an answer" session-protocol rule (L032 codification — agent investigates underlying data rather than defending original answer). § 4 Tier B: added optional "Multi-agent coordination" sub-block — cross-references CLAUDE.md § 14 Codex handoff protocol for projects using a second AI agent (L020). § 5 meta-guidance: brief note explaining when to include the Multi-agent coordination block.
-v1.2 — 2026-04-25 — Standards repo restructured to flat layout — Source path updated. The standards repo itself now lives flat (10 files at root); adopting projects still nest under `docs/standards/`.
-v1.1 — 2026-04-25 — Renamed `docs/_gpt_context_manifest.md` → `docs/documents_manifest.md` throughout (3 occurrences). Cleaner filename for adoption in new projects.
-v1.0 — 2026-04-25 — Initial release. Template + meta-guidance for the Claude.ai Project Instructions field. Three-tier structure (static frame, project-specific, per-session). Distilled from EverOn.Capital-Signal session protocols.
+v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
+specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
 # PROJECT_INSTRUCTIONS_TEMPLATE.md — Claude.ai Project Setup
@@ -16,7 +13,7 @@ v1.0 — 2026-04-25 — Initial release. Template + meta-guidance for the Claude
 
 **Why this file exists:** Project Instructions shape every conversation in a Claude.ai Project. Done well, they enforce binding rules, frame priorities, and establish session protocol from message 1 — saving 10-15 minutes of context-setting per session. Done badly, they restate content from `CLAUDE.md` (creating drift), batch too many goals (causing the agent to lose track), or omit current state (forcing the agent to re-derive context every session).
 
-This template captures the patterns that worked across EverOn.Capital-Signal Phases 2 and 3.
+This template captures the patterns that worked across a reference project Phases 2 and 3.
 
 ---
 
@@ -29,7 +26,7 @@ This template captures the patterns that worked across EverOn.Capital-Signal Pha
 5. [Section-by-section meta-guidance](#5-section-by-section-meta-guidance)
 6. [When to update each tier](#6-when-to-update-each-tier)
 7. [Anti-patterns to refuse](#7-anti-patterns-to-refuse)
-8. [Worked example — EverOn.Capital-Signal](#8-worked-example--everoncapital-signal)
+8. [Worked example — a reference project](#8-worked-example--a-reference-project)
 
 ---
 
@@ -230,7 +227,7 @@ docs/documents_manifest.md
 
 ## Domain-specific quirks (worth flagging once)
 
-- `<quirk 1: e.g., "Configs are deep-copied via get_config(); never mutate the returned dict">`
+- `<quirk 1: e.g., "Configs are deep-copied via get_config; never mutate the returned dict">`
 - `<quirk 2: e.g., "GitLab CI_COMMIT_SHORT_SHA is 8 characters, not 7">`
 - `<quirk 3: e.g., "All registry image tags use 8-char SHA">`
 
@@ -332,7 +329,7 @@ Path facts that don't live in the repo (Mac path, SSH key paths, infrastructure 
 
 ### 5.10 Domain-specific quirks (Tier B)
 
-Each entry should be a single-sentence rule that has bitten you at least once. Not "best practices in general" — specific gotchas for this project. Examples from EverOn.Capital-Signal: the 8-char SHA gotcha, the deep-copy config invariant, the manifest tracking exclusions.
+Each entry should be a single-sentence rule that has bitten you at least once. Not "best practices in general" — specific gotchas for this project. Examples from a reference project: the 8-char SHA gotcha, the deep-copy config invariant, the manifest tracking exclusions.
 
 ### 5.10a Multi-agent coordination (Tier B; OPTIONAL)
 
@@ -378,7 +375,7 @@ When updating Tier C:
 
 ## 7. Anti-patterns to refuse
 
-Each pattern below was observed at some point on EverOn.Capital-Signal. Each costs context, drift, or lost time.
+Each pattern below was observed at some point on a reference project. Each costs context, drift, or lost time.
 
 ### 7.1 Restating CLAUDE.md rules in Project Instructions
 
@@ -438,16 +435,16 @@ Why bad: project knowledge IS the source of truth for repo state. Without an exp
 
 ---
 
-## 8. Worked example — EverOn.Capital-Signal
+## 8. Worked example — a reference project
 
-This is what the actual Project Instructions field looks like for EverOn.Capital-Signal as of 2026-04-25. Use as reference when adapting the template for new projects.
+This is what the actual Project Instructions field looks like for a reference project as of 2026-04-25. Use as reference when adapting the template for new projects.
 
 <!--
 ================================================================
 TIER A — STATIC FRAME
 ================================================================
 
-You are working on EverOn.Capital-Signal, a Python-based automated trading
+You are working on a reference project, a Python-based automated trading
 signal platform that detects 8-point pivot patterns and delivers signals
 to Expert Advisors via API.
 
@@ -460,29 +457,29 @@ Strictly follow `CLAUDE.md` in the repo. It is binding, not advisory. When
 For any change:
 - Classify per `CLAUDE.md` § Change Classification (Minor vs Major) before implementing.
 - Any edit to `core/pattern_engine.py`, `config/instrument_config.py`,
-  `config/condition_strategy_config.py`, `strategies/strategy_*.py`,
-  `strategies/engine/*.py`, `validation/validate_*.py`, `market_bias/market_bias.py`
-  or `market_bias/utils.py`, `config/live_feed_config.py`,
-  `docs/business_logic_impl_combined.md`, or `docs/documents_manifest.md`
-  is always Major. If unsure, classify as Major.
+ `config/condition_strategy_config.py`, `strategies/strategy_*.py`,
+ `strategies/engine/*.py`, `validation/validate_*.py`, `market_bias/market_bias.py`
+ or `market_bias/utils.py`, `config/live_feed_config.py`,
+ `docs/<domain-spec>_combined.md`, or `docs/documents_manifest.md`
+ is always Major. If unsure, classify as Major.
 - Major changes follow the full workflow: Analyze → Design → Implement → Sync → Validate.
 - For Major changes: propose the plan before implementing. If I asked only for a plan,
-  do not implement until I confirm.
+ do not implement until I confirm.
 - Use the response shape from `CLAUDE.md` § 6 when reporting completed work.
 
 For multi-file edits:
 - Follow `docs/standards/PROMPT_STANDARDS.md` (ALLOWLIST + verbatim FIND/REPLACE +
-  governance verification + files-modified checklist).
+ governance verification + files-modified checklist).
 - Per `CLAUDE.md` Rule 6: verify via `git status --short` BEFORE every `git add`.
-  Paste governance script outputs verbatim.
+ Paste governance script outputs verbatim.
 - Per `CLAUDE.md` Rule 4: commit messages with backticks, em-dashes, or any special
-  characters use `git commit -F /tmp/<file>.txt`.
+ characters use `git commit -F /tmp/<file>.txt`.
 
 ## Session interaction protocol
 
 - Brief full-picture overview first.
 - Then strictly step-by-step: ONE terminal command, ONE task, or ONE question per message.
-  WAIT for output/answer before the next step.
+ WAIT for output/answer before the next step.
 - Keep responses brief.
 
 ## Project knowledge precedence
@@ -511,7 +508,7 @@ strategies/engine/*.py
 validation/validate_*.py
 market_bias/market_bias.py
 market_bias/utils.py
-docs/business_logic_impl_combined.md
+docs/<domain-spec>_combined.md
 docs/documents_manifest.md
 ```
 
@@ -524,25 +521,25 @@ docs/documents_manifest.md
 
 ## Environment specifics
 
-- Repo path on Mac: `/Users/parsaazad/Documents/EverOn.Capital-Signal`
+- Repo path on Mac: `/Users/parsaazad/Documents/a reference project`
 - Python: 3.11.15 via Homebrew at `/usr/local/bin/python3.11`
 - Venv: `source .venv/bin/activate` OR invoke `.venv/bin/python` directly
-- Staging VPS 1: `91.98.91.129`, SSH `ssh -i ~/.ssh/everon_staging everon@91.98.91.129`
+- Staging VPS 1: `91.98.91.129`, SSH `ssh -i ~/.ssh/app_staging deploy@91.98.91.129`
 - Production VPS 2: `188.245.172.198` (manual deploy gate)
 
 ## Domain-specific quirks
 
 - GitLab `$CI_COMMIT_SHORT_SHA` is 8 characters, not the 7-character git default. All
-  registry image tags use 8 chars. Always use 8 chars when probing the GitLab Container
-  Registry for image existence.
+ registry image tags use 8 chars. Always use 8 chars when probing the GitLab Container
+ Registry for image existence.
 - `pyyaml` is intentionally NOT in `requirements.txt` (would bloat prod Docker images).
-  Local-only helper; install in `.venv` for governance YAML checks.
+ Local-only helper; install in `.venv` for governance YAML checks.
 - `deploy.sh` v3.0 overwrites operator docker auth on every CI run. Manual `rollback.sh`
-  use after a CI deploy requires re-login first.
+ use after a CI deploy requires re-login first.
 - Manual `rollback.sh` invocations on VPS 1 must source `.env` for Telegram alerts to
-  fire. Use the documented SSH wrapper.
+ fire. Use the documented SSH wrapper.
 - Production VPS 2 untouched since Phase 1 — first prod deploy of `deploy.sh` v3.0 +
-  `healthcheck.sh` v1.2 planned for after Phase 3 closes.
+ `healthcheck.sh` v1.2 planned for after Phase 3 closes.
 -->
 
 ---

@@ -1,13 +1,10 @@
-<!-- VERSION: 1.4 -->
-<!-- Last Updated: 2026-05-22 -->
-<!-- Source: ~/everon-standards/SESSION_OPENER.md (template). Customize placeholders per project. -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-06-07 -->
+<!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
-v1.4 — 2026-05-22 — Set Version v2.3 → v2.4 alignment. § 3.1 universal-patterns table gains NEW row 13: "Behavior-affecting change shipped without a paired QA / smoke-test scenario in the plan's tracker or OPEN_TASKS" — cites CLAUDE.md Rule 11 (binding) + LESSONS.md L047. Companion to new Rule 11 codifying the QA-scenario-coupling discipline.
-v1.3 — 2026-05-22 — Set Version v2.2 → v2.3 alignment. § 1.3 "Tracker tip" extended with a domain-neutral priority-ordered tracker-source list: local-only `docs/Plans/OPEN_TASKS.md` register (read if present; skip if absent — per L046) + per-plan tracker `docs/Plans/PLAN-NNN_tracker.md` (per L045 / CLAUDE.md § 15.7) + in-file § 4 phase block for small plans + latest CHANGELOG + project-specific rolling tracker. § 3.1 universal-patterns table gains NEW rows 11 + 12: row 11 (big-or-small plan started without granular sub-task tracking, per L045) + row 12 (local-only OPEN_TASKS.md register stale or unmaintained, per L046). Cross-references CLAUDE.md § 15.7 (binding rule location) and L045 + L046 (rationale). Cross-project backport from EverOn.Capital-Signal commit `5ee36ed`.
-v1.2 — 2026-05-22 — Set Version v2.1 → v2.2 alignment. § 3.1 universal patterns row 3 ("Code review skipped before `git add`") Memory/lesson column updated to cite "CLAUDE.md **Rule 10 (binding)** + LESSONS.md L027 + L044" (was only L027). Adopters carrying this row now see the binding rule as the primary anchor. Cross-project backport from EverOn.Capital-Signal commit `717529a`.
-v1.1 — 2026-05-22 — Cross-project merge with EverOn.Equinex set v1.1. L-number references updated: the session-start pre-flight lesson moved from L036 → L043 to accommodate Equinex's L036 (closed-risk annotation discipline) and L037–L042 backports. No structural changes to the file itself.
-v1.0 — 2026-05-22 — Initial release. New BINDING standards file. Codifies the session-start pre-flight pattern (originally L036, renumbered to L043 in v1.1). Adopters create a project-local `docs/SESSION_OPENER.md` from this template, customize host/tracker/checklist placeholders, and add the binding rule to their repo-root `CLAUDE.md` per `CLAUDE.md` Rule 9. Introduced in Standard Set Version v2.0.
+v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
+specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
 # SESSION_OPENER.md — Mandatory session-start pre-flight (template)
@@ -26,9 +23,9 @@ Run these in parallel (single tool-call message) and produce the **first-respons
 
 ### 1.1 Repository state
 ```bash
-git log --oneline -3 origin/<main-branch>                # tip of remote
-git log --oneline origin/<main-branch>..HEAD             # unpushed local commits
-git status --short                                        # working-tree dirt
+git log --oneline -3 origin/<main-branch> # tip of remote
+git log --oneline origin/<main-branch>..HEAD # unpushed local commits
+git status --short # working-tree dirt
 ```
 
 Replace `<main-branch>` with `main` / `master` per project convention.
@@ -100,7 +97,7 @@ Each row links to the memory that codifies it. Recall the linked memory when its
 | 7 | Local governance not validating CI schema | any `.gitlab-ci.yml` / workflow edit | `LESSONS.md` L005 |
 | 8 | Heredoc-piped commit messages corrupt special chars | multi-paragraph commit messages | `LESSONS.md` L004 |
 | 9 | Force-push amend after broken-on-push | any pushed commit that fails CI | `LESSONS.md` L003 |
-| 10 | Web-console for sensitive files (Hetzner / similar) | any `.env` / key handling | `LESSONS.md` L035 |
+| 10 | Web-console for sensitive files (a cloud VPS provider / similar) | any `.env` / key handling | `LESSONS.md` L035 |
 | 11 | Starting a § 15 plan without granular sub-task tracking — either (a) big plan without sibling tracker, OR (b) small plan without expanded § 4 in-file checklist | any new `docs/Plans/PLAN-NNN_*.md` | `LESSONS.md` L045 + `CLAUDE.md` § 15.7 |
 | 12 | Local-only OPEN_TASKS.md register stale or unmaintained (if the project uses the convention) | every session start | `LESSONS.md` L046 + `CLAUDE.md` § 15.7 |
 | 13 | Behavior-affecting change shipped without a paired QA / smoke-test scenario in the plan's tracker or OPEN_TASKS | every behavior-affecting commit | `CLAUDE.md` **Rule 11 (binding)** + `LESSONS.md` L047 |

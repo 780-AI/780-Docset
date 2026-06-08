@@ -2,6 +2,22 @@
 
 Newest entries at the top.
 
+## [2026-06-07] — PLAN-001: domain-neutral canonical suite (Standard Set Version v1.0)
+
+- **Type:** Major / Governance / Critical-file edit (`docs/standards/`)
+- **What:** Scrubbed all project identity (names, source-domain examples) from the standards suite and
+  reset it to a clean **Standard Set Version v1.0** baseline; added the canonical `docs/standards/CLAUDE.md`
+  and `docs/standards/LESSONS.md` templates (optional Codex § 14 kept in the template); added
+  `docs/standards/SETUP.md` (one-shot bootstrap prompt) and slimmed `HOW_TO_USE.md` to a pointer;
+  reconciled this project's own adopter files (manifest, root `CLAUDE.md`, session routines,
+  `SET_VERSION_ADOPTED`) to v1.0.
+- **Impact:** No runtime impact (docs/governance only). The suite is now domain-neutral and distributable.
+- **Verification:** dispositive scrub grep over the suite + adopter governance files = **0 hits**; every
+  `docs/standards/*.md` at VERSION 1.0; governance scripts exit 0.
+- **Plan:** PLAN-001 (CLOSED) — Rule 13 senior-review pass recorded; Phase 3 landed as one commit.
+- **QA scenarios:** S1 scrub-grep zero-hit ✅; S2 SETUP source-path dry-run ✅.
+- **Author:** Yaser Khosravi
+
 ## [2026-06-07] — Project bootstrap: governance scaffold
 
 - **Type:** Major / Infrastructure / Bootstrap
@@ -14,7 +30,7 @@ Newest entries at the top.
 - **Impact:** No runtime impact. Establishes the operating contract (13 standing rules), the adopted
   standards suite, session start/end routines, document manifest, governance scripts, CI scaffold, and
   MR template before any feature work begins.
-- **Standards:** Bootstrapped from the EverOn standards suite at **Standard Set Version v2.6** on
+- **Standards:** Bootstrapped from the standards suite at **Standard Set Version v1.0** on
   2026-06-07 — independent versions from this point forward. Backports from the standards source are
   explicit (see `docs/standards/STANDARDS_INDEX.md` § 4.3).
 - **Customizations:** single-agent project (Codex handoff § 14 omitted); domain-neutral local-CLI

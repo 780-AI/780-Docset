@@ -1,10 +1,10 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-05-22 -->
-<!-- Source: ~/everon-standards/NEW_PROJECT_BOOTSTRAP.md -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-06-07 -->
+<!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
-v1.1 — 2026-05-22 — Set Version v2.1 fix-forward: bring stale body-text references current. Five non-history occurrences updated: § 4.1 layout tree comment "The 9 binding standards files (copied)" → "The 10 binding standards files (copied)" (SESSION_OPENER added in v2.1); § 4.1 supporting-text "the 9-file standards suite" → "the 10-file standards suite"; § 8 first-commit impact statement + § 8 commit message body + § 13 closing prose: three instances of "the 8 standing rules" → "the 9 standing rules" (Rule 9 appended in v2.1). Worked-example commit messages preserved otherwise.
-v1.0 — 2026-05-16 — Initial release. Detailed Day-Zero walkthrough for adopting the standards suite into a new project. Step-by-step commands, customization checklist, supporting files, governance scripts, CI scaffold, first commit shape. Pulls the adoption procedure out of README § 4.1 to keep README focused on orientation.
+v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
+specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
 # NEW_PROJECT_BOOTSTRAP.md — Day-Zero Walkthrough
@@ -49,33 +49,33 @@ After completing this walkthrough, your new project will have:
 
 ```
 <your-project>/
-├── CLAUDE.md                                # Repo-root operating contract (customized)
-├── README.md                                # Your project's README (placeholder for now)
-├── CHANGELOG.md                             # Cross-cutting history (with bootstrap entry)
-├── .gitignore                               # Standard ignores
-├── .gitlab-ci.yml (or .github/workflows/)   # CI scaffold (governance + test stages)
-├── .gitlab/merge_request_templates/Default.md  # MR template
+├── CLAUDE.md # Repo-root operating contract (customized)
+├── README.md # Your project's README (placeholder for now)
+├── CHANGELOG.md # Cross-cutting history (with bootstrap entry)
+├── .gitignore # Standard ignores
+├── .gitlab-ci.yml (or .github/workflows/) # CI scaffold (governance + test stages)
+├── .gitlab/merge_request_templates/Default.md # MR template
 ├── docs/
-│   ├── README.md                            # Index of docs/
-│   ├── documents_manifest.md                # Version manifest
-│   ├── folder_structure.md                  # Authoritative layout
-│   ├── standards/                           # The 10 binding standards files (copied)
-│   │   ├── CLAUDE.md                        # (Note: also at repo root — this is the template version)
-│   │   ├── PROJECT_STANDARDS.md
-│   │   ├── PROMPT_STANDARDS.md
-│   │   ├── PROJECT_INSTRUCTIONS_TEMPLATE.md
-│   │   ├── MEMORY_PROTOCOL.md
-│   │   ├── ENGINEERING_STANDARDS.md
-│   │   ├── VALIDATION_STANDARDS.md
-│   │   └── CICD_STANDARDS.md
-│   └── Plans/                               # Empty for now; planning docs land here
+│ ├── README.md # Index of docs/
+│ ├── documents_manifest.md # Version manifest
+│ ├── folder_structure.md # Authoritative layout
+│ ├── standards/ # The 10 binding standards files (copied)
+│ │ ├── CLAUDE.md # (Note: also at repo root — this is the template version)
+│ │ ├── PROJECT_STANDARDS.md
+│ │ ├── PROMPT_STANDARDS.md
+│ │ ├── PROJECT_INSTRUCTIONS_TEMPLATE.md
+│ │ ├── MEMORY_PROTOCOL.md
+│ │ ├── ENGINEERING_STANDARDS.md
+│ │ ├── VALIDATION_STANDARDS.md
+│ │ └── CICD_STANDARDS.md
+│ └── Plans/ # Empty for now; planning docs land here
 ├── scripts/
-│   ├── check_doc_coverage.py                # Governance: drift detection across env vars, DB tables, manifest
-│   ├── check_test_coverage_drift.py         # Governance: code↔test↔doc drift
-│   ├── doc_coverage_allowlist.toml          # Justified exceptions (empty initially)
-│   └── validation_ownership.toml            # File-to-test-to-doc ownership rules (project-specific)
+│ ├── check_doc_coverage.py # Governance: drift detection across env vars, DB tables, manifest
+│ ├── check_test_coverage_drift.py # Governance: code↔test↔doc drift
+│ ├── doc_coverage_allowlist.toml # Justified exceptions (empty initially)
+│ └── validation_ownership.toml # File-to-test-to-doc ownership rules (project-specific)
 └── archive/
-    └── LESSONS.md                           # Incident-to-rule archive (initial copy from source)
+ └── LESSONS.md # Incident-to-rule archive (initial copy from source)
 ```
 
 After the first commit (Step 8), you have a working governance scaffold and can start feature work in your next session.
@@ -111,8 +111,8 @@ The standards repo is flat; your project nests these files under `docs/standards
 
 ```bash
 # Assume you're in your new project's root directory.
-# Replace ~/everon-standards/ with the actual path to your standards source.
-STANDARDS_SRC=~/everon-standards
+# Replace ~/standards-source/ with the actual path to your standards source.
+STANDARDS_SRC=~/standards-source
 
 # 1. CLAUDE.md goes to repo root (it's the binding contract)
 cp "$STANDARDS_SRC/CLAUDE.md" ./CLAUDE.md
@@ -120,13 +120,13 @@ cp "$STANDARDS_SRC/CLAUDE.md" ./CLAUDE.md
 # 2. The 7 focused standards files go under docs/standards/
 mkdir -p docs/standards archive
 cp "$STANDARDS_SRC/PROJECT_STANDARDS.md" \
-   "$STANDARDS_SRC/PROMPT_STANDARDS.md" \
-   "$STANDARDS_SRC/PROJECT_INSTRUCTIONS_TEMPLATE.md" \
-   "$STANDARDS_SRC/MEMORY_PROTOCOL.md" \
-   "$STANDARDS_SRC/ENGINEERING_STANDARDS.md" \
-   "$STANDARDS_SRC/VALIDATION_STANDARDS.md" \
-   "$STANDARDS_SRC/CICD_STANDARDS.md" \
-   docs/standards/
+ "$STANDARDS_SRC/PROMPT_STANDARDS.md" \
+ "$STANDARDS_SRC/PROJECT_INSTRUCTIONS_TEMPLATE.md" \
+ "$STANDARDS_SRC/MEMORY_PROTOCOL.md" \
+ "$STANDARDS_SRC/ENGINEERING_STANDARDS.md" \
+ "$STANDARDS_SRC/VALIDATION_STANDARDS.md" \
+ "$STANDARDS_SRC/CICD_STANDARDS.md" \
+ docs/standards/
 
 # 3. LESSONS.md goes under archive/
 cp "$STANDARDS_SRC/LESSONS.md" archive/LESSONS.md
@@ -168,7 +168,7 @@ Find:
 **Project:** `<project-name>`
 **Domain:** `<one-line description — e.g., "Python-based trading signal platform" / ...>`
 **Primary languages:** `<e.g., Python 3.11, TypeScript, Bash>`
-**Deployment shape:** `<e.g., "Dockerized, GitLab CI → Hetzner VPS via registry-pull">`
+**Deployment shape:** `<e.g., "Dockerized, GitLab CI → a cloud VPS provider VPS via registry-pull">`
 ```
 
 Replace with your actual values. Example for a SaaS API:
@@ -182,7 +182,7 @@ Replace with your actual values. Example for a SaaS API:
 
 **`CLAUDE.md` — § 4 Critical files:**
 
-Replace the `<critical_file_1>` placeholder block with your project's actual always-Major files. Delete the EverOn HTML-comment example or replace it with your project-specific list.
+Replace the `<critical_file_1>` placeholder block with your project's actual always-Major files. Delete the the standards source HTML-comment example or replace it with your project-specific list.
 
 ### Optional customizations:
 
@@ -245,7 +245,7 @@ Newest entries at the top.
 
 - **Type:** Major / Infrastructure / Bootstrap
 - **Files:** `CLAUDE.md` (repo root), `docs/standards/*.md` (7 binding files), `archive/LESSONS.md`, `docs/README.md`, `docs/documents_manifest.md`, `docs/folder_structure.md`, `scripts/check_doc_coverage.py`, `scripts/check_test_coverage_drift.py`, `.gitlab-ci.yml` (or equivalent), `.gitlab/merge_request_templates/Default.md`
-- **Impact:** No runtime impact. Establishes the 9 standing rules, document manifest scaffold, CHANGELOG, governance scripts, CI placeholder, and standards files before any feature work begins. Standards files copied from `~/everon-standards/` at Standard Set Version v1.0 — independent versions from this point forward. Backport explicitly when standards repo evolves.
+- **Impact:** No runtime impact. Establishes the 9 standing rules, document manifest scaffold, CHANGELOG, governance scripts, CI placeholder, and standards files before any feature work begins. Standards files copied from `~/standards-source/` at Standard Set Version v1.0 — independent versions from this point forward. Backport explicitly when standards repo evolves.
 - **Author:** <your-name>
 ```
 
@@ -288,7 +288,7 @@ Documentation for <project-name>.
 
 - `documents_manifest.md` — version index of all tracked docs and code files
 - `folder_structure.md` — authoritative layout
-- `standards/` — the 10-file standards suite (copied from ~/everon-standards/)
+- `standards/` — the 10-file standards suite (copied from ~/standards-source/)
 - `Plans/` — planning documents (all committed; never throwaway)
 ```
 
@@ -345,14 +345,14 @@ Documentation for <project-name>.
 ├── .gitignore
 ├── .gitlab-ci.yml (or .github/workflows/)
 ├── docs/
-│   ├── README.md
-│   ├── documents_manifest.md
-│   ├── folder_structure.md
-│   ├── standards/
-│   └── Plans/
+│ ├── README.md
+│ ├── documents_manifest.md
+│ ├── folder_structure.md
+│ ├── standards/
+│ └── Plans/
 ├── scripts/
 └── archive/
-    └── LESSONS.md
+ └── LESSONS.md
 ```
 
 (Add code-folder entries as the project grows. See `docs/standards/PROJECT_STANDARDS.md` § 6 for the standard layout template.)
@@ -368,8 +368,8 @@ Copy or recreate the two governance scripts. These come from your standards sour
 mkdir -p scripts
 cp "$STANDARDS_SRC/../<reference-project>/scripts/check_doc_coverage.py" scripts/
 cp "$STANDARDS_SRC/../<reference-project>/scripts/check_test_coverage_drift.py" scripts/
-cp "$STANDARDS_SRC/../<reference-project>/scripts/doc_coverage_allowlist.toml" scripts/  # may be empty
-cp "$STANDARDS_SRC/../<reference-project>/scripts/validation_ownership.toml" scripts/    # starter
+cp "$STANDARDS_SRC/../<reference-project>/scripts/doc_coverage_allowlist.toml" scripts/ # may be empty
+cp "$STANDARDS_SRC/../<reference-project>/scripts/validation_ownership.toml" scripts/ # starter
 
 # Make scripts executable
 chmod +x scripts/check_doc_coverage.py scripts/check_test_coverage_drift.py
@@ -388,12 +388,12 @@ If you don't have a reference project to copy from, write minimal versions:
 import sys
 from pathlib import Path
 
-repo_root = Path(__file__).resolve().parent.parent
+repo_root = Path(__file__).resolve.parent.parent
 manifest = repo_root / "docs" / "documents_manifest.md"
 
-if not manifest.exists():
-    print("ERROR: docs/documents_manifest.md missing")
-    sys.exit(1)
+if not manifest.exists:
+ print("ERROR: docs/documents_manifest.md missing")
+ sys.exit(1)
 
 # TODO: actual coverage checks — env vars, DB tables, API routes, etc.
 print("doc coverage: OK (scaffold — extend with project-specific checks)")
@@ -410,12 +410,12 @@ sys.exit(0)
 import sys
 from pathlib import Path
 
-repo_root = Path(__file__).resolve().parent.parent
+repo_root = Path(__file__).resolve.parent.parent
 ownership = repo_root / "scripts" / "validation_ownership.toml"
 
-if not ownership.exists():
-    print("ERROR: scripts/validation_ownership.toml missing")
-    sys.exit(1)
+if not ownership.exists:
+ print("ERROR: scripts/validation_ownership.toml missing")
+ sys.exit(1)
 
 # TODO: actual ownership-map checks per VALIDATION_STANDARDS § 4
 print("test coverage drift: OK (scaffold — extend with project-specific rules)")
@@ -440,7 +440,7 @@ The scaffolds exit 0 so initial setup doesn't block. Extend them as the project 
 # reason = "Example rule — replace with project-specific rules."
 
 [monitored_paths]
-strict = []  # populate as the project grows
+strict = [] # populate as the project grows
 soft = []
 ```
 
@@ -461,22 +461,22 @@ The minimum CI shape is a `governance` stage that runs the two governance script
 
 ```yaml
 stages:
-  - governance
-  - test
-  - build
-  - deploy
-  - verify
-  - deploy-prod
-  - verify-prod
+ - governance
+ - test
+ - build
+ - deploy
+ - verify
+ - deploy-prod
+ - verify-prod
 
 governance:
-  stage: governance
-  image: python:3.11-slim
-  script:
-    - python scripts/check_doc_coverage.py
-    - python scripts/check_test_coverage_drift.py --ci
-  rules:
-    - if: $CI_COMMIT_BRANCH == "master" || $CI_PIPELINE_SOURCE == "merge_request_event"
+ stage: governance
+ image: python:3.11-slim
+ script:
+ - python scripts/check_doc_coverage.py
+ - python scripts/check_test_coverage_drift.py --ci
+ rules:
+ - if: $CI_COMMIT_BRANCH == "master" || $CI_PIPELINE_SOURCE == "merge_request_event"
 ```
 
 **For GitHub Actions** (`.github/workflows/governance.yml`):
@@ -485,15 +485,15 @@ governance:
 name: governance
 on: [push, pull_request]
 jobs:
-  governance:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - run: python scripts/check_doc_coverage.py
-      - run: python scripts/check_test_coverage_drift.py --ci
+ governance:
+ runs-on: ubuntu-latest
+ steps:
+ - uses: actions/checkout@v4
+ - uses: actions/setup-python@v5
+ with:
+ python-version: '3.11'
+ - run: python scripts/check_doc_coverage.py
+ - run: python scripts/check_test_coverage_drift.py --ci
 ```
 
 Extend with `test`, `build`, `deploy`, `verify`, `deploy-prod`, `verify-prod` stages per `CICD_STANDARDS.md` § 2 as your deploy story matures.
@@ -520,7 +520,7 @@ Extend with `test`, `build`, `deploy`, `verify`, `deploy-prod`, `verify-prod` st
 - [ ] CHANGE LOG line added in each touched file's header
 - [ ] `docs/documents_manifest.md` updated (version cells + Last Updated rotation)
 - [ ] `CHANGELOG.md` entry added at top with explicit impact statement
-- [ ] Source-of-truth doc updated if behavior changed (e.g., `docs/business_logic.md`)
+- [ ] Source-of-truth doc updated if behavior changed (e.g., `docs/<domain-spec>.md`)
 - [ ] Tracker file updated if Phase/Task work
 - [ ] Code review pass on all touched files BEFORE staging (per `CLAUDE.md` § 8.5)
 
@@ -558,7 +558,7 @@ under docs/standards/), document manifest scaffold, CHANGELOG, folder
 structure, governance scripts, CI scaffold, MR template, and LESSONS archive
 before any feature work begins. No runtime code in this commit.
 
-Standards files copied from ~/everon-standards/ at Standard Set Version v1.0
+Standards files copied from ~/standards-source/ at Standard Set Version v1.0
 on YYYY-MM-DD. Independent versions from this point forward. Backports from
 the standards source are explicit (see docs/standards/STANDARDS_INDEX.md at
 the source for set-version evolution).
@@ -566,8 +566,8 @@ the source for set-version evolution).
 Scope:
 - CLAUDE.md at repo root (template; customized per project)
 - 7 focused standards in docs/standards/ (PROJECT_STANDARDS, PROMPT_STANDARDS,
-  PROJECT_INSTRUCTIONS_TEMPLATE, MEMORY_PROTOCOL, ENGINEERING_STANDARDS,
-  VALIDATION_STANDARDS, CICD_STANDARDS)
+ PROJECT_INSTRUCTIONS_TEMPLATE, MEMORY_PROTOCOL, ENGINEERING_STANDARDS,
+ VALIDATION_STANDARDS, CICD_STANDARDS)
 - LESSONS.md under archive/
 - README.md (project README, placeholder)
 - docs/{README,documents_manifest,folder_structure}.md
@@ -594,7 +594,7 @@ git add CLAUDE.md README.md CHANGELOG.md .gitignore
 git add docs/
 git add archive/LESSONS.md
 git add scripts/
-git add .gitlab-ci.yml || git add .github/workflows/  # whichever you used
+git add .gitlab-ci.yml || git add .github/workflows/ # whichever you used
 git add .gitlab/ || git add .github/
 
 # Post-add verify (per CLAUDE.md Rule 6)
@@ -652,7 +652,7 @@ This project was bootstrapped from the standards suite at:
 
 - **Standard Set Version:** v1.0
 - **Adopted on:** YYYY-MM-DD
-- **Source:** ~/everon-standards/ (or wherever your source lives)
+- **Source:** ~/standards-source/ (or wherever your source lives)
 
 ## Backport tracking
 
@@ -727,9 +727,9 @@ Don't push with failing governance.
 
 Per `CLAUDE.md` Rule 5 — local YAML parse validates syntax, not CI semantics. The first real-pipeline run may surface defects in `needs:`, `stage:`, `rules:`, etc. Fix-forward per Rule 3 (new commit with letter suffix, e.g., "Bootstrap-fix-b"). Do not force-push.
 
-### "Standards file references docs/business_logic.md but my project doesn't have that"
+### "Standards file references docs/<domain-spec>.md but my project doesn't have that"
 
-Several standards files mention domain-specific docs (e.g., `docs/business_logic.md`) as a per-project source-of-truth doc. Either:
+Several standards files mention domain-specific docs (e.g., `docs/<domain-spec>.md`) as a per-project source-of-truth doc. Either:
 
 - Create the doc for your project (the standards files reference it but don't require any specific name)
 - Adjust the reference in CLAUDE.md § 13 ("Single sources of truth") and any other files that mention it, to point at your project's actual domain doc

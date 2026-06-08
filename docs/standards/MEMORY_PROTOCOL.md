@@ -1,20 +1,17 @@
-<!-- VERSION: 1.4 -->
-<!-- Last Updated: 2026-05-22 -->
-<!-- Source: ~/everon-standards/MEMORY_PROTOCOL.md (template). Domain-neutral. EverOn examples in HTML comments. -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-06-07 -->
+<!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
-v1.4 — 2026-05-22 — Set Version v2.2 → v2.3 alignment. § 1 Category B "Operational protocols" gains a new example bullet: **permission policy** (which action classes the operator wants always-prompted vs auto-allowed, mirrored from memory into `.claude/settings.json` allowlist). Sub-paragraph added below the example list explaining the memory + `.claude/settings.json` mirror pattern (memory is source of truth for semantics; settings.json is harness-level implementation; if they drift, memory wins). Codifies the operator-driven permission-policy memory pattern observed in EverOn.Equinex on 2026-05-22. Cross-project backport from EverOn.Capital-Signal commit `5ee36ed`. No structural changes.
-v1.3 — 2026-05-22 — Set Version v2.1 fix-forward: bring stale body-text references current. Two non-history occurrences updated: § 3 "The 8 standing rules verbatim" → "The 9 standing rules verbatim" (anti-pattern example item); § 4.1 sub-section header "Memorizing the 8 standing rules from CLAUDE.md" → "Memorizing the 9 standing rules from CLAUDE.md". The anti-pattern body text (which uses CLAUDE.md Rule 4 as the concrete example) is unaffected.
-v1.2 — 2026-05-16 — Phase 4–7 refresh. § 4 NEW § 4.9 anti-pattern: trusting recalled memory without verification (L032 — when operator questions an answer, investigate underlying data, don't defend memory). § 5 NEW § 5.5 Verify recalled memory before recommending — recalled facts may be stale; before acting on memory in a way that affects committed work, verify against current filesystem/data state. Brief note about file-based memory shapes (Claude Code's auto-memory) added to § 3.4 as a reference; the rules in this file apply regardless of underlying storage mechanism.
-v1.1 — 2026-04-25 — Standards repo restructured to flat layout — Source path updated. The standards repo itself now lives flat (10 files at root); adopting projects still nest under `docs/standards/`.
-v1.0 — 2026-04-25 — Initial release. Memory hygiene protocol covering four memory categories, memory-vs-repo decision rule, entry shape standards, anti-patterns, and per-project reset procedures. Distilled from EverOn.Capital-Signal memory accumulation across Phases 1-3.
+v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
+specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
 # MEMORY_PROTOCOL.md — Memory Hygiene for Claude.ai Sessions
 
 **Scope:** This document governs what gets stored in Claude.ai's persistent memory system, what does NOT, and how to keep memory aligned with source-of-truth files in the repo. It is loaded when the work involves managing memory entries explicitly (adding, removing, auditing) or when a session shows memory-related drift symptoms.
 
-**Why this file exists:** Memory entries accumulate silently. Over months of sessions, the memory window fills with a mix of useful facts, redundant rule restatements, and stale historical state — actively degrading the agent's performance instead of helping. EverOn.Capital-Signal accumulated ~22 entries across Phases 1-3, and a retrospective audit found roughly half were either redundant (duplicating CLAUDE.md content) or actively stale (referencing facts that had since changed). This protocol prevents that drift by making memory storage deliberate.
+**Why this file exists:** Memory entries accumulate silently. Over months of sessions, the memory window fills with a mix of useful facts, redundant rule restatements, and stale historical state — actively degrading the agent's performance instead of helping. a reference project accumulated ~22 entries across Phases 1-3, and a retrospective audit found roughly half were either redundant (duplicating CLAUDE.md content) or actively stale (referencing facts that had since changed). This protocol prevents that drift by making memory storage deliberate.
 
 ---
 
@@ -112,10 +109,10 @@ The single decision rule for whether to memorize anything:
 Is the information needed every session?
 ├── No → Don't store. Reference on demand.
 └── Yes → Is it in a repo file the agent reads on every session?
-    ├── Yes → Don't store. Avoid duplication.
-    └── No → Is it a current-state fact that changes frequently?
-        ├── Yes → Don't store. Will go stale. Query source instead.
-        └── No → STORE. This is what memory is for.
+ ├── Yes → Don't store. Avoid duplication.
+ └── No → Is it a current-state fact that changes frequently?
+ ├── Yes → Don't store. Will go stale. Query source instead.
+ └── No → STORE. This is what memory is for.
 ```
 
 ### Apply the rule before adding any entry
@@ -132,12 +129,12 @@ Memory entries that follow the shape standard below are easier to audit, easier 
 
 Memory entries should be **single declarative sentences**, not multi-clause paragraphs. Why: when an underlying fact changes, you need to update one entry, not parse a paragraph for the relevant clause.
 
-- ❌ Wrong: "User is working on EverOn.Capital-Signal which uses Python 3.11 at /usr/local/bin/python3.11 with venv at .venv (rebuilt 2026-04-24) and the repo is at /Users/parsaazad/Documents/EverOn.Capital-Signal."
+- ❌ Wrong: "User is working on a reference project which uses Python 3.11 at /usr/local/bin/python3.11 with venv at .venv (rebuilt 2026-04-24) and the repo is at /Users/parsaazad/Documents/a reference project."
 - ✅ Right (4 separate entries):
-  - "EverOn.Capital-Signal repo path on Mac: /Users/parsaazad/Documents/EverOn.Capital-Signal."
-  - "Python 3.11.15 installed via Homebrew at /usr/local/bin/python3.11."
-  - "Repo .venv rebuilt on 3.11 (2026-04-24)."
-  - "Activate venv: source .venv/bin/activate OR invoke .venv/bin/python directly."
+ - "a reference project repo path on Mac: /Users/parsaazad/Documents/a reference project."
+ - "Python 3.11.15 installed via Homebrew at /usr/local/bin/python3.11."
+ - "Repo .venv rebuilt on 3.11 (2026-04-24)."
+ - "Activate venv: source .venv/bin/activate OR invoke .venv/bin/python directly."
 
 ### 3.2 Avoid embedding rules
 
@@ -175,7 +172,7 @@ Split, move, or delete.
 
 ## 4. Anti-patterns to refuse
 
-Each pattern below was observed during the EverOn.Capital-Signal memory accumulation. Each cost real performance — either through drift, staleness, or memory-window bloat.
+Each pattern below was observed during the a reference project memory accumulation. Each cost real performance — either through drift, staleness, or memory-window bloat.
 
 ### 4.1 Memorizing the 9 standing rules from CLAUDE.md
 
@@ -219,7 +216,7 @@ Why bad: the rationale belongs in `archive/LESSONS.md` (incident → rule → wh
 
 ### 4.6 Cross-project entries that should be project-specific
 
-❌ Pattern: "Project's repo path is /Users/parsaazad/Documents/EverOn.Capital-Signal" stored in user-wide memory while working on a different project.
+❌ Pattern: "Project's repo path is /Users/parsaazad/Documents/a reference project" stored in user-wide memory while working on a different project.
 
 Why bad: the entry now applies (incorrectly) to every project. The agent uses the wrong path on a different project's session.
 
@@ -372,7 +369,7 @@ This is the most common pattern and the most damaging. Project-specific facts in
 Below is a worked example showing how a memory audit at the end of a project phase looks. Use as reference for your own audits.
 
 <!--
-EverOn.Capital-Signal end-of-Phase-3 audit (hypothetical, post-project-close):
+a reference project end-of-Phase-3 audit (hypothetical, post-project-close):
 
 Pre-audit state: 22 memory entries.
 
@@ -401,7 +398,7 @@ Audit walk:
 | 19 | Manual rollback.sh .env sourcing | A (project-specific quirk) | MOVE to Project Instructions Tier B (D9) |
 | 20 | GitLab CI_COMMIT_SHORT_SHA 8 chars | A (project-specific quirk) | MOVE to Project Instructions Tier B |
 | 21 | pyyaml local-only governance helper | A (project-specific quirk) | MOVE to Project Instructions Tier B |
-| 22 | EverOn repo path on Mac | A (project-specific path) | MOVE to Project Instructions Tier B |
+| 22 | the standards source repo path on Mac | A (project-specific path) | MOVE to Project Instructions Tier B |
 
 Post-audit state: 4 entries remaining (#1, #12, #13, #14 — all Category B cross-project).
 8 entries moved to Project Instructions Tier B.
