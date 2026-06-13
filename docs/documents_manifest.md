@@ -1,7 +1,8 @@
-<!-- VERSION: 1.1 -->
+<!-- VERSION: 1.2 -->
 <!-- Last Updated: 2026-06-13 -->
 <!--
 CHANGE LOG
+v1.2 — 2026-06-13 — Registered PLAN-002 (Slice 1) as entry 32.
 v1.1 — 2026-06-13 — Registered docs/architecture.md (system-design record) as entry 31.
 v1.0 — 2026-06-07 — PLAN-001: domain-neutral v1.0 baseline. All standards-suite version cells reset to
 1.0; added canonical templates docs/standards/CLAUDE.md + LESSONS.md + SETUP.md. Bumped from v0.1.
@@ -20,7 +21,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Canonical standards suite (Set v1.0) | 9–24 |
 | Governance scripts | 25–26 |
 | Archive | 27 |
-| Plans | 29–30 |
+| Plans | 29–30, 32 |
 | Project design | 31 |
 
 ## Manifest table
@@ -58,6 +59,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 29 | PLAN-001 — domain-neutral suite (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-001_domain_neutral_suite.md` |
 | 30 | PLAN-001 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-001_tracker.md` |
 | 31 | Architecture (system-design record) | 0.1 | Docs | `docs/architecture.md` |
+| 32 | PLAN-002 — Slice 1 (setup-strip + log + markers) | 0.1 | Plan | `docs/Plans/PLAN-002_setup_strip_log_markers.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
