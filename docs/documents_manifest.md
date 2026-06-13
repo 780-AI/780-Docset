@@ -1,7 +1,8 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-06-13 -->
 <!--
 CHANGE LOG
+v1.1 — 2026-06-13 — Registered docs/architecture.md (system-design record) as entry 31.
 v1.0 — 2026-06-07 — PLAN-001: domain-neutral v1.0 baseline. All standards-suite version cells reset to
 1.0; added canonical templates docs/standards/CLAUDE.md + LESSONS.md + SETUP.md. Bumped from v0.1.
 v0.1 — 2026-06-07 — Project bootstrap. Initial manifest scaffold.
@@ -19,7 +20,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Canonical standards suite (Set v1.0) | 9–24 |
 | Governance scripts | 25–26 |
 | Archive | 27 |
-| Plans | 28–29 |
+| Plans | 29–30 |
+| Project design | 31 |
 
 ## Manifest table
 
@@ -55,6 +57,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 28 | Lessons Archive (adopter copy) | 1.0 | Governance | `archive/LESSONS.md` |
 | 29 | PLAN-001 — domain-neutral suite (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-001_domain_neutral_suite.md` |
 | 30 | PLAN-001 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-001_tracker.md` |
+| 31 | Architecture (system-design record) | 0.1 | Docs | `docs/architecture.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -62,8 +65,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 ## Last updated
 
-- **Date**: 2026-06-07
-- **Change**: PLAN-001 — domain-neutral v1.0 baseline; suite version cells reset to 1.0; added
+- **Date**: 2026-06-13
+- **Change**: Registered `docs/architecture.md` (system-design record) — 31 entries.
+- **Previous change**: PLAN-001 — domain-neutral v1.0 baseline; suite version cells reset to 1.0; added
   `docs/standards/{CLAUDE.md, LESSONS.md, SETUP.md}` + PLAN-001 rows (30 entries).
-- **Previous change**: Project bootstrap — initial manifest scaffold (25 entries).
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

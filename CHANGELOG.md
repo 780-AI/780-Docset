@@ -2,6 +2,20 @@
 
 Newest entries at the top.
 
+## [2026-06-13] — System design captured: docs/architecture.md
+
+- **Type:** Major / Design record (docs-only)
+- **What:** Committed `docs/architecture.md` — the system-design record converged with the operator in
+  the 2026-06-13 design session. Captures: the **vault model** (this repo is the single canonical home),
+  the **project footprint** (operative standard kept / setup-machinery stripped), **setup-and-strip**
+  delivery, the **experiences log** (`docs/STANDARDS_LOG.md`) contribution channel fed by
+  `SESSION_CLOSER` § 1.7, the **harvest → integrate → sync** loop, and the **`PROJECT-OWNED` marker**
+  ownership model for non-clobbering sync. Includes the implementation roadmap (Slices 1–5 → plans).
+- **Impact:** No runtime impact (design doc). Defines what the engine will implement; the engine source
+  becomes the dispositive truth and this doc is kept in sync per `CLAUDE.md` § 4.
+- **Sync:** manifest (entry 31, v1.1), `docs/folder_structure.md` (v0.3), `docs/README.md` updated.
+- **Author:** Yaser Khosravi
+
 ## [2026-06-07] — PLAN-001: domain-neutral canonical suite (Standard Set Version v1.0)
 
 - **Type:** Major / Governance / Critical-file edit (`docs/standards/`)

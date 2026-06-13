@@ -1,7 +1,8 @@
-<!-- VERSION: 0.2 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 0.3 -->
+<!-- Last Updated: 2026-06-13 -->
 <!--
 CHANGE LOG
+v0.3 — 2026-06-13 — Added docs/architecture.md (system-design record) to the docs/ listing; removed it from the Planned section (now real).
 v0.2 — 2026-06-07 — PLAN-001: added canonical suite templates (CLAUDE.md, LESSONS.md, SETUP.md) to the docs/standards/ listing.
 v0.1 — 2026-06-07 — Project bootstrap. Initial authoritative layout (governance scaffold only; no engine code yet).
 -->
@@ -28,6 +29,7 @@ standard-document-updater/
 │   ├── README.md                  # docs index
 │   ├── documents_manifest.md      # version index of all tracked docs + code
 │   ├── folder_structure.md        # this file
+│   ├── architecture.md            # system-design record (the design the engine implements)
 │   ├── SESSION_OPENER.md          # binding session-start pre-flight (Rule 9)
 │   ├── SESSION_CLOSER.md          # binding session-end wrap-up (Rule 12)
 │   ├── standards/                 # canonical domain-neutral suite (Set Version v1.0)
@@ -67,7 +69,7 @@ standard-document-updater/
 │   └── standard_document_updater/  # the CLI engine (parser / differ / writer / version-bump)
 │       └── __init__.py
 ├── tests/                          # pytest suite
-├── docs/architecture.md            # navigable design reference (kept in sync per CLAUDE.md § 4)
+├── config/projects.toml            # registry of managed projects (per docs/architecture.md § 8)
 └── pyproject.toml                  # packaging + tool config (ruff / mypy / pytest)
 ```
 
