@@ -1,8 +1,9 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-06-13 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-06-13 — PLAN-002 (Slice 1): retargeted the SET_VERSION_ADOPTED write to docs/ (matching the reworked SETUP.md so it survives the strip) and updated the current-suite references to Standard Set Version v1.1. (Strip + experiences-log steps to fully match SETUP.md are deferred — tracked as a follow-up.) Set Version v1.1.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
@@ -245,7 +246,7 @@ Newest entries at the top.
 
 - **Type:** Major / Infrastructure / Bootstrap
 - **Files:** `CLAUDE.md` (repo root), `docs/standards/*.md` (7 binding files), `archive/LESSONS.md`, `docs/README.md`, `docs/documents_manifest.md`, `docs/folder_structure.md`, `scripts/check_doc_coverage.py`, `scripts/check_test_coverage_drift.py`, `.gitlab-ci.yml` (or equivalent), `.gitlab/merge_request_templates/Default.md`
-- **Impact:** No runtime impact. Establishes the 9 standing rules, document manifest scaffold, CHANGELOG, governance scripts, CI placeholder, and standards files before any feature work begins. Standards files copied from `~/standards-source/` at Standard Set Version v1.0 — independent versions from this point forward. Backport explicitly when standards repo evolves.
+- **Impact:** No runtime impact. Establishes the 9 standing rules, document manifest scaffold, CHANGELOG, governance scripts, CI placeholder, and standards files before any feature work begins. Standards files copied from `~/standards-source/` at Standard Set Version v1.1 — independent versions from this point forward. Backport explicitly when standards repo evolves.
 - **Author:** <your-name>
 ```
 
@@ -558,7 +559,7 @@ under docs/standards/), document manifest scaffold, CHANGELOG, folder
 structure, governance scripts, CI scaffold, MR template, and LESSONS archive
 before any feature work begins. No runtime code in this commit.
 
-Standards files copied from ~/standards-source/ at Standard Set Version v1.0
+Standards files copied from ~/standards-source/ at Standard Set Version v1.1
 on YYYY-MM-DD. Independent versions from this point forward. Backports from
 the standards source are explicit (see docs/standards/STANDARDS_INDEX.md at
 the source for set-version evolution).
@@ -639,18 +640,18 @@ Record the Standard Set Version you adopted today. This makes future backports e
 
 **Option A — In CHANGELOG.md:**
 
-Already present in the bootstrap entry from Step 5. Verify it says "Standard Set Version v1.0 on YYYY-MM-DD" (or whatever the current Set Version is when you bootstrap).
+Already present in the bootstrap entry from Step 5. Verify it says "Standard Set Version v1.1 on YYYY-MM-DD" (or whatever the current Set Version is when you bootstrap).
 
 **Option B — Dedicated file:**
 
 ```bash
-cat > docs/standards/SET_VERSION_ADOPTED.md <<'EOF'
+cat > docs/SET_VERSION_ADOPTED.md <<'EOF'
 <!-- VERSION: 1.0 -->
 # Standard Set Version Adopted
 
 This project was bootstrapped from the standards suite at:
 
-- **Standard Set Version:** v1.0
+- **Standard Set Version:** v1.1
 - **Adopted on:** YYYY-MM-DD
 - **Source:** ~/standards-source/ (or wherever your source lives)
 
@@ -660,7 +661,7 @@ Backports from the source set are explicit. Newer Set Versions become available;
 
 | Set Version | Adopted on | Backport notes |
 |---|---|---|
-| v1.0 | YYYY-MM-DD | Initial bootstrap |
+| v1.1 | YYYY-MM-DD | Initial bootstrap |
 EOF
 ```
 

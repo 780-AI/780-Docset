@@ -1,8 +1,9 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-06-13 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). TEMPLATE — adopters copy to repo root and fill <placeholders>. -->
 <!--
 CHANGE LOG
+v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-customizable blocks (§ 1 context, § 4 critical files, § 13 domain bullet, § 14 Codex section) in PROJECT-OWNED markers so a future sync preserves them. Standard Set Version v1.1.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline (template). Established as Standard Set Version v1.0.
 -->
 
@@ -16,11 +17,13 @@ If a rule below conflicts with a request, **refuse or propose a compliant altern
 
 ## 1. Project context
 
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 **Project:** `<project-name>`
 **Domain:** `<one-line description of what this project does>`
 **Primary languages:** `<e.g., Python 3.11, TypeScript, Bash>`
 **Deployment shape:** `<e.g., "Dockerized, CI → VPS via registry-pull" / "local CLI tool" / "serverless">`
 **Multi-agent:** `<yes — Claude + a second agent (keep § 14); or no — single-agent (delete § 14)>`
+<!-- PROJECT-OWNED:END -->
 
 ---
 
@@ -230,6 +233,7 @@ See `archive/LESSONS.md` L049 for the incident that motivated this rule.
 
 > **Customize this section per project.** Edits to these paths are **always Major** regardless of edit size — they require full Analyze → Design → Implement → Sync → Validate workflow.
 
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 ```
 <critical-file-1>                    # e.g., the central domain-logic module/source — always Major
 <critical-file-2>                    # e.g., the domain spec (docs/<domain-spec>.md) — always Major
@@ -241,6 +245,7 @@ docs/documents_manifest.md           # the version index — always Major
 **Future critical files (add as the project grows):**
 - Config / schema files that define runtime behavior
 - Any module other modules depend on
+<!-- PROJECT-OWNED:END -->
 
 **Identification rule for adding new entries:** A file is "critical" if a silent or unintended change to it could:
 - Alter documented domain behavior without trace
@@ -570,12 +575,15 @@ When a pushed commit fails CI:
 - **Document version index:** `docs/documents_manifest.md`
 - **Cross-cutting project history:** `CHANGELOG.md` (root)
 - **Folder layout authoritative reference:** `docs/folder_structure.md`
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 - **Domain behavior:** `<the source-of-truth for your domain logic — e.g., the core module under src/, with docs/<domain-spec>.md as the navigable reference kept in sync per § 4>`
+<!-- PROJECT-OWNED:END -->
 
 If you find content in multiple places, that is a **defect**. Resolve it: keep the canonical one, replace the others with pointers.
 
 ---
 
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) — single-agent adopters delete this entire § 14 block -->
 ## 14. Codex handoff protocol (OPTIONAL — only if using a second AI agent)
 
 **Adopt this section only if your project uses a second AI coding agent (Codex, Devin, or other) alongside the primary agent (Claude). Single-agent projects delete this section entirely** and set § 1 Multi-agent to "no".
@@ -635,6 +643,7 @@ These rules elsewhere in this document are satisfied by Claude on the secondary 
 - Same-commit sync triggers — Claude does the bookkeeping side
 
 In-file VERSION + CHANGE LOG entries on source files the secondary agent modifies remain its job.
+<!-- PROJECT-OWNED:END -->
 
 ## 15. Plan workflow for vital changes
 

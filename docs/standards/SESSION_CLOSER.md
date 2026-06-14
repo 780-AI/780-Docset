@@ -1,8 +1,9 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-06-13 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-customizable block (§ 2.2 project-specific wrap-up failure-mode table) in PROJECT-OWNED markers so a future sync preserves it. Standard Set Version v1.1.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
@@ -132,9 +133,11 @@ Each row links to the memory or lesson that codifies it.
 
 > Add rows here as new wrap-up failure patterns surface. Each new row should be paired with a memory in the same commit per `LESSONS.md` L008 (manifest completeness).
 
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 | # | Pattern | Trigger | Memory / lesson |
 |---|---|---|---|
 | _(empty — append as needed)_ | | | |
+<!-- PROJECT-OWNED:END -->
 
 ---
 

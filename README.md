@@ -36,6 +36,6 @@ the same discipline from the first commit.
 
 ## Standards
 
-This project was bootstrapped from the standards suite at **Standard Set Version v1.0**
-(see `docs/standards/SET_VERSION_ADOPTED.md`). The binding contract is `CLAUDE.md` at the repo root.
+This project adopts the standards suite at **Standard Set Version v1.1**
+(see `docs/SET_VERSION_ADOPTED.md`). The binding contract is `CLAUDE.md` at the repo root.
 Backports from the standards source are explicit — see `docs/standards/STANDARDS_INDEX.md` § 4.3.

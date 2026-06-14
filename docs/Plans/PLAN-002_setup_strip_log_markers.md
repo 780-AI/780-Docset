@@ -1,8 +1,9 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-06-13 -->
-<!-- Status: DRAFT (awaiting Phase 2 operator approval) -->
+<!-- Status: CLOSED (Phase 3 shipped) -->
 <!--
 CHANGE LOG
+v1.0 — 2026-06-13 — Phase 3 implemented and CLOSED (one commit). Four plan defects found during the Phase-3 read-back were surfaced and operator-approved BEFORE any edit: D1 — strip DELETE list corrected to 11 files (SET_VERSION_ADOPTED is removed from docs/standards/ by the § 5D move, so it can never be in the delivery crate; KEEP 6 ∪ DELETE 11 = 17 = the vault's docs/standards/ after this slice). D2 — bumped the canonical Set Version v1.0 → v1.1 (required by architecture.md § 9; the draft omitted it) and propagated v1.1 across STANDARDS_INDEX, SET_VERSION_ADOPTED, SETUP, NEW_PROJECT_BOOTSTRAP, README. D3 — added STANDARDS_LOG.md to SETUP steps 1 + 3 so the log-create/strip references resolve. D4 — expanded the § 7 ALLOWLIST by README.md + docs/standards/NEW_PROJECT_BOOTSTRAP.md so every old SVA-path ref could be fixed (R3 → 0 stale hits). Decision D-A resolved to Option 1 (STANDARDS_LOG = adopter-artifact template, meta "+"). Deferred (logged in OPEN_TASKS): NEW_PROJECT_BOOTSTRAP still lacks full strip+log parity with SETUP. Phase-4 QA: S1 markers 14/14 paired, S2 strip set-cover 6+11=17, S3 scrub 0, R3 0 stale, governance exit 0.
 v0.1 — 2026-06-13 — Initial draft of Slice 1 (setup-and-strip + experiences log + PROJECT-OWNED markers), per docs/architecture.md § 10. Rule 13 senior-review pass recorded at the foot of this file (anchors verified against the real templates: CLAUDE.md §1/§4/§13/§14 = lines 17/229/564/579; OPENER §2/§3.2; CLOSER §2/§2.2; root CLAUDE.md architecture refs = lines 240,576; SET_VERSION_ADOPTED currently in docs/standards/).
 -->
 
@@ -46,16 +47,17 @@ No engine code in this slice (it's docs/prompt/markers). See `docs/architecture.
 
 - Phase 0 — Audit ........... ✅ 2026-06-13 (anchors verified; see header + § 13 senior-review)
 - Phase 1 — Design ......... ✅ 2026-06-13 (this file + Rule 13 pass below)
-- Phase 2 — Approval ....... ⏸ awaiting `APPROVE PLAN-002`
-- Phase 3 — Implement (one commit, ALLOWLIST-bounded):
-  - ⏸ 3A markers in 3 templates · ⏸ 3A markers in 3 adopter instances
-  - ⏸ 3B `STANDARDS_LOG.md` template created
-  - ⏸ 3C `SETUP.md` reworked (log create + SVA→docs/ + strip step)
-  - ⏸ 3D move `SET_VERSION_ADOPTED` → `docs/`
-  - ⏸ 3E root `CLAUDE.md` drift fix (lines 240, 576)
-  - ⏸ 3F sync artifacts (INDEX, manifest, folder_structure, CHANGELOG, architecture § 10)
-- Phase 4 — Validate ....... ⏸ (QA S1–S3 below)
-- Phase 5 — Operator gate .. ⏸ push pending (no remote)
+- Phase 2 — Approval ....... ✅ 2026-06-13 (`APPROVE PLAN-002` / "approve start implementation"; D-A → Option 1, adopter-artifact template)
+- Phase 3 — Implement (one commit, ALLOWLIST-bounded — all ✅ 2026-06-13):
+  - ✅ 3A markers in 3 templates · ✅ 3A markers in 3 adopter instances
+  - ✅ 3B `STANDARDS_LOG.md` template created
+  - ✅ 3C `SETUP.md` reworked (log create + SVA→docs/ + Step 8.5 strip; D1 + D3)
+  - ✅ 3D move `SET_VERSION_ADOPTED` → `docs/` (+ content v1.1 + all path refs)
+  - ✅ 3E root `CLAUDE.md` drift fix (the two architecture.md refs)
+  - ✅ 3F sync artifacts (INDEX Set v1.1, manifest renumber, folder_structure, CHANGELOG, architecture § 10)
+  - ✅ D2 Set Version v1.0→v1.1 · ✅ D4 ALLOWLIST +README +NEW_PROJECT_BOOTSTRAP
+- Phase 4 — Validate ....... ✅ 2026-06-13 — S1 markers 14/14 paired · S2 strip set-cover 6+11=17 · S3 scrub 0 · R3 0 stale · governance exit 0
+- Phase 5 — Operator gate .. ⏸ push pending (no remote configured)
 
 ## 5. Transformation rules
 
@@ -108,6 +110,9 @@ Content: VERSION 1.0 header; a one-paragraph purpose; the status legend (`open` 
      `docs/SET_VERSION_ADOPTED.md`, `docs/STANDARDS_LOG.md`, governance, CI, manifest.)
    - Strip is a **second commit** in the target ("strip setup machinery") so the delivered-then-removed
      state is visible in history.
+   - **Phase-3 correction (D1):** `SET_VERSION_ADOPTED.md (template)` was dropped from the DELETE list —
+     the § 5D move takes it out of `docs/standards/`, so the delivery crate never contains it. Shipped
+     strip = **11 DELETE + 6 KEEP = 17** (matches the real `docs/standards/`). See SETUP.md § 8.5 as shipped.
 
 ### 5D — move `SET_VERSION_ADOPTED` (this repo)
 
@@ -141,6 +146,10 @@ doc. (If anything diverges during implementation, fix the doc same-commit per §
 `docs/SESSION_CLOSER.md`, `docs/SET_VERSION_ADOPTED.md` (NEW path), `docs/documents_manifest.md`,
 `docs/folder_structure.md`, `docs/architecture.md`, `CHANGELOG.md`, and this plan file.
 
+**Phase-3 correction (D4):** expanded same-commit by `README.md` (its SVA pointer + Set-Version mention)
+and `docs/standards/NEW_PROJECT_BOOTSTRAP.md` (SVA write-path → `docs/`; suite refs → v1.1) — both held
+old-path references that § 5D + risk R3 required fixing but the original ALLOWLIST omitted.
+
 ## 8. Validation gate + QA scenarios (Rule 11)
 
 - **S1 — marker integrity:** `grep -c PROJECT-OWNED:BEGIN` == `grep -c PROJECT-OWNED:END` in every
@@ -171,7 +180,9 @@ Local commits on `master`; no remote. Rollback = `git revert` the Phase-3 commit
 - **R2 — strip deletes a kept file** (e.g., a topical file mis-listed). Mitigation: S2's set-cover check
   (KEEP ∪ DELETE == folder contents) before any delete is encoded.
 - **R3 — `git mv` of SET_VERSION_ADOPTED leaves stale path refs.** Mitigation: § 5F greps for the old
-  path across the repo after the move = 0 hits.
+  path across the repo after the move = 0 hits. **CLOSED 2026-06-13** — all functional refs retargeted to
+  `docs/SET_VERSION_ADOPTED.md` (required the D4 ALLOWLIST expansion); the only remaining `standards/SET_VERSION_ADOPTED`
+  hits are this plan's own description of the move and the historical PLAN-001 record.
 
 ## 12. Acceptance criteria
 

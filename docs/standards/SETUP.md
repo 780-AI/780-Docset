@@ -1,8 +1,13 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-06-13 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-06-13 — PLAN-002 (Slice 1): added the experiences-log create step (docs/STANDARDS_LOG.md from
+the template, minus the example) and the lay-down/confirm entries for STANDARDS_LOG.md; moved the
+SET_VERSION_ADOPTED target from docs/standards/ to docs/ so it survives the strip; added Step 8.5 (strip
+the setup machinery as a second commit, with a set-cover safety check); retargeted the suite references
+to Standard Set Version v1.1. Set Version v1.1.
 v1.0 — 2026-06-07 — Initial release. One-shot bootstrap prompt: paste the fenced block into a fresh
 Claude Code session to set up a new project from scratch on the v1.0 baseline. Replaces the long
 HOW_TO_USE walkthrough as the headline setup path (HOW_TO_USE remains the supporting-prompt reference).
@@ -12,7 +17,7 @@ HOW_TO_USE walkthrough as the headline setup path (HOW_TO_USE remains the suppor
 
 **What this is:** a single paste-and-run prompt. Open a fresh Claude Code session **in (or pointing at)
 the new project's directory**, paste the whole fenced block below, and the agent sets the project up
-from scratch on **Standard Set Version v1.0** — governance scaffold, customized contract, session
+from scratch on **Standard Set Version v1.1** — governance scaffold, customized contract, session
 routines, governance scripts, CI, and a first commit. No push (operator-gated).
 
 **Before you paste:** know where your canonical standards source lives on this machine (the folder that
@@ -23,7 +28,7 @@ contains this file and its sibling suite). You'll give that path as `SOURCE` in 
 ## The prompt (copy everything between the lines)
 
 ```
-You are bootstrapping a NEW project from my domain-neutral standards suite (Standard Set Version v1.0).
+You are bootstrapping a NEW project from my domain-neutral standards suite (Standard Set Version v1.1).
 
 PATHS
 - SOURCE (canonical suite, read-only): <fill: e.g. ~/standards-source/docs/standards/ — the folder containing CLAUDE.md, LESSONS.md, the focused standards, SESSION_OPENER/CLOSER templates>
@@ -47,7 +52,8 @@ DO THIS, IN ORDER
    - Confirm SOURCE exists and contains: CLAUDE.md, LESSONS.md, the 7 focused standards
      (PROJECT_STANDARDS, PROMPT_STANDARDS, PROJECT_INSTRUCTIONS_TEMPLATE, MEMORY_PROTOCOL,
      ENGINEERING_STANDARDS, VALIDATION_STANDARDS, CICD_STANDARDS), SESSION_OPENER.md, SESSION_CLOSER.md,
-     STANDARDS_INDEX.md, README.md, NEW_PROJECT_BOOTSTRAP.md, HOW_TO_USE.md, SETUP.md. Report any missing.
+     STANDARDS_INDEX.md, README.md, NEW_PROJECT_BOOTSTRAP.md, HOW_TO_USE.md, SETUP.md, STANDARDS_LOG.md.
+     Report any missing.
 
 2. ASK ME THE PROJECT CONTEXT (one message, lettered options; propose a sensible default first):
    - Project name
@@ -62,7 +68,7 @@ DO THIS, IN ORDER
    - `CLAUDE.md`         → TARGET/CLAUDE.md
    - `LESSONS.md`        → TARGET/archive/LESSONS.md
    - 7 focused standards + STANDARDS_INDEX.md + README.md + NEW_PROJECT_BOOTSTRAP.md + HOW_TO_USE.md
-     + SETUP.md + SESSION_OPENER.md + SESSION_CLOSER.md  → TARGET/docs/standards/
+     + SETUP.md + STANDARDS_LOG.md + SESSION_OPENER.md + SESSION_CLOSER.md  → TARGET/docs/standards/
    - Instantiate project-local TARGET/docs/SESSION_OPENER.md and TARGET/docs/SESSION_CLOSER.md from the
      templates (drop the "TEMPLATE" banner; customize §§ 2–3 for this project: branch name, the
      environment/registry mapping, failure-mode rows; no remote rows if there's no remote infra).
@@ -75,14 +81,16 @@ DO THIS, IN ORDER
    - § 14 — if single-agent, replace with a short "NOT IN USE (single-agent project)" stub and set
      § 1 Multi-agent = no; if multi-agent, keep § 14 and name the second agent.
    - Reset the header to this project's own VERSION 1.0 with a one-line "Project bootstrap" CHANGE LOG;
-     Source line = "docs/standards/ (this repo). Bootstrapped from Standard Set v1.0 on <today>."
+     Source line = "docs/standards/ (this repo). Bootstrapped from Standard Set v1.1 on <today>."
 
 5. BUILD SUPPORTING FILES
    - TARGET/README.md (short), TARGET/CHANGELOG.md (bootstrap entry), TARGET/.gitignore
      (OS/IDE/language + `docs/Plans/OPEN_TASKS.md`).
    - TARGET/docs/README.md, TARGET/docs/documents_manifest.md (list every tracked .md + VERSION-bearing
      code file), TARGET/docs/folder_structure.md, TARGET/docs/Plans/.gitkeep.
-   - TARGET/docs/standards/SET_VERSION_ADOPTED.md (Set Version v1.0, adopted <today>).
+   - TARGET/docs/STANDARDS_LOG.md — create from TARGET/docs/standards/STANDARDS_LOG.md, removing the
+     example entry (the project's own experiences log; a kept file that survives the strip).
+   - TARGET/docs/SET_VERSION_ADOPTED.md (Set Version v1.1, adopted <today>).
 
 6. GOVERNANCE + CI
    - TARGET/scripts/check_doc_coverage.py + check_test_coverage_drift.py (permissive scaffolds, exit 0,
@@ -98,6 +106,29 @@ DO THIS, IN ORDER
 8. CODE REVIEW (Rule 10) — post a named review table (one verdict per file), then ASK "go on commit?".
    On my go: `git add -A`, re-check `git status --short`, then `git commit -F /tmp/bootstrap_commit_msg.txt`.
    DO NOT PUSH.
+
+8.5 STRIP THE SETUP MACHINERY (a SEPARATE second commit in the target)
+   The suite under TARGET/docs/standards/ was a transient delivery crate. Now that the operative
+   standard is installed and committed (step 8), delete the setup/maintenance machinery so the project
+   keeps only the operative standard. Make this its own commit ("strip setup machinery") so the
+   delivered-then-removed transition is visible in the target's history.
+   - SAFETY CHECK FIRST (set-cover): the KEEP set ∪ the DELETE set below MUST equal the current
+     TARGET/docs/standards/ contents — no file unaccounted for. `ls TARGET/docs/standards/` and confirm
+     every file is in exactly one list. If a file is in NEITHER, STOP and ask me — a new suite file may
+     have been added since this prompt was written; never blind-delete.
+   - KEEP in TARGET/docs/standards/ (the topical library, loaded by the dispatcher during normal work):
+     PROJECT_STANDARDS.md, PROMPT_STANDARDS.md, MEMORY_PROTOCOL.md, ENGINEERING_STANDARDS.md,
+     VALIDATION_STANDARDS.md, CICD_STANDARDS.md  (6 files)
+   - DELETE from TARGET/docs/standards/ (machinery — only used to deliver/maintain the suite):
+     CLAUDE.md (template), LESSONS.md (template), SESSION_OPENER.md (template),
+     SESSION_CLOSER.md (template), STANDARDS_LOG.md (template), SETUP.md, NEW_PROJECT_BOOTSTRAP.md,
+     STANDARDS_INDEX.md, README.md (meta), HOW_TO_USE.md, PROJECT_INSTRUCTIONS_TEMPLATE.md  (11 files)
+   - NOT touched here (already living outside docs/standards/ as operative/kept files): TARGET/CLAUDE.md,
+     TARGET/archive/LESSONS.md, TARGET/docs/SESSION_OPENER.md, TARGET/docs/SESSION_CLOSER.md,
+     TARGET/docs/SET_VERSION_ADOPTED.md, TARGET/docs/STANDARDS_LOG.md, governance scripts, CI, manifest.
+   - In the SAME strip commit, update TARGET/docs/documents_manifest.md + TARGET/docs/folder_structure.md
+     to drop the stripped files (manifest completeness, Rule 8). Then code-review, `git add -A`, re-check
+     `git status --short`, and `git commit -F /tmp/strip_commit_msg.txt`. DO NOT PUSH.
 
 9. FINISH — summarize what shipped (files + commit SHA), and tell me the next step is feature work
    (CLAUDE.md is binding; for the first feature session see docs/standards/HOW_TO_USE.md § 4).

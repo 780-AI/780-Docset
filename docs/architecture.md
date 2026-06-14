@@ -1,7 +1,8 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-06-13 -->
 <!--
 CHANGE LOG
+v0.2 — 2026-06-13 — PLAN-002 (Slice 1) landed at the document layer (Set Version v1.1): SETUP.md now performs the strip; the STANDARDS_LOG.md template and the PROJECT-OWNED markers exist; SET_VERSION_ADOPTED moved to docs/. Ticked § 10 Slice 1 done and updated the § 4 "not yet" note and the § 7 markers note to past tense.
 v0.1 — 2026-06-13 — Initial system-design record. Captures the design converged with the operator across the 2026-06-13 design session: the vault model, the project footprint (operative standard kept / setup machinery stripped), the setup-and-strip delivery, the experiences-log contribution channel, the harvest→integrate→sync loop, and the section-ownership (PROJECT-OWNED marker) model for non-clobbering sync. This is the design reference the engine implements; kept in sync with the engine per CLAUDE.md § 4.
 -->
 # Architecture — standard-document-updater
@@ -54,7 +55,7 @@ effect on how the project operates.
 3. The **vault keeps its own `docs/standards/` permanently** — the strip only ever happens in *target*
    projects.
 
-> Note: the current `SETUP.md` does not yet perform the strip — that is Slice 1 (§ 10).
+> Note: `SETUP.md` performs the strip as of Slice 1 (PLAN-002, Set Version v1.1) — see § 10.
 
 ## 5. The experiences log — the contribution channel
 
@@ -126,9 +127,9 @@ knows what never to touch:
 <!-- PROJECT-OWNED:END -->
 ```
 
-Sync replaces everything **except** marked blocks. Simple, explicit, agent-verifiable. The markers are
-added to the CLAUDE.md + session **templates** (so every adopter inherits them) — that work is part of
-Slice 1.
+Sync replaces everything **except** marked blocks. Simple, explicit, agent-verifiable. The markers were
+added to the CLAUDE.md + session **templates** (so every adopter inherits them) and to this repo's own
+adopter instances in Slice 1 (PLAN-002, Set Version v1.1).
 
 **The enabling protocol:** per-file `VERSION` headers + the `Set Version` are what make drift
 machine-detectable ("is this project's copy behind the vault?"). The suite's own discipline *is* the
@@ -165,9 +166,10 @@ path, adopted Set Version. `status`/`harvest`/`sync` iterate it.
 Each slice is a vital change → its own `PLAN-NNN` (§ 15 workflow). Suggested order (mechanical/low-risk
 first; judgment-heavy last):
 
-1. **Slice 1 — Setup-and-strip + log + markers.** Add the strip step to `SETUP.md`; define the
-   kept/stripped manifest; add the `STANDARDS_LOG.md` template; add `PROJECT-OWNED` markers to the
-   CLAUDE.md + session templates; move `SET_VERSION_ADOPTED` to `docs/`. *(Mostly docs/prompt — no engine yet.)*
+1. ✅ **Slice 1 — Setup-and-strip + log + markers** (done — PLAN-002, Set Version v1.1). Added the strip
+   step to `SETUP.md`; defined the kept/stripped manifest; added the `STANDARDS_LOG.md` template; added
+   `PROJECT-OWNED` markers to the CLAUDE.md + session templates **and** this repo's adopter instances;
+   moved `SET_VERSION_ADOPTED` to `docs/`. *(Docs/prompt only — no engine yet.)*
 2. **Slice 2 — Registry + `status`/`drift`.** Vault config + first Python: read-only report of each
    project's Set Version vs vault and its open log count. *(First engine code.)*
 3. **Slice 3 — `harvest`.** Parse every `STANDARDS_LOG.md`; consolidate `open` entries; dedup hints.

@@ -1,8 +1,11 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-06-13 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-06-13 — Standard Set Version v1.1 (PLAN-002, Slice 1): registered the STANDARDS_LOG.md
+experiences-log template (meta "+"); recorded the PROJECT-OWNED marker convention + setup-and-strip;
+bumped § 3 per-file versions for the edited files; refreshed counts (17 files) and added the § 6 history entry.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; prior version history reset. Established as Standard Set Version v1.0.
 -->
@@ -31,14 +34,14 @@ Version** tracks the suite as a whole — files added, structure changed, patter
 ## 1. Standard Set Version (current)
 
 ```
-Standard Set Version: v1.0
-Released:             2026-06-07
-Baseline:             Clean domain-neutral baseline — production governance lessons, project identity removed.
-Adopter contract:     11 binding files + 4 meta files (+ SETUP.md); 49 lessons (L001–L049); 13 standing rules in CLAUDE.md
+Standard Set Version: v1.1
+Released:             2026-06-13
+Baseline:             v1.0 clean domain-neutral baseline + the experiences-log template, PROJECT-OWNED markers, and setup-and-strip (PLAN-002 Slice 1).
+Adopter contract:     11 binding files + 4 meta files (+ SETUP.md + STANDARDS_LOG.md); 49 lessons (L001–L049); 13 standing rules in CLAUDE.md
 ```
 
 When adopting this suite, record the Set Version in the new project's `CHANGELOG.md` or its own
-`docs/standards/SET_VERSION_ADOPTED.md` so future updates can be back-ported deliberately.
+`docs/SET_VERSION_ADOPTED.md` so future updates can be back-ported deliberately.
 
 ---
 
@@ -73,16 +76,17 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 | 3 | `NEW_PROJECT_BOOTSTRAP.md` | Detailed Day-Zero walkthrough — copy + customize + first commit |
 | 4 | `HOW_TO_USE.md` | Practical usage guide — pointer to `SETUP.md` + supporting prompts (Day-One, code review, audit) |
 | + | `SETUP.md` | **The one-shot bootstrap prompt** — paste into a fresh agent session to set up a new project from scratch |
+| + | `STANDARDS_LOG.md` | **Experiences-log template** — the per-project contribution channel; `SETUP.md` copies it to the project's `docs/STANDARDS_LOG.md` (an adopter artifact, not a binding rule) |
 
 ---
 
 ## 3. Per-file version table
 
-Current state as of Set Version v1.0 (2026-06-07). All files reset to the clean baseline.
+Current state as of Set Version v1.1 (2026-06-13). Files unchanged since v1.0 keep their 2026-06-07 dates.
 
 | File | Tier | Version | Last Updated |
 |---|---|---|---|
-| `CLAUDE.md` | Binding | 1.0 | 2026-06-07 |
+| `CLAUDE.md` | Binding | 1.1 | 2026-06-13 |
 | `PROJECT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `PROMPT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `PROJECT_INSTRUCTIONS_TEMPLATE.md` | Binding | 1.0 | 2026-06-07 |
@@ -91,15 +95,16 @@ Current state as of Set Version v1.0 (2026-06-07). All files reset to the clean 
 | `VALIDATION_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `CICD_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `LESSONS.md` | Binding | 1.0 | 2026-06-07 |
-| `SESSION_OPENER.md` | Binding | 1.0 | 2026-06-07 |
-| `SESSION_CLOSER.md` | Binding | 1.0 | 2026-06-07 |
+| `SESSION_OPENER.md` | Binding | 1.1 | 2026-06-13 |
+| `SESSION_CLOSER.md` | Binding | 1.1 | 2026-06-13 |
 | `README.md` | Meta | 1.0 | 2026-06-07 |
-| `STANDARDS_INDEX.md` | Meta | 1.0 | 2026-06-07 |
-| `NEW_PROJECT_BOOTSTRAP.md` | Meta | 1.0 | 2026-06-07 |
+| `STANDARDS_INDEX.md` | Meta | 1.1 | 2026-06-13 |
+| `NEW_PROJECT_BOOTSTRAP.md` | Meta | 1.1 | 2026-06-13 |
 | `HOW_TO_USE.md` | Meta | 1.0 | 2026-06-07 |
-| `SETUP.md` | Meta | 1.0 | 2026-06-07 |
+| `SETUP.md` | Meta | 1.1 | 2026-06-13 |
+| `STANDARDS_LOG.md` | Meta | 1.0 | 2026-06-13 |
 
-**Total file count:** 16 (11 binding + 5 meta).
+**Total file count:** 17 (11 binding + 6 meta).
 **Total lesson count in `LESSONS.md`:** 49 (L001–L049).
 
 ---
@@ -125,7 +130,7 @@ Once adopted, the local copy lives independently. Backports from the source set 
 1. Read the new Set Version's history entry (§ 6).
 2. Decide which changes are relevant.
 3. Cherry-pick the per-file edits into the local copy; bump the affected per-file versions.
-4. Record the new adopted version in `docs/standards/SET_VERSION_ADOPTED.md`.
+4. Record the new adopted version in `docs/SET_VERSION_ADOPTED.md`.
 
 Major Set-Version bumps include explicit migration notes — read them before backporting.
 
@@ -156,6 +161,15 @@ coordinated multi-file pattern is a Set-Version Minor; a structural change is a 
 ## 6. Standard Set Version history
 
 Newest first. Append-only.
+
+### v1.1 — 2026-06-13 — Experiences log + PROJECT-OWNED markers + setup-and-strip
+
+Additive Minor (PLAN-002, Slice 1). Adds the `STANDARDS_LOG.md` experiences-log template (the per-project
+contribution channel fed by `SESSION_CLOSER.md` § 1.7); wraps the project-customizable blocks in
+`CLAUDE.md` + the session files (template and adopter) in `PROJECT-OWNED` markers so a future `sync`
+preserves them; reworks `SETUP.md` into setup-and-strip (install the operative standard, create the log,
+write `SET_VERSION_ADOPTED.md` to `docs/`, then strip the setup machinery as a second commit). No binding
+file added or removed and no rule changed — adopters may backport or stay on v1.0.
 
 ### v1.0 — 2026-06-07 — Clean domain-neutral baseline
 

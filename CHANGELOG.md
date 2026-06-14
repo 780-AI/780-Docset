@@ -2,6 +2,37 @@
 
 Newest entries at the top.
 
+## [2026-06-13] — PLAN-002 (Slice 1): setup-and-strip + experiences log + PROJECT-OWNED markers (Set Version v1.1)
+
+- **Type:** Major / Governance / Critical-file edit (`docs/standards/`, `CLAUDE.md`) — executed under the
+  § 15 plan workflow (PLAN-002, Phase 3).
+- **What:** Made the architecture's footprint + non-clobbering-sync model real at the document layer:
+  (a) added the **experiences-log template** `docs/standards/STANDARDS_LOG.md` (the per-project
+  contribution channel fed by `SESSION_CLOSER` § 1.7); (b) wrapped the project-customizable blocks of
+  `CLAUDE.md` (§ 1/§ 4/§ 13/§ 14), `SESSION_OPENER` (§ 2/§ 3.2), and `SESSION_CLOSER` (§ 2.2) — in **both**
+  the templates and this repo's adopter instances — in **`PROJECT-OWNED` markers** so a future `sync`
+  preserves them; (c) reworked `SETUP.md` into **setup-and-strip** (create the log, write
+  `SET_VERSION_ADOPTED` to `docs/`, then strip the setup machinery as a second commit, with a set-cover
+  safety check); (d) **moved** `SET_VERSION_ADOPTED.md` from `docs/standards/` → `docs/` so it survives the
+  strip; (e) fixed the stale "created when the engine lands" drift on the two `docs/architecture.md`
+  references in root `CLAUDE.md`.
+- **Set Version:** bumped the canonical suite **v1.0 → v1.1** (additive Minor) per `architecture.md` § 9
+  ("every change to the suite bumps per-file VERSION + the Set Version"); this repo adopts v1.1 same-commit.
+- **Plan-defect resolutions (operator-approved during Phase 3):** D1 — corrected the strip DELETE list to
+  11 files (dropped `SET_VERSION_ADOPTED`, which the move removes from the crate) so the set-cover is
+  complete (11 DELETE + 6 KEEP = 17). D2 — the Set-Version bump above. D3 — added `STANDARDS_LOG.md` to
+  SETUP's confirm/lay-down lists. D4 — expanded the ALLOWLIST by `README.md` + `NEW_PROJECT_BOOTSTRAP.md`
+  so all old-path references could be fixed (risk R3 → 0 stale hits, excluding the historical PLAN-001 record).
+- **Impact:** No runtime impact (docs/prompt/markers only — no engine code). Changes the `SETUP.md`
+  bootstrap *procedure* (now strips + creates the log + writes SVA to `docs/`) and adds the marker
+  convention every future adopter inherits.
+- **QA scenarios (Rule 11):** S1 marker pairing, S2 SETUP strip set-cover, S3 no-names scrub — defined in
+  `docs/Plans/PLAN-002` § 8 and tracked in its § 4 Phase 4.
+- **Sync:** `STANDARDS_INDEX` (Set v1.1 + STANDARDS_LOG + counts), `documents_manifest` (v1.3, renumbered to
+  33 entries), `folder_structure` (v0.4), `architecture` (v0.2, § 10 Slice 1 ✅), `SET_VERSION_ADOPTED`
+  (v1.1, moved), `README`. PLAN-002 promoted to v1.0 / CLOSED.
+- **Author:** Yaser Khosravi
+
 ## [2026-06-13] — System design captured: docs/architecture.md
 
 - **Type:** Major / Design record (docs-only)

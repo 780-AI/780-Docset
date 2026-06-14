@@ -1,8 +1,9 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-06-13 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-customizable blocks (§ 2 environment mapping table, § 3.2 project-specific failure-mode table) in PROJECT-OWNED markers so a future sync preserves them. Standard Set Version v1.1.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
@@ -60,11 +61,13 @@ Surface 3–5 memories most relevant to the stated task (per `MEMORY_PROTOCOL.md
 
 Example shape (replace with your project's actual mapping):
 
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 | Env | SSH | Container prefix | App path |
 |---|---|---|---|
 | **STAGING** | `<user>@<staging-ip-or-host>` | `<prefix>-*` | `<path>` |
 | **PRODUCTION** | `<user>@<prod-ip-or-host>` | `<prefix>-*` | `<path>` |
 | **<other-env>** | ... | ... | ... |
+<!-- PROJECT-OWNED:END -->
 
 **Cross-checks** (use any one to verify a host's identity independently of memory):
 - `hostname` → distinct per-env hostnames
@@ -106,9 +109,11 @@ Each row links to the memory that codifies it. Recall the linked memory when its
 
 > Add rows here as new repeat-patterns surface. Each new row should be paired with a `feedback_<slug>.md` memory in the same commit per `LESSONS.md` L008 (manifest completeness).
 
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 | # | Pattern | Trigger | Memory / lesson |
 |---|---|---|---|
 | _(empty — append as needed)_ | | | |
+<!-- PROJECT-OWNED:END -->
 
 Examples of patterns that may surface during a real project:
 - Deploy-script-specific bypasses (e.g., "never raw `docker compose up` on staging/prod" — see `LESSONS.md` L024)

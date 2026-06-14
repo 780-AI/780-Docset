@@ -1,8 +1,9 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-06-13 -->
 <!-- Source: docs/standards/ (this repo). Bootstrapped from Standard Set v1.0 on 2026-06-07. Independent versions from this point forward. -->
 <!--
 CHANGE LOG
+v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped this repo's project-owned blocks (§ 1 context, § 4 critical files, § 13 domain bullet, § 14 single-agent stub) in PROJECT-OWNED markers so a future sync preserves them; fixed the stale "created when the engine lands" drift on the two docs/architecture.md references (§ 4 drift rule + § 13 domain bullet) now that the doc exists. Adopts Standard Set Version v1.1.
 v1.0 — 2026-06-07 — Project bootstrap. Operating contract instantiated from the standards suite at Standard Set Version v1.0 (13 standing rules, 49 lessons L001–L049). Customized for standard-document-updater: § 1 project context (domain-neutral Python CLI tool), § 4 critical files, § 13 single sources of truth. Single-agent project — the optional Codex handoff section (§ 14 in the template) was removed; § 15.7 tracker Owner header noted as optional. All 13 standing rules, change-classification, change-workflow, validation checklist, dispatcher, and § 15 plan workflow retained verbatim from the v1.0 template (domain-neutral). Independent versions from this point forward; backports from the standards source are explicit (see docs/standards/STANDARDS_INDEX.md).
 -->
 
@@ -16,11 +17,13 @@ If a rule below conflicts with a request, **refuse or propose a compliant altern
 
 ## 1. Project context
 
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 **Project:** standard-document-updater
 **Domain:** Domain-neutral CLI tool that keeps standards / governance documentation suites up to date and synchronized across any project it is given access to. Reads, diffs, version-bumps, and propagates standards documents (and their per-file VERSION headers, CHANGE LOGs, manifests, and Set-Version state) between a source suite and one or more adopting project repositories. Not tied to any single project's domain — the projects it operates on are inputs, supplied at runtime.
 **Primary languages:** Python 3.11+ (with strict typing via mypy, tests via pytest, lint/format via ruff)
 **Deployment shape:** Local CLI tool — installed and run on the operator's machine; operates on local repository checkouts. No remote infrastructure, no external services, no deploy targets.
 **Multi-agent:** No — single-agent (Claude only). The Codex handoff protocol (§ 14 in the standards template) is intentionally omitted.
+<!-- PROJECT-OWNED:END -->
 
 ---
 
@@ -230,6 +233,7 @@ See `archive/LESSONS.md` L049 for the incident that motivated this rule.
 
 > **Customize this section per project.** Edits to these paths are **always Major** regardless of edit size — they require full Analyze → Design → Implement → Sync → Validate workflow.
 
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 ```
 docs/documents_manifest.md           # the version index — always Major
 CLAUDE.md                            # this operating contract — always Major
@@ -237,13 +241,14 @@ docs/standards/                      # the standards suite this project adopts A
 src/standard_document_updater/       # (created when the engine lands) core diff / merge / version-bump logic — central domain logic — always Major
 ```
 
-**Drift rule for the engine vs. its design doc:** when the tool's behavior toward a standards file changes (how it parses VERSION headers, the manifest, or `STANDARDS_INDEX.md`; how it diffs / merges / version-bumps), the design doc that documents that behavior (`docs/architecture.md`, created when the engine lands) MUST be updated in the same commit (VERSION bump + CHANGE LOG entry). The code is the dispositive truth; the design doc is the navigable reference. If the two disagree, that's a defect — fix one or the other.
+**Drift rule for the engine vs. its design doc:** when the tool's behavior toward a standards file changes (how it parses VERSION headers, the manifest, or `STANDARDS_INDEX.md`; how it diffs / merges / version-bumps), the design doc that documents that behavior (`docs/architecture.md`) MUST be updated in the same commit (VERSION bump + CHANGE LOG entry). The code is the dispositive truth; the design doc is the navigable reference. If the two disagree, that's a defect — fix one or the other.
 
-**Note on `docs/standards/`:** these files are both (a) this project's own adopted governance suite and (b) reference content the tool operates on. Treat any edit to them as Major. When backporting a newer Set Version into this project's own copy, follow the explicit-backport procedure in `STANDARDS_INDEX.md` § 4.3 and record it in `docs/standards/SET_VERSION_ADOPTED.md`.
+**Note on `docs/standards/`:** these files are both (a) this project's own adopted governance suite and (b) reference content the tool operates on. Treat any edit to them as Major. When backporting a newer Set Version into this project's own copy, follow the explicit-backport procedure in `STANDARDS_INDEX.md` § 4.3 and record it in `docs/SET_VERSION_ADOPTED.md`.
 
 **Future critical files (add as the engine grows):**
 - Config / schema files defining which target suites are registered and how they map to the source
 - Any module other modules depend on (parser, differ, writer)
+<!-- PROJECT-OWNED:END -->
 
 **Identification rule for adding new entries:** A file is "critical" if a silent or unintended change to it could:
 - Alter documented domain behavior without trace
@@ -573,17 +578,21 @@ When a pushed commit fails CI:
 - **Document version index:** `docs/documents_manifest.md`
 - **Cross-cutting project history:** `CHANGELOG.md` (root)
 - **Folder layout authoritative reference:** `docs/folder_structure.md`
-- **Domain behavior:** the engine source under `src/standard_document_updater/` is the dispositive truth for how the tool reads, diffs, merges, and version-bumps standards documents. `docs/architecture.md` (created when the engine lands) is the navigable reference and MUST be kept in sync per § 4. Until the engine exists, this README + the `docs/standards/` suite describe intended behavior.
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
+- **Domain behavior:** the engine source under `src/standard_document_updater/` is the dispositive truth for how the tool reads, diffs, merges, and version-bumps standards documents. `docs/architecture.md` is the navigable reference and MUST be kept in sync per § 4. Until the engine exists, this README + the `docs/standards/` suite describe intended behavior.
+<!-- PROJECT-OWNED:END -->
 
 If you find content in multiple places, that is a **defect**. Resolve it: keep the canonical one, replace the others with pointers.
 
 ---
 
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) — single-agent: Codex § 14 omitted; this stub is project-owned -->
 ## 14. Codex handoff protocol — NOT IN USE (single-agent project)
 
 This project is single-agent (Claude only). The standards template defines an OPTIONAL multi-agent (Codex / Devin) handoff protocol here; it is intentionally **omitted**. There is no second-agent domain boundary, no handoff summary, and no per-agent tracker ownership. If a second AI coding agent is ever adopted, restore § 14 from the template at `docs/standards/` (and from a reference multi-agent project) and set § 1 Multi-agent to Yes.
 
 Wherever the rest of this contract references `§ 14.4` (tracker `Owner:` headers), that convention is **not required** in a single-agent project — the `Owner:` header on tracker files is optional.
+<!-- PROJECT-OWNED:END -->
 
 ---
 

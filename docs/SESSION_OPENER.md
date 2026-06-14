@@ -1,8 +1,9 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-06-13 -->
 <!-- Source: docs/standards/SESSION_OPENER.md (template) v1.4. Project-local instance for standard-document-updater. -->
 <!--
 CHANGE LOG
+v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-owned blocks (§ 2 source/target registry table, § 3.2 project-specific patterns table) in PROJECT-OWNED markers so a future sync preserves them.
 v1.0 — 2026-06-07 — Project bootstrap. Instantiated from the v1.0 template (docs/standards/SESSION_OPENER.md v1.0). Customized for a single-agent, local-CLI, domain-neutral project: § 1.2 live-system probes replaced with "registered target suites" (no remote infra); § 2 environment mapping rewritten as the source-suite + target-repo registry (no staging/prod hosts); § 3.1 universal failure-mode catalog kept (remote rows annotated N/A for this project); § 4 output template trimmed of the live-system block. BINDING per CLAUDE.md Rule 9.
 -->
 
@@ -31,7 +32,7 @@ This project's default branch is `master`. A remote may not be configured yet (l
 
 This is a **local CLI tool** — there is no staging/production infrastructure to probe. Instead, surface the context the tool operates on:
 
-- **The tool's own state** — current version of the engine (`src/standard_document_updater/` `# VERSION:` headers once it lands) and the adopted Standards Set Version (`docs/standards/SET_VERSION_ADOPTED.md`).
+- **The tool's own state** — current version of the engine (`src/standard_document_updater/` `# VERSION:` headers once it lands) and the adopted Standards Set Version (`docs/SET_VERSION_ADOPTED.md`).
 - **Registered target suites** (once the registry exists) — which source suite + adopting repos the tool is configured to operate on (§ 2 below). Read-only: confirm the configured paths exist before any run that writes to them.
 
 If the operator's task is purely internal (editing this repo, no run against a target suite), § 1.2's registry portion may be light — but always confirm the tool/Set-Version state.
@@ -55,15 +56,17 @@ Surface 3–5 memories most relevant to the stated task (per `MEMORY_PROTOCOL.md
 
 > This project has **no remote environments**. The "environments" that matter are the **source standards suite** and the **target repositories** the tool reads from / writes to. Cite this section (or the memory that mirrors it) before any command that writes to a target repo.
 
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 | Role | Path | Notes |
 |---|---|---|
 | **This repo (the tool)** | `~/Documents/Standard document updater/` | The CLI tool itself; its own `docs/standards/` is its adopted suite. |
 | **Canonical source suite** | `<to be registered>` | The authoritative standards set the tool propagates FROM (the most current adopter suite on this machine). |
 | **Target repo(s)** | `<to be registered>` | Adopting project repos the tool updates TO. Supplied at runtime; never assumed. |
+<!-- PROJECT-OWNED:END -->
 
 **Cross-checks before writing to any target:**
 - Confirm the target path exists and is a git repo (`git -C <path> rev-parse --show-toplevel`).
-- Confirm the target's current Set Version (`docs/standards/SET_VERSION_ADOPTED.md` or `STANDARDS_INDEX.md`) before computing a backport.
+- Confirm the target's current Set Version (`docs/SET_VERSION_ADOPTED.md` or `STANDARDS_INDEX.md`) before computing a backport.
 - Never write to a target the operator has not named in the current task.
 
 **Why this matters:** the highest-cost mistake for this tool is writing to the wrong repository or overwriting a target's customized files with source-template content. Read-only diffs are cheap; writes are not. Always state which repo a write targets before running it.
@@ -96,9 +99,11 @@ Each row links to the memory/lesson that codifies it. Recall the linked memory w
 
 > Add rows here as repeat-patterns surface. Pair each new row with a `feedback_<slug>.md` memory in the same commit per `LESSONS.md` L008.
 
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 | # | Pattern | Trigger | Memory / lesson |
 |---|---|---|---|
 | _(empty — append as needed)_ | | | |
+<!-- PROJECT-OWNED:END -->
 
 ---
 
