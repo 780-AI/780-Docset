@@ -1,15 +1,16 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-06-13 -->
-<!-- Source: docs/standards/SESSION_CLOSER.md (template) v1.0. Project-local instance for standard-document-updater. -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-06-14 -->
+<!-- Source: docs/standards/SESSION_CLOSER.md (template) v1.0. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.2 — 2026-06-14 — Project display name → "Standard DocSet" (header Source ref + binding-instance line). Engine package `standard_document_updater` unchanged.
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-owned block (§ 2.2 project-specific wrap-up failure-mode table) in PROJECT-OWNED markers so a future sync preserves it.
 v1.0 — 2026-06-07 — Project bootstrap. Instantiated from the v1.0 template (docs/standards/SESSION_CLOSER.md v1.0). Customized § 1.2 versions (tool engine version + adopted Set Version; no EA / deploy artifact) and § 4 output block. BINDING per CLAUDE.md Rule 12.
 -->
 
 # SESSION_CLOSER.md — Mandatory wrap-up routine on operator command (project-local)
 
-> **This is the BINDING project-local instance** for `standard-document-updater`. When the operator triggers a wrap-up, Claude MUST read this file and execute its § 1 routine, then post the § 4 output block BEFORE any farewell (per `CLAUDE.md` Rule 12).
+> **This is the BINDING project-local instance** for `Standard DocSet`. When the operator triggers a wrap-up, Claude MUST read this file and execute its § 1 routine, then post the § 4 output block BEFORE any farewell (per `CLAUDE.md` Rule 12).
 
 **Why this file exists:** Across long sessions, new patterns / rules / lessons / scope changes emerge and are easy to forget by farewell time. This file is the forcing function; the § 4 output block is the proof-of-wrap-up. Symmetric counterpart to `docs/SESSION_OPENER.md` (Rule 9). See `archive/LESSONS.md` L048.
 

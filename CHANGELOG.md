@@ -2,6 +2,23 @@
 
 Newest entries at the top.
 
+## [2026-06-14] — Project renamed to "Standard DocSet"
+
+- **Type:** Major / Identity (Critical-file edit: `CLAUDE.md` § 1)
+- **What:** Renamed the project's display name `standard-document-updater` → **"Standard DocSet"** (Option B —
+  display/identity only). Updated root `CLAUDE.md` § 1, `README`, `docs/README`, the project-local
+  `SESSION_OPENER`/`SESSION_CLOSER`, `SET_VERSION_ADOPTED`, `architecture`, `folder_structure`, and the
+  `.gitlab-ci.yml` header comment. The Python engine package identifier `standard_document_updater`
+  (`src/standard_document_updater/`) is **deliberately unchanged** — it can be renamed when the engine lands.
+- **Remote:** the GitLab project was renamed (name "Standard DocSet", path slug `standard-docset`); local
+  `origin` re-pointed to `git@gitlab.com:yaser.khosravi/standard-docset.git`.
+- **Not changed:** the historical `PLAN-001` record keeps the old name (it documents the state at that time).
+  The local folder rename (`~/Documents/Standard document updater` → `Standard DocSet`) is handled separately.
+- **Impact:** No runtime impact (identity/display only).
+- **Version bumps:** CLAUDE.md 1.1→1.2, SESSION_OPENER 1.1→1.2, SESSION_CLOSER 1.1→1.2,
+  SET_VERSION_ADOPTED 1.1→1.2, architecture 0.2→0.3, folder_structure 0.4→0.5, documents_manifest 1.3→1.4.
+- **Author:** Yaser Khosravi
+
 ## [2026-06-13] — PLAN-002 (Slice 1): setup-and-strip + experiences log + PROJECT-OWNED markers (Set Version v1.1)
 
 - **Type:** Major / Governance / Critical-file edit (`docs/standards/`, `CLAUDE.md`) — executed under the

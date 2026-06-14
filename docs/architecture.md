@@ -1,11 +1,12 @@
-<!-- VERSION: 0.2 -->
-<!-- Last Updated: 2026-06-13 -->
+<!-- VERSION: 0.3 -->
+<!-- Last Updated: 2026-06-14 -->
 <!--
 CHANGE LOG
+v0.3 — 2026-06-14 — Project display name → "Standard DocSet" (doc title). Engine package `standard_document_updater` unchanged.
 v0.2 — 2026-06-13 — PLAN-002 (Slice 1) landed at the document layer (Set Version v1.1): SETUP.md now performs the strip; the STANDARDS_LOG.md template and the PROJECT-OWNED markers exist; SET_VERSION_ADOPTED moved to docs/. Ticked § 10 Slice 1 done and updated the § 4 "not yet" note and the § 7 markers note to past tense.
 v0.1 — 2026-06-13 — Initial system-design record. Captures the design converged with the operator across the 2026-06-13 design session: the vault model, the project footprint (operative standard kept / setup machinery stripped), the setup-and-strip delivery, the experiences-log contribution channel, the harvest→integrate→sync loop, and the section-ownership (PROJECT-OWNED marker) model for non-clobbering sync. This is the design reference the engine implements; kept in sync with the engine per CLAUDE.md § 4.
 -->
-# Architecture — standard-document-updater
+# Architecture — Standard DocSet
 
 > **Status: design (engine not yet built).** This is the agreed system design. Implementation is sliced
 > into plans under `docs/Plans/` (§ 10). The engine source, once it lands, is the dispositive truth and

@@ -1,7 +1,8 @@
-<!-- VERSION: 1.3 -->
-<!-- Last Updated: 2026-06-13 -->
+<!-- VERSION: 1.4 -->
+<!-- Last Updated: 2026-06-14 -->
 <!--
 CHANGE LOG
+v1.4 — 2026-06-14 — Project rename: display name → "Standard DocSet" across root CLAUDE.md (1.2), session files (1.2), SET_VERSION_ADOPTED (1.2), architecture (0.3), folder_structure (0.5); version cells updated. Engine package `standard_document_updater` unchanged (Option B). GitLab project/remote → slug `standard-docset`.
 v1.3 — 2026-06-13 — PLAN-002 (Slice 1): added docs/standards/STANDARDS_LOG.md (experiences-log template);
 moved SET_VERSION_ADOPTED.md docs/standards/ → docs/ (path + category updated); bumped the marker/SETUP
 edits to v1.1 (root CLAUDE.md, docs SESSION_OPENER/CLOSER + their templates, SETUP, NEW_PROJECT_BOOTSTRAP,
@@ -33,16 +34,16 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 | # | Title | Version | Category | Path |
 |---|---|---|---|---|
-| 1 | Operating Contract (binding) | 1.1 | Governance | `CLAUDE.md` |
+| 1 | Operating Contract (binding) | 1.2 | Governance | `CLAUDE.md` |
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 1.3 | Governance | `docs/documents_manifest.md` |
-| 6 | Folder Structure | 0.4 | Governance | `docs/folder_structure.md` |
-| 7 | Architecture (system-design record) | 0.2 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.1 | Governance | `docs/SESSION_OPENER.md` |
-| 9 | Session Closer (project-local, binding) | 1.1 | Governance | `docs/SESSION_CLOSER.md` |
-| 10 | Set Version Adopted | 1.1 | Governance | `docs/SET_VERSION_ADOPTED.md` |
+| 5 | Documents Manifest | 1.4 | Governance | `docs/documents_manifest.md` |
+| 6 | Folder Structure | 0.5 | Governance | `docs/folder_structure.md` |
+| 7 | Architecture (system-design record) | 0.3 | Docs | `docs/architecture.md` |
+| 8 | Session Opener (project-local, binding) | 1.2 | Governance | `docs/SESSION_OPENER.md` |
+| 9 | Session Closer (project-local, binding) | 1.2 | Governance | `docs/SESSION_CLOSER.md` |
+| 10 | Set Version Adopted | 1.2 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.1 | Standards | `docs/standards/CLAUDE.md` |
 | 12 | Lessons Archive (template) | 1.0 | Standards | `docs/standards/LESSONS.md` |
 | 13 | Project Standards | 1.0 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
@@ -73,8 +74,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 ## Last updated
 
-- **Date**: 2026-06-13
-- **Change**: PLAN-002 (Slice 1) — added `docs/standards/STANDARDS_LOG.md`; moved `SET_VERSION_ADOPTED.md`
-  to `docs/`; v1.1 marker/SETUP bumps; closed PLAN-002. Renumbered to 33 entries (Set Version v1.1).
-- **Previous change**: Registered `docs/architecture.md` (system-design record).
+- **Date**: 2026-06-14
+- **Change**: Project rename → "Standard DocSet" (display name); root CLAUDE.md, session files, SVA,
+  architecture, folder_structure version cells bumped. Engine package `standard_document_updater` unchanged.
+- **Previous change**: PLAN-002 (Slice 1) — `STANDARDS_LOG.md` + markers + setup-and-strip; renumbered to 33 (Set v1.1).
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

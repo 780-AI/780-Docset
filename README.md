@@ -1,4 +1,4 @@
-# standard-document-updater
+# Standard DocSet
 
 A domain-neutral CLI tool that keeps **standards / governance documentation suites** up to date and
 synchronized across any project it is given access to.

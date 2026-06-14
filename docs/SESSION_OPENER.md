@@ -1,15 +1,16 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-06-13 -->
-<!-- Source: docs/standards/SESSION_OPENER.md (template) v1.4. Project-local instance for standard-document-updater. -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-06-14 -->
+<!-- Source: docs/standards/SESSION_OPENER.md (template) v1.4. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.2 — 2026-06-14 — Project display name → "Standard DocSet" (header Source ref + § 2 registry folder path). Engine package `standard_document_updater` unchanged.
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-owned blocks (§ 2 source/target registry table, § 3.2 project-specific patterns table) in PROJECT-OWNED markers so a future sync preserves them.
 v1.0 — 2026-06-07 — Project bootstrap. Instantiated from the v1.0 template (docs/standards/SESSION_OPENER.md v1.0). Customized for a single-agent, local-CLI, domain-neutral project: § 1.2 live-system probes replaced with "registered target suites" (no remote infra); § 2 environment mapping rewritten as the source-suite + target-repo registry (no staging/prod hosts); § 3.1 universal failure-mode catalog kept (remote rows annotated N/A for this project); § 4 output template trimmed of the live-system block. BINDING per CLAUDE.md Rule 9.
 -->
 
 # SESSION_OPENER.md — Mandatory session-start pre-flight (project-local)
 
-> **This is the BINDING project-local instance** for `standard-document-updater`. Every Claude session in this repository MUST read this file and execute its § 1 pre-flight, then post the § 4 first-response output block BEFORE acting on the operator's first task (per `CLAUDE.md` Rule 9).
+> **This is the BINDING project-local instance** for `Standard DocSet`. Every Claude session in this repository MUST read this file and execute its § 1 pre-flight, then post the § 4 first-response output block BEFORE acting on the operator's first task (per `CLAUDE.md` Rule 9).
 
 **Why this file exists:** Repeat mistakes across sessions trace to one root cause — skipping context-loading at session start and going straight to action. This file is the forcing function; the § 4 output block is the proof-of-pre-flight visible to the operator. See `archive/LESSONS.md` L043.
 
@@ -59,7 +60,7 @@ Surface 3–5 memories most relevant to the stated task (per `MEMORY_PROTOCOL.md
 <!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 | Role | Path | Notes |
 |---|---|---|
-| **This repo (the tool)** | `~/Documents/Standard document updater/` | The CLI tool itself; its own `docs/standards/` is its adopted suite. |
+| **This repo (the tool)** | `~/Documents/Standard DocSet/` | The CLI tool itself; its own `docs/standards/` is its adopted suite. |
 | **Canonical source suite** | `<to be registered>` | The authoritative standards set the tool propagates FROM (the most current adopter suite on this machine). |
 | **Target repo(s)** | `<to be registered>` | Adopting project repos the tool updates TO. Supplied at runtime; never assumed. |
 <!-- PROJECT-OWNED:END -->

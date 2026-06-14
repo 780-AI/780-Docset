@@ -1,7 +1,8 @@
-<!-- VERSION: 0.4 -->
-<!-- Last Updated: 2026-06-13 -->
+<!-- VERSION: 0.5 -->
+<!-- Last Updated: 2026-06-14 -->
 <!--
 CHANGE LOG
+v0.5 — 2026-06-14 — Project display name → "Standard DocSet" (layout title + tree root). Engine package path `standard_document_updater` unchanged.
 v0.4 — 2026-06-13 — PLAN-002 (Slice 1): moved SET_VERSION_ADOPTED.md from docs/standards/ to docs/ (survives the setup strip); added the STANDARDS_LOG.md experiences-log template to the docs/standards/ listing; bumped the suite label to Set Version v1.1.
 v0.3 — 2026-06-13 — Added docs/architecture.md (system-design record) to the docs/ listing; removed it from the Planned section (now real).
 v0.2 — 2026-06-07 — PLAN-001: added canonical suite templates (CLAUDE.md, LESSONS.md, SETUP.md) to the docs/standards/ listing.
@@ -9,7 +10,7 @@ v0.1 — 2026-06-07 — Project bootstrap. Initial authoritative layout (governa
 -->
 # Folder Structure
 
-**Authoritative layout for `standard-document-updater`.**
+**Authoritative layout for `Standard DocSet`.**
 
 Any change that contradicts this file is Major (per `CLAUDE.md` § 5) and must update this file in the
 same commit.
@@ -17,7 +18,7 @@ same commit.
 ## Repository root
 
 ```
-standard-document-updater/
+Standard DocSet/
 ├── CLAUDE.md                      # operating contract (binding; 13 standing rules)
 ├── README.md                      # project overview
 ├── CHANGELOG.md                   # cross-cutting history (newest first)
@@ -66,7 +67,7 @@ standard-document-updater/
 ## Planned (added when the engine lands)
 
 ```
-standard-document-updater/
+Standard DocSet/
 ├── src/
 │   └── standard_document_updater/  # the CLI engine (parser / differ / writer / version-bump)
 │       └── __init__.py

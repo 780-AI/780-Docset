@@ -1,10 +1,11 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-06-13 -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-06-14 -->
 <!-- Source: docs/standards/ (this repo). Bootstrapped from Standard Set v1.0 on 2026-06-07. Independent versions from this point forward. -->
 <!--
 CHANGE LOG
+v1.2 — 2026-06-14 — Project display name renamed to "Standard DocSet" (§ 1). Engine package identifier `standard_document_updater` kept unchanged (Option B). GitLab project + remote renamed to slug `standard-docset`.
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped this repo's project-owned blocks (§ 1 context, § 4 critical files, § 13 domain bullet, § 14 single-agent stub) in PROJECT-OWNED markers so a future sync preserves them; fixed the stale "created when the engine lands" drift on the two docs/architecture.md references (§ 4 drift rule + § 13 domain bullet) now that the doc exists. Adopts Standard Set Version v1.1.
-v1.0 — 2026-06-07 — Project bootstrap. Operating contract instantiated from the standards suite at Standard Set Version v1.0 (13 standing rules, 49 lessons L001–L049). Customized for standard-document-updater: § 1 project context (domain-neutral Python CLI tool), § 4 critical files, § 13 single sources of truth. Single-agent project — the optional Codex handoff section (§ 14 in the template) was removed; § 15.7 tracker Owner header noted as optional. All 13 standing rules, change-classification, change-workflow, validation checklist, dispatcher, and § 15 plan workflow retained verbatim from the v1.0 template (domain-neutral). Independent versions from this point forward; backports from the standards source are explicit (see docs/standards/STANDARDS_INDEX.md).
+v1.0 — 2026-06-07 — Project bootstrap. Operating contract instantiated from the standards suite at Standard Set Version v1.0 (13 standing rules, 49 lessons L001–L049). Customized for Standard DocSet: § 1 project context (domain-neutral Python CLI tool), § 4 critical files, § 13 single sources of truth. Single-agent project — the optional Codex handoff section (§ 14 in the template) was removed; § 15.7 tracker Owner header noted as optional. All 13 standing rules, change-classification, change-workflow, validation checklist, dispatcher, and § 15 plan workflow retained verbatim from the v1.0 template (domain-neutral). Independent versions from this point forward; backports from the standards source are explicit (see docs/standards/STANDARDS_INDEX.md).
 -->
 
 # CLAUDE.md — Operating Contract
@@ -18,7 +19,7 @@ If a rule below conflicts with a request, **refuse or propose a compliant altern
 ## 1. Project context
 
 <!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
-**Project:** standard-document-updater
+**Project:** Standard DocSet
 **Domain:** Domain-neutral CLI tool that keeps standards / governance documentation suites up to date and synchronized across any project it is given access to. Reads, diffs, version-bumps, and propagates standards documents (and their per-file VERSION headers, CHANGE LOGs, manifests, and Set-Version state) between a source suite and one or more adopting project repositories. Not tied to any single project's domain — the projects it operates on are inputs, supplied at runtime.
 **Primary languages:** Python 3.11+ (with strict typing via mypy, tests via pytest, lint/format via ruff)
 **Deployment shape:** Local CLI tool — installed and run on the operator's machine; operates on local repository checkouts. No remote infrastructure, no external services, no deploy targets.

@@ -1,6 +1,6 @@
 # docs/
 
-Documentation for `standard-document-updater`.
+Documentation for `Standard DocSet`.
 
 ## Internal reference
 

@@ -1,5 +1,5 @@
 # ==============================================================
-# standard-document-updater — GitLab CI
+# Standard DocSet — GitLab CI
 #
 # Minimal governance stage runs the two drift-detection scripts on
 # pushes to master / main and on every merge request.

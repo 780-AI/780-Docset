@@ -1,7 +1,8 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-06-13 -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-06-14 -->
 <!--
 CHANGE LOG
+v1.2 — 2026-06-14 — Project display name → "Standard DocSet" (the authorship line). Engine package `standard_document_updater` unchanged.
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): relocated from docs/standards/ to docs/ (survives the setup strip); records adoption of Standard Set Version v1.1 (experiences-log template + PROJECT-OWNED markers + setup-and-strip).
 v1.0 — 2026-06-07 — Records adoption of Standard Set Version v1.0 (this repo also authors that baseline).
 -->
@@ -12,7 +13,7 @@ This project adopts the standards suite at:
 - **Standard Set Version:** v1.1 (adds the `STANDARDS_LOG.md` experiences-log template, `PROJECT-OWNED`
   markers, and setup-and-strip — atop the v1.0 clean domain-neutral baseline)
 - **Adopted on:** 2026-06-13 (v1.0 baseline adopted 2026-06-07)
-- **Source:** this repository's own `docs/standards/` — `standard-document-updater` both **authors** the
+- **Source:** this repository's own `docs/standards/` — `Standard DocSet` both **authors** the
   canonical domain-neutral suite and **adopts** it to govern its own development.
 
 The adopted state:
