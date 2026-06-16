@@ -1,7 +1,8 @@
-<!-- VERSION: 0.3 -->
-<!-- Last Updated: 2026-06-14 -->
+<!-- VERSION: 0.4 -->
+<!-- Last Updated: 2026-06-16 -->
 <!--
 CHANGE LOG
+v0.4 — 2026-06-16 — PLAN-003 (Slice 2): first engine code landed. § 8 marks status/drift implemented (registry stores name + path only; adopted version read live). § 10 ticks Slice 2 ✅. § 11 strikes the three now-decided items (registry format/location; CLI entry point; status/drift = two commands). Read-only; no Set Version change (no docs/standards/ file touched).
 v0.3 — 2026-06-14 — Project display name → "Standard DocSet" (doc title). Engine package `standard_document_updater` unchanged.
 v0.2 — 2026-06-13 — PLAN-002 (Slice 1) landed at the document layer (Set Version v1.1): SETUP.md now performs the strip; the STANDARDS_LOG.md template and the PROJECT-OWNED markers exist; SET_VERSION_ADOPTED moved to docs/. Ticked § 10 Slice 1 done and updated the § 4 "not yet" note and the § 7 markers note to past tense.
 v0.1 — 2026-06-13 — Initial system-design record. Captures the design converged with the operator across the 2026-06-13 design session: the vault model, the project footprint (operative standard kept / setup machinery stripped), the setup-and-strip delivery, the experiences-log contribution channel, the harvest→integrate→sync loop, and the section-ownership (PROJECT-OWNED marker) model for non-clobbering sync. This is the design reference the engine implements; kept in sync with the engine per CLAUDE.md § 4.
@@ -142,14 +143,16 @@ A Python CLI (per `CLAUDE.md` § 1). All write commands are operator-gated; read
 
 | Command | Reads | Writes | Gate |
 |---|---|---|---|
-| `status` / `drift` | vault + each project's Set Version + open log count | — | none (read-only) |
+| `status` / `drift` ✅ | vault + each project's Set Version + open log count | — | none (read-only) |
 | `harvest` | every project's `STANDARDS_LOG.md` | a consolidated report | none (read-only) |
 | `integrate` | the harvest report | the **vault** (LESSONS + topical + Set Version) and project logs (mark-done) | operator-approved per entry |
 | `sync` | vault Set Version | every project (honoring `PROJECT-OWNED` markers) | operator-approved |
 | `setup` | the delivery crate | the new project (then strips) | operator-run; this is `SETUP.md` |
 
-**Registry:** a vault-side config (e.g. `config/projects.toml`) listing each managed project — name,
-path, adopted Set Version. `status`/`harvest`/`sync` iterate it.
+**Registry:** a vault-side config (`config/projects.toml`) listing each managed project — **name + path
+only**. A project's adopted Set Version is **read live** from its `docs/SET_VERSION_ADOPTED.md` at report
+time (never cached in the registry — single source of truth, § 9). `status`/`harvest`/`sync` iterate it.
+*(Implemented Slice 2 — PLAN-003.)*
 
 ## 9. Invariants
 
@@ -171,8 +174,9 @@ first; judgment-heavy last):
    step to `SETUP.md`; defined the kept/stripped manifest; added the `STANDARDS_LOG.md` template; added
    `PROJECT-OWNED` markers to the CLAUDE.md + session templates **and** this repo's adopter instances;
    moved `SET_VERSION_ADOPTED` to `docs/`. *(Docs/prompt only — no engine yet.)*
-2. **Slice 2 — Registry + `status`/`drift`.** Vault config + first Python: read-only report of each
-   project's Set Version vs vault and its open log count. *(First engine code.)*
+2. ✅ **Slice 2 — Registry + `status`/`drift`** (done — PLAN-003). Shipped the registry (`config/projects.toml`,
+   name + path; adopted version read live) and the first Python engine: read-only `status` / `drift`
+   reports of each project's Set Version vs vault and its open log count. *(First engine code.)*
 3. **Slice 3 — `harvest`.** Parse every `STANDARDS_LOG.md`; consolidate `open` entries; dedup hints.
 4. **Slice 4 — `integrate` assist.** Genericize → new lesson → topical update → version/Set bumps;
    write-back mark-done. *(Operator-gated; judgment-heavy.)*
@@ -180,8 +184,10 @@ first; judgment-heavy last):
 
 ## 11. Open decisions (to resolve as each slice is planned)
 
-- Registry format + location (`config/projects.toml` proposed).
-- CLI name / entry point (`python -m standard_document_updater …`).
-- Final home of `STANDARDS_LOG.md` (`docs/` proposed).
-- Whether `integrate`'s genericization runs a model in-process or hands off to a Claude session
-  (affects whether the tool is pure-Python or CLI + agent workflow).
+- ✅ **DECIDED (PLAN-003, Slice 2)** — Registry format + location: `config/projects.toml`, storing
+  **name + path only**; the adopted Set Version is read live (not cached in the registry).
+- ✅ **DECIDED (PLAN-003, Slice 2)** — CLI name / entry point: `python -m standard_document_updater <command>`
+  (`status` / `drift` are two subcommands, not one command with a flag).
+- ✅ **DECIDED** — Final home of `STANDARDS_LOG.md`: `docs/STANDARDS_LOG.md` (survives the setup strip).
+- ⏳ **OPEN** — Whether `integrate`'s genericization runs a model in-process or hands off to a Claude
+  session (affects whether the tool is pure-Python or CLI + agent workflow). Resolve at Slice 4 / PLAN-005.

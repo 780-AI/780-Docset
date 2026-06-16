@@ -1,0 +1,15 @@
+# ==============================================================
+# Registry of projects managed by Standard DocSet.
+#
+# Stores ONLY name + path per project. A project's adopted Set Version is read
+# LIVE from <path>/docs/SET_VERSION_ADOPTED.md at report time — never cached
+# here (single source of truth, per docs/architecture.md § 9).
+#
+# Add one [[project]] table per managed repository:
+#
+# [[project]]
+# name = "example-adopter"
+# path = "/Users/you/Documents/example-adopter"
+# ==============================================================
+
+# (empty — no projects registered yet)

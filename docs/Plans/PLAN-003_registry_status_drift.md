@@ -1,8 +1,27 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-06-16 -->
-<!-- Status: DRAFT -->
+<!-- Status: CLOSED -->
 <!--
 CHANGE LOG
+v1.0 — 2026-06-16 13:01 — Phase 3 implemented + Phase 4 validated; promoted to CLOSED in the ship commit.
+All 16 new files created verbatim from § 5; 5 docs/governance edits applied. QA scenarios A–I PASSED
+(ruff clean on src+tests; mypy --strict clean; 21 pytest green; governance both exit 0; live status/drift
+on the empty real registry exit 0). Set Version unchanged (v1.1 — no docs/standards/ file touched).
+Three mechanical plan-defect fixes surfaced during Phase-4 validation (the Rule 13 pass never ran
+ruff/mypy, so these slipped through) — all behavior-preserving, required to satisfy the plan's own
+scenario H, applied + recorded (analogous to PLAN-002 D1–D4):
+  • D1 (§ 5E) — `class State(str, Enum)` tripped ruff UP042 → changed to the idiomatic 3.11 `StrEnum`
+    (`from enum import StrEnum`). Identical behavior (`.value` + `is` comparisons unchanged).
+  • D2 (§ 5M) — `tests/test_report.py` `_status(...)` signature was 103 cols (ruff E501 > 100) → reflowed
+    across 3 lines. No logic change.
+  • D3 (§ 5N / R7 residual) — `from standard_document_updater import cli` + `cli.main` failed mypy --strict
+    `attr-defined` from outside the package (cli is never imported attribute-style by a source dependency,
+    unlike report/setversion) → switched the test to the always-resolvable dotted idiom
+    `from standard_document_updater.cli import main` + `main(...)`. Production code (incl. § 5G __main__)
+    kept byte-for-byte as drafted; deviation confined to the test.
+Environment note: `pip install -e` produced a correct `__editable__*.pth` pointing at `src`, but this
+machine's site processing did not add it to sys.path (likely the space in the repo path) — validated via
+the plan-sanctioned `PYTHONPATH=src` / `MYPYPATH=src` (§ 8) instead. No pyproject defect.
 v0.1 — 2026-06-16 — Initial draft of Slice 2 (registry + `status`/`drift` — first Python engine
 code), per docs/architecture.md § 10. Operator decisions locked at design time: (1) registry stores
 name + path only, adopted version read live (SSoT); (2) two subcommands `status` and `drift`;
@@ -80,10 +99,10 @@ Big plan → granular sub-tasks live in the **sibling tracker** `docs/Plans/PLAN
 
 - Phase 0 — Audit ......... ✅ 2026-06-16 (integration points cited by file:line below; tomllib stdlib confirmed)
 - Phase 1 — Design ........ ✅ 2026-06-16 (this file + sibling tracker + Rule 13 pass below)
-- Phase 2 — Approval ...... ⏸ awaiting `APPROVE PLAN-003`
-- Phase 3 — Implement ..... ⏸ fresh session, one commit, ALLOWLIST-bounded
-- Phase 4 — Validate ...... ⏸ pytest + mypy + ruff green; QA scenarios A–I; governance exit 0
-- Phase 5 — Operator gate . ⏸ push + (no tag — engine code, no Set Version change)
+- Phase 2 — Approval ...... ✅ 2026-06-16 (`APPROVE PLAN-003`, recorded in OPEN_TASKS; drift exit-code R5 confirmed)
+- Phase 3 — Implement ..... ✅ 2026-06-16 (fresh session; one ALLOWLIST-bounded commit; D1–D3 fixes per CHANGE LOG)
+- Phase 4 — Validate ...... ✅ 2026-06-16 (ruff+mypy+pytest green; QA A–I PASSED; governance exit 0)
+- Phase 5 — Operator gate . ⏸ push held for operator (no tag — engine code, no Set Version change)
 
 ## 5. Transformation rules (verbatim new-file contents, per Rule 7)
 

@@ -2,6 +2,31 @@
 
 Newest entries at the top.
 
+## [2026-06-16] — PLAN-003 (Slice 2): registry + `status` / `drift` (first engine code)
+
+- **Type:** Major / New module — executed under the § 15 plan workflow (PLAN-003, Phase 3). First Python
+  engine code under `src/standard_document_updater/` (a Critical File per `CLAUDE.md` § 4).
+- **What:** Landed the vault-side managed-projects registry plus two read-only commands:
+  - `python -m standard_document_updater status` — table of every registered project (adopted vs vault
+    Set Version, state, open-log count); always exit 0.
+  - `python -m standard_document_updater drift` — only projects **not** on the vault Set Version; exits
+    **1** if any exist (`behind`, `ahead`, **and** `unknown` all count as drift).
+  - Registry `config/projects.toml` stores **name + path only**; a project's adopted Set Version is read
+    **live** from its `docs/SET_VERSION_ADOPTED.md` at report time (single source of truth, never cached).
+  - 7 src modules (`__init__`, `__main__`, `errors`, `registry`, `setversion`, `report`, `cli`) +
+    `pyproject.toml` (setuptools src-layout; ruff / mypy-strict / pytest config) + a pytest suite
+    (`conftest` + 4 test modules) + a soft ownership-map entry in `scripts/validation_ownership.toml`.
+- **Impact:** **Read-only** — no command in this slice writes to any target repo. **No Set Version
+  change** (no `docs/standards/` file touched → suite stays **v1.1**). **CI unchanged** (`.gitlab-ci.yml`
+  not touched — the `test` stage is deferred to a later slice per the plan's "stay small" constraint).
+- **QA scenarios (Rule 11):** scenarios A–I tracked in `docs/Plans/PLAN-003_tracker.md` Phase 4 —
+  A (empty registry → "No projects registered", exit 0), B–C (status current/behind), D–E (drift exit
+  0/1), F (unknown counts as drift), G (open-log count), H (pytest + mypy --strict + ruff green),
+  I (governance scripts exit 0). B–G are covered by the pytest suite; A, H, I are operator-run smokes.
+- **Version bumps:** new engine files at v0.1; `folder_structure.md` 0.5→0.6, `architecture.md` 0.3→0.4,
+  `documents_manifest.md` 1.5→1.6 (registered entries 36–47); PLAN-003 + tracker promoted 0.1→1.0/CLOSED.
+- **Author:** Yaser Khosravi
+
 ## [2026-06-14] — Project renamed to "Standard DocSet"
 
 - **Type:** Major / Identity (Critical-file edit: `CLAUDE.md` § 1)

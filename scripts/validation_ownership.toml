@@ -10,6 +10,38 @@
 # require_docs = true
 # reason       = "Core engine — behavior must be tested and documented."
 
+[rules.registry]
+source_paths = ["src/standard_document_updater/registry.py"]
+test_paths   = ["tests/test_registry.py"]
+doc_paths    = ["docs/architecture.md"]
+strictness   = "soft"
+require_docs = false
+reason       = "Registry loader — defines which projects the engine reads."
+
+[rules.setversion]
+source_paths = ["src/standard_document_updater/setversion.py"]
+test_paths   = ["tests/test_setversion.py"]
+doc_paths    = ["docs/architecture.md"]
+strictness   = "soft"
+require_docs = false
+reason       = "Set-Version + open-log parsers — the data the report depends on."
+
+[rules.report]
+source_paths = ["src/standard_document_updater/report.py"]
+test_paths   = ["tests/test_report.py"]
+doc_paths    = ["docs/architecture.md"]
+strictness   = "soft"
+require_docs = false
+reason       = "State computation + rendering — operator-visible output."
+
+[rules.cli]
+source_paths = ["src/standard_document_updater/cli.py"]
+test_paths   = ["tests/test_cli.py"]
+doc_paths    = ["docs/architecture.md"]
+strictness   = "soft"
+require_docs = false
+reason       = "Command surface — status/drift behavior + exit codes."
+
 [monitored_paths]
-strict = []   # populate as the project grows
-soft   = []
+strict = []                               # populate as coverage matures
+soft   = ["src/standard_document_updater/"]

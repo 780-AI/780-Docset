@@ -1,7 +1,8 @@
-<!-- VERSION: 0.5 -->
-<!-- Last Updated: 2026-06-14 -->
+<!-- VERSION: 0.6 -->
+<!-- Last Updated: 2026-06-16 -->
 <!--
 CHANGE LOG
+v0.6 — 2026-06-16 — PLAN-003 (Slice 2): engine landed. Moved src/standard_document_updater/ (7 modules), tests/ (conftest + 4 test files), config/projects.toml, and pyproject.toml from the Planned block into the live repository tree.
 v0.5 — 2026-06-14 — Project display name → "Standard DocSet" (layout title + tree root). Engine package path `standard_document_updater` unchanged.
 v0.4 — 2026-06-13 — PLAN-002 (Slice 1): moved SET_VERSION_ADOPTED.md from docs/standards/ to docs/ (survives the setup strip); added the STANDARDS_LOG.md experiences-log template to the docs/standards/ listing; bumped the suite label to Set Version v1.1.
 v0.3 — 2026-06-13 — Added docs/architecture.md (system-design record) to the docs/ listing; removed it from the Planned section (now real).
@@ -55,6 +56,24 @@ Standard DocSet/
 │   │   └── VALIDATION_STANDARDS.md
 │   └── Plans/                     # committed planning docs (Rule 1); OPEN_TASKS.md is gitignored
 │       └── .gitkeep
+├── pyproject.toml                 # packaging + tool config (setuptools / ruff / mypy / pytest)
+├── config/
+│   └── projects.toml              # registry of managed projects (name + path; per architecture.md § 8)
+├── src/
+│   └── standard_document_updater/  # the CLI engine (Slice 2: registry + status/drift)
+│       ├── __init__.py            # package marker + released CLI version
+│       ├── __main__.py            # `python -m standard_document_updater` entry point
+│       ├── errors.py              # exception hierarchy
+│       ├── registry.py            # config/projects.toml loader (name + path)
+│       ├── setversion.py          # live parsers: vault/adopted Set Version + open-log count
+│       ├── report.py              # state computation + table render + drift filter
+│       └── cli.py                 # argparse; status / drift subcommands
+├── tests/                         # pytest suite
+│   ├── conftest.py                # synthetic vault/project fixtures
+│   ├── test_setversion.py
+│   ├── test_registry.py
+│   ├── test_report.py
+│   └── test_cli.py
 ├── scripts/
 │   ├── check_doc_coverage.py
 │   ├── check_test_coverage_drift.py
@@ -62,18 +81,6 @@ Standard DocSet/
 │   └── validation_ownership.toml
 └── archive/
     └── LESSONS.md                 # incident-to-rule archive (L001–L049)
-```
-
-## Planned (added when the engine lands)
-
-```
-Standard DocSet/
-├── src/
-│   └── standard_document_updater/  # the CLI engine (parser / differ / writer / version-bump)
-│       └── __init__.py
-├── tests/                          # pytest suite
-├── config/projects.toml            # registry of managed projects (per docs/architecture.md § 8)
-└── pyproject.toml                  # packaging + tool config (ruff / mypy / pytest)
 ```
 
 (Code-folder entries are added as the project grows. See `docs/standards/PROJECT_STANDARDS.md` § 6 for
