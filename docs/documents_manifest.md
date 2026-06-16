@@ -1,7 +1,9 @@
-<!-- VERSION: 1.4 -->
-<!-- Last Updated: 2026-06-14 -->
+<!-- VERSION: 1.5 -->
+<!-- Last Updated: 2026-06-16 -->
 <!--
 CHANGE LOG
+v1.5 — 2026-06-16 — Registered PLAN-003 (Slice 2: registry + status/drift) DRAFT + its sibling tracker
+as entries 34–35 (v0.1). Quick-index Plans range 31–33 → 31–35. Design session only; no engine code yet.
 v1.4 — 2026-06-14 — Project rename: display name → "Standard DocSet" across root CLAUDE.md (1.2), session files (1.2), SET_VERSION_ADOPTED (1.2), architecture (0.3), folder_structure (0.5); version cells updated. Engine package `standard_document_updater` unchanged (Option B). GitLab project/remote → slug `standard-docset`.
 v1.3 — 2026-06-13 — PLAN-002 (Slice 1): added docs/standards/STANDARDS_LOG.md (experiences-log template);
 moved SET_VERSION_ADOPTED.md docs/standards/ → docs/ (path + category updated); bumped the marker/SETUP
@@ -28,7 +30,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Canonical standards suite (Set v1.1) | 11–27 |
 | Governance scripts | 28–29 |
 | Archive | 30 |
-| Plans | 31–33 |
+| Plans | 31–35 |
 
 ## Manifest table
 
@@ -38,7 +40,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 1.4 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 1.5 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.5 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.3 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.2 | Governance | `docs/SESSION_OPENER.md` |
@@ -67,6 +69,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 31 | PLAN-001 — domain-neutral suite (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-001_domain_neutral_suite.md` |
 | 32 | PLAN-001 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-001_tracker.md` |
 | 33 | PLAN-002 — Slice 1 (setup-strip + log + markers) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-002_setup_strip_log_markers.md` |
+| 34 | PLAN-003 — Slice 2 (registry + status/drift) (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-003_registry_status_drift.md` |
+| 35 | PLAN-003 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-003_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -74,8 +78,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 ## Last updated
 
-- **Date**: 2026-06-14
-- **Change**: Project rename → "Standard DocSet" (display name); root CLAUDE.md, session files, SVA,
-  architecture, folder_structure version cells bumped. Engine package `standard_document_updater` unchanged.
-- **Previous change**: PLAN-002 (Slice 1) — `STANDARDS_LOG.md` + markers + setup-and-strip; renumbered to 33 (Set v1.1).
+- **Date**: 2026-06-16
+- **Change**: Registered PLAN-003 (Slice 2: registry + status/drift) DRAFT + its sibling tracker as
+  entries 34–35 (v0.1). Design session only — no engine code committed yet.
+- **Previous change**: Project rename → "Standard DocSet" (display name); version cells bumped.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)
