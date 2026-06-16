@@ -1,7 +1,8 @@
-<!-- VERSION: 0.6 -->
+<!-- VERSION: 0.7 -->
 <!-- Last Updated: 2026-06-16 -->
 <!--
 CHANGE LOG
+v0.7 — 2026-06-16 — PLAN-004 (Slice 3): added src/standard_document_updater/logentry.py + harvest.py and tests/test_logentry.py + test_harvest.py to the tree; noted the harvest subcommand on cli.py and the engine-tree comment ("Slice 3: + harvest").
 v0.6 — 2026-06-16 — PLAN-003 (Slice 2): engine landed. Moved src/standard_document_updater/ (7 modules), tests/ (conftest + 4 test files), config/projects.toml, and pyproject.toml from the Planned block into the live repository tree.
 v0.5 — 2026-06-14 — Project display name → "Standard DocSet" (layout title + tree root). Engine package path `standard_document_updater` unchanged.
 v0.4 — 2026-06-13 — PLAN-002 (Slice 1): moved SET_VERSION_ADOPTED.md from docs/standards/ to docs/ (survives the setup strip); added the STANDARDS_LOG.md experiences-log template to the docs/standards/ listing; bumped the suite label to Set Version v1.1.
@@ -60,19 +61,23 @@ Standard DocSet/
 ├── config/
 │   └── projects.toml              # registry of managed projects (name + path; per architecture.md § 8)
 ├── src/
-│   └── standard_document_updater/  # the CLI engine (Slice 2: registry + status/drift)
+│   └── standard_document_updater/  # the CLI engine (Slice 2: registry + status/drift; Slice 3: + harvest)
 │       ├── __init__.py            # package marker + released CLI version
 │       ├── __main__.py            # `python -m standard_document_updater` entry point
 │       ├── errors.py              # exception hierarchy
 │       ├── registry.py            # config/projects.toml loader (name + path)
 │       ├── setversion.py          # live parsers: vault/adopted Set Version + open-log count
+│       ├── logentry.py            # STANDARDS_LOG.md entry parser (LogEntry + parse_log)
+│       ├── harvest.py             # consolidate open log entries → stdout report (group-by-area + dup flag)
 │       ├── report.py              # state computation + table render + drift filter
-│       └── cli.py                 # argparse; status / drift subcommands
+│       └── cli.py                 # argparse; status / drift / harvest subcommands
 ├── tests/                         # pytest suite
 │   ├── conftest.py                # synthetic vault/project fixtures
 │   ├── test_setversion.py
 │   ├── test_registry.py
 │   ├── test_report.py
+│   ├── test_logentry.py
+│   ├── test_harvest.py
 │   └── test_cli.py
 ├── scripts/
 │   ├── check_doc_coverage.py

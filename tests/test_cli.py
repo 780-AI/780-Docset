@@ -1,8 +1,9 @@
 # ==============================================================
-# VERSION: 0.1
-# End-to-end tests for the CLI (status / drift).
+# VERSION: 0.2
+# End-to-end tests for the CLI (status / drift / harvest).
 #
 # CHANGE LOG
+# v0.2 — 2026-06-16 — Add 2 harvest tests (empty registry; one project, 2 open entries).
 # v0.1 — 2026-06-16 13:01 — Initial: status table, drift exit codes, empty registry.
 # ==============================================================
 """Tests for standard_document_updater.cli."""
@@ -68,3 +69,24 @@ def test_drift_unknown_counts_as_drift(
     proj = make_project("alpha", adopted=None)
     write_registry(root, [("alpha", proj)])
     assert main(["--vault", str(root), "drift"]) == 1
+
+
+def test_harvest_empty_registry_exit_zero(
+    make_vault: Make, write_registry: Make, capsys: pytest.CaptureFixture[str]
+) -> None:
+    root = make_vault("1.1")
+    write_registry(root, [])
+    assert main(["--vault", str(root), "harvest"]) == 0
+    assert "No open log entries across registered projects." in capsys.readouterr().out
+
+
+def test_harvest_lists_open_entries_exit_zero(
+    make_vault: Make, make_project: Make, write_registry: Make,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    root = make_vault("1.1")
+    proj = make_project("alpha", open_entries=2)
+    write_registry(root, [("alpha", proj)])
+    assert main(["--vault", str(root), "harvest"]) == 0
+    out = capsys.readouterr().out
+    assert "E001" in out and "E002" in out and "alpha" in out

@@ -1,8 +1,11 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-06-16 -->
-<!-- Status: DRAFT (tracks PLAN-004) -->
+<!-- Status: CLOSED (tracks PLAN-004) -->
 <!--
 CHANGE LOG
+v1.0 — 2026-06-16 — Phase 3 (Implement) + Phase 4 (Validate) done same-commit as the slice ships.
+QA A–H ✅ (ruff + mypy --strict + 35 pytest green; both governance scripts exit 0; live CLI A/B/C/D/G).
+Plan-defect D1 (E501 reflow) resolved mechanically. Promoted to 1.0/CLOSED. Phase 5 push held for operator.
 v0.1 — 2026-06-16 18:06 — Sibling tracker created same-commit as the PLAN-004 draft (per § 15.7;
 triggered by first-of-kind module + multi-scenario QA list A–H + expected cross-session Phase 3).
 Phases 0–1 done; 2–5 pending.
@@ -39,48 +42,49 @@ Sibling tracker for `docs/Plans/PLAN-004_harvest.md` (per `CLAUDE.md` § 15.7). 
   dup same-project exclusion + write-back scenarios C/E, import-order + two-commit manifest split,
   DD-1 surfaced). Recorded in plan CHANGE LOG + § 11 + the plan foot.
 
-## Phase 2 — Operator approval ⏸
+## Phase 2 — Operator approval ✅ 2026-06-16
 
-- ⏸ `APPROVE PLAN-004` (or change requests) — **awaiting operator**.
+- ✅ `APPROVE PLAN-004` — operator approved 2026-06-16 (recorded in OPEN_TASKS).
 
-## Phase 3 — Implement (fresh session; one commit, ALLOWLIST-bounded) ⏸
+## Phase 3 — Implement (fresh session; one commit, ALLOWLIST-bounded) ✅ 2026-06-16
 
 New source:
-- ⏸ `src/standard_document_updater/logentry.py` (§ 5A)
-- ⏸ `src/standard_document_updater/harvest.py` (§ 5B)
+- ✅ `src/standard_document_updater/logentry.py` (§ 5A)
+- ✅ `src/standard_document_updater/harvest.py` (§ 5B; D1: line-85 reflow vs E501)
 
 Modified source:
-- ⏸ `src/standard_document_updater/cli.py` (§ 5C — C1 header, C2 import, C3 builder+handler, C4 subparser, C5 dispatch; 0.1→0.2)
-- ⏸ `src/standard_document_updater/__init__.py` (§ 5D — header 0.1→0.2, `__version__` 0.1.0→0.2.0)
+- ✅ `src/standard_document_updater/cli.py` (§ 5C — C1 header, C2 import, C3 builder+handler, C4 subparser, C5 dispatch; 0.1→0.2)
+- ✅ `src/standard_document_updater/__init__.py` (§ 5D — header 0.1→0.2, `__version__` 0.1.0→0.2.0)
 
 Tests:
-- ⏸ `tests/test_logentry.py` (§ 5E)
-- ⏸ `tests/test_harvest.py` (§ 5F)
-- ⏸ `tests/test_cli.py` (§ 5C tests note — append 2 harvest tests; 0.1→0.2)
+- ✅ `tests/test_logentry.py` (§ 5E)
+- ✅ `tests/test_harvest.py` (§ 5F)
+- ✅ `tests/test_cli.py` (§ 5C tests note — appended 2 harvest tests; 0.1→0.2)
 
 Governance + doc sync:
-- ⏸ `scripts/validation_ownership.toml` (+ `[rules.logentry]` + `[rules.harvest]`, soft)
-- ⏸ `docs/folder_structure.md` (add 2 src + 2 test files; 0.6→0.7)
-- ⏸ `docs/architecture.md` (§ 8 harvest ✅; § 10 Slice 3 ✅; 0.4→0.5)
-- ⏸ `docs/documents_manifest.md` (append 4 code rows as Engine 50–53 → quick-index Engine range
-  38–49 → 38–53; bump cli/__init__/test_cli cells 0.1→0.2; promote PLAN-004 plan+tracker 0.1→1.0
+- ✅ `scripts/validation_ownership.toml` (+ `[rules.logentry]` + `[rules.harvest]`, soft)
+- ✅ `docs/folder_structure.md` (added 2 src + 2 test files; 0.6→0.7)
+- ✅ `docs/architecture.md` (§ 8 harvest ✅ + behavior note; § 10 Slice 3 ✅; 0.4→0.5)
+- ✅ `docs/documents_manifest.md` (appended 4 code rows as Engine 50–53 → quick-index Engine range
+  38–49 → 38–53; bumped cli/__init__/test_cli cells 0.1→0.2; promoted PLAN-004 plan+tracker 0.1→1.0
   CLOSED; 1.7→1.8)
-- ⏸ `CHANGELOG.md` (top entry + QA sub-section A–H)
-- ⏸ Verify NO Set Version bump · NO `.gitlab-ci.yml` · NO `CLAUDE.md` (Rule 6 `git status` check)
+- ✅ `CHANGELOG.md` (top entry + QA sub-section A–H)
+- ✅ Verified NO Set Version bump · NO `.gitlab-ci.yml` · NO `CLAUDE.md` (Rule 6 `git status` check)
 
-## Phase 4 — Validate ⏸ (QA scenarios A–H, Rule 11)
+## Phase 4 — Validate ✅ 2026-06-16 (QA scenarios A–H, Rule 11)
 
-- ⏸ A — `harvest` empty registry → "No open log entries…", exit 0
-- ⏸ B — `harvest` one project, 2 open entries → both listed under area, exit 0
-- ⏸ C — parser: status write-back → `is_open` False (only `open` harvested)
-- ⏸ D — dup: same title, different projects → both flagged
-- ⏸ E — dup: same title, same project → not flagged
-- ⏸ F — dup: distinct titles → not flagged
-- ⏸ G — grouping: ≥2 areas → one sorted `## area (n)` block each
-- ⏸ H — ruff clean · mypy --strict clean (14 files) · full pytest green · both governance scripts exit 0
+- ✅ A — `harvest` empty registry → "No open log entries…", exit 0 (live CLI against real empty registry)
+- ✅ B — `harvest` one project, 2 open entries → both listed under area, exit 0 (live + `test_cli`)
+- ✅ C — parser: status write-back → `is_open` False (only `open` harvested) (`test_logentry` + live)
+- ✅ D — dup: same title, different projects → both flagged (`test_harvest` + live)
+- ✅ E — dup: same title, same project → not flagged (`test_harvest`)
+- ✅ F — dup: distinct titles → not flagged (`test_harvest`)
+- ✅ G — grouping: ≥2 areas → one sorted `## area (n)` block each (`test_harvest` + live)
+- ✅ H — ruff clean · mypy --strict clean (16 files; plan estimated 14) · 35 pytest green · both
+  governance scripts exit 0
 
 ## Phase 5 — Operator gate ⏸
 
 - ⏸ push (no tag — engine code, Set Version unchanged) — held for operator
-- ⏸ promote PLAN-004 + this tracker to v1.0 / CLOSED (same commit Phase 3 ships)
-- ⏸ OPEN_TASKS: mark Slice 3 done; add DD-1 (setversion DRY) follow-up
+- ✅ promoted PLAN-004 + this tracker to v1.0 / CLOSED (this commit)
+- ⏸ OPEN_TASKS: mark Slice 3 done; add DD-1 (setversion DRY) follow-up (local-only register; updated post-commit)

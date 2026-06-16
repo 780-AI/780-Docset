@@ -1,8 +1,13 @@
-<!-- VERSION: 0.1 -->
-<!-- Status: DRAFT -->
+<!-- VERSION: 1.0 -->
+<!-- Status: CLOSED -->
 <!-- Last Updated: 2026-06-16 -->
 <!--
 CHANGE LOG
+v1.0 — 2026-06-16 — Phase 3 (Implement) shipped in one ALLOWLIST-bounded commit + Phase 4 validate
+passed (QA A–H green: ruff + mypy --strict + 35 pytest; both governance scripts exit 0; live CLI
+A/B/C/D/G confirmed). Plan-defect D1 resolved (mechanical): the § 5B report-append line was 103 cols
+(ruff E501) — reflowed to a wrapped lines.append(...); production output byte-identical. Promoted to
+1.0/CLOSED. Push held for the Phase-5 operator gate.
 v0.1 — 2026-06-16 18:06 — Phase 0 (Audit) + Phase 1 (Design) drafted. Slice 3: the `harvest`
 command — read every registered project's docs/STANDARDS_LOG.md, collect the `open` entries, render
 a consolidated report grouped by area, cautiously flag cross-project duplicates. Read-only; always
@@ -72,10 +77,10 @@ Set Version bump. No `.gitlab-ci.yml`, no `CLAUDE.md`.
 |---|---|
 | 0 — Audit | ✅ 2026-06-16 |
 | 1 — Design (+ Rule 13 pass) | ✅ 2026-06-16 |
-| 2 — Operator approval | ⏸ awaiting `APPROVE PLAN-004` |
-| 3 — Implement (fresh session, 1 commit) | ⏸ |
-| 4 — Validate (QA A–H) | ⏸ |
-| 5 — Operator gate (push; no tag) | ⏸ |
+| 2 — Operator approval | ✅ 2026-06-16 (`APPROVE PLAN-004`) |
+| 3 — Implement (fresh session, 1 commit) | ✅ 2026-06-16 |
+| 4 — Validate (QA A–H) | ✅ 2026-06-16 |
+| 5 — Operator gate (push; no tag) | ⏸ push held for operator |
 
 ## 5. Transformation rules (verbatim, per Rule 7)
 
@@ -631,6 +636,7 @@ clean up externally. The DRAFT commit is independently revertable.
 | R3 | Manifest renumber error (insert plan rows shifts Engine block) | Mechanical; governance `check_doc_coverage.py` validates completeness; explicit table in tracker. |
 | DD-1 | **DRY:** `setversion.count_open_log_entries` duplicates the heading-walk now in `logentry.parse_log` | **Deliberately deferred.** Refactoring it to delegate would touch tested status/drift code; out of scope for "stay small". Logged as a follow-up in OPEN_TASKS. Surfaced for operator awareness. |
 | DD-2 | **Dup scope:** flag is title-only, cross-project only (D3) | Intended. Same-project repeats and fuzzy/keyword matches are explicitly out (avoids false positives). |
+| D1 (Phase 3) | **E501:** verbatim § 5B report-append line was 103 cols | **Resolved (mechanical).** Reflowed to a wrapped `lines.append(...)` call; production output byte-identical. The Rule 13 pass (finding #2) had reflowed the *header* f-string but missed this per-item line; caught by ruff at Phase 4. |
 
 ## 12. Acceptance criteria
 

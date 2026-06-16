@@ -2,6 +2,42 @@
 
 Newest entries at the top.
 
+## [2026-06-16] — PLAN-004 (Slice 3): `harvest` (consolidate open experiences-log entries)
+
+- **Type:** Major / New module — executed under the § 15 plan workflow (PLAN-004, Phase 3). New engine
+  code under `src/standard_document_updater/` (a Critical File per `CLAUDE.md` § 4).
+- **What:** Landed the read-only `harvest` command:
+  - `python -m standard_document_updater harvest` — reads **every registered project's**
+    `docs/STANDARDS_LOG.md`, collects the entries whose `Status` is `open`, and prints a **consolidated
+    report grouped by area** to stdout; always exit **0** (informational, like `status` — not a gate).
+  - Conservatively flags likely cross-project duplicates (D3): two open entries are flagged only when
+    their *normalized titles match* AND they come from *different* projects (`⚠ possible duplicate of
+    <project>/<E0NN>`). Same-project repeats and distinct titles are not flagged.
+  - 2 new src modules — `logentry.py` (parse a `STANDARDS_LOG.md` into `LogEntry` records; controlled-vocab
+    fields reduce a status write-back like `integrated → vault L050` to `integrated` so it is correctly
+    not-open) and `harvest.py` (pure render: collect → group-by-area → cautious dup flag, no filesystem).
+  - 2 new test modules (`test_logentry.py`, `test_harvest.py`) + 2 harvest CLI tests in `test_cli.py`;
+    `cli.py`/`__init__.py` 0.1→0.2; soft ownership-map entries for `logentry`/`harvest`.
+- **Impact:** **Read-only** — writes nothing (not to any target, not to disk; the source logs are the
+  durable record per D1). **No Set Version change** (no `docs/standards/` file touched → suite stays
+  **v1.1** — the engine reads the log, it does not alter the suite). **CI unchanged** (`.gitlab-ci.yml`
+  not touched — "stay small"). `--json` deferred (D2); `setversion.count_open_log_entries` DRY-delegation
+  to `logentry.parse_log` deferred (plan § 11 DD-1, logged to OPEN_TASKS).
+- **QA scenarios (Rule 11):** scenarios A–H tracked in `docs/Plans/PLAN-004_tracker.md` Phase 4 —
+  A (empty registry → "No open log entries…", exit 0), B (one project, 2 open entries listed, exit 0),
+  C (status write-back excluded — `is_open` False), D (cross-project same-title flagged both ways),
+  E (same-project same-title not flagged), F (distinct titles not flagged), G (grouping across ≥2 areas,
+  sorted), H (ruff + mypy --strict + full pytest green; both governance scripts exit 0). B–G are covered
+  by the pytest suite; A, B, C, D, G also exercised live via the CLI; H operator-run.
+- **Plan-defect resolution (mechanical, during Phase 3):** D1 — the verbatim § 5B report-append line was
+  103 cols (ruff `E501`); reflowed to a wrapped `lines.append(...)` call. Production output is
+  byte-identical; recorded in the PLAN-004 CHANGE LOG.
+- **Version bumps:** new files `logentry.py`/`harvest.py`/`test_logentry.py`/`test_harvest.py` at v0.1;
+  `cli.py` 0.1→0.2, `__init__.py` 0.1→0.2 (CLI version 0.1.0→0.2.0), `test_cli.py` 0.1→0.2;
+  `architecture.md` 0.4→0.5, `folder_structure.md` 0.6→0.7, `documents_manifest.md` 1.7→1.8 (entries
+  50–53); PLAN-004 + tracker promoted 0.1→1.0/CLOSED.
+- **Author:** Yaser Khosravi
+
 ## [2026-06-16] — PLAN-003 (Slice 2): registry + `status` / `drift` (first engine code)
 
 - **Type:** Major / New module — executed under the § 15 plan workflow (PLAN-003, Phase 3). First Python

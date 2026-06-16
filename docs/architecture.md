@@ -1,7 +1,8 @@
-<!-- VERSION: 0.4 -->
+<!-- VERSION: 0.5 -->
 <!-- Last Updated: 2026-06-16 -->
 <!--
 CHANGE LOG
+v0.5 — 2026-06-16 — PLAN-004 (Slice 3): `harvest` landed. § 8 marks harvest implemented (stdout report grouped by area; cautious cross-project dup flag) + adds the harvest behavior note. § 10 ticks Slice 3 ✅. Read-only; no Set Version change (no docs/standards/ file touched).
 v0.4 — 2026-06-16 — PLAN-003 (Slice 2): first engine code landed. § 8 marks status/drift implemented (registry stores name + path only; adopted version read live). § 10 ticks Slice 2 ✅. § 11 strikes the three now-decided items (registry format/location; CLI entry point; status/drift = two commands). Read-only; no Set Version change (no docs/standards/ file touched).
 v0.3 — 2026-06-14 — Project display name → "Standard DocSet" (doc title). Engine package `standard_document_updater` unchanged.
 v0.2 — 2026-06-13 — PLAN-002 (Slice 1) landed at the document layer (Set Version v1.1): SETUP.md now performs the strip; the STANDARDS_LOG.md template and the PROJECT-OWNED markers exist; SET_VERSION_ADOPTED moved to docs/. Ticked § 10 Slice 1 done and updated the § 4 "not yet" note and the § 7 markers note to past tense.
@@ -144,7 +145,7 @@ A Python CLI (per `CLAUDE.md` § 1). All write commands are operator-gated; read
 | Command | Reads | Writes | Gate |
 |---|---|---|---|
 | `status` / `drift` ✅ | vault + each project's Set Version + open log count | — | none (read-only) |
-| `harvest` | every project's `STANDARDS_LOG.md` | a consolidated report | none (read-only) |
+| `harvest` ✅ | every project's `STANDARDS_LOG.md` | a consolidated report (to stdout) | none (read-only) |
 | `integrate` | the harvest report | the **vault** (LESSONS + topical + Set Version) and project logs (mark-done) | operator-approved per entry |
 | `sync` | vault Set Version | every project (honoring `PROJECT-OWNED` markers) | operator-approved |
 | `setup` | the delivery crate | the new project (then strips) | operator-run; this is `SETUP.md` |
@@ -153,6 +154,11 @@ A Python CLI (per `CLAUDE.md` § 1). All write commands are operator-gated; read
 only**. A project's adopted Set Version is **read live** from its `docs/SET_VERSION_ADOPTED.md` at report
 time (never cached in the registry — single source of truth, § 9). `status`/`harvest`/`sync` iterate it.
 *(Implemented Slice 2 — PLAN-003.)*
+
+> `harvest` implemented Slice 3 — PLAN-004: parses every project's `STANDARDS_LOG.md`, collects the
+> `open` entries, prints a consolidated report grouped by area to stdout, and conservatively flags
+> likely cross-project duplicates (same normalized title across *different* projects). Read-only;
+> always exits 0 (no persisted file — the source logs are the durable record).
 
 ## 9. Invariants
 
@@ -177,7 +183,9 @@ first; judgment-heavy last):
 2. ✅ **Slice 2 — Registry + `status`/`drift`** (done — PLAN-003). Shipped the registry (`config/projects.toml`,
    name + path; adopted version read live) and the first Python engine: read-only `status` / `drift`
    reports of each project's Set Version vs vault and its open log count. *(First engine code.)*
-3. **Slice 3 — `harvest`.** Parse every `STANDARDS_LOG.md`; consolidate `open` entries; dedup hints.
+3. ✅ **Slice 3 — `harvest`** (done — PLAN-004). Parses every `STANDARDS_LOG.md`; consolidates `open`
+   entries into a stdout report grouped by area; conservatively flags cross-project duplicates.
+   Read-only; always exits 0. *(No Set Version change — the engine reads the log, never alters the suite.)*
 4. **Slice 4 — `integrate` assist.** Genericize → new lesson → topical update → version/Set bumps;
    write-back mark-done. *(Operator-gated; judgment-heavy.)*
 5. **Slice 5 — `sync`.** Section-aware propagation honoring `PROJECT-OWNED`; whole-file for suite-owned.

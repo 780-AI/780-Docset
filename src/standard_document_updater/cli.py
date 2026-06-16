@@ -1,8 +1,9 @@
 # ==============================================================
-# VERSION: 0.1
+# VERSION: 0.2
 # Command-line interface: `python -m standard_document_updater <command>`.
 #
 # CHANGE LOG
+# v0.2 — 2026-06-16 — Add the `harvest` subcommand (open-log consolidation).
 # v0.1 — 2026-06-16 13:01 — Initial: status + drift subcommands, --vault override.
 # ==============================================================
 """CLI entry point and command dispatch."""
@@ -12,7 +13,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from standard_document_updater import __version__, report, setversion
+from standard_document_updater import __version__, harvest, logentry, report, setversion
 from standard_document_updater.errors import StandardDocSetError
 from standard_document_updater.registry import load_registry
 
@@ -53,6 +54,22 @@ def _cmd_drift(args: argparse.Namespace) -> int:
     return 1
 
 
+def _build_open_items(vault_root: Path) -> list[harvest.OpenItem]:
+    registry_path = vault_root / "config" / "projects.toml"
+    items: list[harvest.OpenItem] = []
+    for project in load_registry(registry_path):
+        log_path = project.path / "docs" / "STANDARDS_LOG.md"
+        for entry in logentry.parse_log(log_path):
+            if entry.is_open:
+                items.append(harvest.OpenItem(project.name, entry))
+    return items
+
+
+def _cmd_harvest(args: argparse.Namespace) -> int:
+    print(harvest.render_report(_build_open_items(args.vault)))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="standard_document_updater",
@@ -68,13 +85,17 @@ def build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("status", help="show every registered project's adopted vs vault Set Version")
     sub.add_parser("drift", help="show only projects not on the vault Set Version (exit 1 if any)")
+    sub.add_parser(
+        "harvest",
+        help="consolidate open experiences-log entries across all projects",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     """Parse argv and run the chosen command. Returns the process exit code."""
     args = build_parser().parse_args(argv)
-    handlers = {"status": _cmd_status, "drift": _cmd_drift}
+    handlers = {"status": _cmd_status, "drift": _cmd_drift, "harvest": _cmd_harvest}
     try:
         return handlers[args.command](args)
     except StandardDocSetError as exc:

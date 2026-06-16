@@ -34,13 +34,29 @@ strictness   = "soft"
 require_docs = false
 reason       = "State computation + rendering — operator-visible output."
 
+[rules.logentry]
+source_paths = ["src/standard_document_updater/logentry.py"]
+test_paths   = ["tests/test_logentry.py"]
+doc_paths    = ["docs/architecture.md"]
+strictness   = "soft"
+require_docs = false
+reason       = "Experiences-log entry parser — the data harvest consolidates."
+
+[rules.harvest]
+source_paths = ["src/standard_document_updater/harvest.py"]
+test_paths   = ["tests/test_harvest.py"]
+doc_paths    = ["docs/architecture.md"]
+strictness   = "soft"
+require_docs = false
+reason       = "Open-entry consolidation report — group-by-area + cautious dup flag."
+
 [rules.cli]
 source_paths = ["src/standard_document_updater/cli.py"]
 test_paths   = ["tests/test_cli.py"]
 doc_paths    = ["docs/architecture.md"]
 strictness   = "soft"
 require_docs = false
-reason       = "Command surface — status/drift behavior + exit codes."
+reason       = "Command surface — status/drift/harvest behavior + exit codes."
 
 [monitored_paths]
 strict = []                               # populate as coverage matures
