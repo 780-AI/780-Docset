@@ -2,6 +2,34 @@
 
 Newest entries at the top.
 
+## [2026-06-17] — PLAN-005: durable project memory (Rule 14 + Standard Set Version v1.2)
+
+- **Type:** Major / governance — multiple Critical Files (`CLAUDE.md` ×2, `LESSONS.md` ×2,
+  `SESSION_OPENER.md` ×2) + a Set-Version bump. Executed under the § 15 plan workflow (PLAN-005).
+- **What:**
+  - **Rule 14** added to the operating contract (operative + canonical `CLAUDE.md`): the Claude memory
+    store lives inside the repo at `./.claude/memory/` with the harness memory dir symlinked to it, so
+    memory survives a machine change and a folder rename/move; repaired idempotently by
+    `scripts/bootstrap_memory.sh`.
+  - **`SESSION_OPENER.md` § 1.5** (operative + template): a session-start memory-link health check that
+    verifies the link, auto-repairs a stale/missing one, and HALTS-on-empty (forcing function) + a § 3.1
+    catalog row.
+  - **L050** added to both `LESSONS.md` copies — the 2026-06-17 memory-loss incident (harness memory was
+    machine-local + path-keyed, so a machine change + folder move wiped it; recovered losslessly from a
+    Dropbox backup of the prior machine's `~/.claude`).
+  - New tracked tooling `scripts/bootstrap_memory.sh`; new adopter `MEMORY_DURABILITY_ROLLOUT_PROMPT.md`;
+    new project-local `docs/NEW_MACHINE_SETUP.md` (re-home checklist).
+  - **Standard Set Version v1.1 → v1.2** (additive Minor) — STANDARDS_INDEX § 1/§ 2/§ 3/§ 6 + counts
+    (18 files / 50 lessons / 14 rules); SET_VERSION_ADOPTED records adoption; manifest + folder_structure
+    synced; engine slices renumbered (integrate → PLAN-006, sync → PLAN-007).
+- **Impact:** Governance + tooling only — **no engine behavior change**. The durable store + symlink were
+  established interactively the same day; this commit codifies + hardens + propagates them. The memory
+  **content** stays untracked (Dropbox-carried); only the bootstrap tooling is committed.
+- **QA scenarios (Rule 11):** A–G in `docs/Plans/PLAN-005_tracker.md` Phase 4 — A (bootstrap idempotent),
+  B (self-heal after symlink removal), C (write-through), D (empty-store halt wording), E (governance
+  exit 0), F (Set-Version consistency v1.2 / 18 / 50 / 14), G (fresh-machine toolchain smoke — verified
+  2026-06-17: engine 0.2.0, ruff + mypy --strict + 35 tests + governance green, SSH push reachable).
+
 ## [2026-06-16] — PLAN-004 (Slice 3): `harvest` (consolidate open experiences-log entries)
 
 - **Type:** Major / New module — executed under the § 15 plan workflow (PLAN-004, Phase 3). New engine

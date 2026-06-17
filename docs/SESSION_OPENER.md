@@ -1,8 +1,9 @@
-<!-- VERSION: 1.2 -->
-<!-- Last Updated: 2026-06-14 -->
+<!-- VERSION: 1.3 -->
+<!-- Last Updated: 2026-06-17 -->
 <!-- Source: docs/standards/SESSION_OPENER.md (template) v1.4. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.3 — 2026-06-17 — PLAN-005: added § 1.5 memory-link health check (verify + self-heal + halt-on-empty, per Rule 14), the § 4 "Memory link" output line, and § 3.1 row 13. Standard Set Version v1.2.
 v1.2 — 2026-06-14 — Project display name → "Standard DocSet" (header Source ref + § 2 registry folder path). Engine package `standard_document_updater` unchanged.
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-owned blocks (§ 2 source/target registry table, § 3.2 project-specific patterns table) in PROJECT-OWNED markers so a future sync preserves them.
 v1.0 — 2026-06-07 — Project bootstrap. Instantiated from the v1.0 template (docs/standards/SESSION_OPENER.md v1.0). Customized for a single-agent, local-CLI, domain-neutral project: § 1.2 live-system probes replaced with "registered target suites" (no remote infra); § 2 environment mapping rewritten as the source-suite + target-repo registry (no staging/prod hosts); § 3.1 universal failure-mode catalog kept (remote rows annotated N/A for this project); § 4 output template trimmed of the live-system block. BINDING per CLAUDE.md Rule 9.
@@ -51,6 +52,18 @@ Read the top of the most relevant tracker for the stated task. **Sources in prio
 
 Surface 3–5 memories most relevant to the stated task (per `MEMORY_PROTOCOL.md` § 5 verify-before-recommending). Cite each as `[[memory-slug]]`. Recall from the project failure-mode catalog (§ 3 below).
 
+### 1.5 Memory-link health (durability check — per `CLAUDE.md` Rule 14)
+
+Confirm the in-repo memory store is live BEFORE relying on recall (§ 1.4):
+
+```bash
+bash scripts/bootstrap_memory.sh                 # idempotent: (re)creates ~/.claude → ./.claude/memory symlink
+ls -1 .claude/memory/*.md 2>/dev/null | wc -l    # count stored memories (expect > 0 once memory exists)
+```
+
+- If bootstrap reports it **re-created** a stale/missing link → note it in the § 4 block (expected on a new machine or after a folder move).
+- If the store is **empty when prior sessions are known to have written memory** → **STOP** and warn the operator in the § 4 block. Memory may have been lost (see Rule 14 + `archive/LESSONS.md` L050); do not proceed as if there is genuinely no history.
+
 ---
 
 ## 2. Canonical environment mapping (the source/target registry)
@@ -94,6 +107,7 @@ Each row links to the memory/lesson that codifies it. Recall the linked memory w
 | 10 | Behavior-affecting change without a paired QA scenario | every behavior-affecting commit | `CLAUDE.md` **Rule 11 (binding)** + `LESSONS.md` L047 |
 | 11 | Starting a § 15 plan without granular sub-task tracking | any new `docs/Plans/PLAN-NNN_*.md` | `LESSONS.md` L045 + `CLAUDE.md` § 15.7 |
 | 12 | Local-only OPEN_TASKS.md register stale | every session start | `LESSONS.md` L046 + `CLAUDE.md` § 15.7 |
+| 13 | Project memory lost on machine change / folder move | session start; any repo move or new machine | `CLAUDE.md` Rule 14 + `LESSONS.md` L050 |
 | — | Remote/host rows (staging↔prod, SSH, cloud web-console) from the template | N/A — this project has no remote infra | `LESSONS.md` L035, L043 (retained for reference) |
 
 ### 3.2 Project-specific patterns
@@ -122,6 +136,7 @@ Each row links to the memory/lesson that codifies it. Recall the linked memory w
 - Engine version: <version or "engine not yet implemented">
 - Adopted Standards Set Version: <vX.Y>
 - Registered target suites: <list or "none registered yet">
+- Memory link: <healthy: N files | repaired (new machine / post-move) | EMPTY — operator warned>
 
 **Tracker tip**
 <2-3 line summary of current phase / open task, or "no active tracker">

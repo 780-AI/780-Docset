@@ -1,8 +1,9 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-06-13 -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-06-17 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.2 — 2026-06-17 — PLAN-005: added § 1.5 memory-link health check (verify + self-heal + halt-on-empty, per Rule 14), the § 4 "Memory link" output line, and § 3.1 row 14. Standard Set Version v1.2.
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-customizable blocks (§ 2 environment mapping table, § 3.2 project-specific failure-mode table) in PROJECT-OWNED markers so a future sync preserves them. Standard Set Version v1.1.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
@@ -52,6 +53,18 @@ Read the top ~80 lines of the tracker most relevant to the stated task. Surface 
 
 ### 1.4 Memory recall
 Surface 3–5 memories most relevant to the stated task (per `MEMORY_PROTOCOL.md` § 5 verify-before-recommending). Cite each as `[[memory-slug]]`. Recall from the project failure-mode catalog (§ 3 below) — every row there is a memory that may be relevant.
+
+### 1.5 Memory-link health (durability check — per `CLAUDE.md` Rule 14)
+
+Confirm the in-repo memory store is live BEFORE relying on recall (§ 1.4):
+
+```bash
+bash scripts/bootstrap_memory.sh                 # idempotent: (re)creates the harness → ./.claude/memory symlink
+ls -1 .claude/memory/*.md 2>/dev/null | wc -l    # count stored memories (expect > 0 once memory exists)
+```
+
+- If bootstrap reports it **re-created** a stale/missing link → note it in the § 4 block (expected on a new machine or after a folder move).
+- If the store is **empty when prior sessions are known to have written memory** → **STOP** and warn the operator in the § 4 block. Memory may have been lost (see Rule 14 + `LESSONS.md` L050); do not proceed as if there is genuinely no history.
 
 ---
 
@@ -104,6 +117,7 @@ Each row links to the memory that codifies it. Recall the linked memory when its
 | 11 | Starting a § 15 plan without granular sub-task tracking — either (a) big plan without sibling tracker, OR (b) small plan without expanded § 4 in-file checklist | any new `docs/Plans/PLAN-NNN_*.md` | `LESSONS.md` L045 + `CLAUDE.md` § 15.7 |
 | 12 | Local-only OPEN_TASKS.md register stale or unmaintained (if the project uses the convention) | every session start | `LESSONS.md` L046 + `CLAUDE.md` § 15.7 |
 | 13 | Behavior-affecting change shipped without a paired QA / smoke-test scenario in the plan's tracker or OPEN_TASKS | every behavior-affecting commit | `CLAUDE.md` **Rule 11 (binding)** + `LESSONS.md` L047 |
+| 14 | Project memory lost on machine change / folder move | session start; any repo move or new machine | `CLAUDE.md` Rule 14 + `LESSONS.md` L050 |
 
 ### 3.2 Project-specific patterns
 
@@ -134,6 +148,7 @@ Examples of patterns that may surface during a real project:
 - origin/<main-branch> tip: <sha> <subject>
 - unpushed commits: <N> (or "none")
 - working tree: <clean | M file1, file2, ...>
+- Memory link: <healthy: N files | repaired (new machine / post-move) | EMPTY — operator warned>
 
 **Live system** (skip if task is purely local)
 - Staging deploy SHA: <sha> (deployed <ts>)

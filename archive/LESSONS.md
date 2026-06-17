@@ -22,6 +22,7 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L050 — Project memory must live inside the synced repo, not the machine-local harness dir](#l050--project-memory-must-live-inside-the-synced-repo-not-the-machine-local-harness-dir)
  - [L049 — A plan draft is a hypothesis: a mandatory senior-review-and-optimize pass before approval catches what the drafting pass ships](#l049--a-plan-draft-is-a-hypothesis-a-mandatory-senior-review-and-optimize-pass-before-approval-catches-what-the-drafting-pass-ships)
  - [L048 — Session wrap-up routine as forcing function against detail loss across session boundaries](#l048--session-wrap-up-routine-as-forcing-function-against-detail-loss-across-session-boundaries)
  - [L047 — QA / smoke-test scenarios must be coupled to changes at change-time, not validation-time](#l047--qa--smoke-test-scenarios-must-be-coupled-to-changes-at-change-time-not-validation-time)
@@ -124,6 +125,32 @@ where it lives now (which standards file, which section).>
 ---
 
 ## 3. The lessons (newest first)
+
+### L050 — Project memory must live inside the synced repo, not the machine-local harness dir
+
+**Date:** 2026-06-17
+**Project:** Standard DocSet
+**Phase / Task:** Operator-driven binding rule addition (Rule 14)
+
+#### Incident
+
+A new session's pre-flight found the project's entire Claude memory empty — no `MEMORY.md`, no `feedback_*` files — though prior sessions had written several (`feedback_never_change_workflow`, `feedback_plan_handoff_via_open_tasks`, and others; a `feedback_pushstate_register_sync` had been *proposed* in `OPEN_TASKS.md` but never written). Investigation: Claude memory lives at `~/.claude/projects/<sanitized-absolute-path>/memory/`, which is (a) **machine-local** — under `~/.claude`, not inside the project folder, so the Dropbox sync that carries the repo never carried it; and (b) **keyed by the folder's absolute path** — so the folder having been renamed/moved (package-name path → `~/Documents/Standard DocSet` → a Dropbox path) minted new keys and orphaned the old memory dir. The development machine had also been replaced, so the old `~/.claude` was gone. Both failure modes hit at once; nothing survived in the live harness location — the local session transcripts only *referenced* the slugs (from reading `OPEN_TASKS.md`), with no `Write` calls from which to recover content.
+
+#### Diagnosis
+
+Durable knowledge was kept in a location that was neither version-controlled nor cloud-synced, and whose path was unstable under renames. The project's own governance philosophy — "if it's worth keeping, commit/sync it" (Rule 1) — had a gap: harness memory sat *outside* the synced unit, so it was invisible to both Dropbox and git.
+
+#### Codification
+
+Rule 14: the memory store lives inside the repo at `./.claude/memory/` (rides the same sync as the repo; stable under rename), with the harness dir symlinked to it; `scripts/bootstrap_memory.sh` re-establishes the symlink per machine / after a move; `SESSION_OPENER.md` § 1.5 verifies + self-heals + halts-on-empty as the forcing function. In this incident the content was recovered losslessly from a Dropbox-synced backup of the prior machine's `~/.claude` (the only lossless source); absent that, reconstruction from `OPEN_TASKS.md` is the fallback.
+
+#### Cross-references
+
+- `CLAUDE.md` § 3 Rule 14 (the binding rule)
+- `docs/SESSION_OPENER.md` § 1.5 (the forcing function) + § 3.1 (catalog row)
+- `scripts/bootstrap_memory.sh` (the idempotent repair tool)
+
+---
 
 ### L049 — A plan draft is a hypothesis: a mandatory senior-review-and-optimize pass before approval catches what the drafting pass ships
 

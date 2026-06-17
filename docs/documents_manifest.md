@@ -1,7 +1,14 @@
-<!-- VERSION: 1.9 -->
+<!-- VERSION: 2.0 -->
 <!-- Last Updated: 2026-06-17 -->
 <!--
 CHANGE LOG
+v2.0 — 2026-06-17 — PLAN-005 implemented (Standard Set Version v1.2 — durable memory): promoted PLAN-005 +
+tracker (38–39) 0.1/DRAFT → 1.0/CLOSED; bumped touched cells — root CLAUDE.md 1.2→1.3, template CLAUDE.md
+1.1→1.2, project SESSION_OPENER 1.2→1.3, template SESSION_OPENER 1.1→1.2, STANDARDS_INDEX 1.1→1.2;
+registered the three new tracked files (`scripts/bootstrap_memory.sh`, `MEMORY_DURABILITY_ROLLOUT_PROMPT.md`,
+`docs/NEW_MACHINE_SETUP.md`) as entries 56–58 — appended rather than inserted-in-category to avoid a
+full-table renumber (quick-index ranges extended: 1–10,58 / 11–27,57 / 28–29,56). archive/LESSONS.md +
+L050 (archive excluded from manifest per Rule 8; LESSONS header unchanged per the established no-per-lesson-bump practice).
 v1.9 — 2026-06-17 — Registered PLAN-005 (durable memory — Rule 14 + Set v1.2) DRAFT + its sibling tracker
 as entries 38–39 (v0.1). Quick-index Plans range 31–37 → 31–39; Engine range 38–53 → 40–55 (shifted by the
 two inserted plan rows). Design session only; the Phase-3 implement commit lands the suite edits (→ 2.0).
@@ -41,9 +48,9 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 | Module / Section | Entry range |
 |---|---|
-| Operating contract + project docs | 1–10 |
-| Canonical standards suite (Set v1.1) | 11–27 |
-| Governance scripts | 28–29 |
+| Operating contract + project docs | 1–10, 58 |
+| Canonical standards suite (Set v1.2) | 11–27, 57 |
+| Governance scripts | 28–29, 56 |
 | Archive | 30 |
 | Plans | 31–39 |
 | Engine (src + tests) | 40–55 |
@@ -52,17 +59,17 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 | # | Title | Version | Category | Path |
 |---|---|---|---|---|
-| 1 | Operating Contract (binding) | 1.2 | Governance | `CLAUDE.md` |
+| 1 | Operating Contract (binding) | 1.3 | Governance | `CLAUDE.md` |
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 1.9 | Governance | `docs/documents_manifest.md` |
-| 6 | Folder Structure | 0.7 | Governance | `docs/folder_structure.md` |
-| 7 | Architecture (system-design record) | 0.5 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.2 | Governance | `docs/SESSION_OPENER.md` |
+| 5 | Documents Manifest | 2.0 | Governance | `docs/documents_manifest.md` |
+| 6 | Folder Structure | 0.8 | Governance | `docs/folder_structure.md` |
+| 7 | Architecture (system-design record) | 0.6 | Docs | `docs/architecture.md` |
+| 8 | Session Opener (project-local, binding) | 1.3 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.2 | Governance | `docs/SESSION_CLOSER.md` |
-| 10 | Set Version Adopted | 1.2 | Governance | `docs/SET_VERSION_ADOPTED.md` |
-| 11 | CLAUDE.md (template) | 1.1 | Standards | `docs/standards/CLAUDE.md` |
+| 10 | Set Version Adopted | 1.3 | Governance | `docs/SET_VERSION_ADOPTED.md` |
+| 11 | CLAUDE.md (template) | 1.2 | Standards | `docs/standards/CLAUDE.md` |
 | 12 | Lessons Archive (template) | 1.0 | Standards | `docs/standards/LESSONS.md` |
 | 13 | Project Standards | 1.0 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
 | 14 | Prompt Standards | 1.0 | Standards | `docs/standards/PROMPT_STANDARDS.md` |
@@ -71,10 +78,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 17 | Engineering Standards | 1.0 | Standards | `docs/standards/ENGINEERING_STANDARDS.md` |
 | 18 | Validation Standards | 1.0 | Standards | `docs/standards/VALIDATION_STANDARDS.md` |
 | 19 | CI/CD Standards | 1.0 | Standards | `docs/standards/CICD_STANDARDS.md` |
-| 20 | Session Opener (template) | 1.1 | Standards | `docs/standards/SESSION_OPENER.md` |
+| 20 | Session Opener (template) | 1.2 | Standards | `docs/standards/SESSION_OPENER.md` |
 | 21 | Session Closer (template) | 1.1 | Standards | `docs/standards/SESSION_CLOSER.md` |
 | 22 | Standards README (meta) | 1.0 | Standards | `docs/standards/README.md` |
-| 23 | Standards Index (meta) | 1.1 | Standards | `docs/standards/STANDARDS_INDEX.md` |
+| 23 | Standards Index (meta) | 1.2 | Standards | `docs/standards/STANDARDS_INDEX.md` |
 | 24 | New Project Bootstrap (meta) | 1.1 | Standards | `docs/standards/NEW_PROJECT_BOOTSTRAP.md` |
 | 25 | How To Use (meta) | 1.0 | Standards | `docs/standards/HOW_TO_USE.md` |
 | 26 | Setup — one-shot prompt (meta) | 1.1 | Standards | `docs/standards/SETUP.md` |
@@ -89,8 +96,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 35 | PLAN-003 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-003_tracker.md` |
 | 36 | PLAN-004 — Slice 3 (harvest) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-004_harvest.md` |
 | 37 | PLAN-004 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-004_tracker.md` |
-| 38 | PLAN-005 — durable memory (Rule 14 + Set v1.2) (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-005_durable_memory.md` |
-| 39 | PLAN-005 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-005_tracker.md` |
+| 38 | PLAN-005 — durable memory (Rule 14 + Set v1.2) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-005_durable_memory.md` |
+| 39 | PLAN-005 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-005_tracker.md` |
 | 40 | Engine — package marker + CLI version | 0.2 | Engine | `src/standard_document_updater/__init__.py` |
 | 41 | Engine — module entry point | 0.1 | Engine | `src/standard_document_updater/__main__.py` |
 | 42 | Engine — exception hierarchy | 0.1 | Engine | `src/standard_document_updater/errors.py` |
@@ -107,6 +114,9 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 53 | Engine — harvest report (open-entry consolidation) | 0.1 | Engine | `src/standard_document_updater/harvest.py` |
 | 54 | Engine test — logentry | 0.1 | Engine test | `tests/test_logentry.py` |
 | 55 | Engine test — harvest | 0.1 | Engine test | `tests/test_harvest.py` |
+| 56 | Memory bootstrap script | 0.1 | Governance script | `scripts/bootstrap_memory.sh` |
+| 57 | Memory Durability Rollout Prompt (meta) | 1.0 | Standards | `docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md` |
+| 58 | New-Machine Setup (re-home checklist) | 1.0 | Docs | `docs/NEW_MACHINE_SETUP.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not

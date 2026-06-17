@@ -1,7 +1,8 @@
-<!-- VERSION: 0.7 -->
-<!-- Last Updated: 2026-06-16 -->
+<!-- VERSION: 0.8 -->
+<!-- Last Updated: 2026-06-17 -->
 <!--
 CHANGE LOG
+v0.8 — 2026-06-17 — PLAN-005 (durable memory): added the `.claude/` workspace (untracked memory store + README) and `scripts/bootstrap_memory.sh` to the tree; bumped the archive LESSONS comment to L001–L050.
 v0.7 — 2026-06-16 — PLAN-004 (Slice 3): added src/standard_document_updater/logentry.py + harvest.py and tests/test_logentry.py + test_harvest.py to the tree; noted the harvest subcommand on cli.py and the engine-tree comment ("Slice 3: + harvest").
 v0.6 — 2026-06-16 — PLAN-003 (Slice 2): engine landed. Moved src/standard_document_updater/ (7 modules), tests/ (conftest + 4 test files), config/projects.toml, and pyproject.toml from the Planned block into the live repository tree.
 v0.5 — 2026-06-14 — Project display name → "Standard DocSet" (layout title + tree root). Engine package path `standard_document_updater` unchanged.
@@ -79,13 +80,17 @@ Standard DocSet/
 │   ├── test_logentry.py
 │   ├── test_harvest.py
 │   └── test_cli.py
+├── .claude/                      # Claude Code workspace (untracked; Dropbox-synced)
+│   ├── memory/                   # durable memory store — harness symlinks here (Rule 14)
+│   └── README_memory.md
 ├── scripts/
+│   ├── bootstrap_memory.sh       # re-home the Claude memory symlink (Rule 14)
 │   ├── check_doc_coverage.py
 │   ├── check_test_coverage_drift.py
 │   ├── doc_coverage_allowlist.toml
 │   └── validation_ownership.toml
 └── archive/
-    └── LESSONS.md                 # incident-to-rule archive (L001–L049)
+    └── LESSONS.md                 # incident-to-rule archive (L001–L050)
 ```
 
 (Code-folder entries are added as the project grows. See `docs/standards/PROJECT_STANDARDS.md` § 6 for

@@ -1,8 +1,9 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-06-13 -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-06-17 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). TEMPLATE — adopters copy to repo root and fill <placeholders>. -->
 <!--
 CHANGE LOG
+v1.2 — 2026-06-17 — Add Rule 14 (durable project memory across machines/folder moves). Standard Set Version v1.2 (PLAN-005).
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-customizable blocks (§ 1 context, § 4 critical files, § 13 domain bullet, § 14 Codex section) in PROJECT-OWNED markers so a future sync preserves them. Standard Set Version v1.1.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline (template). Established as Standard Set Version v1.0.
 -->
@@ -226,6 +227,20 @@ The canonical review prompt the agent runs verbatim is stored in § 15.8.
 **Drift on this rule is a Major defect** — a plan presented for approval (or shipped to a Phase 3 implementer) without the recorded review-pass artifact in its CHANGE LOG is a rule violation.
 
 See `archive/LESSONS.md` L049 for the incident that motivated this rule.
+
+### Rule 14 — Project memory must be durable across machines and folder moves
+
+The Claude memory store MUST live **inside the repository** at `./.claude/memory/` — the single physical copy — with the harness's per-project memory directory (`~/.claude/projects/<sanitized-abs-path>/memory/`) pointed at it via a **symlink**. Because the repository folder is the unit that is version-controlled and/or cloud-synced (e.g. Dropbox / iCloud / a git remote), keeping the real memory files inside it means memory travels with the project: it survives a **machine change** (the synced repo carries the content) and a **folder rename/move** (the repo-relative path is stable).
+
+The harness memory path is machine-local and keyed by the folder's absolute path — so it is the one thing that breaks on a move or a new machine. Repair is mechanical and idempotent: `scripts/bootstrap_memory.sh` re-derives the key from the current repo path and (re)creates the symlink. Run it once per machine and after any folder move.
+
+This rule is enforced by a forcing function: `SESSION_OPENER.md` § 1.5 verifies the link resolves and the store is non-empty at every session start, **auto-repairs** a stale/missing link, and **HALTS with a warning** if the store is unexpectedly empty (the signal that memory was lost).
+
+**Only permitted abbreviation:** none — the pre-flight check is cheap and silent when healthy.
+
+**Drift on this rule is a Major defect** — a session that proceeds past an *unexpectedly* empty memory store (one where prior sessions are known to have written memory) without surfacing it to the operator is a rule violation. A genuinely new project with no memory yet is not a violation.
+
+See `archive/LESSONS.md` L050 for the incident that motivated this rule.
 
 ---
 

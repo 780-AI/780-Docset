@@ -1,7 +1,8 @@
-<!-- VERSION: 0.5 -->
-<!-- Last Updated: 2026-06-16 -->
+<!-- VERSION: 0.6 -->
+<!-- Last Updated: 2026-06-17 -->
 <!--
 CHANGE LOG
+v0.6 — 2026-06-17 — PLAN-005 (durable memory): engine-slice plan numbers shifted — § 10 annotates Slice 4 = PLAN-006 (`integrate`), Slice 5 = PLAN-007 (`sync`), with a note that PLAN-005 is the durable-memory governance change (not a slice); § 11 OPEN item now resolves at PLAN-006. No engine behavior change.
 v0.5 — 2026-06-16 — PLAN-004 (Slice 3): `harvest` landed. § 8 marks harvest implemented (stdout report grouped by area; cautious cross-project dup flag) + adds the harvest behavior note. § 10 ticks Slice 3 ✅. Read-only; no Set Version change (no docs/standards/ file touched).
 v0.4 — 2026-06-16 — PLAN-003 (Slice 2): first engine code landed. § 8 marks status/drift implemented (registry stores name + path only; adopted version read live). § 10 ticks Slice 2 ✅. § 11 strikes the three now-decided items (registry format/location; CLI entry point; status/drift = two commands). Read-only; no Set Version change (no docs/standards/ file touched).
 v0.3 — 2026-06-14 — Project display name → "Standard DocSet" (doc title). Engine package `standard_document_updater` unchanged.
@@ -186,9 +187,13 @@ first; judgment-heavy last):
 3. ✅ **Slice 3 — `harvest`** (done — PLAN-004). Parses every `STANDARDS_LOG.md`; consolidates `open`
    entries into a stdout report grouped by area; conservatively flags cross-project duplicates.
    Read-only; always exits 0. *(No Set Version change — the engine reads the log, never alters the suite.)*
-4. **Slice 4 — `integrate` assist.** Genericize → new lesson → topical update → version/Set bumps;
-   write-back mark-done. *(Operator-gated; judgment-heavy.)*
-5. **Slice 5 — `sync`.** Section-aware propagation honoring `PROJECT-OWNED`; whole-file for suite-owned.
+4. **Slice 4 — `integrate` assist (PLAN-006).** Genericize → new lesson → topical update → version/Set
+   bumps; write-back mark-done. *(Operator-gated; judgment-heavy.)*
+5. **Slice 5 — `sync` (PLAN-007).** Section-aware propagation honoring `PROJECT-OWNED`; whole-file for
+   suite-owned.
+
+> Plan numbering: PLAN-005 is the durable-memory governance change (Rule 14 / Set v1.2), not an engine
+> slice; the engine slices shifted to PLAN-006 (`integrate`) and PLAN-007 (`sync`).
 
 ## 11. Open decisions (to resolve as each slice is planned)
 
@@ -198,4 +203,4 @@ first; judgment-heavy last):
   (`status` / `drift` are two subcommands, not one command with a flag).
 - ✅ **DECIDED** — Final home of `STANDARDS_LOG.md`: `docs/STANDARDS_LOG.md` (survives the setup strip).
 - ⏳ **OPEN** — Whether `integrate`'s genericization runs a model in-process or hands off to a Claude
-  session (affects whether the tool is pure-Python or CLI + agent workflow). Resolve at Slice 4 / PLAN-005.
+  session (affects whether the tool is pure-Python or CLI + agent workflow). Resolve at Slice 4 / PLAN-006.

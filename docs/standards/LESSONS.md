@@ -22,6 +22,7 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L050 — Project memory must live inside the synced repo, not the machine-local harness dir](#l050--project-memory-must-live-inside-the-synced-repo-not-the-machine-local-harness-dir)
  - [L049 — A plan draft is a hypothesis: a mandatory senior-review-and-optimize pass before approval catches what the drafting pass ships](#l049--a-plan-draft-is-a-hypothesis-a-mandatory-senior-review-and-optimize-pass-before-approval-catches-what-the-drafting-pass-ships)
  - [L048 — Session wrap-up routine as forcing function against detail loss across session boundaries](#l048--session-wrap-up-routine-as-forcing-function-against-detail-loss-across-session-boundaries)
  - [L047 — QA / smoke-test scenarios must be coupled to changes at change-time, not validation-time](#l047--qa--smoke-test-scenarios-must-be-coupled-to-changes-at-change-time-not-validation-time)
@@ -124,6 +125,32 @@ where it lives now (which standards file, which section).>
 ---
 
 ## 3. The lessons (newest first)
+
+### L050 — Project memory must live inside the synced repo, not the machine-local harness dir
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** Operator-driven binding rule addition (Rule 14)
+
+#### Incident
+
+A new session's pre-flight found the project's entire agent memory empty — no index file, no per-fact files — though prior sessions had written several. Investigation: the coding agent's memory lived in a machine-local directory under the user's home, keyed by the project folder's absolute path — not inside the project folder. So the cloud sync that carried the repo never carried the memory; and because the project folder had been renamed/moved more than once and the development machine had been replaced, the path-keyed memory directory was orphaned and the old home directory was gone. Both failure modes hit at once; nothing survived in the live location, and the session transcripts only referenced the memory slugs (no write calls from which to recover content).
+
+#### Diagnosis
+
+Durable knowledge was kept in a location that was neither version-controlled nor cloud-synced, and whose path was unstable under renames. The project's own governance philosophy — "if it's worth keeping, commit/sync it" (Rule 1) — had a gap: agent memory sat outside the synced unit, invisible to both the cloud sync and git.
+
+#### Codification
+
+Rule 14: the memory store lives inside the repo (rides the same sync as the repo; stable under rename), with the agent's memory directory symlinked to it; a bootstrap script re-establishes the symlink per machine / after a move; the session-start pre-flight (`SESSION_OPENER.md` § 1.5) verifies + self-heals + halts-on-empty as the forcing function. Lost content is recoverable only from a synced/backup copy of the prior machine's home directory, or by reconstruction from committed/synced project docs.
+
+#### Cross-references
+
+- `CLAUDE.md` § 3 Rule 14 (the binding rule)
+- `SESSION_OPENER.md` § 1.5 (the forcing function) + § 3.1 (catalog row)
+- the memory-bootstrap script (the idempotent repair tool)
+
+---
 
 ### L049 — A plan draft is a hypothesis: a mandatory senior-review-and-optimize pass before approval catches what the drafting pass ships
 

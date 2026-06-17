@@ -1,8 +1,9 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-06-17 -->
-<!-- Status: DRAFT -->
+<!-- Status: CLOSED -->
 <!--
 CHANGE LOG
+v1.0 — 2026-06-17 — Phase 3 implemented in a single ALLOWLIST-bounded commit (17 tracked files) + promoted to CLOSED. Shipped Rule 14 (both CLAUDE.md), L050 (both LESSONS), SESSION_OPENER § 1.5 + § 3.1 (both copies), scripts/bootstrap_memory.sh, MEMORY_DURABILITY_ROLLOUT_PROMPT.md, docs/NEW_MACHINE_SETUP.md, Set Version v1.1→v1.2, + manifest/CHANGELOG/folder_structure/SET_VERSION/architecture sync. QA A–G green.
 v0.1 — 2026-06-17 — Initial DRAFT + Rule 13 senior-review pass (same session, last task of Phase 1).
 DRAFT scope: new binding Rule 14, lesson L050, SESSION_OPENER § 1.5 self-healing pre-flight, a tracked
 bootstrap script, an adopter rollout prompt, Set Version v1.1 → v1.2. Sibling tracker: PLAN-005_tracker.md.

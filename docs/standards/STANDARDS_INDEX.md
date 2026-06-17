@@ -1,8 +1,9 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-06-13 -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-06-17 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.2 — 2026-06-17 — Standard Set Version v1.2 (PLAN-005): added Rule 14 (durable memory) to CLAUDE.md; SESSION_OPENER § 1.5 + § 3.1 row; lesson L050; new meta file MEMORY_DURABILITY_ROLLOUT_PROMPT.md. § 1 counts → 50 lessons / 14 rules; § 3 → 18 files (11 binding + 7 meta); CLAUDE.md + SESSION_OPENER cells → 1.2; § 6 history entry added.
 v1.1 — 2026-06-13 — Standard Set Version v1.1 (PLAN-002, Slice 1): registered the STANDARDS_LOG.md
 experiences-log template (meta "+"); recorded the PROJECT-OWNED marker convention + setup-and-strip;
 bumped § 3 per-file versions for the edited files; refreshed counts (17 files) and added the § 6 history entry.
@@ -34,10 +35,10 @@ Version** tracks the suite as a whole — files added, structure changed, patter
 ## 1. Standard Set Version (current)
 
 ```
-Standard Set Version: v1.1
-Released:             2026-06-13
-Baseline:             v1.0 clean domain-neutral baseline + the experiences-log template, PROJECT-OWNED markers, and setup-and-strip (PLAN-002 Slice 1).
-Adopter contract:     11 binding files + 4 meta files (+ SETUP.md + STANDARDS_LOG.md); 49 lessons (L001–L049); 13 standing rules in CLAUDE.md
+Standard Set Version: v1.2
+Released:             2026-06-17
+Baseline:             v1.0 clean domain-neutral baseline + the experiences-log template, PROJECT-OWNED markers, and setup-and-strip (PLAN-002 Slice 1) + durable-memory Rule 14 (PLAN-005).
+Adopter contract:     11 binding files + 4 meta files (+ SETUP.md + STANDARDS_LOG.md + MEMORY_DURABILITY_ROLLOUT_PROMPT.md); 50 lessons (L001–L050); 14 standing rules in CLAUDE.md
 ```
 
 When adopting this suite, record the Set Version in the new project's `CHANGELOG.md` or its own
@@ -55,7 +56,7 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 
 | # | File | Role |
 |---|---|---|
-| 1 | `CLAUDE.md` | Binding contract — 13 standing rules, classification, workflow, validation checklist, dispatcher, plan workflow (§ 15), optional Codex handoff (§ 14) |
+| 1 | `CLAUDE.md` | Binding contract — 14 standing rules, classification, workflow, validation checklist, dispatcher, plan workflow (§ 15), optional Codex handoff (§ 14) |
 | 2 | `PROJECT_STANDARDS.md` | Governance — manifest mechanics, CHANGELOG conventions, tracker structure, commit discipline, sync triggers |
 | 3 | `PROMPT_STANDARDS.md` | Prompt-craft — multi-file edit prompts, ALLOWLIST + verbatim FIND/REPLACE, retry-with-deviation-warning, Codex handoff variant |
 | 4 | `PROJECT_INSTRUCTIONS_TEMPLATE.md` | Claude.ai Project Instructions — three-tier template (static frame, project-specific, per-session) |
@@ -63,7 +64,7 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 | 6 | `ENGINEERING_STANDARDS.md` | Engineering substrate — architecture invariants, coding standards, secrets, container discipline, ops |
 | 7 | `VALIDATION_STANDARDS.md` | Test framework — tiered model, ownership map, deliberate-failure protocol, soak, first-fire expectations |
 | 8 | `CICD_STANDARDS.md` | Pipeline architecture — staged shape, registry-pull deploy, smoke gating, auto-rollback, soak gate, explicit PROD authorization |
-| 9 | `LESSONS.md` | Incident-to-rule archive — 49 lessons (append-only), each with incident + cost + codification + cross-references |
+| 9 | `LESSONS.md` | Incident-to-rule archive — 50 lessons (append-only), each with incident + cost + codification + cross-references |
 | 10 | `SESSION_OPENER.md` | Session-start pre-flight (binding per Rule 9) — environment mapping + failure-mode catalog + first-response output template |
 | 11 | `SESSION_CLOSER.md` | Session-end wrap-up (binding per Rule 12) — wrap-up routine + failure-mode catalog + output template |
 
@@ -77,6 +78,7 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 | 4 | `HOW_TO_USE.md` | Practical usage guide — pointer to `SETUP.md` + supporting prompts (Day-One, code review, audit) |
 | + | `SETUP.md` | **The one-shot bootstrap prompt** — paste into a fresh agent session to set up a new project from scratch |
 | + | `STANDARDS_LOG.md` | **Experiences-log template** — the per-project contribution channel; `SETUP.md` copies it to the project's `docs/STANDARDS_LOG.md` (an adopter artifact, not a binding rule) |
+| + | `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` | **Memory-durability rollout prompt** — paste-in prompt that sets up Rule 14 durable memory in an adopting project (setup machinery; stripped after use) |
 
 ---
 
@@ -86,7 +88,7 @@ Current state as of Set Version v1.1 (2026-06-13). Files unchanged since v1.0 ke
 
 | File | Tier | Version | Last Updated |
 |---|---|---|---|
-| `CLAUDE.md` | Binding | 1.1 | 2026-06-13 |
+| `CLAUDE.md` | Binding | 1.2 | 2026-06-17 |
 | `PROJECT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `PROMPT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `PROJECT_INSTRUCTIONS_TEMPLATE.md` | Binding | 1.0 | 2026-06-07 |
@@ -95,7 +97,7 @@ Current state as of Set Version v1.1 (2026-06-13). Files unchanged since v1.0 ke
 | `VALIDATION_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `CICD_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `LESSONS.md` | Binding | 1.0 | 2026-06-07 |
-| `SESSION_OPENER.md` | Binding | 1.1 | 2026-06-13 |
+| `SESSION_OPENER.md` | Binding | 1.2 | 2026-06-17 |
 | `SESSION_CLOSER.md` | Binding | 1.1 | 2026-06-13 |
 | `README.md` | Meta | 1.0 | 2026-06-07 |
 | `STANDARDS_INDEX.md` | Meta | 1.1 | 2026-06-13 |
@@ -103,9 +105,10 @@ Current state as of Set Version v1.1 (2026-06-13). Files unchanged since v1.0 ke
 | `HOW_TO_USE.md` | Meta | 1.0 | 2026-06-07 |
 | `SETUP.md` | Meta | 1.1 | 2026-06-13 |
 | `STANDARDS_LOG.md` | Meta | 1.0 | 2026-06-13 |
+| `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` | Meta | 1.0 | 2026-06-17 |
 
-**Total file count:** 17 (11 binding + 6 meta).
-**Total lesson count in `LESSONS.md`:** 49 (L001–L049).
+**Total file count:** 18 (11 binding + 7 meta).
+**Total lesson count in `LESSONS.md`:** 50 (L001–L050).
 
 ---
 
@@ -161,6 +164,15 @@ coordinated multi-file pattern is a Set-Version Minor; a structural change is a 
 ## 6. Standard Set Version history
 
 Newest first. Append-only.
+
+### v1.2 — 2026-06-17 — Durable project memory (Rule 14)
+
+Additive Minor (PLAN-005). Adds binding **Rule 14** (the Claude memory store lives inside the repo at
+`./.claude/memory/` with the harness dir symlinked to it, so memory survives a machine change and a folder
+move; repaired idempotently by `scripts/bootstrap_memory.sh`); a self-healing `SESSION_OPENER.md` § 1.5
+pre-flight (verify + auto-repair + halt-on-empty) + a § 3.1 catalog row; lesson **L050**; and the
+`MEMORY_DURABILITY_ROLLOUT_PROMPT.md` meta file for adopters. No binding file removed and no existing rule
+changed — adopters may backport or stay on v1.1.
 
 ### v1.1 — 2026-06-13 — Experiences log + PROJECT-OWNED markers + setup-and-strip
 

@@ -1,8 +1,9 @@
-<!-- VERSION: 1.2 -->
-<!-- Last Updated: 2026-06-14 -->
+<!-- VERSION: 1.3 -->
+<!-- Last Updated: 2026-06-17 -->
 <!-- Source: docs/standards/ (this repo). Bootstrapped from Standard Set v1.0 on 2026-06-07. Independent versions from this point forward. -->
 <!--
 CHANGE LOG
+v1.3 — 2026-06-17 — Add Rule 14 (durable project memory across machines/folder moves). PLAN-005 (Standard Set Version v1.2).
 v1.2 — 2026-06-14 — Project display name renamed to "Standard DocSet" (§ 1). Engine package identifier `standard_document_updater` kept unchanged (Option B). GitLab project + remote renamed to slug `standard-docset`.
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped this repo's project-owned blocks (§ 1 context, § 4 critical files, § 13 domain bullet, § 14 single-agent stub) in PROJECT-OWNED markers so a future sync preserves them; fixed the stale "created when the engine lands" drift on the two docs/architecture.md references (§ 4 drift rule + § 13 domain bullet) now that the doc exists. Adopts Standard Set Version v1.1.
 v1.0 — 2026-06-07 — Project bootstrap. Operating contract instantiated from the standards suite at Standard Set Version v1.0 (13 standing rules, 49 lessons L001–L049). Customized for Standard DocSet: § 1 project context (domain-neutral Python CLI tool), § 4 critical files, § 13 single sources of truth. Single-agent project — the optional Codex handoff section (§ 14 in the template) was removed; § 15.7 tracker Owner header noted as optional. All 13 standing rules, change-classification, change-workflow, validation checklist, dispatcher, and § 15 plan workflow retained verbatim from the v1.0 template (domain-neutral). Independent versions from this point forward; backports from the standards source are explicit (see docs/standards/STANDARDS_INDEX.md).
@@ -227,6 +228,20 @@ The canonical review prompt the agent runs verbatim is stored in § 15.8.
 **Drift on this rule is a Major defect** — a plan presented for approval (or shipped to a Phase 3 implementer) without the recorded review-pass artifact in its CHANGE LOG is a rule violation.
 
 See `archive/LESSONS.md` L049 for the incident that motivated this rule.
+
+### Rule 14 — Project memory must be durable across machines and folder moves
+
+The Claude memory store MUST live **inside the repository** at `./.claude/memory/` — the single physical copy — with the harness's per-project memory directory (`~/.claude/projects/<sanitized-abs-path>/memory/`) pointed at it via a **symlink**. Because the repository folder is the unit that is version-controlled and/or cloud-synced (Dropbox here), keeping the real memory files inside it means memory travels with the project: it survives a **machine change** (the synced repo carries the content) and a **folder rename/move** (the repo-relative path is stable).
+
+The harness memory path is machine-local and keyed by the folder's absolute path — so it is the one thing that breaks on a move or a new machine. Repair is mechanical and idempotent: `scripts/bootstrap_memory.sh` re-derives the key from the current repo path and (re)creates the symlink. Run it once per machine and after any folder move.
+
+This rule is enforced by a forcing function: `SESSION_OPENER.md` § 1.5 verifies the link resolves and the store is non-empty at every session start, **auto-repairs** a stale/missing link, and **HALTS with a warning** if the store is unexpectedly empty (the signal that memory was lost).
+
+**Only permitted abbreviation:** none — the pre-flight check is cheap and silent when healthy.
+
+**Drift on this rule is a Major defect** — a session that proceeds past an *unexpectedly* empty memory store (one where prior sessions are known to have written memory) without surfacing it to the operator is a rule violation. A genuinely new project with no memory yet is not a violation.
+
+See `archive/LESSONS.md` L050 for the incident that motivated this rule.
 
 ---
 
