@@ -1,7 +1,10 @@
-<!-- VERSION: 1.8 -->
-<!-- Last Updated: 2026-06-16 -->
+<!-- VERSION: 1.9 -->
+<!-- Last Updated: 2026-06-17 -->
 <!--
 CHANGE LOG
+v1.9 — 2026-06-17 — Registered PLAN-005 (durable memory — Rule 14 + Set v1.2) DRAFT + its sibling tracker
+as entries 38–39 (v0.1). Quick-index Plans range 31–37 → 31–39; Engine range 38–53 → 40–55 (shifted by the
+two inserted plan rows). Design session only; the Phase-3 implement commit lands the suite edits (→ 2.0).
 v1.8 — 2026-06-16 — PLAN-004 (Slice 3: harvest) implemented: registered the two new engine modules +
 two test modules as entries 50–53 (v0.1) — Engine quick-index range 38–49 → 38–53; bumped the touched
 code cells (__init__ row 38, cli row 44, test_cli row 49) 0.1→0.2; promoted PLAN-004 + its tracker
@@ -42,8 +45,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Canonical standards suite (Set v1.1) | 11–27 |
 | Governance scripts | 28–29 |
 | Archive | 30 |
-| Plans | 31–37 |
-| Engine (src + tests) | 38–53 |
+| Plans | 31–39 |
+| Engine (src + tests) | 40–55 |
 
 ## Manifest table
 
@@ -53,7 +56,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 1.8 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 1.9 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.7 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.5 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.2 | Governance | `docs/SESSION_OPENER.md` |
@@ -86,22 +89,24 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 35 | PLAN-003 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-003_tracker.md` |
 | 36 | PLAN-004 — Slice 3 (harvest) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-004_harvest.md` |
 | 37 | PLAN-004 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-004_tracker.md` |
-| 38 | Engine — package marker + CLI version | 0.2 | Engine | `src/standard_document_updater/__init__.py` |
-| 39 | Engine — module entry point | 0.1 | Engine | `src/standard_document_updater/__main__.py` |
-| 40 | Engine — exception hierarchy | 0.1 | Engine | `src/standard_document_updater/errors.py` |
-| 41 | Engine — registry loader | 0.1 | Engine | `src/standard_document_updater/registry.py` |
-| 42 | Engine — Set-Version / open-log parsers | 0.1 | Engine | `src/standard_document_updater/setversion.py` |
-| 43 | Engine — comparison report | 0.1 | Engine | `src/standard_document_updater/report.py` |
-| 44 | Engine — CLI (status / drift / harvest) | 0.2 | Engine | `src/standard_document_updater/cli.py` |
-| 45 | Engine test — shared fixtures | 0.1 | Engine test | `tests/conftest.py` |
-| 46 | Engine test — setversion | 0.1 | Engine test | `tests/test_setversion.py` |
-| 47 | Engine test — registry | 0.1 | Engine test | `tests/test_registry.py` |
-| 48 | Engine test — report | 0.1 | Engine test | `tests/test_report.py` |
-| 49 | Engine test — cli | 0.2 | Engine test | `tests/test_cli.py` |
-| 50 | Engine — experiences-log entry parser | 0.1 | Engine | `src/standard_document_updater/logentry.py` |
-| 51 | Engine — harvest report (open-entry consolidation) | 0.1 | Engine | `src/standard_document_updater/harvest.py` |
-| 52 | Engine test — logentry | 0.1 | Engine test | `tests/test_logentry.py` |
-| 53 | Engine test — harvest | 0.1 | Engine test | `tests/test_harvest.py` |
+| 38 | PLAN-005 — durable memory (Rule 14 + Set v1.2) (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-005_durable_memory.md` |
+| 39 | PLAN-005 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-005_tracker.md` |
+| 40 | Engine — package marker + CLI version | 0.2 | Engine | `src/standard_document_updater/__init__.py` |
+| 41 | Engine — module entry point | 0.1 | Engine | `src/standard_document_updater/__main__.py` |
+| 42 | Engine — exception hierarchy | 0.1 | Engine | `src/standard_document_updater/errors.py` |
+| 43 | Engine — registry loader | 0.1 | Engine | `src/standard_document_updater/registry.py` |
+| 44 | Engine — Set-Version / open-log parsers | 0.1 | Engine | `src/standard_document_updater/setversion.py` |
+| 45 | Engine — comparison report | 0.1 | Engine | `src/standard_document_updater/report.py` |
+| 46 | Engine — CLI (status / drift / harvest) | 0.2 | Engine | `src/standard_document_updater/cli.py` |
+| 47 | Engine test — shared fixtures | 0.1 | Engine test | `tests/conftest.py` |
+| 48 | Engine test — setversion | 0.1 | Engine test | `tests/test_setversion.py` |
+| 49 | Engine test — registry | 0.1 | Engine test | `tests/test_registry.py` |
+| 50 | Engine test — report | 0.1 | Engine test | `tests/test_report.py` |
+| 51 | Engine test — cli | 0.2 | Engine test | `tests/test_cli.py` |
+| 52 | Engine — experiences-log entry parser | 0.1 | Engine | `src/standard_document_updater/logentry.py` |
+| 53 | Engine — harvest report (open-entry consolidation) | 0.1 | Engine | `src/standard_document_updater/harvest.py` |
+| 54 | Engine test — logentry | 0.1 | Engine test | `tests/test_logentry.py` |
+| 55 | Engine test — harvest | 0.1 | Engine test | `tests/test_harvest.py` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
