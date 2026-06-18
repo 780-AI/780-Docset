@@ -1,7 +1,11 @@
-<!-- VERSION: 2.1 -->
+<!-- VERSION: 2.2 -->
 <!-- Last Updated: 2026-06-18 -->
 <!--
 CHANGE LOG
+v2.2 — 2026-06-18 — PLAN-006 (Slice 4: integrate) implemented: registered integrate.py + test_integrate.py
+as entries 61–62 (v0.1; Engine range 38–55 → +61, Engine-test +62); bumped touched cells (__init__ 40, cli 46,
+test_cli 51) 0.2→0.3 and the cli description (+ integrate); promoted PLAN-006 + its tracker (59–60) 0.1/DRAFT
+→ 1.0/CLOSED. architecture 0.6→0.7, folder_structure 0.8→0.9 synced same-commit. No Set Version change.
 v2.1 — 2026-06-18 — Registered PLAN-006 (Slice 4: integrate) DRAFT + its sibling tracker as entries 59–60
 (v0.1); quick-index Plans range → "31–39, 59–60" (appended, not inserted, to avoid an Engine renumber).
 Design session only; the Phase-3 implement commit lands integrate.py + tests (→ 2.2).
@@ -56,7 +60,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Governance scripts | 28–29, 56 |
 | Archive | 30 |
 | Plans | 31–39, 59–60 |
-| Engine (src + tests) | 40–55 |
+| Engine (src + tests) | 40–55, 61–62 |
 
 ## Manifest table
 
@@ -101,18 +105,18 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 37 | PLAN-004 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-004_tracker.md` |
 | 38 | PLAN-005 — durable memory (Rule 14 + Set v1.2) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-005_durable_memory.md` |
 | 39 | PLAN-005 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-005_tracker.md` |
-| 40 | Engine — package marker + CLI version | 0.2 | Engine | `src/standard_document_updater/__init__.py` |
+| 40 | Engine — package marker + CLI version | 0.3 | Engine | `src/standard_document_updater/__init__.py` |
 | 41 | Engine — module entry point | 0.1 | Engine | `src/standard_document_updater/__main__.py` |
 | 42 | Engine — exception hierarchy | 0.1 | Engine | `src/standard_document_updater/errors.py` |
 | 43 | Engine — registry loader | 0.1 | Engine | `src/standard_document_updater/registry.py` |
 | 44 | Engine — Set-Version / open-log parsers | 0.1 | Engine | `src/standard_document_updater/setversion.py` |
 | 45 | Engine — comparison report | 0.1 | Engine | `src/standard_document_updater/report.py` |
-| 46 | Engine — CLI (status / drift / harvest) | 0.2 | Engine | `src/standard_document_updater/cli.py` |
+| 46 | Engine — CLI (status / drift / harvest / integrate) | 0.3 | Engine | `src/standard_document_updater/cli.py` |
 | 47 | Engine test — shared fixtures | 0.1 | Engine test | `tests/conftest.py` |
 | 48 | Engine test — setversion | 0.1 | Engine test | `tests/test_setversion.py` |
 | 49 | Engine test — registry | 0.1 | Engine test | `tests/test_registry.py` |
 | 50 | Engine test — report | 0.1 | Engine test | `tests/test_report.py` |
-| 51 | Engine test — cli | 0.2 | Engine test | `tests/test_cli.py` |
+| 51 | Engine test — cli | 0.3 | Engine test | `tests/test_cli.py` |
 | 52 | Engine — experiences-log entry parser | 0.1 | Engine | `src/standard_document_updater/logentry.py` |
 | 53 | Engine — harvest report (open-entry consolidation) | 0.1 | Engine | `src/standard_document_updater/harvest.py` |
 | 54 | Engine test — logentry | 0.1 | Engine test | `tests/test_logentry.py` |
@@ -120,8 +124,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 56 | Memory bootstrap script | 0.1 | Governance script | `scripts/bootstrap_memory.sh` |
 | 57 | Memory Durability Rollout Prompt (meta) | 1.0 | Standards | `docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md` |
 | 58 | New-Machine Setup (re-home checklist) | 1.0 | Docs | `docs/NEW_MACHINE_SETUP.md` |
-| 59 | PLAN-006 — Slice 4 (integrate) (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-006_integrate.md` |
-| 60 | PLAN-006 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-006_tracker.md` |
+| 59 | PLAN-006 — Slice 4 (integrate) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-006_integrate.md` |
+| 60 | PLAN-006 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-006_tracker.md` |
+| 61 | Engine — integration worksheet + status write-back | 0.1 | Engine | `src/standard_document_updater/integrate.py` |
+| 62 | Engine test — integrate | 0.1 | Engine test | `tests/test_integrate.py` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -129,10 +135,12 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 ## Last updated
 
-- **Date**: 2026-06-16
-- **Change**: PLAN-004 (Slice 3) implemented — registered logentry.py + harvest.py + their two test
-  modules as entries 50–53 (v0.1; Engine range 38–49 → 38–53); bumped touched cells (__init__ 38, cli 44,
-  test_cli 49) 0.1→0.2; promoted PLAN-004 + tracker (36–37) to 1.0/CLOSED. architecture 0.4→0.5,
-  folder_structure 0.6→0.7 synced same-commit. No Set Version change.
-- **Previous change**: Registered PLAN-004 DRAFT + sibling tracker as entries 36–37 (design session).
+- **Date**: 2026-06-18
+- **Change**: PLAN-006 (Slice 4) implemented — registered integrate.py + test_integrate.py as entries
+  61–62 (v0.1; Engine range → 40–55, 61–62); bumped touched cells (__init__ 40, cli 46, test_cli 51)
+  0.2→0.3 + the cli description (+ integrate); promoted PLAN-006 + tracker (59–60) to 1.0/CLOSED.
+  architecture 0.6→0.7, folder_structure 0.8→0.9 synced same-commit. No Set Version change.
+- **Previous change**: PLAN-004 (Slice 3) implemented — registered logentry.py + harvest.py + their two
+  test modules as entries 50–53 (v0.1); bumped touched cells (__init__ 38, cli 44, test_cli 49) 0.1→0.2;
+  promoted PLAN-004 + tracker (36–37) to 1.0/CLOSED.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

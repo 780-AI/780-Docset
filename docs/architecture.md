@@ -1,7 +1,8 @@
-<!-- VERSION: 0.6 -->
-<!-- Last Updated: 2026-06-17 -->
+<!-- VERSION: 0.7 -->
+<!-- Last Updated: 2026-06-18 -->
 <!--
 CHANGE LOG
+v0.7 — 2026-06-18 — PLAN-006 (Slice 4): `integrate` landed. § 8 marks integrate implemented (read-only worksheet + operator-gated Status write-back; A1 division of labor — tool = deterministic spine, Claude authors the lesson + vault edits in-session) + adds the integrate behavior note. § 10 ticks Slice 4 ✅. § 11 resolves the last OPEN decision (genericization hands off to a Claude session — A1; the tool is pure-Python, never calls a model). Read-only on the vault; no Set Version change (no docs/standards/ file touched).
 v0.6 — 2026-06-17 — PLAN-005 (durable memory): engine-slice plan numbers shifted — § 10 annotates Slice 4 = PLAN-006 (`integrate`), Slice 5 = PLAN-007 (`sync`), with a note that PLAN-005 is the durable-memory governance change (not a slice); § 11 OPEN item now resolves at PLAN-006. No engine behavior change.
 v0.5 — 2026-06-16 — PLAN-004 (Slice 3): `harvest` landed. § 8 marks harvest implemented (stdout report grouped by area; cautious cross-project dup flag) + adds the harvest behavior note. § 10 ticks Slice 3 ✅. Read-only; no Set Version change (no docs/standards/ file touched).
 v0.4 — 2026-06-16 — PLAN-003 (Slice 2): first engine code landed. § 8 marks status/drift implemented (registry stores name + path only; adopted version read live). § 10 ticks Slice 2 ✅. § 11 strikes the three now-decided items (registry format/location; CLI entry point; status/drift = two commands). Read-only; no Set Version change (no docs/standards/ file touched).
@@ -147,7 +148,7 @@ A Python CLI (per `CLAUDE.md` § 1). All write commands are operator-gated; read
 |---|---|---|---|
 | `status` / `drift` ✅ | vault + each project's Set Version + open log count | — | none (read-only) |
 | `harvest` ✅ | every project's `STANDARDS_LOG.md` | a consolidated report (to stdout) | none (read-only) |
-| `integrate` | the harvest report | the **vault** (LESSONS + topical + Set Version) and project logs (mark-done) | operator-approved per entry |
+| `integrate` ✅ | open log entries (worksheet) + the decisions TOML (write-back) | project logs (the matched `Status:` line, gated); the **vault** edits (LESSONS + topical + Set Version) are authored by Claude in-session, not by the tool | operator-approved (write-back is dry-run unless `--write`) |
 | `sync` | vault Set Version | every project (honoring `PROJECT-OWNED` markers) | operator-approved |
 | `setup` | the delivery crate | the new project (then strips) | operator-run; this is `SETUP.md` |
 
@@ -160,6 +161,16 @@ time (never cached in the registry — single source of truth, § 9). `status`/`
 > `open` entries, prints a consolidated report grouped by area to stdout, and conservatively flags
 > likely cross-project duplicates (same normalized title across *different* projects). Read-only;
 > always exits 0 (no persisted file — the source logs are the durable record).
+>
+> `integrate` implemented Slice 4 — PLAN-006 (A1 division of labor: the tool is the **deterministic
+> spine**; Claude authors the genericized lesson + the vault edits in-session under the § 15 flow — the
+> tool never calls a model and never edits the vault). Two modes: (a) `integrate` prints a **read-only
+> worksheet** — each open entry enriched with its Area→topical routing (unknown Area → `PROJECT_STANDARDS.md`
+> + a visible `⚠ unrouted` flag), a proposed sequential `L0NN`, and the current Set Version; always exit 0.
+> (b) `integrate --apply <decisions.toml>` performs the operator-gated **Status write-back** — default is a
+> **dry-run** diff; `--write` actually writes. It validates every disposition first (no partial writes),
+> re-reads each target log immediately before writing (§ 9), and rewrites **only** the matched `Status:`
+> line, leaving the rest byte-identical. Read-only on the vault — no Set Version change when the tool is run.
 
 ## 9. Invariants
 
@@ -187,8 +198,11 @@ first; judgment-heavy last):
 3. ✅ **Slice 3 — `harvest`** (done — PLAN-004). Parses every `STANDARDS_LOG.md`; consolidates `open`
    entries into a stdout report grouped by area; conservatively flags cross-project duplicates.
    Read-only; always exits 0. *(No Set Version change — the engine reads the log, never alters the suite.)*
-4. **Slice 4 — `integrate` assist (PLAN-006).** Genericize → new lesson → topical update → version/Set
-   bumps; write-back mark-done. *(Operator-gated; judgment-heavy.)*
+4. ✅ **Slice 4 — `integrate`** (done — PLAN-006). Read-only worksheet (open entries + Area→topical +
+   proposed `L0NN` + Set Version) for Claude to author each genericized lesson in-session; operator-gated
+   `--apply` Status write-back (dry-run unless `--write`; validate-all-before-write; rewrite only the
+   matched `Status:` line). A1: the tool is the deterministic spine — the genericization + vault edits stay
+   in-session. *(No Set Version change — building the tool is read-only on the vault.)*
 5. **Slice 5 — `sync` (PLAN-007).** Section-aware propagation honoring `PROJECT-OWNED`; whole-file for
    suite-owned.
 
@@ -202,5 +216,7 @@ first; judgment-heavy last):
 - ✅ **DECIDED (PLAN-003, Slice 2)** — CLI name / entry point: `python -m standard_document_updater <command>`
   (`status` / `drift` are two subcommands, not one command with a flag).
 - ✅ **DECIDED** — Final home of `STANDARDS_LOG.md`: `docs/STANDARDS_LOG.md` (survives the setup strip).
-- ⏳ **OPEN** — Whether `integrate`'s genericization runs a model in-process or hands off to a Claude
-  session (affects whether the tool is pure-Python or CLI + agent workflow). Resolve at Slice 4 / PLAN-006.
+- ✅ **DECIDED (PLAN-006, Slice 4)** — `integrate`'s genericization **hands off to a Claude session**
+  (A1): the tool is pure-Python — it builds the worksheet and writes the `Status:` lines back, but never
+  calls a model and never edits the vault. The lesson prose + the LESSONS/topical/Set-Version edits are
+  authored by Claude in-session under the § 15 flow.

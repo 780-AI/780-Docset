@@ -1,7 +1,8 @@
-<!-- VERSION: 0.8 -->
-<!-- Last Updated: 2026-06-17 -->
+<!-- VERSION: 0.9 -->
+<!-- Last Updated: 2026-06-18 -->
 <!--
 CHANGE LOG
+v0.9 — 2026-06-18 — PLAN-006 (Slice 4): added src/standard_document_updater/integrate.py and tests/test_integrate.py to the tree; noted the integrate subcommand on cli.py and the engine-tree comment ("Slice 4: + integrate").
 v0.8 — 2026-06-17 — PLAN-005 (durable memory): added the `.claude/` workspace (untracked memory store + README) and `scripts/bootstrap_memory.sh` to the tree; bumped the archive LESSONS comment to L001–L050.
 v0.7 — 2026-06-16 — PLAN-004 (Slice 3): added src/standard_document_updater/logentry.py + harvest.py and tests/test_logentry.py + test_harvest.py to the tree; noted the harvest subcommand on cli.py and the engine-tree comment ("Slice 3: + harvest").
 v0.6 — 2026-06-16 — PLAN-003 (Slice 2): engine landed. Moved src/standard_document_updater/ (7 modules), tests/ (conftest + 4 test files), config/projects.toml, and pyproject.toml from the Planned block into the live repository tree.
@@ -62,7 +63,7 @@ Standard DocSet/
 ├── config/
 │   └── projects.toml              # registry of managed projects (name + path; per architecture.md § 8)
 ├── src/
-│   └── standard_document_updater/  # the CLI engine (Slice 2: registry + status/drift; Slice 3: + harvest)
+│   └── standard_document_updater/  # the CLI engine (Slice 2: registry + status/drift; Slice 3: + harvest; Slice 4: + integrate)
 │       ├── __init__.py            # package marker + released CLI version
 │       ├── __main__.py            # `python -m standard_document_updater` entry point
 │       ├── errors.py              # exception hierarchy
@@ -70,8 +71,9 @@ Standard DocSet/
 │       ├── setversion.py          # live parsers: vault/adopted Set Version + open-log count
 │       ├── logentry.py            # STANDARDS_LOG.md entry parser (LogEntry + parse_log)
 │       ├── harvest.py             # consolidate open log entries → stdout report (group-by-area + dup flag)
+│       ├── integrate.py           # integration worksheet (Area→topical + next-L0NN) + gated Status write-back
 │       ├── report.py              # state computation + table render + drift filter
-│       └── cli.py                 # argparse; status / drift / harvest subcommands
+│       └── cli.py                 # argparse; status / drift / harvest / integrate subcommands
 ├── tests/                         # pytest suite
 │   ├── conftest.py                # synthetic vault/project fixtures
 │   ├── test_setversion.py
@@ -79,6 +81,7 @@ Standard DocSet/
 │   ├── test_report.py
 │   ├── test_logentry.py
 │   ├── test_harvest.py
+│   ├── test_integrate.py
 │   └── test_cli.py
 ├── .claude/                      # Claude Code workspace (untracked; Dropbox-synced)
 │   ├── memory/                   # durable memory store — harness symlinks here (Rule 14)

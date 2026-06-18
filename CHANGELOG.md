@@ -2,6 +2,52 @@
 
 Newest entries at the top.
 
+## [2026-06-18] — PLAN-006 (Slice 4): `integrate` (worksheet + status write-back)
+
+- **Type:** Major / New module — executed under the § 15 plan workflow (PLAN-006, Phase 3). New engine
+  code under `src/standard_document_updater/` (a Critical File per `CLAUDE.md` § 4), one mode of which
+  **writes to target repos**.
+- **What:** Landed the `integrate` command — the deterministic half of the harvest → **integrate** → sync
+  loop (architecture § 6c). **A1 division of labor:** the tool is the deterministic spine; the
+  genericization, the `L0NN` lesson prose, and the vault edits (LESSONS / topical / Set Version) are
+  authored by Claude **in-session** under the § 15 flow — the tool never calls a model and never edits the
+  vault.
+  - `python -m standard_document_updater integrate` — prints a **read-only worksheet**: every open
+    experiences-log entry enriched with its Area→topical routing (unknown/empty Area → `PROJECT_STANDARDS.md`
+    + a visible `⚠ unrouted` flag), a proposed **sequential `L0NN`** (vault `max + 1`), and the current Set
+    Version. Always exit **0** (informational, like `harvest`/`status`).
+  - `integrate --apply <decisions.toml>` — operator-gated **Status write-back**. Default is a **dry-run**
+    diff; `--write` actually writes. Validates every disposition first (no partial writes), re-reads each
+    target log immediately before writing (architecture § 9), and rewrites **only** the matched `Status:`
+    line of the named entry, leaving the rest byte-identical. Errors (exit 2, nothing written) on an unknown
+    project or an unresolvable entry.
+  - New src module `integrate.py` (Area routing, next-`L0NN`, worksheet render, decisions-TOML parse,
+    atomic write-back) with its own `IntegrateError`. New test module `test_integrate.py` (20 unit tests:
+    routing / next-`L0NN` / worksheet / decisions parse / write-back atomicity) + 2 `integrate` CLI tests in
+    `test_cli.py`. `cli.py`/`__init__.py` 0.2→0.3; soft `[rules.integrate]` ownership-map entry.
+- **Impact:** Building the tool is **read-only on the vault** — **no Set Version change** (no `docs/standards/`
+  file touched → suite stays **v1.2**). The only target-repo write is the explicit, operator-gated
+  `integrate --apply … --write`, a separate later action (not part of building the tool). **CI unchanged**
+  (`.gitlab-ci.yml` not touched). `architecture.md` § 8/§ 10 mark integrate implemented and § 11 resolves
+  the last OPEN decision (genericization hands off to a Claude session — A1).
+- **QA scenarios (Rule 11):** scenarios A–K tracked in `docs/Plans/PLAN-006_tracker.md` Phase 4 —
+  A (ruff clean), B (mypy --strict, 18 files), C (full pytest, 57 green), D (both governance scripts exit 0),
+  E (worksheet, empty registry → "No open entries…", exit 0), F (worksheet content — project/entry/area→topical,
+  proposed `L0NN`, Set Version), G (Area routing — each Area → file; unknown → `PROJECT_STANDARDS.md` +
+  `⚠ unrouted`), H (next-`L0NN` against the real `LESSONS.md` → `L051`), I (write-back dry-run — no file
+  modified), J (write-back `--write` — only the named `Status:` line changes, rest byte-identical),
+  K (write-back safety — unknown project / missing entry → `IntegrateError`, exit 2, no file written).
+  E–K exercised both by the pytest suite and live via the CLI against a throwaway fixture (operator-run);
+  A–D operator-run.
+- **Plan-defect resolution (mechanical, during Phase 3):** D1 — the verbatim § 5A code shipped 5 `E501`
+  over-length lines (`next_lesson_id` read-text comprehension, the worksheet footer's 4 adjacent literals,
+  and the integrated-Status f-string) that the Rule 13 pass's claimed reflow did not fully catch (the same
+  recurring `E501` class as PLAN-003 D2 / PLAN-004 D1). Reflowed all five **output-preserving** — the
+  worksheet footer verified byte-identical via SHA-256 before/after (len 345, unchanged); the Status
+  f-string re-confirmed by `test_parse_decisions_integrated_and_rejected`. Recorded in the PLAN-006 CHANGE
+  LOG + § 11. Additionally, `architecture.md` § 11 (an OPEN decision the plan's § 5D under-specified but
+  whose own text mandated resolution at this slice) was marked DECIDED same-commit.
+
 ## [2026-06-17] — PLAN-005: durable project memory (Rule 14 + Standard Set Version v1.2)
 
 - **Type:** Major / governance — multiple Critical Files (`CLAUDE.md` ×2, `LESSONS.md` ×2,

@@ -1,8 +1,9 @@
 # ==============================================================
-# VERSION: 0.2
+# VERSION: 0.3
 # Command-line interface: `python -m standard_document_updater <command>`.
 #
 # CHANGE LOG
+# v0.3 — 2026-06-18 — Add the `integrate` subcommand (worksheet + --apply/--write write-back).
 # v0.2 — 2026-06-16 — Add the `harvest` subcommand (open-log consolidation).
 # v0.1 — 2026-06-16 13:01 — Initial: status + drift subcommands, --vault override.
 # ==============================================================
@@ -13,7 +14,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from standard_document_updater import __version__, harvest, logentry, report, setversion
+from standard_document_updater import __version__, harvest, integrate, logentry, report, setversion
 from standard_document_updater.errors import StandardDocSetError
 from standard_document_updater.registry import load_registry
 
@@ -70,6 +71,27 @@ def _cmd_harvest(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_integrate(args: argparse.Namespace) -> int:
+    vault_root: Path = args.vault
+    lessons = vault_root / "docs" / "standards" / "LESSONS.md"
+    index = vault_root / "docs" / "standards" / "STANDARDS_INDEX.md"
+    if args.apply is None:
+        rows = integrate.build_rows(_build_open_items(vault_root))
+        proposed = integrate.next_lesson_id(lessons)
+        set_version = "v" + ".".join(str(n) for n in setversion.parse_vault_version(index))
+        print(integrate.render_worksheet(rows, proposed, set_version))
+        return 0
+    # write-back path
+    log_path_for = {
+        p.name: p.path / "docs" / "STANDARDS_LOG.md"
+        for p in load_registry(vault_root / "config" / "projects.toml")
+    }
+    dispositions = integrate.parse_decisions(args.apply)
+    report = integrate.apply_writeback(dispositions, log_path_for, write=args.write)
+    print("\n".join(report))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="standard_document_updater",
@@ -89,13 +111,33 @@ def build_parser() -> argparse.ArgumentParser:
         "harvest",
         help="consolidate open experiences-log entries across all projects",
     )
+    p_int = sub.add_parser(
+        "integrate",
+        help="worksheet of open entries to integrate; --apply <file> writes Status back",
+    )
+    p_int.add_argument(
+        "--apply",
+        type=Path,
+        default=None,
+        help="decisions TOML; write integrated/rejected Status lines back to project logs",
+    )
+    p_int.add_argument(
+        "--write",
+        action="store_true",
+        help="actually write (default is a dry-run diff); only valid with --apply",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     """Parse argv and run the chosen command. Returns the process exit code."""
     args = build_parser().parse_args(argv)
-    handlers = {"status": _cmd_status, "drift": _cmd_drift, "harvest": _cmd_harvest}
+    handlers = {
+        "status": _cmd_status,
+        "drift": _cmd_drift,
+        "harvest": _cmd_harvest,
+        "integrate": _cmd_integrate,
+    }
     try:
         return handlers[args.command](args)
     except StandardDocSetError as exc:

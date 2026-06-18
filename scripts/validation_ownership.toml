@@ -56,7 +56,15 @@ test_paths   = ["tests/test_cli.py"]
 doc_paths    = ["docs/architecture.md"]
 strictness   = "soft"
 require_docs = false
-reason       = "Command surface — status/drift/harvest behavior + exit codes."
+reason       = "Command surface — status/drift/harvest/integrate behavior + exit codes."
+
+[rules.integrate]
+source_paths = ["src/standard_document_updater/integrate.py"]
+test_paths   = ["tests/test_integrate.py"]
+doc_paths    = ["docs/architecture.md"]
+strictness   = "soft"
+require_docs = false
+reason       = "Integration worksheet + gated status write-back — the deterministic half of `integrate`."
 
 [monitored_paths]
 strict = []                               # populate as coverage matures

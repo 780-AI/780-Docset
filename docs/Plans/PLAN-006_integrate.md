@@ -1,12 +1,22 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-06-18 -->
-<!-- Status: DRAFT -->
+<!-- Status: CLOSED -->
 <!--
 CHANGE LOG
-v0.1 — 2026-06-18 — Initial DRAFT. Phase 0 (Audit) + Phase 1 (Design) for Slice 4: the `integrate`
-command. A/A/A decided by operator: (A1) Claude-session-assisted genericization — the tool is a
-deterministic spine, Claude authors the lesson in-session; (A2) full flow this slice; (A3) vault-canonical
-only (propagation is sync/PLAN-007). Sibling tracker: PLAN-006_tracker.md.
+v1.0 — 2026-06-18 — Phase 3 (Implement) + Phase 4 (Validate) shipped in one commit. integrate.py + 20-test
+test_integrate.py + 2 CLI tests landed; cli.py/__init__.py 0.2→0.3; validation_ownership soft rule;
+architecture 0.6→0.7 (§ 8/§ 10 + § 11 OPEN resolved); manifest 2.1→2.2 (entries 61–62); folder_structure
+0.8→0.9; CHANGELOG entry + QA A–K. **Plan-defect D1 (mechanical):** the verbatim § 5A code shipped 5 E501
+over-length lines — `next_lesson_id`'s read-text comprehension, the 4 worksheet-footer literals, and the
+integrated-Status f-string — that the v0.1a Rule 13 pass did not fully catch (it claimed an E501 in a
+"§ 5A CHANGE-LOG header line", but the actual over-length lines were elsewhere; same recurring class as
+PLAN-003 D2 / PLAN-004 D1). All 5 reflowed **output-preserving**: the worksheet footer verified
+byte-identical by SHA-256 (len 345, unchanged), the Status f-string re-confirmed by its parse test.
+**Plan gap (surfaced, not silently filled):** § 5D/§ 6 scoped architecture to § 8 + § 10, but § 11's own
+text mandated resolving the OPEN genericization decision at this slice → marked DECIDED (A1) same-commit.
+QA A–K all PASS (ruff/mypy --strict 18 files/57 pytest green; both governance scripts exit 0; live
+worksheet + dry-run + write + safety confirmed against a throwaway fixture). No Set Version change. Plan +
+tracker promoted to 1.0/CLOSED this commit. Push held for the Phase-5 operator gate.
 v0.1a — 2026-06-18 — Rule 13 senior-review pass (last task of Phase 1). Per the elevated lesson, the
 § 5 module code was MATERIALIZED in src/ + a real test_integrate.py written, then ruff + mypy --strict +
 pytest were actually RUN (not eyeballed), then the scratch files removed. Result: ruff caught 1 E501 (the
@@ -14,6 +24,10 @@ pytest were actually RUN (not eyeballed), then the scratch files removed. Result
 § 5A; mypy --strict clean across 18 files (incl. the new module + tests); 46 tests pass (35 prior + 11
 new). The pre-applied reflows (parse_decisions `status` line, worksheet footer) held. No new design
 decision beyond DD-1…DD-5. Plan finalized → ready for Phase 2.
+v0.1 — 2026-06-18 — Initial DRAFT. Phase 0 (Audit) + Phase 1 (Design) for Slice 4: the `integrate`
+command. A/A/A decided by operator: (A1) Claude-session-assisted genericization — the tool is a
+deterministic spine, Claude authors the lesson in-session; (A2) full flow this slice; (A3) vault-canonical
+only (propagation is sync/PLAN-007). Sibling tracker: PLAN-006_tracker.md.
 -->
 
 # PLAN-006 — Slice 4: `integrate` (worksheet + status write-back)
@@ -101,11 +115,11 @@ the worksheet feeds, governed separately; propagation to adopters (`sync`/PLAN-0
 | Phase | Status | Date |
 |---|---|---|
 | 0 — Audit | ✅ done | 2026-06-18 |
-| 1 — Design (this plan + tracker) | 🔄 in-progress | 2026-06-18 |
-| 1.x — Rule 13 senior-review pass (runs ruff + mypy --strict + pytest on the § 5 code) | ⏸ pending | — |
-| 2 — Operator approval | ⏸ pending | — |
-| 3 — Implement (fresh session, ALLOWLIST-bounded) | ⏸ pending | — |
-| 4 — Validate (QA A–K + governance) | ⏸ pending | — |
+| 1 — Design (this plan + tracker) | ✅ done | 2026-06-18 |
+| 1.x — Rule 13 senior-review pass (runs ruff + mypy --strict + pytest on the § 5 code) | ✅ done | 2026-06-18 |
+| 2 — Operator approval | ✅ APPROVE D1.A | 2026-06-18 |
+| 3 — Implement (fresh session, ALLOWLIST-bounded) | ✅ done | 2026-06-18 |
+| 4 — Validate (QA A–K + governance) | ✅ done | 2026-06-18 |
 | 5 — Operator gate (push; no tag — Set Version unchanged) | ⏸ pending | — |
 
 ## 5. Verbatim module spec (Phase 3)
