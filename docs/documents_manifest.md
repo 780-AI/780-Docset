@@ -1,7 +1,10 @@
-<!-- VERSION: 2.0 -->
-<!-- Last Updated: 2026-06-17 -->
+<!-- VERSION: 2.1 -->
+<!-- Last Updated: 2026-06-18 -->
 <!--
 CHANGE LOG
+v2.1 — 2026-06-18 — Registered PLAN-006 (Slice 4: integrate) DRAFT + its sibling tracker as entries 59–60
+(v0.1); quick-index Plans range → "31–39, 59–60" (appended, not inserted, to avoid an Engine renumber).
+Design session only; the Phase-3 implement commit lands integrate.py + tests (→ 2.2).
 v2.0 — 2026-06-17 — PLAN-005 implemented (Standard Set Version v1.2 — durable memory): promoted PLAN-005 +
 tracker (38–39) 0.1/DRAFT → 1.0/CLOSED; bumped touched cells — root CLAUDE.md 1.2→1.3, template CLAUDE.md
 1.1→1.2, project SESSION_OPENER 1.2→1.3, template SESSION_OPENER 1.1→1.2, STANDARDS_INDEX 1.1→1.2;
@@ -52,7 +55,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Canonical standards suite (Set v1.2) | 11–27, 57 |
 | Governance scripts | 28–29, 56 |
 | Archive | 30 |
-| Plans | 31–39 |
+| Plans | 31–39, 59–60 |
 | Engine (src + tests) | 40–55 |
 
 ## Manifest table
@@ -63,7 +66,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.0 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.1 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.8 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.6 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.3 | Governance | `docs/SESSION_OPENER.md` |
@@ -117,6 +120,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 56 | Memory bootstrap script | 0.1 | Governance script | `scripts/bootstrap_memory.sh` |
 | 57 | Memory Durability Rollout Prompt (meta) | 1.0 | Standards | `docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md` |
 | 58 | New-Machine Setup (re-home checklist) | 1.0 | Docs | `docs/NEW_MACHINE_SETUP.md` |
+| 59 | PLAN-006 — Slice 4 (integrate) (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-006_integrate.md` |
+| 60 | PLAN-006 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-006_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
