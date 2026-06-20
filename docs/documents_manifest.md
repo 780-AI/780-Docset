@@ -1,7 +1,11 @@
-<!-- VERSION: 2.6 -->
+<!-- VERSION: 2.7 -->
 <!-- Last Updated: 2026-06-20 -->
 <!--
 CHANGE LOG
+v2.7 — 2026-06-20 — Bumped entry 24 (NEW_PROJECT_BOOTSTRAP.md) 1.1→1.2 — the long-form walkthrough caught
+up to full Standard Set Version v1.3 parity with SETUP.md (added session-file instantiation + experiences
+log + Step 8 durable memory + Step 10.5 strip; v1.1→v1.3; counts 9→14 rules / 10→11 binding). Installer/
+walkthrough only; v1.3 suite content unchanged → no Set-Version bump, STANDARDS_INDEX untouched.
 v2.6 — 2026-06-20 — Bumped entry 26 (SETUP.md) 1.1→1.2 — the bootstrap installer caught up to Standard
 Set Version v1.3 (v1.3 refs + Step 6.5 durable memory + rollout-prompt registered in lay-down/strip,
 fixing the strip set-cover). Installer-only; the v1.3 suite content is unchanged → no Set-Version bump,
@@ -104,7 +108,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 21 | Session Closer (template) | 1.1 | Standards | `docs/standards/SESSION_CLOSER.md` |
 | 22 | Standards README (meta) | 1.0 | Standards | `docs/standards/README.md` |
 | 23 | Standards Index (meta) | 1.3 | Standards | `docs/standards/STANDARDS_INDEX.md` |
-| 24 | New Project Bootstrap (meta) | 1.1 | Standards | `docs/standards/NEW_PROJECT_BOOTSTRAP.md` |
+| 24 | New Project Bootstrap (meta) | 1.2 | Standards | `docs/standards/NEW_PROJECT_BOOTSTRAP.md` |
 | 25 | How To Use (meta) | 1.0 | Standards | `docs/standards/HOW_TO_USE.md` |
 | 26 | Setup — one-shot prompt (meta) | 1.2 | Standards | `docs/standards/SETUP.md` |
 | 27 | Standards Log — experiences-log template (meta) | 1.0 | Standards | `docs/standards/STANDARDS_LOG.md` |

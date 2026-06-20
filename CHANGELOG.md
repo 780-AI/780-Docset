@@ -2,6 +2,28 @@
 
 Newest entries at the top.
 
+## [2026-06-20] — NEW_PROJECT_BOOTSTRAP.md caught up to Set Version v1.3 (closes the SETUP parity gap)
+
+- **Type:** Major (edits `docs/standards/NEW_PROJECT_BOOTSTRAP.md`, a Critical File) — walkthrough/doc
+  only. **No Set-Version bump** (the v1.3 suite content is unchanged; the long-form walkthrough was just
+  behind). `STANDARDS_INDEX` untouched per its rule; the manifest carries the live version.
+- **What:** rewrote the Day-Zero walkthrough to full **v1.3 step-parity with `SETUP.md`** (it is the
+  long-form companion to that one-shot prompt — now stated explicitly, with a "keep the two in
+  step-parity" note). Closed the long-standing parity gap:
+  - added the project-local **SESSION_OPENER/CLOSER instantiation** (Step 2), the **experiences-log**
+    (`docs/STANDARDS_LOG.md`) create step (Step 4), **Step 8 durable memory (Rule 14)**, and
+    **Step 10.5 strip-the-machinery** (with the 6-KEEP / 12-DELETE set-cover matching SETUP.md);
+  - retargeted every `v1.1` → `v1.3`; corrected stale counts ("9 standing rules" → **14**,
+    "10 binding files" → **11**); added `.claude/` + `docs/Plans/OPEN_TASKS.md` to the `.gitignore`;
+    updated the end-state tree, the TOC, and the bootstrap commit message.
+- **Versions:** `docs/standards/NEW_PROJECT_BOOTSTRAP.md` 1.1→1.2; `documents_manifest.md` entry 24
+  1.1→1.2, header 2.6→2.7.
+- **Impact:** no runtime/engine impact; affects only the by-hand bootstrap walkthrough. **QA scenarios:**
+  Rule 11 exempt (walkthrough doc). The dispositive check is a live bootstrap (the "SETUP.md end-to-end"
+  pending-verification item — now covers both SETUP.md and this walkthrough).
+- **Remaining (flagged):** `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` step-5 wording ("not gitignored") is
+  still superseded by the Step-8 gitignore stance — a one-line reconcile logged for a future docs pass.
+
 ## [2026-06-20] — SETUP.md installer caught up to Set Version v1.3 (durable-memory turn-key)
 
 - **Type:** Major (edits `docs/standards/SETUP.md`, a Critical File) — installer/doc only. **No

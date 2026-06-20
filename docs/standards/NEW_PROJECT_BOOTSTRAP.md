@@ -1,28 +1,43 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-06-13 -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-06-20 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
-v1.1 — 2026-06-13 — PLAN-002 (Slice 1): retargeted the SET_VERSION_ADOPTED write to docs/ (matching the reworked SETUP.md so it survives the strip) and updated the current-suite references to Standard Set Version v1.1. (Strip + experiences-log steps to fully match SETUP.md are deferred — tracked as a follow-up.) Set Version v1.1.
+v1.2 — 2026-06-20 — Brought to full Standard Set Version v1.3 parity with SETUP.md (the headline one-shot
+path; this file is its long-form companion, kept in step-parity). Added the project-local SESSION_OPENER/
+CLOSER instantiation, the experiences-log (docs/STANDARDS_LOG.md) create step, Step 8 durable memory
+(Rule 14), and Step 10.5 strip-the-machinery. Retargeted every v1.1 reference to v1.3; corrected the stale
+counts ("9 standing rules" → 14; "10 binding files" → 11); added `.claude/` + `docs/Plans/OPEN_TASKS.md`
+to .gitignore. Installer/walkthrough only — the v1.3 suite CONTENT is unchanged → no Set-Version bump.
+v1.1 — 2026-06-13 — PLAN-002 (Slice 1): retargeted the SET_VERSION_ADOPTED write to docs/ and updated the current-suite references to Standard Set Version v1.1. (Strip + experiences-log steps deferred — now done in v1.2.) Set Version v1.1.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
 # NEW_PROJECT_BOOTSTRAP.md — Day-Zero Walkthrough
 
-**Scope:** This file is the dispositive step-by-step procedure for bootstrapping a new project from this standards suite. It expands on `README.md` § 4.1 (which is the orientation) with concrete commands, expected outputs, and customization details.
+> **The one-shot path is [`SETUP.md`](SETUP.md)** — a single paste-and-run prompt. **This file is the
+> long-form companion behind it**: the same procedure expanded into click-through commands, expected
+> outputs, and customization detail. The two are kept in **step-parity** — if you change the bootstrap
+> procedure, change both. Use `SETUP.md` to actually run a bootstrap; use this file to understand what
+> each step does (or to bootstrap by hand).
 
-**Time required:** 30–60 minutes total. Most of it is reading and customization; the actual copying takes 2 minutes.
+**Scope:** the dispositive step-by-step procedure for bootstrapping a new project from this standards
+suite at **Standard Set Version v1.3** — governance scaffold, customized contract, session routines,
+durable memory (Rule 14), the experiences log, governance scripts, CI, a first commit, then a strip of
+the delivery machinery.
+
+**Time required:** 30–60 minutes — mostly reading and customization; the copying takes 2 minutes.
 
 **Prerequisites:**
 
-- A new empty git repository (created on GitHub/GitLab or initialized locally)
-- A local checkout of this standards repo (the source you're copying FROM)
-- Decided: are you using a single AI agent (Claude only) or multiple (Claude + Codex / Devin / other)?
-- Decided: which CI provider (GitLab CI / GitHub Actions / other)?
-- Decided: which deploy shape (registry-pull to VPS / Kubernetes / serverless / other)?
-
-If any of these are still undecided, decide before starting. The customization step (§ 4) depends on these decisions.
+- A new git repository for the project (created on a forge or initialized locally — it must have its
+  **own** repo, not inherit a parent's `.git`).
+- A local checkout of the canonical standards suite (the `SOURCE` you copy FROM — the folder containing
+  `CLAUDE.md`, `LESSONS.md`, the focused standards, the session templates, `SETUP.md`, etc.).
+- Decided: single AI agent (Claude only) or multiple (Claude + a second agent)?
+- Decided: CI provider (GitLab CI / GitHub Actions / none)?
+- Decided: deploy shape (local CLI / Dockerized + CI → host / serverless / other)?
 
 ---
 
@@ -30,238 +45,180 @@ If any of these are still undecided, decide before starting. The customization s
 
 1. [Overview — what you'll have when done](#1-overview--what-youll-have-when-done)
 2. [Step 1 — Create the project repository](#2-step-1--create-the-project-repository)
-3. [Step 2 — Copy the standards files](#3-step-2--copy-the-standards-files)
-4. [Step 3 — Customize placeholders](#4-step-3--customize-placeholders)
+3. [Step 2 — Lay down the suite](#3-step-2--lay-down-the-suite)
+4. [Step 3 — Customize CLAUDE.md](#4-step-3--customize-claudemd)
 5. [Step 4 — Create supporting files](#5-step-4--create-supporting-files)
 6. [Step 5 — Add governance scripts](#6-step-5--add-governance-scripts)
 7. [Step 6 — Add CI scaffold](#7-step-6--add-ci-scaffold)
 8. [Step 7 — Add merge-request template](#8-step-7--add-merge-request-template)
-9. [Step 8 — First commit](#9-step-8--first-commit)
-10. [Step 9 — Set up Claude.ai Project (if using Claude.ai)](#10-step-9--set-up-claudeai-project-if-using-claudeai)
-11. [Step 10 — Record Set Version adopted](#11-step-10--record-set-version-adopted)
-12. [Post-bootstrap — what to do next](#12-post-bootstrap--what-to-do-next)
-13. [Troubleshooting](#13-troubleshooting)
+9. [Step 8 — Set up durable memory (Rule 14)](#9-step-8--set-up-durable-memory-rule-14)
+10. [Step 9 — Validate](#10-step-9--validate)
+11. [Step 10 — First commit (operative standard installed)](#11-step-10--first-commit-operative-standard-installed)
+12. [Step 10.5 — Strip the setup machinery](#12-step-105--strip-the-setup-machinery)
+13. [Step 11 — Set up Claude.ai Project (optional)](#13-step-11--set-up-claudeai-project-optional)
+14. [Step 12 — Record the Set Version adopted](#14-step-12--record-the-set-version-adopted)
+15. [Post-bootstrap — what to do next](#15-post-bootstrap--what-to-do-next)
+16. [Troubleshooting](#16-troubleshooting)
 
 ---
 
 ## 1. Overview — what you'll have when done
 
-After completing this walkthrough, your new project will have:
+The suite is delivered by **setup-and-strip**: you lay down the whole crate, install + customize the
+operative standard, commit it, then **delete the delivery machinery** in a second commit. The end state
+(after the strip) carries only the operative standard:
 
 ```
 <your-project>/
-├── CLAUDE.md # Repo-root operating contract (customized)
-├── README.md # Your project's README (placeholder for now)
-├── CHANGELOG.md # Cross-cutting history (with bootstrap entry)
-├── .gitignore # Standard ignores
-├── .gitlab-ci.yml (or .github/workflows/) # CI scaffold (governance + test stages)
-├── .gitlab/merge_request_templates/Default.md # MR template
+├── CLAUDE.md                      # repo-root operating contract (customized; 14 standing rules)
+├── README.md                      # project README (placeholder)
+├── CHANGELOG.md                   # cross-cutting history (bootstrap entry)
+├── .gitignore                     # OS/IDE/language + docs/Plans/OPEN_TASKS.md + .claude/
+├── .gitlab-ci.yml (or .github/workflows/)   # CI scaffold (governance stage)
+├── .claude/
+│   └── memory/                    # durable Claude memory (Rule 14; untracked / sync-carried)
 ├── docs/
-│ ├── README.md # Index of docs/
-│ ├── documents_manifest.md # Version manifest
-│ ├── folder_structure.md # Authoritative layout
-│ ├── standards/ # The 10 binding standards files (copied)
-│ │ ├── CLAUDE.md # (Note: also at repo root — this is the template version)
-│ │ ├── PROJECT_STANDARDS.md
-│ │ ├── PROMPT_STANDARDS.md
-│ │ ├── PROJECT_INSTRUCTIONS_TEMPLATE.md
-│ │ ├── MEMORY_PROTOCOL.md
-│ │ ├── ENGINEERING_STANDARDS.md
-│ │ ├── VALIDATION_STANDARDS.md
-│ │ └── CICD_STANDARDS.md
-│ └── Plans/ # Empty for now; planning docs land here
+│   ├── README.md
+│   ├── documents_manifest.md      # version index
+│   ├── folder_structure.md
+│   ├── SESSION_OPENER.md          # project-local session-start pre-flight (binding, Rule 9)
+│   ├── SESSION_CLOSER.md          # project-local session wrap-up (binding, Rule 12)
+│   ├── SET_VERSION_ADOPTED.md     # records Standard Set Version v1.3
+│   ├── STANDARDS_LOG.md           # the project's experiences log (contribution channel)
+│   ├── standards/                 # 6 topical files KEPT after the strip
+│   │   ├── PROJECT_STANDARDS.md
+│   │   ├── PROMPT_STANDARDS.md
+│   │   ├── MEMORY_PROTOCOL.md
+│   │   ├── ENGINEERING_STANDARDS.md
+│   │   ├── VALIDATION_STANDARDS.md
+│   │   └── CICD_STANDARDS.md
+│   └── Plans/                     # planning docs land here (all committed)
 ├── scripts/
-│ ├── check_doc_coverage.py # Governance: drift detection across env vars, DB tables, manifest
-│ ├── check_test_coverage_drift.py # Governance: code↔test↔doc drift
-│ ├── doc_coverage_allowlist.toml # Justified exceptions (empty initially)
-│ └── validation_ownership.toml # File-to-test-to-doc ownership rules (project-specific)
+│   ├── check_doc_coverage.py      # governance scaffold
+│   ├── check_test_coverage_drift.py
+│   ├── doc_coverage_allowlist.toml
+│   ├── validation_ownership.toml
+│   └── bootstrap_memory.sh        # idempotent Rule 14 symlink repair
 └── archive/
- └── LESSONS.md # Incident-to-rule archive (initial copy from source)
+    └── LESSONS.md                 # incident-to-rule archive (operative copy)
 ```
 
-After the first commit (Step 8), you have a working governance scaffold and can start feature work in your next session.
+The **11 binding files** of the suite are CLAUDE.md, the 7 focused standards (PROJECT_STANDARDS,
+PROMPT_STANDARDS, PROJECT_INSTRUCTIONS_TEMPLATE, MEMORY_PROTOCOL, ENGINEERING_STANDARDS,
+VALIDATION_STANDARDS, CICD_STANDARDS), LESSONS.md, SESSION_OPENER.md, and SESSION_CLOSER.md. During
+bootstrap they are laid down in full, then the strip (Step 10.5) keeps only the operative copies and
+deletes the templates/meta machinery.
 
 ---
 
 ## 2. Step 1 — Create the project repository
 
 ```bash
-# Option A: Create on GitLab/GitHub, then clone
-git clone <repo-url>
-cd <project-name>
+# Option A: create on a forge, then clone
+git clone <repo-url> && cd <project-name>
 
-# Option B: Initialize locally
-mkdir <project-name>
-cd <project-name>
-git init
+# Option B: initialize locally
+mkdir <project-name> && cd <project-name> && git init -b main
 ```
 
-Either path is fine. The bootstrap procedure operates on a working tree; the remote doesn't matter for steps 2–8.
+**Critical pre-flight:** run `git rev-parse --show-toplevel`. If it resolves to a **parent** of your
+project (e.g. `$HOME`), the project has no repo of its own — STOP and `git init -b main` inside it (this
+shadows the parent `.git`). Confirm the new repo root before continuing. (This is the L043 home-dir
+gotcha.)
 
-**Verify:** `pwd` shows the project directory; `git status` shows a clean tree (or one untracked .DS_Store-style file from the empty directory).
+**Verify:** `pwd` is the project dir; `git status` is clean (or a stray `.DS_Store`).
 
 ---
 
-## 3. Step 2 — Copy the standards files
+## 3. Step 2 — Lay down the suite
 
-Two patterns:
-
-### Pattern A — Copy (independent versions per project) — RECOMMENDED
-
-The standards repo is flat; your project nests these files under `docs/standards/` and `archive/`. Three copy operations:
+Copy the whole crate from `SOURCE` (do not modify `SOURCE`). `CLAUDE.md` goes to the repo root;
+`LESSONS.md` to `archive/`; everything else to `docs/standards/`.
 
 ```bash
-# Assume you're in your new project's root directory.
-# Replace ~/standards-source/ with the actual path to your standards source.
-STANDARDS_SRC=~/standards-source
-
-# 1. CLAUDE.md goes to repo root (it's the binding contract)
-cp "$STANDARDS_SRC/CLAUDE.md" ./CLAUDE.md
-
-# 2. The 7 focused standards files go under docs/standards/
+# In your new project's root. SOURCE = your canonical suite folder.
+SOURCE=~/path/to/standards-suite           # the folder containing CLAUDE.md, LESSONS.md, ...
 mkdir -p docs/standards archive
-cp "$STANDARDS_SRC/PROJECT_STANDARDS.md" \
- "$STANDARDS_SRC/PROMPT_STANDARDS.md" \
- "$STANDARDS_SRC/PROJECT_INSTRUCTIONS_TEMPLATE.md" \
- "$STANDARDS_SRC/MEMORY_PROTOCOL.md" \
- "$STANDARDS_SRC/ENGINEERING_STANDARDS.md" \
- "$STANDARDS_SRC/VALIDATION_STANDARDS.md" \
- "$STANDARDS_SRC/CICD_STANDARDS.md" \
- docs/standards/
 
-# 3. LESSONS.md goes under archive/
-cp "$STANDARDS_SRC/LESSONS.md" archive/LESSONS.md
+cp "$SOURCE/CLAUDE.md"   ./CLAUDE.md        # binding contract → repo root
+cp "$SOURCE/LESSONS.md"  archive/LESSONS.md # incident-to-rule archive → archive/
 
-# Verify:
-ls -la CLAUDE.md docs/standards/ archive/
+# the 7 focused standards + the meta/machinery files + the session + log + memory templates
+cp "$SOURCE/PROJECT_STANDARDS.md" "$SOURCE/PROMPT_STANDARDS.md" \
+   "$SOURCE/PROJECT_INSTRUCTIONS_TEMPLATE.md" "$SOURCE/MEMORY_PROTOCOL.md" \
+   "$SOURCE/ENGINEERING_STANDARDS.md" "$SOURCE/VALIDATION_STANDARDS.md" \
+   "$SOURCE/CICD_STANDARDS.md" "$SOURCE/STANDARDS_INDEX.md" "$SOURCE/README.md" \
+   "$SOURCE/NEW_PROJECT_BOOTSTRAP.md" "$SOURCE/HOW_TO_USE.md" "$SOURCE/SETUP.md" \
+   "$SOURCE/STANDARDS_LOG.md" "$SOURCE/MEMORY_DURABILITY_ROLLOUT_PROMPT.md" \
+   "$SOURCE/SESSION_OPENER.md" "$SOURCE/SESSION_CLOSER.md" \
+   docs/standards/
+
+ls -la CLAUDE.md docs/standards/ archive/    # 1 + 16 + 1
 ```
 
-Expected output: 8 files (CLAUDE.md at root, 7 files in `docs/standards/`, 1 file in `archive/`).
+This is a **transient delivery crate** — Step 10.5 strips the machinery back down to the 6 operative
+topical files. Laying it all down first keeps the strip's set-cover check honest.
 
-**Note:** `README.md`, `STANDARDS_INDEX.md`, `NEW_PROJECT_BOOTSTRAP.md` from the standards repo are **not** copied into your project. Those are meta files about the standards repo itself; your project has its own `README.md` (Step 5) and refers to the standards-repo's STANDARDS_INDEX + BOOTSTRAP as external references.
-
-### Pattern B — Symlink / submodule (shared versions across projects)
-
-Either git submodule or symlinks. Gives instant updates across all projects but couples them. Only use for organizations enforcing identical standards across many projects.
+**Instantiate the project-local session files** from the templates (these are operative — they survive
+the strip and live in `docs/`, not `docs/standards/`):
 
 ```bash
-# Submodule example:
-git submodule add <standards-repo-url> docs/standards-source
-ln -s docs/standards-source/CLAUDE.md ./CLAUDE.md
-# ... etc
+cp docs/standards/SESSION_OPENER.md docs/SESSION_OPENER.md
+cp docs/standards/SESSION_CLOSER.md docs/SESSION_CLOSER.md
 ```
 
-Pattern A is recommended for solo work; Pattern B for orgs.
+Then edit `docs/SESSION_OPENER.md` and `docs/SESSION_CLOSER.md`: drop the "(template)" banner, and
+customize §§ 2–3 for this project — the branch name, the environment/registry mapping, the failure-mode
+rows (drop the remote-host rows if there's no remote infra). Keep the `PROJECT-OWNED` markers so a future
+`sync` preserves your customizations.
 
 ---
 
-## 4. Step 3 — Customize placeholders
+## 4. Step 3 — Customize CLAUDE.md
 
-Walk `README.md` § 6 (Customization checklist) and replace every `<placeholder>` with project-specific values.
+`CLAUDE.md` is the binding contract. Customize the project-owned sections (everything else is verbatim
+from the suite, including all 14 standing rules):
 
-### Mandatory customizations (won't work without these):
+- **§ 1 Project context** — fill Project / Domain / Primary languages / Deployment shape / Multi-agent
+  from your decisions.
+- **§ 4 Critical files** — replace the `<placeholders>` with this project's real always-Major paths.
+  Always include `docs/documents_manifest.md` and `CLAUDE.md` itself.
+- **§ 13** — set the domain-behavior source-of-truth bullet to this project's reality.
+- **§ 14 Codex handoff** — single-agent: replace with a short "NOT IN USE (single-agent project)" stub
+  and set § 1 Multi-agent = no. Multi-agent: keep § 14 and name the second agent.
+- **Reset the header** to this project's own `VERSION 1.0` with a one-line "Project bootstrap" CHANGE
+  LOG; Source line = `docs/standards/ (this repo). Bootstrapped from Standard Set v1.3 on <today>.`
+  (The v1.3 template already carries **Rule 14** — keep it; Step 8 wires up the mechanism.)
 
-**`CLAUDE.md` — § 1 Project context:**
-
-Find:
-
-```
-**Project:** `<project-name>`
-**Domain:** `<one-line description — e.g., "Python-based trading signal platform" / ...>`
-**Primary languages:** `<e.g., Python 3.11, TypeScript, Bash>`
-**Deployment shape:** `<e.g., "Dockerized, GitLab CI → a cloud VPS provider VPS via registry-pull">`
-```
-
-Replace with your actual values. Example for a SaaS API:
+Example § 1 fill (SaaS API):
 
 ```
 **Project:** acme-api
-**Domain:** Node.js SaaS API for inventory management; serves customer-facing REST endpoints
+**Domain:** Node.js SaaS API for inventory management; customer-facing REST endpoints
 **Primary languages:** TypeScript (Node 20.x), Bash
 **Deployment shape:** Dockerized, GitHub Actions CI → AWS ECS via registry-pull
+**Multi-agent:** no — single-agent (Codex § 14 trimmed)
 ```
-
-**`CLAUDE.md` — § 4 Critical files:**
-
-Replace the `<critical_file_1>` placeholder block with your project's actual always-Major files. Delete the the standards source HTML-comment example or replace it with your project-specific list.
-
-### Optional customizations:
-
-**`docs/standards/PROJECT_INSTRUCTIONS_TEMPLATE.md` — Tier B (for Claude.ai users):**
-
-If you'll be using Claude.ai sessions, fill in Tier B with this project's paths, commands, environment specifics, and quirks. Tier A and Tier C are usually fine as-is.
-
-**`CLAUDE.md` — § 14 Codex handoff (multi-agent projects only):**
-
-If your project uses a second AI agent (Codex / Devin / other), keep § 14 and customize the agent name + domain. If you're single-agent, you can either leave § 14 in place (it's marked OPTIONAL) or delete it for clarity.
-
-### Run the customization checklist:
-
-Open `README.md` § 6 and walk every `- [ ]` checkbox. Replace placeholders or confirm defaults.
 
 ---
 
 ## 5. Step 4 — Create supporting files
 
 ```bash
-# Repo root
 touch README.md CHANGELOG.md .gitignore
-
-# docs/
 mkdir -p docs/Plans
-touch docs/README.md
-touch docs/documents_manifest.md
-touch docs/folder_structure.md
-
-# docs/Plans needs a placeholder to be committed
-touch docs/Plans/.gitkeep
+touch docs/README.md docs/documents_manifest.md docs/folder_structure.md docs/Plans/.gitkeep
 ```
 
-### Initialize each with minimal content:
-
-**`README.md`** (project README — short, will grow):
-
-```markdown
-# <project-name>
-
-<One-paragraph project description.>
-
-## Quick Start
-
-<Setup commands.>
-
-## Standards
-
-This project follows the standards in `docs/standards/`. Binding contract: `CLAUDE.md` at repo root.
-```
-
-**`CHANGELOG.md`** (initialize with the bootstrap entry):
-
-```markdown
-# CHANGELOG
-
-Newest entries at the top.
-
-## [YYYY-MM-DD] — Project bootstrap: governance scaffold
-
-- **Type:** Major / Infrastructure / Bootstrap
-- **Files:** `CLAUDE.md` (repo root), `docs/standards/*.md` (7 binding files), `archive/LESSONS.md`, `docs/README.md`, `docs/documents_manifest.md`, `docs/folder_structure.md`, `scripts/check_doc_coverage.py`, `scripts/check_test_coverage_drift.py`, `.gitlab-ci.yml` (or equivalent), `.gitlab/merge_request_templates/Default.md`
-- **Impact:** No runtime impact. Establishes the 9 standing rules, document manifest scaffold, CHANGELOG, governance scripts, CI placeholder, and standards files before any feature work begins. Standards files copied from `~/standards-source/` at Standard Set Version v1.1 — independent versions from this point forward. Backport explicitly when standards repo evolves.
-- **Author:** <your-name>
-```
-
-**`.gitignore`**:
+**`.gitignore`** — OS/IDE/language ignores **plus** the two standards-specific entries:
 
 ```
-# OS
+# OS / IDE
 .DS_Store
-
-# IDE
 .vscode/
 .idea/
 
-# Language-specific (add as needed)
-# Python:
+# Language-specific (add as needed) — Python:
 __pycache__/
 *.pyc
 .venv/
@@ -274,230 +231,113 @@ node_modules/
 *.pem
 *.key
 
+# Local-only open-tasks register (per archive/LESSONS.md L046)
+docs/Plans/OPEN_TASKS.md
+
+# Durable project-memory workspace — untracked / sync-carried by design (Rule 14 / L050)
+.claude/
+
 # Misc
 *.log
 ```
 
-**`docs/README.md`** (docs index):
+**`docs/STANDARDS_LOG.md`** — the project's experiences log (the contribution channel feeding harvest →
+integrate). Create it from the template, **removing the example entry**:
 
-```markdown
-# docs/
-
-Documentation for <project-name>.
-
-## Internal Reference
-
-- `documents_manifest.md` — version index of all tracked docs and code files
-- `folder_structure.md` — authoritative layout
-- `standards/` — the 10-file standards suite (copied from ~/standards-source/)
-- `Plans/` — planning documents (all committed; never throwaway)
+```bash
+# Start from docs/standards/STANDARDS_LOG.md, delete the E001 example, keep the schema/header.
+cp docs/standards/STANDARDS_LOG.md docs/STANDARDS_LOG.md
+# then edit docs/STANDARDS_LOG.md to remove the example entry (leave the format reference).
 ```
 
-**`docs/documents_manifest.md`** (manifest scaffold — fill in as files land):
+**`docs/SET_VERSION_ADOPTED.md`** — record the adopted version (Standard Set Version **v1.3**, adopted
+`<today>`); see Step 12 for the full content.
 
-```markdown
-<!-- VERSION: 0.1 -->
-# Document & Code Manifest
+**`README.md`**, **`docs/README.md`**, **`docs/documents_manifest.md`**, **`docs/folder_structure.md`**
+— initialize with minimal content. The manifest lists every committed `.md` + every VERSION-bearing code
+file (per Rule 8); the bootstrap entry seeds it. `CHANGELOG.md` gets the bootstrap entry (Step 10).
 
-## Module Quick Index
-
-| Module / Section | Entry range |
-|---|---|
-| Bootstrap | 1-10 |
-
-## Manifest Table
-
-| # | Title | Version | Category | Path |
-|---|---|---|---|---|
-| 1 | Operating Contract (binding) | - | Governance | `CLAUDE.md` |
-| 2 | Project Standards | 1.2 | Governance | `docs/standards/PROJECT_STANDARDS.md` |
-| 3 | Prompt Standards | 1.3 | Governance | `docs/standards/PROMPT_STANDARDS.md` |
-| 4 | Project Instructions Template | 1.3 | Governance | `docs/standards/PROJECT_INSTRUCTIONS_TEMPLATE.md` |
-| 5 | Memory Protocol | 1.2 | Governance | `docs/standards/MEMORY_PROTOCOL.md` |
-| 6 | Engineering Standards | 1.2 | Governance | `docs/standards/ENGINEERING_STANDARDS.md` |
-| 7 | Validation Standards | 1.2 | Governance | `docs/standards/VALIDATION_STANDARDS.md` |
-| 8 | CI/CD Standards | 1.2 | Governance | `docs/standards/CICD_STANDARDS.md` |
-| 9 | Lessons Archive | 1.5 | Governance | `archive/LESSONS.md` |
-| 10 | Docs Manifest | 0.1 | Governance | `docs/documents_manifest.md` |
-
-## Last Updated
-
-- **Date**: YYYY-MM-DD
-- **Change**: Project bootstrap — initial manifest scaffold with 10 entries.
-- **Previous change**: (none — this is the first entry)
-- **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)
-```
-
-**`docs/folder_structure.md`** (authoritative layout scaffold):
-
-```markdown
-<!-- VERSION: 0.1 -->
-# Folder Structure
-
-**Authoritative layout for <project-name>.**
-
-## Repository root
-
-```
-<project-name>/
-├── CLAUDE.md
-├── README.md
-├── CHANGELOG.md
-├── .gitignore
-├── .gitlab-ci.yml (or .github/workflows/)
-├── docs/
-│ ├── README.md
-│ ├── documents_manifest.md
-│ ├── folder_structure.md
-│ ├── standards/
-│ └── Plans/
-├── scripts/
-└── archive/
- └── LESSONS.md
-```
-
-(Add code-folder entries as the project grows. See `docs/standards/PROJECT_STANDARDS.md` § 6 for the standard layout template.)
-```
+> Tip: the manifest's per-file version cells should reflect the files you actually laid down — read each
+> file's `<!-- VERSION: -->` header rather than guessing. After the strip (Step 10.5), drop the stripped
+> files' rows in the same commit.
 
 ---
 
 ## 6. Step 5 — Add governance scripts
 
-Copy or recreate the two governance scripts. These come from your standards source (or from a reference project that has them):
-
-```bash
-mkdir -p scripts
-cp "$STANDARDS_SRC/../<reference-project>/scripts/check_doc_coverage.py" scripts/
-cp "$STANDARDS_SRC/../<reference-project>/scripts/check_test_coverage_drift.py" scripts/
-cp "$STANDARDS_SRC/../<reference-project>/scripts/doc_coverage_allowlist.toml" scripts/ # may be empty
-cp "$STANDARDS_SRC/../<reference-project>/scripts/validation_ownership.toml" scripts/ # starter
-
-# Make scripts executable
-chmod +x scripts/check_doc_coverage.py scripts/check_test_coverage_drift.py
-```
-
-If you don't have a reference project to copy from, write minimal versions:
-
-**`scripts/check_doc_coverage.py`** (minimal scaffold — extend over time):
+Create `scripts/check_doc_coverage.py` + `scripts/check_test_coverage_drift.py` as **permissive
+scaffolds** (VERSION 0.1, exit 0 so initial setup doesn't block), plus `doc_coverage_allowlist.toml` and
+`validation_ownership.toml` starters. Copy from a reference project if you have one; otherwise the
+minimal scaffolds:
 
 ```python
 #!/usr/bin/env python3
 # VERSION: 0.1
-# Doc coverage governance — surface drift between code, docs, manifest.
-# Initial scaffold; extend with project-specific checks.
-
+# Doc coverage governance — extend with project-specific checks.
 import sys
 from pathlib import Path
 
-repo_root = Path(__file__).resolve.parent.parent
-manifest = repo_root / "docs" / "documents_manifest.md"
-
-if not manifest.exists:
- print("ERROR: docs/documents_manifest.md missing")
- sys.exit(1)
-
-# TODO: actual coverage checks — env vars, DB tables, API routes, etc.
-print("doc coverage: OK (scaffold — extend with project-specific checks)")
-sys.exit(0)
+manifest = Path(__file__).resolve().parent.parent / "docs" / "documents_manifest.md"
+if not manifest.exists():
+    print("ERROR: docs/documents_manifest.md missing"); sys.exit(1)
+print("doc coverage: OK (scaffold)"); sys.exit(0)
 ```
-
-**`scripts/check_test_coverage_drift.py`** (similar scaffold):
 
 ```python
 #!/usr/bin/env python3
 # VERSION: 0.1
 # Test coverage drift governance — code↔test↔doc ownership map.
-
 import sys
 from pathlib import Path
 
-repo_root = Path(__file__).resolve.parent.parent
-ownership = repo_root / "scripts" / "validation_ownership.toml"
-
-if not ownership.exists:
- print("ERROR: scripts/validation_ownership.toml missing")
- sys.exit(1)
-
-# TODO: actual ownership-map checks per VALIDATION_STANDARDS § 4
-print("test coverage drift: OK (scaffold — extend with project-specific rules)")
-sys.exit(0)
+ownership = Path(__file__).resolve().parent.parent / "scripts" / "validation_ownership.toml"
+if not ownership.exists():
+    print("ERROR: scripts/validation_ownership.toml missing"); sys.exit(1)
+print("test coverage drift: OK (scaffold)"); sys.exit(0)
 ```
 
-The scaffolds exit 0 so initial setup doesn't block. Extend them as the project grows and the ownership-map rules accumulate.
-
-**`scripts/validation_ownership.toml`** (starter):
-
-```toml
-# Per VALIDATION_STANDARDS § 4 — ownership map for source files → tests + docs.
-# Add rules as your project's monitored paths grow.
-
-# Example starter rule (adapt for your project):
-# [rules.example]
-# source_paths = ["src/example.py"]
-# test_paths = ["tests/test_example.py"]
-# doc_paths = ["docs/api_reference.md"]
-# strictness = "strict"
-# require_docs = true
-# reason = "Example rule — replace with project-specific rules."
-
-[monitored_paths]
-strict = [] # populate as the project grows
-soft = []
-```
-
-**`scripts/doc_coverage_allowlist.toml`** (starter — empty):
-
-```toml
-# Per VALIDATION_STANDARDS § 4.5 — justified exceptions to doc coverage checks.
-# Add entries only when genuinely needed; each entry needs author + date + reason.
-```
+`check_test_coverage_drift.py` must accept a `--ci` flag (governance + CI call it that way). Extend both
+as the project's ownership-map rules accumulate (per `VALIDATION_STANDARDS.md` § 4).
 
 ---
 
 ## 7. Step 6 — Add CI scaffold
 
-The minimum CI shape is a `governance` stage that runs the two governance scripts. Build out additional stages as the project grows.
+Minimum CI = a `governance` stage running the two scripts on the default branch + PR/MR.
 
-**For GitLab CI** (`.gitlab-ci.yml`):
+**GitLab CI** (`.gitlab-ci.yml`):
 
 ```yaml
-stages:
- - governance
- - test
- - build
- - deploy
- - verify
- - deploy-prod
- - verify-prod
+stages: [governance, test, build, deploy, verify]
 
 governance:
- stage: governance
- image: python:3.11-slim
- script:
- - python scripts/check_doc_coverage.py
- - python scripts/check_test_coverage_drift.py --ci
- rules:
- - if: $CI_COMMIT_BRANCH == "master" || $CI_PIPELINE_SOURCE == "merge_request_event"
+  stage: governance
+  image: python:3.11-slim
+  script:
+    - python scripts/check_doc_coverage.py
+    - python scripts/check_test_coverage_drift.py --ci
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" || $CI_PIPELINE_SOURCE == "merge_request_event"
 ```
 
-**For GitHub Actions** (`.github/workflows/governance.yml`):
+**GitHub Actions** (`.github/workflows/governance.yml`):
 
 ```yaml
 name: governance
 on: [push, pull_request]
 jobs:
- governance:
- runs-on: ubuntu-latest
- steps:
- - uses: actions/checkout@v4
- - uses: actions/setup-python@v5
- with:
- python-version: '3.11'
- - run: python scripts/check_doc_coverage.py
- - run: python scripts/check_test_coverage_drift.py --ci
+  governance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: python scripts/check_doc_coverage.py
+      - run: python scripts/check_test_coverage_drift.py --ci
 ```
 
-Extend with `test`, `build`, `deploy`, `verify`, `deploy-prod`, `verify-prod` stages per `CICD_STANDARDS.md` § 2 as your deploy story matures.
+Extend with `test` / `build` / `deploy` / `verify` per `CICD_STANDARDS.md` § 2 as the deploy story
+matures. (CI semantics are validated by a real pipeline run, not local YAML parse — per Rule 5.)
 
 ---
 
@@ -507,242 +347,215 @@ Extend with `test`, `build`, `deploy`, `verify`, `deploy-prod`, `verify-prod` st
 
 ```markdown
 ## Summary
-
 <one-line description>
 
 ## Change classification
-
 - [ ] Minor — bug fix / refactor / docs / lint
 - [ ] Major — domain logic / new module / public API / DB schema / CI structure / critical file
 
-## Sync checklist (per `docs/standards/PROJECT_STANDARDS.md` § 4)
+## Sync checklist (per docs/standards/PROJECT_STANDARDS.md § 4)
+- [ ] VERSION header bumped on every touched .py/.sh (CLAUDE.md § 7) + CHANGE LOG line
+- [ ] docs/documents_manifest.md updated (version cells + Last Updated)
+- [ ] CHANGELOG.md entry at top with explicit impact statement
+- [ ] Source-of-truth doc updated if behavior changed
+- [ ] Code review pass on all touched files BEFORE staging (Rule 10)
 
-- [ ] VERSION header bumped on every touched `.py`/`.sh` (per `CLAUDE.md` § 7)
-- [ ] CHANGE LOG line added in each touched file's header
-- [ ] `docs/documents_manifest.md` updated (version cells + Last Updated rotation)
-- [ ] `CHANGELOG.md` entry added at top with explicit impact statement
-- [ ] Source-of-truth doc updated if behavior changed (e.g., `docs/<domain-spec>.md`)
-- [ ] Tracker file updated if Phase/Task work
-- [ ] Code review pass on all touched files BEFORE staging (per `CLAUDE.md` § 8.5)
-
-## Pre-push governance
-
-- [ ] `python scripts/check_doc_coverage.py` exits 0 — paste output below
-- [ ] `python scripts/check_test_coverage_drift.py --ci` exits 0 — paste output below
-
-```
-<paste verbatim output here>
-```
-
-## Test plan
-
-<Bulleted checklist of how to verify this change.>
+## Pre-push governance (paste output)
+- [ ] python scripts/check_doc_coverage.py exits 0
+- [ ] python scripts/check_test_coverage_drift.py --ci exits 0
 
 ## Impact statement
-
 - [ ] No runtime impact
-- [ ] Behavior change — describe what changes and how to verify
+- [ ] Behavior change — describe + how to verify
 - [ ] Schema change — migration included
-- [ ] CI/CD change — first pipeline run will be the dispositive validation
+- [ ] CI/CD change — first pipeline run is dispositive
 ```
 
 ---
 
-## 9. Step 8 — First commit
+## 9. Step 8 — Set up durable memory (Rule 14)
+
+Make the project's Claude memory survive a machine change / folder move. The contract text is already
+present (the v1.3 template `CLAUDE.md` Rule 14 + `SESSION_OPENER.md` § 1.5 you laid down); this step
+wires up the mechanism, following `docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md`:
+
+```bash
+# 1. Create scripts/bootstrap_memory.sh per the rollout prompt: idempotent — derive the harness key from
+#    the repo's absolute path ('/'→'-', ' '→'-') and (re)create the symlink
+#    ~/.claude/projects/<key>/memory → <repo>/.claude/memory, preserving any pre-existing files.
+mkdir -p .claude/memory
+bash scripts/bootstrap_memory.sh        # paste its output
+```
+
+- `.claude/` is gitignored (Step 4), so the memory store rides the project's sync but is never
+  accidentally committed.
+- POSIX symlink — macOS/Linux. On Windows, adapt (directory junction) or keep memory synced by other
+  means.
+
+---
+
+## 10. Step 9 — Validate
+
+```bash
+python scripts/check_doc_coverage.py            # exit 0 — paste stdout
+python scripts/check_test_coverage_drift.py --ci # exit 0 — paste stdout
+git status --short                              # ONLY the intended files
+```
+
+---
+
+## 11. Step 10 — First commit (operative standard installed)
+
+Post a named code-review pass (one verdict per file, per Rule 10), then commit. **Do not push** — push
+is operator-gated.
 
 ```bash
 cat > /tmp/bootstrap_commit_msg.txt <<'EOF'
-Bootstrap: governance scaffold
+Bootstrap: governance scaffold (Standard Set Version v1.3)
 
-Establishes the 9 standing rules (CLAUDE.md at repo root + 7 focused standards
-under docs/standards/), document manifest scaffold, CHANGELOG, folder
-structure, governance scripts, CI scaffold, MR template, and LESSONS archive
-before any feature work begins. No runtime code in this commit.
+Installs the operative standard: CLAUDE.md (14 standing rules) at repo root +
+the focused standards under docs/standards/, the LESSONS archive, project-local
+SESSION_OPENER/CLOSER, the experiences log, durable memory (Rule 14), governance
+scripts, CI scaffold, MR template, and the document manifest — before any feature
+work. No runtime code in this commit.
 
-Standards files copied from ~/standards-source/ at Standard Set Version v1.1
-on YYYY-MM-DD. Independent versions from this point forward. Backports from
-the standards source are explicit (see docs/standards/STANDARDS_INDEX.md at
-the source for set-version evolution).
-
-Scope:
-- CLAUDE.md at repo root (template; customized per project)
-- 7 focused standards in docs/standards/ (PROJECT_STANDARDS, PROMPT_STANDARDS,
- PROJECT_INSTRUCTIONS_TEMPLATE, MEMORY_PROTOCOL, ENGINEERING_STANDARDS,
- VALIDATION_STANDARDS, CICD_STANDARDS)
-- LESSONS.md under archive/
-- README.md (project README, placeholder)
-- docs/{README,documents_manifest,folder_structure}.md
-- scripts/{check_doc_coverage,check_test_coverage_drift}.py (scaffolds)
-- scripts/{doc_coverage_allowlist,validation_ownership}.toml (starters)
-- .gitlab-ci.yml (or .github/workflows/governance.yml)
-- .gitlab/merge_request_templates/Default.md (or .github/pull_request_template.md)
-- docs/Plans/.gitkeep
-
-Customizations applied:
-- CLAUDE.md § 1 project context filled
-- CLAUDE.md § 4 critical files filled (or stub for now)
-- (Codex handoff § 14: kept / removed per project)
-
-No runtime impact. No tests required (no runtime code). First feature work
-follows in subsequent commits using the established workflow.
+Bootstrapped from the standards suite at Standard Set Version v1.3 on <today>.
+Independent versions from this point forward; backports are explicit.
 EOF
 
-# Pre-add verify (per CLAUDE.md Rule 6)
-git status --short
-
-# Stage all bootstrap files
-git add CLAUDE.md README.md CHANGELOG.md .gitignore
-git add docs/
-git add archive/LESSONS.md
-git add scripts/
-git add .gitlab-ci.yml || git add .github/workflows/ # whichever you used
-git add .gitlab/ || git add .github/
-
-# Post-add verify (per CLAUDE.md Rule 6)
-git status --short
-
-# Commit
+git status --short              # pre-add verify (Rule 6)
+git add -A
+git status --short              # post-add verify (Rule 6)
 git commit -F /tmp/bootstrap_commit_msg.txt
-
-# Final verification
 git log -1 --stat | cat
 ```
 
-**Verify the commit looks correct:**
-
-- Commit message preserved special characters (em-dashes, backticks if any)
-- File set matches expectations
-- All listed files appear in `git log -1 --name-only`
-
-If anything is off, **do not push yet**. Fix-forward (if pushed) or amend (if local-only) before continuing.
+Verify the commit preserved special characters and the file set matches. If anything is off, **don't
+push** — amend (local-only) or fix-forward (if pushed) per Rule 3.
 
 ---
 
-## 10. Step 9 — Set up Claude.ai Project (if using Claude.ai)
+## 12. Step 10.5 — Strip the setup machinery
 
-If you'll be using Claude.ai sessions in this project:
+The suite under `docs/standards/` was a transient delivery crate. Now that the operative standard is
+installed and committed, delete the setup/maintenance machinery so the project keeps only the operative
+standard. Make this a **separate second commit** ("strip setup machinery") so the delivered-then-removed
+transition is visible in history.
 
-1. Create a new Project in Claude.ai (https://claude.ai/projects)
-2. Open Project Instructions field
-3. Copy the template from `docs/standards/PROJECT_INSTRUCTIONS_TEMPLATE.md` § 4 (the block inside the 4-backtick fence)
-4. Fill in Tier A (project context) and Tier B (critical files, commands, environment, quirks)
-5. **Delete the Tier C HTML-comment block** — Tier C goes in the FIRST USER MESSAGE of each session, never in the Project Instructions field
-6. **Decide on multi-agent block:** include the optional "Multi-agent coordination" sub-block ONLY if your project uses Codex / Devin / other. Otherwise delete it.
-7. Save
+**Safety check first (set-cover):** the KEEP set ∪ the DELETE set below MUST equal the current
+`docs/standards/` contents — no file unaccounted for. `ls docs/standards/` and confirm each file is in
+exactly one list. If a file is in NEITHER, STOP — a new suite file may have been added since this was
+written; never blind-delete.
 
-Verify by starting a new conversation in the Project — the agent should reference CLAUDE.md and apply the session interaction protocol from message 1.
+- **KEEP in `docs/standards/`** (the topical library, loaded by the dispatcher during normal work):
+  `PROJECT_STANDARDS.md`, `PROMPT_STANDARDS.md`, `MEMORY_PROTOCOL.md`, `ENGINEERING_STANDARDS.md`,
+  `VALIDATION_STANDARDS.md`, `CICD_STANDARDS.md`  (6 files)
+- **DELETE from `docs/standards/`** (machinery — only used to deliver/maintain the suite):
+  `CLAUDE.md` (template), `LESSONS.md` (template), `SESSION_OPENER.md` (template),
+  `SESSION_CLOSER.md` (template), `STANDARDS_LOG.md` (template), `SETUP.md`, `NEW_PROJECT_BOOTSTRAP.md`,
+  `STANDARDS_INDEX.md`, `README.md` (meta), `HOW_TO_USE.md`, `PROJECT_INSTRUCTIONS_TEMPLATE.md`,
+  `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` (used once in Step 8, then stripped)  (12 files)
+- **NOT touched** (operative/kept files already outside `docs/standards/`): `CLAUDE.md` (root),
+  `archive/LESSONS.md`, `docs/SESSION_OPENER.md`, `docs/SESSION_CLOSER.md`, `docs/SET_VERSION_ADOPTED.md`,
+  `docs/STANDARDS_LOG.md`, `scripts/bootstrap_memory.sh`, `.claude/memory/`, governance scripts, CI,
+  manifest.
+
+In the **same strip commit**, update `docs/documents_manifest.md` + `docs/folder_structure.md` to drop
+the stripped files (Rule 8). Then code-review, `git add -A`, re-check `git status --short`, and
+`git commit -F /tmp/strip_commit_msg.txt`. Do not push.
 
 ---
 
-## 11. Step 10 — Record Set Version adopted
+## 13. Step 11 — Set up Claude.ai Project (optional)
 
-Record the Standard Set Version you adopted today. This makes future backports explicit.
+If you'll use Claude.ai sessions:
 
-**Option A — In CHANGELOG.md:**
+1. Create a Project at https://claude.ai/projects and open Project Instructions.
+2. Copy the template from `docs/standards/PROJECT_INSTRUCTIONS_TEMPLATE.md` § 4 (inside the 4-backtick
+   fence). *(Do this before the strip, or from `SOURCE` after — the template is stripped from the repo.)*
+3. Fill Tier A (project context) and Tier B (critical files, commands, environment, quirks).
+4. **Delete the Tier C block** — Tier C goes in the FIRST USER MESSAGE of each session, never in the
+   Project Instructions field.
+5. Include the multi-agent sub-block ONLY if using a second agent; otherwise delete it. Save.
 
-Already present in the bootstrap entry from Step 5. Verify it says "Standard Set Version v1.1 on YYYY-MM-DD" (or whatever the current Set Version is when you bootstrap).
+Verify by starting a conversation — the agent should reference `CLAUDE.md` and run the session pre-flight
+from message 1.
 
-**Option B — Dedicated file:**
+---
+
+## 14. Step 12 — Record the Set Version adopted
+
+`docs/SET_VERSION_ADOPTED.md` makes future backports explicit:
 
 ```bash
 cat > docs/SET_VERSION_ADOPTED.md <<'EOF'
 <!-- VERSION: 1.0 -->
 # Standard Set Version Adopted
 
-This project was bootstrapped from the standards suite at:
+This project adopts the standards suite at:
 
-- **Standard Set Version:** v1.1
-- **Adopted on:** YYYY-MM-DD
-- **Source:** ~/standards-source/ (or wherever your source lives)
+- **Standard Set Version:** v1.3
+- **Adopted on:** <today>
+- **Source:** <your canonical suite path>
 
 ## Backport tracking
 
-Backports from the source set are explicit. Newer Set Versions become available; track them here when adopting.
+Backports from the source set are explicit. When a newer Set Version is released, read its history entry
+(the source `STANDARDS_INDEX.md` § 6), reconcile your operative copies, and record it below.
 
-| Set Version | Adopted on | Backport notes |
+| Set Version | Adopted on | Notes |
 |---|---|---|
-| v1.1 | YYYY-MM-DD | Initial bootstrap |
+| v1.3 | <today> | Initial bootstrap |
 EOF
 ```
 
-Either approach is fine. The point is that a future-you can answer "what set version did we bootstrap from?" in 10 seconds.
+The adopted state at v1.3: **14 standing rules** in `CLAUDE.md` § 3; the suite's lessons in
+`archive/LESSONS.md`; durable memory (Rule 14) wired up.
 
 ---
 
-## 12. Post-bootstrap — what to do next
+## 15. Post-bootstrap — what to do next
 
-Day Zero is complete. The next milestones:
+**Day One — first feature work.** The first real change runs the full workflow: classify Minor vs Major
+(CLAUDE.md § 5) → for Major, propose first (§ 6) → implement → if multi-file, draft the prompt
+(`PROMPT_STANDARDS.md`) → sync all docs same-commit (`PROJECT_STANDARDS.md` § 4) → code review (Rule 10)
+→ validate (§ 8) → CHANGELOG entry → commit via `git commit -F` (Rule 4). See `HOW_TO_USE.md` § 1 for the
+Day-One prompt.
 
-### Day One — first feature work
+**Week One — lessons.** As friction surfaces, capture it in `docs/STANDARDS_LOG.md` (the experiences
+log) via the wrap-up routine; portable lessons later flow back to the suite via harvest → integrate.
 
-Per `README.md` § 4.2 — the first real change goes through the full workflow:
-
-1. Classify the change (Minor vs Major) per `CLAUDE.md` § 5
-2. For Major: propose the design first per `CLAUDE.md` § 6 step 2
-3. Implement per `ENGINEERING_STANDARDS.md`
-4. If multi-file edit: draft the prompt per `PROMPT_STANDARDS.md`
-5. Sync all affected docs in the same commit per `PROJECT_STANDARDS.md` § 4
-6. Code review pass per `CLAUDE.md` § 8.5
-7. Validate per `CLAUDE.md` § 8 checklist
-8. CHANGELOG entry with explicit impact
-9. Commit via `git commit -F /tmp/<file>` per Rule 4
-
-### Week One — accumulating lessons
-
-After ~5–10 commits, observed friction surfaces project-specific lessons. Capture them in:
-
-- `docs/<project>_setup_tracker.md` Incidents section (the local tracker — create when first needed)
-- A new entry in CLAUDE.md if the lesson reaches binding-rule significance
-
-If a lesson is genuinely portable to other projects (not just this one), eventually backport it to the standards source per `README.md` § 5.5.
-
-### Month One — first audits
-
-Per `README.md` § 4.4 — quarterly audits should start at month one even if there's little to audit yet. Establish the rhythm:
-
-1. Manifest sweep — every committed `.md` and VERSION-bearing code file in `docs/documents_manifest.md`
-2. Lessons review — open `archive/LESSONS.md`; check rules still in force
-3. Memory hygiene — walk the four-category test from `MEMORY_PROTOCOL.md` § 1
-4. CHANGELOG continuity check — every meaningful commit has a CHANGELOG entry
-5. Tracker review — no rows stuck "In progress" for >2 weeks
+**Month One — first audit.** Establish the rhythm: manifest sweep, lessons review, memory hygiene
+(`MEMORY_PROTOCOL.md`), CHANGELOG continuity, tracker review.
 
 ---
 
-## 13. Troubleshooting
+## 16. Troubleshooting
 
-### "`git commit -F` is failing — invalid message"
+**`git commit -F` fails — invalid message:** confirm `/tmp/bootstrap_commit_msg.txt` exists and is
+non-empty; the heredoc must end with `EOF` on its own line.
 
-Check that `/tmp/bootstrap_commit_msg.txt` actually exists and is non-empty: `cat /tmp/bootstrap_commit_msg.txt`. The heredoc must terminate correctly with `EOF` on its own line.
+**Governance scripts exit non-zero on first push:** the scaffolds (Step 5) are permissive (exit 0). If
+you replaced them and they fail, read the error and fix the gap, or add a justified
+`doc_coverage_allowlist.toml` entry (author + date + reason + expiry). Don't push with failing
+governance.
 
-### "Pre-push governance scripts exit non-zero on first push"
+**CI fails on the first push:** local YAML parse validates syntax, not CI semantics (Rule 5). The first
+real-pipeline run may surface `needs:` / `stage:` / `rules:` defects. Fix-forward (new commit with a
+letter suffix) — never force-push (Rule 3).
 
-The scaffolds in Step 6 are intentionally permissive (exit 0). If you replaced them with full implementations and they fail:
+**Memory store empty after a machine change / folder move:** run `bash scripts/bootstrap_memory.sh` to
+re-home the symlink (Rule 14). If the content itself was lost, recover from the prior machine's
+`~/.claude/projects/<old-key>/memory/` (or a sync/backup of it).
 
-1. Read the actual error from the script's output
-2. Either fix the gap (add the missing manifest entry, doc reference, etc.)
-3. Or add a justified entry to `scripts/doc_coverage_allowlist.toml` (with author + date + reason + expiry)
-
-Don't push with failing governance.
-
-### "CI fails on the first push to master"
-
-Per `CLAUDE.md` Rule 5 — local YAML parse validates syntax, not CI semantics. The first real-pipeline run may surface defects in `needs:`, `stage:`, `rules:`, etc. Fix-forward per Rule 3 (new commit with letter suffix, e.g., "Bootstrap-fix-b"). Do not force-push.
-
-### "Standards file references docs/<domain-spec>.md but my project doesn't have that"
-
-Several standards files mention domain-specific docs (e.g., `docs/<domain-spec>.md`) as a per-project source-of-truth doc. Either:
-
-- Create the doc for your project (the standards files reference it but don't require any specific name)
-- Adjust the reference in CLAUDE.md § 13 ("Single sources of truth") and any other files that mention it, to point at your project's actual domain doc
-
-### "I'm using Codex / Devin / a second agent — what changes?"
-
-Keep `CLAUDE.md` § 14 (Codex handoff) in your repo. Customize the agent name + domain. Read `archive/LESSONS.md` L020 for the codification incident. Read `docs/standards/PROMPT_STANDARDS.md` § 3.11 for the Codex variant of multi-file edit prompts. Single-agent projects can delete § 14.
+**Using a second agent (Codex / Devin):** keep `CLAUDE.md` § 14, name the agent + domain, and see
+`PROMPT_STANDARDS.md` for the second-agent multi-file-edit prompt variant. Single-agent projects delete
+§ 14.
 
 ---
 
 ## End of bootstrap
 
-After Step 10, you have a working governance scaffold. Start feature work in your next session. The 9 standing rules now bind every commit, every prompt, every push.
-
-Re-read `README.md` § 7 (Why this design) if you find yourself wanting to skip a rule — that section captures the reasoning. The discipline scales: 30 minutes of setup prevents months of friction.
+After Step 12 you have a working governance scaffold on Standard Set Version v1.3. Start feature work in
+your next session — the 14 standing rules now bind every commit, every prompt, every push. The one-shot
+equivalent of this walkthrough is `SETUP.md`; keep the two in step-parity if you change the procedure.
