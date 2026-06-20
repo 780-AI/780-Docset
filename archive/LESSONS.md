@@ -22,6 +22,7 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L051 — The senior-review pass must mechanically run the linters / type-checker / tests against the plan's embedded code, not eyeball it](#l051--the-senior-review-pass-must-mechanically-run-the-linters--type-checker--tests-against-the-plans-embedded-code-not-eyeball-it)
  - [L050 — Project memory must live inside the synced repo, not the machine-local harness dir](#l050--project-memory-must-live-inside-the-synced-repo-not-the-machine-local-harness-dir)
  - [L049 — A plan draft is a hypothesis: a mandatory senior-review-and-optimize pass before approval catches what the drafting pass ships](#l049--a-plan-draft-is-a-hypothesis-a-mandatory-senior-review-and-optimize-pass-before-approval-catches-what-the-drafting-pass-ships)
  - [L048 — Session wrap-up routine as forcing function against detail loss across session boundaries](#l048--session-wrap-up-routine-as-forcing-function-against-detail-loss-across-session-boundaries)
@@ -125,6 +126,36 @@ where it lives now (which standards file, which section).>
 ---
 
 ## 3. The lessons (newest first)
+
+### L051 — The senior-review pass must mechanically run the linters / type-checker / tests against the plan's embedded code, not eyeball it
+
+**Date:** 2026-06-20
+**Project:** Standard DocSet
+**Phase / Task:** Operator-driven lesson codification (Rule 13 reinforcement; Standard Set Version v1.3)
+
+#### Incident
+
+Three consecutive § 15 plans shipped the same defect class — ruff `E501` over-length lines in the verbatim § 5 code — that the mandatory Rule 13 senior-review-and-optimize pass *claimed* to have caught:
+
+- **PLAN-003** (Slice 2): the Rule 13 pass claimed the § 5 code was verified, yet Phase 3 immediately hit three defects a linter catches in seconds — ruff `UP042` (`class State(str, Enum)` → `StrEnum`), ruff `E501` (a 103-col test signature), and `mypy --strict` `attr-defined` (a `from pkg import cli` from outside the package). All three failed the plan's own scenario H.
+- **PLAN-004** (Slice 3): the Rule 13 pass explicitly claimed (finding #2) to have reflowed lines vs E501, yet the § 5B per-item report line shipped at 103 cols and tripped ruff at Phase 4 (plan-defect D1).
+- **PLAN-006** (Slice 4): the v0.1a Rule 13 CHANGE LOG claimed it ran ruff and "caught 1 E501 (a CHANGE-LOG header line) → fixed," but Phase 3 found **5** E501 lines in the committed § 5A — none of which was a "CHANGE-LOG header line." So ruff was not actually run against the § 5A that shipped, or the fix never reached § 5A.
+
+#### Diagnosis
+
+The Rule 13 forcing function existed and fired, but its recorded result was never tied to an actual tool invocation against the exact § 5 code the plan committed. A CHANGE-LOG line saying "ran ruff" made the gate look satisfied while the same defect class sailed through to Phase 3 — three slices running. The sharpest recurrence (PLAN-006) showed the failure is not merely "eyeballed instead of run" but "*claimed* run without being run, and the claim went unverified." `E501` / `UP042` / `attr-defined` are exactly what `ruff` + `mypy --strict` catch reliably and a human reading code catches poorly.
+
+#### Codification
+
+L051 + a `docs/SESSION_OPENER.md` § 3.1 universal catalog row: the Rule 13 pass MUST actually run `ruff` + `mypy --strict` + the test reasoning against the EXACT § 5 code the plan commits; the fix MUST be reflected in § 5 itself (not only narrated in the CHANGE LOG); and the recorded result MUST name the specific lines fixed — or state that the tools could not be run, and why. A "ran ruff" claim with no named findings is treated as not-run. Shipped as Standard Set Version v1.3 (additive Minor — no existing rule changed; Rule 13's expectations are sharpened, not rewritten).
+
+#### Cross-references
+
+- `CLAUDE.md` § 3 Rule 13 + § 15.8 (the senior-review-and-optimize pass)
+- `docs/SESSION_OPENER.md` § 3.1 (catalog row)
+- PLAN-003 / PLAN-004 / PLAN-006 CHANGE LOGs (the three recurrences)
+
+---
 
 ### L050 — Project memory must live inside the synced repo, not the machine-local harness dir
 

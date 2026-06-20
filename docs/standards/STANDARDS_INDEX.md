@@ -1,8 +1,9 @@
-<!-- VERSION: 1.2 -->
-<!-- Last Updated: 2026-06-17 -->
+<!-- VERSION: 1.3 -->
+<!-- Last Updated: 2026-06-20 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.3 — 2026-06-20 — Standard Set Version v1.3: lesson L051 (the Rule 13 senior-review pass must mechanically run the linter / type-checker / tests against the plan's embedded code, not eyeball it) + a SESSION_OPENER § 3.1 universal row. § 1 lesson count → 51; § 2 row 9 → 51; § 3 caption → v1.3, SESSION_OPENER cell → 1.3, STANDARDS_INDEX cell → 1.3, total → 51 (LESSONS cell unchanged per the no-per-lesson-bump practice); § 6 history entry added. No existing rule changed (Rule 13 expectations sharpened, not rewritten).
 v1.2 — 2026-06-17 — Standard Set Version v1.2 (PLAN-005): added Rule 14 (durable memory) to CLAUDE.md; SESSION_OPENER § 1.5 + § 3.1 row; lesson L050; new meta file MEMORY_DURABILITY_ROLLOUT_PROMPT.md. § 1 counts → 50 lessons / 14 rules; § 3 → 18 files (11 binding + 7 meta); CLAUDE.md + SESSION_OPENER cells → 1.2; § 6 history entry added.
 v1.1 — 2026-06-13 — Standard Set Version v1.1 (PLAN-002, Slice 1): registered the STANDARDS_LOG.md
 experiences-log template (meta "+"); recorded the PROJECT-OWNED marker convention + setup-and-strip;
@@ -35,10 +36,10 @@ Version** tracks the suite as a whole — files added, structure changed, patter
 ## 1. Standard Set Version (current)
 
 ```
-Standard Set Version: v1.2
-Released:             2026-06-17
-Baseline:             v1.0 clean domain-neutral baseline + the experiences-log template, PROJECT-OWNED markers, and setup-and-strip (PLAN-002 Slice 1) + durable-memory Rule 14 (PLAN-005).
-Adopter contract:     11 binding files + 4 meta files (+ SETUP.md + STANDARDS_LOG.md + MEMORY_DURABILITY_ROLLOUT_PROMPT.md); 50 lessons (L001–L050); 14 standing rules in CLAUDE.md
+Standard Set Version: v1.3
+Released:             2026-06-20
+Baseline:             v1.0 clean domain-neutral baseline + the experiences-log template, PROJECT-OWNED markers, and setup-and-strip (PLAN-002 Slice 1) + durable-memory Rule 14 (PLAN-005) + Rule 13 linter-enforcement lesson L051 (v1.3).
+Adopter contract:     11 binding files + 4 meta files (+ SETUP.md + STANDARDS_LOG.md + MEMORY_DURABILITY_ROLLOUT_PROMPT.md); 51 lessons (L001–L051); 14 standing rules in CLAUDE.md
 ```
 
 When adopting this suite, record the Set Version in the new project's `CHANGELOG.md` or its own
@@ -64,7 +65,7 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 | 6 | `ENGINEERING_STANDARDS.md` | Engineering substrate — architecture invariants, coding standards, secrets, container discipline, ops |
 | 7 | `VALIDATION_STANDARDS.md` | Test framework — tiered model, ownership map, deliberate-failure protocol, soak, first-fire expectations |
 | 8 | `CICD_STANDARDS.md` | Pipeline architecture — staged shape, registry-pull deploy, smoke gating, auto-rollback, soak gate, explicit PROD authorization |
-| 9 | `LESSONS.md` | Incident-to-rule archive — 50 lessons (append-only), each with incident + cost + codification + cross-references |
+| 9 | `LESSONS.md` | Incident-to-rule archive — 51 lessons (append-only), each with incident + cost + codification + cross-references |
 | 10 | `SESSION_OPENER.md` | Session-start pre-flight (binding per Rule 9) — environment mapping + failure-mode catalog + first-response output template |
 | 11 | `SESSION_CLOSER.md` | Session-end wrap-up (binding per Rule 12) — wrap-up routine + failure-mode catalog + output template |
 
@@ -84,7 +85,7 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 
 ## 3. Per-file version table
 
-Current state as of Set Version v1.1 (2026-06-13). Files unchanged since v1.0 keep their 2026-06-07 dates.
+Current state as of Set Version v1.3 (2026-06-20). Files unchanged since v1.0 keep their 2026-06-07 dates.
 
 | File | Tier | Version | Last Updated |
 |---|---|---|---|
@@ -97,10 +98,10 @@ Current state as of Set Version v1.1 (2026-06-13). Files unchanged since v1.0 ke
 | `VALIDATION_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `CICD_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `LESSONS.md` | Binding | 1.0 | 2026-06-07 |
-| `SESSION_OPENER.md` | Binding | 1.2 | 2026-06-17 |
+| `SESSION_OPENER.md` | Binding | 1.3 | 2026-06-20 |
 | `SESSION_CLOSER.md` | Binding | 1.1 | 2026-06-13 |
 | `README.md` | Meta | 1.0 | 2026-06-07 |
-| `STANDARDS_INDEX.md` | Meta | 1.1 | 2026-06-13 |
+| `STANDARDS_INDEX.md` | Meta | 1.3 | 2026-06-20 |
 | `NEW_PROJECT_BOOTSTRAP.md` | Meta | 1.1 | 2026-06-13 |
 | `HOW_TO_USE.md` | Meta | 1.0 | 2026-06-07 |
 | `SETUP.md` | Meta | 1.1 | 2026-06-13 |
@@ -108,7 +109,7 @@ Current state as of Set Version v1.1 (2026-06-13). Files unchanged since v1.0 ke
 | `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` | Meta | 1.0 | 2026-06-17 |
 
 **Total file count:** 18 (11 binding + 7 meta).
-**Total lesson count in `LESSONS.md`:** 50 (L001–L050).
+**Total lesson count in `LESSONS.md`:** 51 (L001–L051).
 
 ---
 
@@ -164,6 +165,16 @@ coordinated multi-file pattern is a Set-Version Minor; a structural change is a 
 ## 6. Standard Set Version history
 
 Newest first. Append-only.
+
+### v1.3 — 2026-06-20 — Rule 13 senior-review pass must mechanically run the tools (L051)
+
+Additive Minor. Adds lesson **L051** — the Rule 13 senior-review-and-optimize pass MUST mechanically run
+the linter + type-checker + tests against the EXACT code a plan commits in its § 5 transformation rules
+(not eyeball it), the fix MUST land in § 5 itself (not only be narrated in the CHANGE LOG), and the
+recorded result MUST name the specific lines / checks it fixed — codifying a defect class that recurred
+across three consecutive plans. Adds a matching `SESSION_OPENER.md` § 3.1 universal catalog row. No binding
+file added or removed and **no existing rule changed** — Rule 13's expectations are sharpened, not
+rewritten; adopters may backport or stay on v1.2.
 
 ### v1.2 — 2026-06-17 — Durable project memory (Rule 14)
 

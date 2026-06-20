@@ -2,6 +2,29 @@
 
 Newest entries at the top.
 
+## [2026-06-20] — Standard Set Version v1.3: lesson L051 (Rule 13 must run the tools)
+
+- **Type:** Major (edits the canonical `docs/standards/` suite, a Critical File) — doc/governance only,
+  **Set Version bump v1.2 → v1.3**. Additive Minor at the suite level: no existing rule changed (Rule 13's
+  expectations are sharpened, not rewritten); adopters may backport or stay on v1.2.
+- **What:** Codified **L051** — the Rule 13 senior-review-and-optimize pass MUST mechanically run the
+  linter + type-checker + tests against the EXACT code a plan commits in its § 5 transformation rules
+  (not eyeball it); the fix MUST be reflected in § 5 itself (not only narrated in the CHANGE LOG); and the
+  recorded result MUST name the specific lines / checks fixed. Motivated by the same defect class (ruff
+  `E501`/`UP042`, `mypy --strict`) recurring across **three consecutive plans** (PLAN-003/004/006), each
+  time "claimed caught" by the Rule 13 pass but actually shipped to Phase 3.
+  - Lesson written into both copies: `docs/standards/LESSONS.md` (genericized, domain-neutral) +
+    `archive/LESSONS.md` (project-specific, citing the three recurrences).
+  - New `SESSION_OPENER.md` § 3.1 universal catalog row in both the project copy (`docs/SESSION_OPENER.md`,
+    row 14) and the template (`docs/standards/SESSION_OPENER.md`, row 15).
+- **Versions:** project `SESSION_OPENER.md` 1.3→1.4; template `SESSION_OPENER.md` 1.2→1.3;
+  `STANDARDS_INDEX.md` 1.2→1.3 (Set Version + counts + § 6 history; also corrected the stale "as of v1.1"
+  § 3 caption and the self-row to current); `SET_VERSION_ADOPTED.md` 1.3→1.4 (adopt v1.3 + backport row);
+  manifest 2.3→2.4. **LESSONS file headers unchanged** (no-per-lesson-bump practice; the count is tracked
+  in STANDARDS_INDEX/SET_VERSION_ADOPTED). Lesson count 50 → 51 (L001–L051).
+- **Impact:** No runtime/behavior impact — governance/process documentation only. **QA scenarios:** Rule 11
+  exempt (lessons-archive addition + governance-doc edit, no observable CLI/engine behavior change).
+
 ## [2026-06-20] — CLAUDE.md § 4 Critical-files cleanup
 
 - **Type:** Major (edits `CLAUDE.md`, a Critical File) but **doc-only** — no behavior change, no Set

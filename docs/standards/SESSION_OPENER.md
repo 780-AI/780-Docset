@@ -1,8 +1,9 @@
-<!-- VERSION: 1.2 -->
-<!-- Last Updated: 2026-06-17 -->
+<!-- VERSION: 1.3 -->
+<!-- Last Updated: 2026-06-20 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.3 — 2026-06-20 — Added § 3.1 universal row 15 (Rule 13 senior-review pass recorded as run but not actually executed against the plan's embedded code). Standard Set Version v1.3 (lesson L051).
 v1.2 — 2026-06-17 — PLAN-005: added § 1.5 memory-link health check (verify + self-heal + halt-on-empty, per Rule 14), the § 4 "Memory link" output line, and § 3.1 row 14. Standard Set Version v1.2.
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-customizable blocks (§ 2 environment mapping table, § 3.2 project-specific failure-mode table) in PROJECT-OWNED markers so a future sync preserves them. Standard Set Version v1.1.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
@@ -118,6 +119,7 @@ Each row links to the memory that codifies it. Recall the linked memory when its
 | 12 | Local-only OPEN_TASKS.md register stale or unmaintained (if the project uses the convention) | every session start | `LESSONS.md` L046 + `CLAUDE.md` § 15.7 |
 | 13 | Behavior-affecting change shipped without a paired QA / smoke-test scenario in the plan's tracker or OPEN_TASKS | every behavior-affecting commit | `CLAUDE.md` **Rule 11 (binding)** + `LESSONS.md` L047 |
 | 14 | Project memory lost on machine change / folder move | session start; any repo move or new machine | `CLAUDE.md` Rule 14 + `LESSONS.md` L050 |
+| 15 | Rule 13 senior-review pass recorded as run but not actually executed against the plan's embedded code (linter / type-checker / tests) | finalizing any § 15 plan (the Rule 13 pass) | `CLAUDE.md` Rule 13 + `LESSONS.md` L051 |
 
 ### 3.2 Project-specific patterns
 

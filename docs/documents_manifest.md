@@ -1,7 +1,12 @@
-<!-- VERSION: 2.3 -->
+<!-- VERSION: 2.4 -->
 <!-- Last Updated: 2026-06-20 -->
 <!--
 CHANGE LOG
+v2.4 — 2026-06-20 — Standard Set Version v1.3 (lesson L051 — Rule 13 senior-review pass must mechanically
+run the linter/type-checker/tests): bumped touched cells — entry 8 (project SESSION_OPENER) 1.3→1.4,
+entry 10 (SET_VERSION_ADOPTED) 1.3→1.4, entry 20 (template SESSION_OPENER) 1.2→1.3, entry 23
+(STANDARDS_INDEX) 1.2→1.3. LESSONS rows (12 template, 30 adopter) left at 1.0 per the established
+no-per-lesson-bump practice. No new tracked files.
 v2.3 — 2026-06-20 — Root CLAUDE.md § 4 cleanup: bumped entry 1 (Operating Contract) 1.3→1.4 (dropped the
 stale "created when the engine lands" note; promoted config/projects.toml to a Critical File). Doc-only,
 project-specific — no new tracked files, no Set Version change.
@@ -76,9 +81,9 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 5 | Documents Manifest | 2.1 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.8 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.6 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.3 | Governance | `docs/SESSION_OPENER.md` |
+| 8 | Session Opener (project-local, binding) | 1.4 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.2 | Governance | `docs/SESSION_CLOSER.md` |
-| 10 | Set Version Adopted | 1.3 | Governance | `docs/SET_VERSION_ADOPTED.md` |
+| 10 | Set Version Adopted | 1.4 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.2 | Standards | `docs/standards/CLAUDE.md` |
 | 12 | Lessons Archive (template) | 1.0 | Standards | `docs/standards/LESSONS.md` |
 | 13 | Project Standards | 1.0 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
@@ -88,10 +93,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 17 | Engineering Standards | 1.0 | Standards | `docs/standards/ENGINEERING_STANDARDS.md` |
 | 18 | Validation Standards | 1.0 | Standards | `docs/standards/VALIDATION_STANDARDS.md` |
 | 19 | CI/CD Standards | 1.0 | Standards | `docs/standards/CICD_STANDARDS.md` |
-| 20 | Session Opener (template) | 1.2 | Standards | `docs/standards/SESSION_OPENER.md` |
+| 20 | Session Opener (template) | 1.3 | Standards | `docs/standards/SESSION_OPENER.md` |
 | 21 | Session Closer (template) | 1.1 | Standards | `docs/standards/SESSION_CLOSER.md` |
 | 22 | Standards README (meta) | 1.0 | Standards | `docs/standards/README.md` |
-| 23 | Standards Index (meta) | 1.2 | Standards | `docs/standards/STANDARDS_INDEX.md` |
+| 23 | Standards Index (meta) | 1.3 | Standards | `docs/standards/STANDARDS_INDEX.md` |
 | 24 | New Project Bootstrap (meta) | 1.1 | Standards | `docs/standards/NEW_PROJECT_BOOTSTRAP.md` |
 | 25 | How To Use (meta) | 1.0 | Standards | `docs/standards/HOW_TO_USE.md` |
 | 26 | Setup — one-shot prompt (meta) | 1.1 | Standards | `docs/standards/SETUP.md` |

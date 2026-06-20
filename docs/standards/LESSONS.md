@@ -22,6 +22,7 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L051 — The senior-review pass must mechanically run the linters / type-checker / tests against the plan's embedded code, not eyeball it](#l051--the-senior-review-pass-must-mechanically-run-the-linters--type-checker--tests-against-the-plans-embedded-code-not-eyeball-it)
  - [L050 — Project memory must live inside the synced repo, not the machine-local harness dir](#l050--project-memory-must-live-inside-the-synced-repo-not-the-machine-local-harness-dir)
  - [L049 — A plan draft is a hypothesis: a mandatory senior-review-and-optimize pass before approval catches what the drafting pass ships](#l049--a-plan-draft-is-a-hypothesis-a-mandatory-senior-review-and-optimize-pass-before-approval-catches-what-the-drafting-pass-ships)
  - [L048 — Session wrap-up routine as forcing function against detail loss across session boundaries](#l048--session-wrap-up-routine-as-forcing-function-against-detail-loss-across-session-boundaries)
@@ -125,6 +126,31 @@ where it lives now (which standards file, which section).>
 ---
 
 ## 3. The lessons (newest first)
+
+### L051 — The senior-review pass must mechanically run the linters / type-checker / tests against the plan's embedded code, not eyeball it
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** Operator-driven lesson codification (Rule 13 reinforcement)
+
+#### Incident
+
+Three consecutive plans that embedded runnable code in their transformation-rules section (§ 5) shipped the same class of defect — over-length lines (a linter rule) that the mandatory senior-review-and-optimize pass (Rule 13) claimed to have checked. In each case the plan's CHANGE LOG asserted the review had run the linter and "caught and fixed" the offending lines; in each case the implementation phase then found over-length lines still present in the exact code the plan committed — and, in the sharpest recurrence, lines that did not match what the CHANGE LOG said it had fixed. The review had been performed by reading the code, not by running the tools against it, and the inaccurate "ran it" claim went unverified.
+
+#### Diagnosis
+
+A review that is *recorded as* mechanically run but is actually eyeballed gives false confidence: the artifact (a CHANGE LOG line saying "ran the linter") is present, so the gate looks satisfied, while the defect it was meant to catch sails through to implementation. The forcing function (Rule 13) existed, but nothing tied its recorded result to an actual tool invocation against the *exact* code the plan ships. Detecting style/lint violations by reading is precisely the task automated linters and type-checkers do reliably and humans do poorly — so a "by eye" review of that class of defect is structurally unreliable.
+
+#### Codification
+
+The Rule 13 senior-review pass MUST mechanically run the linter + type-checker + the tests against the EXACT embedded code the plan commits (not a paraphrase, not a mental model of it); any fix MUST be reflected in the plan's code section itself, not merely narrated in the CHANGE LOG; and the recorded result MUST name the specific lines / checks it fixed — or explicitly state that the tools could not be run, and why. A "ran the tools" claim with no named findings is treated as not-run.
+
+#### Cross-references
+
+- `CLAUDE.md` § 3 Rule 13 + § 15.8 (the senior-review-and-optimize pass)
+- `SESSION_OPENER.md` § 3.1 (catalog row)
+
+---
 
 ### L050 — Project memory must live inside the synced repo, not the machine-local harness dir
 
