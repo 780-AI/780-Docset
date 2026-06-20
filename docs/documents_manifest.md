@@ -1,7 +1,10 @@
-<!-- VERSION: 2.4 -->
+<!-- VERSION: 2.5 -->
 <!-- Last Updated: 2026-06-20 -->
 <!--
 CHANGE LOG
+v2.5 — 2026-06-20 — Registered PLAN-007 (remote transport) DRAFT + its sibling tracker as entries 63–64
+(v0.1); quick-index Plans range → "31–39, 59–60, 63–64" (appended, not inserted, to avoid an Engine
+renumber). Design session only; the Phase-3 implement commit lands transport.py + tests (→ 2.6).
 v2.4 — 2026-06-20 — Standard Set Version v1.3 (lesson L051 — Rule 13 senior-review pass must mechanically
 run the linter/type-checker/tests): bumped touched cells — entry 8 (project SESSION_OPENER) 1.3→1.4,
 entry 10 (SET_VERSION_ADOPTED) 1.3→1.4, entry 20 (template SESSION_OPENER) 1.2→1.3, entry 23
@@ -67,7 +70,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Canonical standards suite (Set v1.2) | 11–27, 57 |
 | Governance scripts | 28–29, 56 |
 | Archive | 30 |
-| Plans | 31–39, 59–60 |
+| Plans | 31–39, 59–60, 63–64 |
 | Engine (src + tests) | 40–55, 61–62 |
 
 ## Manifest table
@@ -136,6 +139,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 60 | PLAN-006 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-006_tracker.md` |
 | 61 | Engine — integration worksheet + status write-back | 0.1 | Engine | `src/standard_document_updater/integrate.py` |
 | 62 | Engine test — integrate | 0.1 | Engine test | `tests/test_integrate.py` |
+| 63 | PLAN-007 — remote transport (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-007_remote_transport.md` |
+| 64 | PLAN-007 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-007_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
