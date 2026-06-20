@@ -2,6 +2,20 @@
 
 Newest entries at the top.
 
+## [2026-06-20] — MEMORY_DURABILITY_ROLLOUT_PROMPT.md step-5 reconciled with Rule 14 (gitignore .claude/)
+
+- **Type:** Major (edits `docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md`, a Critical File) — wording
+  fix only. **No Set-Version bump** (the Rule 14 capability is unchanged); `STANDARDS_INDEX` untouched.
+- **What:** the rollout prompt's step 5 said "Confirm `.claude/` is NOT gitignored." That predated the
+  settled practice (this session's quick win + `SETUP.md` Step 6.5 + `NEW_PROJECT_BOOTSTRAP.md` Step 8):
+  **`.claude/` IS gitignored** so the store stays untracked + sync-carried *and* a stray `git add -A`
+  can never accidentally commit it. Rewrote step 5 accordingly and added `.gitignore` to the prompt's
+  ALLOWLIST. Added a CHANGE LOG block to the file (it previously had none).
+- **Versions:** `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` 1.0→1.1; `documents_manifest.md` entry 57 1.0→1.1,
+  header 2.7→2.8.
+- **Impact:** none at runtime; the three delivery docs (SETUP, NEW_PROJECT_BOOTSTRAP, this rollout prompt)
+  are now mutually consistent on the gitignore stance. **QA scenarios:** Rule 11 exempt (governance doc).
+
 ## [2026-06-20] — NEW_PROJECT_BOOTSTRAP.md caught up to Set Version v1.3 (closes the SETUP parity gap)
 
 - **Type:** Major (edits `docs/standards/NEW_PROJECT_BOOTSTRAP.md`, a Critical File) — walkthrough/doc

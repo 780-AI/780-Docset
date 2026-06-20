@@ -1,7 +1,10 @@
-<!-- VERSION: 2.7 -->
+<!-- VERSION: 2.8 -->
 <!-- Last Updated: 2026-06-20 -->
 <!--
 CHANGE LOG
+v2.8 — 2026-06-20 — Bumped entry 57 (MEMORY_DURABILITY_ROLLOUT_PROMPT.md) 1.0→1.1 — reconciled its step-5
+wording with the settled Rule 14 practice (gitignore `.claude/`) + added `.gitignore` to its ALLOWLIST.
+Wording fix only; no Set-Version bump, STANDARDS_INDEX untouched.
 v2.7 — 2026-06-20 — Bumped entry 24 (NEW_PROJECT_BOOTSTRAP.md) 1.1→1.2 — the long-form walkthrough caught
 up to full Standard Set Version v1.3 parity with SETUP.md (added session-file instantiation + experiences
 log + Step 8 durable memory + Step 10.5 strip; v1.1→v1.3; counts 9→14 rules / 10→11 binding). Installer/
@@ -141,7 +144,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 54 | Engine test — logentry | 0.1 | Engine test | `tests/test_logentry.py` |
 | 55 | Engine test — harvest | 0.1 | Engine test | `tests/test_harvest.py` |
 | 56 | Memory bootstrap script | 0.1 | Governance script | `scripts/bootstrap_memory.sh` |
-| 57 | Memory Durability Rollout Prompt (meta) | 1.0 | Standards | `docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md` |
+| 57 | Memory Durability Rollout Prompt (meta) | 1.1 | Standards | `docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md` |
 | 58 | New-Machine Setup (re-home checklist) | 1.0 | Docs | `docs/NEW_MACHINE_SETUP.md` |
 | 59 | PLAN-006 — Slice 4 (integrate) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-006_integrate.md` |
 | 60 | PLAN-006 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-006_tracker.md` |
