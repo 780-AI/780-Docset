@@ -2,6 +2,29 @@
 
 Newest entries at the top.
 
+## [2026-06-20] — SETUP.md installer caught up to Set Version v1.3 (durable-memory turn-key)
+
+- **Type:** Major (edits `docs/standards/SETUP.md`, a Critical File) — installer/doc only. **No
+  Set-Version bump:** the v1.3 suite *content* is unchanged; only the bootstrap installer was stale
+  (left at v1.1 across the v1.2/v1.3 releases). `STANDARDS_INDEX` untouched per its own rule (it bumps
+  only at Set-Version releases; the manifest carries the live SETUP.md version).
+- **What:** brought `SETUP.md` current so a fresh bootstrap delivers v1.3 turn-key:
+  - retargeted every `v1.1` reference to `v1.3` (intro, prompt header, Step 4 CLAUDE.md Source line,
+    Step 5 `SET_VERSION_ADOPTED.md`) — a new project now records **v1.3 adopted**, not v1.1;
+  - added **Step 6.5 — durable memory (Rule 14)**: create `scripts/bootstrap_memory.sh` + `.claude/memory/`
+    + the harness symlink (per `MEMORY_DURABILITY_ROLLOUT_PROMPT.md`), and `.claude/` added to the Step 5
+    `.gitignore`;
+  - registered `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` in the Step 1 pre-flight check, the Step 3 lay-down,
+    and the Step 8.5 strip DELETE list — **fixing the strip set-cover**, which the v1.2 file had silently
+    left at 17 of 18 (KEEP 6 + DELETE 12 = 18 ✓).
+- **Versions:** `docs/standards/SETUP.md` 1.1→1.2; `documents_manifest.md` entry 26 1.1→1.2, header 2.5→2.6.
+- **Impact:** no runtime/engine impact; affects only how a *new* project is bootstrapped. **QA scenarios:**
+  Rule 11 exempt (governance/installer doc, no observable CLI/engine behavior change). Live verification is
+  the next real bootstrap (the long-standing "SETUP.md end-to-end" pending-verification item).
+- **Remaining gap (flagged, not closed here):** `NEW_PROJECT_BOOTSTRAP.md` (the click-through walkthrough)
+  still lacks the strip + log + durable-memory steps and the v1.3 retarget; and
+  `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` step-5 wording ("not gitignored") is now superseded by Step 6.5.
+
 ## [2026-06-20] — Standard Set Version v1.3: lesson L051 (Rule 13 must run the tools)
 
 - **Type:** Major (edits the canonical `docs/standards/` suite, a Critical File) — doc/governance only,

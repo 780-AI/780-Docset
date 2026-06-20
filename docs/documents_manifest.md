@@ -1,7 +1,11 @@
-<!-- VERSION: 2.5 -->
+<!-- VERSION: 2.6 -->
 <!-- Last Updated: 2026-06-20 -->
 <!--
 CHANGE LOG
+v2.6 — 2026-06-20 — Bumped entry 26 (SETUP.md) 1.1→1.2 — the bootstrap installer caught up to Standard
+Set Version v1.3 (v1.3 refs + Step 6.5 durable memory + rollout-prompt registered in lay-down/strip,
+fixing the strip set-cover). Installer-only; the v1.3 suite content is unchanged → no Set-Version bump,
+STANDARDS_INDEX untouched (it bumps only at Set-Version releases).
 v2.5 — 2026-06-20 — Registered PLAN-007 (remote transport) DRAFT + its sibling tracker as entries 63–64
 (v0.1); quick-index Plans range → "31–39, 59–60, 63–64" (appended, not inserted, to avoid an Engine
 renumber). Design session only; the Phase-3 implement commit lands transport.py + tests (→ 2.6).
@@ -102,7 +106,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 23 | Standards Index (meta) | 1.3 | Standards | `docs/standards/STANDARDS_INDEX.md` |
 | 24 | New Project Bootstrap (meta) | 1.1 | Standards | `docs/standards/NEW_PROJECT_BOOTSTRAP.md` |
 | 25 | How To Use (meta) | 1.0 | Standards | `docs/standards/HOW_TO_USE.md` |
-| 26 | Setup — one-shot prompt (meta) | 1.1 | Standards | `docs/standards/SETUP.md` |
+| 26 | Setup — one-shot prompt (meta) | 1.2 | Standards | `docs/standards/SETUP.md` |
 | 27 | Standards Log — experiences-log template (meta) | 1.0 | Standards | `docs/standards/STANDARDS_LOG.md` |
 | 28 | Doc Coverage Check | 0.1 | Governance script | `scripts/check_doc_coverage.py` |
 | 29 | Test Coverage Drift Check | 0.1 | Governance script | `scripts/check_test_coverage_drift.py` |

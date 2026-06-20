@@ -1,8 +1,15 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-06-13 -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-06-20 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.2 — 2026-06-20 — Caught the bootstrap up to Standard Set Version v1.3 (it had been left at v1.1 across
+the v1.2/v1.3 releases): retargeted every v1.1 reference to v1.3 (intro, prompt header, Step 4 Source line,
+Step 5 SET_VERSION_ADOPTED); registered MEMORY_DURABILITY_ROLLOUT_PROMPT.md in the Step 1 pre-flight check,
+the Step 3 lay-down, and the Step 8.5 strip DELETE list — fixing the set-cover, which the v1.2 file had
+silently left at 17 of 18; added Step 6.5 (Rule 14 durable-memory setup) + `.claude/` to the Step 5
+.gitignore. No Set-Version change — the v1.3 suite CONTENT is unchanged; this is overdue installer
+maintenance so a fresh bootstrap delivers v1.3 (incl. durable memory) turn-key and records v1.3 adopted.
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): added the experiences-log create step (docs/STANDARDS_LOG.md from
 the template, minus the example) and the lay-down/confirm entries for STANDARDS_LOG.md; moved the
 SET_VERSION_ADOPTED target from docs/standards/ to docs/ so it survives the strip; added Step 8.5 (strip
@@ -17,8 +24,8 @@ HOW_TO_USE walkthrough as the headline setup path (HOW_TO_USE remains the suppor
 
 **What this is:** a single paste-and-run prompt. Open a fresh Claude Code session **in (or pointing at)
 the new project's directory**, paste the whole fenced block below, and the agent sets the project up
-from scratch on **Standard Set Version v1.1** — governance scaffold, customized contract, session
-routines, governance scripts, CI, and a first commit. No push (operator-gated).
+from scratch on **Standard Set Version v1.3** — governance scaffold, customized contract, session
+routines, durable memory (Rule 14), governance scripts, CI, and a first commit. No push (operator-gated).
 
 **Before you paste:** know where your canonical standards source lives on this machine (the folder that
 contains this file and its sibling suite). You'll give that path as `SOURCE` in the prompt.
@@ -28,7 +35,7 @@ contains this file and its sibling suite). You'll give that path as `SOURCE` in 
 ## The prompt (copy everything between the lines)
 
 ```
-You are bootstrapping a NEW project from my domain-neutral standards suite (Standard Set Version v1.1).
+You are bootstrapping a NEW project from my domain-neutral standards suite (Standard Set Version v1.3).
 
 PATHS
 - SOURCE (canonical suite, read-only): <fill: e.g. ~/standards-source/docs/standards/ — the folder containing CLAUDE.md, LESSONS.md, the focused standards, SESSION_OPENER/CLOSER templates>
@@ -52,8 +59,8 @@ DO THIS, IN ORDER
    - Confirm SOURCE exists and contains: CLAUDE.md, LESSONS.md, the 7 focused standards
      (PROJECT_STANDARDS, PROMPT_STANDARDS, PROJECT_INSTRUCTIONS_TEMPLATE, MEMORY_PROTOCOL,
      ENGINEERING_STANDARDS, VALIDATION_STANDARDS, CICD_STANDARDS), SESSION_OPENER.md, SESSION_CLOSER.md,
-     STANDARDS_INDEX.md, README.md, NEW_PROJECT_BOOTSTRAP.md, HOW_TO_USE.md, SETUP.md, STANDARDS_LOG.md.
-     Report any missing.
+     STANDARDS_INDEX.md, README.md, NEW_PROJECT_BOOTSTRAP.md, HOW_TO_USE.md, SETUP.md, STANDARDS_LOG.md,
+     MEMORY_DURABILITY_ROLLOUT_PROMPT.md. Report any missing.
 
 2. ASK ME THE PROJECT CONTEXT (one message, lettered options; propose a sensible default first):
    - Project name
@@ -68,7 +75,8 @@ DO THIS, IN ORDER
    - `CLAUDE.md`         → TARGET/CLAUDE.md
    - `LESSONS.md`        → TARGET/archive/LESSONS.md
    - 7 focused standards + STANDARDS_INDEX.md + README.md + NEW_PROJECT_BOOTSTRAP.md + HOW_TO_USE.md
-     + SETUP.md + STANDARDS_LOG.md + SESSION_OPENER.md + SESSION_CLOSER.md  → TARGET/docs/standards/
+     + SETUP.md + STANDARDS_LOG.md + MEMORY_DURABILITY_ROLLOUT_PROMPT.md + SESSION_OPENER.md
+     + SESSION_CLOSER.md  → TARGET/docs/standards/
    - Instantiate project-local TARGET/docs/SESSION_OPENER.md and TARGET/docs/SESSION_CLOSER.md from the
      templates (drop the "TEMPLATE" banner; customize §§ 2–3 for this project: branch name, the
      environment/registry mapping, failure-mode rows; no remote rows if there's no remote infra).
@@ -81,22 +89,36 @@ DO THIS, IN ORDER
    - § 14 — if single-agent, replace with a short "NOT IN USE (single-agent project)" stub and set
      § 1 Multi-agent = no; if multi-agent, keep § 14 and name the second agent.
    - Reset the header to this project's own VERSION 1.0 with a one-line "Project bootstrap" CHANGE LOG;
-     Source line = "docs/standards/ (this repo). Bootstrapped from Standard Set v1.1 on <today>."
+     Source line = "docs/standards/ (this repo). Bootstrapped from Standard Set v1.3 on <today>."
+     (The v1.3 template CLAUDE.md already carries Rule 14; keep it — § 6.5 wires up the mechanism.)
 
 5. BUILD SUPPORTING FILES
    - TARGET/README.md (short), TARGET/CHANGELOG.md (bootstrap entry), TARGET/.gitignore
-     (OS/IDE/language + `docs/Plans/OPEN_TASKS.md`).
+     (OS/IDE/language + `docs/Plans/OPEN_TASKS.md` + `.claude/` — the durable-memory store stays
+     untracked / sync-carried per Rule 14, never accidentally committed).
    - TARGET/docs/README.md, TARGET/docs/documents_manifest.md (list every tracked .md + VERSION-bearing
      code file), TARGET/docs/folder_structure.md, TARGET/docs/Plans/.gitkeep.
    - TARGET/docs/STANDARDS_LOG.md — create from TARGET/docs/standards/STANDARDS_LOG.md, removing the
      example entry (the project's own experiences log; a kept file that survives the strip).
-   - TARGET/docs/SET_VERSION_ADOPTED.md (Set Version v1.1, adopted <today>).
+   - TARGET/docs/SET_VERSION_ADOPTED.md (Set Version v1.3, adopted <today>).
 
 6. GOVERNANCE + CI
    - TARGET/scripts/check_doc_coverage.py + check_test_coverage_drift.py (permissive scaffolds, exit 0,
      VERSION 0.1) + doc_coverage_allowlist.toml + validation_ownership.toml (starters).
    - CI per my choice: GitHub → .github/workflows/governance.yml; GitLab → .gitlab-ci.yml + MR template;
      none → skip. Governance stage runs the two scripts on the default branch + PR/MR.
+
+6.5 DURABLE MEMORY (Rule 14, Standard Set Version v1.2+)
+   Make this project's Claude memory survive a machine change / folder move. The contract text is already
+   present (the v1.3 template CLAUDE.md Rule 14 + SESSION_OPENER § 1.5 you laid down in steps 3–4); this
+   step wires up the mechanism, following TARGET/docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md:
+   - Create TARGET/scripts/bootstrap_memory.sh per that prompt (idempotent: derive the harness key from
+     the repo's absolute path — `'/'`→`'-'`, `' '`→`'-'` — and (re)create the symlink
+     `~/.claude/projects/<key>/memory → <repo>/.claude/memory`, preserving any pre-existing files).
+   - `mkdir -p .claude/memory`, then `bash scripts/bootstrap_memory.sh`; paste its output.
+   - `.claude/` is gitignored (Step 5) so the store rides the project's sync but is never accidentally
+     committed. (This supersedes the rollout prompt's older step-5 "not gitignored" wording.)
+   - POSIX symlink — macOS/Linux. On Windows, adapt (directory junction) or keep memory synced by other means.
 
 7. VALIDATE
    - `python scripts/check_doc_coverage.py` and `python scripts/check_test_coverage_drift.py --ci` → both
@@ -122,10 +144,12 @@ DO THIS, IN ORDER
    - DELETE from TARGET/docs/standards/ (machinery — only used to deliver/maintain the suite):
      CLAUDE.md (template), LESSONS.md (template), SESSION_OPENER.md (template),
      SESSION_CLOSER.md (template), STANDARDS_LOG.md (template), SETUP.md, NEW_PROJECT_BOOTSTRAP.md,
-     STANDARDS_INDEX.md, README.md (meta), HOW_TO_USE.md, PROJECT_INSTRUCTIONS_TEMPLATE.md  (11 files)
+     STANDARDS_INDEX.md, README.md (meta), HOW_TO_USE.md, PROJECT_INSTRUCTIONS_TEMPLATE.md,
+     MEMORY_DURABILITY_ROLLOUT_PROMPT.md (used once in § 6.5, then stripped)  (12 files)
    - NOT touched here (already living outside docs/standards/ as operative/kept files): TARGET/CLAUDE.md,
      TARGET/archive/LESSONS.md, TARGET/docs/SESSION_OPENER.md, TARGET/docs/SESSION_CLOSER.md,
-     TARGET/docs/SET_VERSION_ADOPTED.md, TARGET/docs/STANDARDS_LOG.md, governance scripts, CI, manifest.
+     TARGET/docs/SET_VERSION_ADOPTED.md, TARGET/docs/STANDARDS_LOG.md, TARGET/scripts/bootstrap_memory.sh,
+     TARGET/.claude/memory/ (kept, untracked), governance scripts, CI, manifest.
    - In the SAME strip commit, update TARGET/docs/documents_manifest.md + TARGET/docs/folder_structure.md
      to drop the stripped files (manifest completeness, Rule 8). Then code-review, `git add -A`, re-check
      `git status --short`, and `git commit -F /tmp/strip_commit_msg.txt`. DO NOT PUSH.
