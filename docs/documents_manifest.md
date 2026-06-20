@@ -1,7 +1,10 @@
-<!-- VERSION: 2.2 -->
-<!-- Last Updated: 2026-06-18 -->
+<!-- VERSION: 2.3 -->
+<!-- Last Updated: 2026-06-20 -->
 <!--
 CHANGE LOG
+v2.3 — 2026-06-20 — Root CLAUDE.md § 4 cleanup: bumped entry 1 (Operating Contract) 1.3→1.4 (dropped the
+stale "created when the engine lands" note; promoted config/projects.toml to a Critical File). Doc-only,
+project-specific — no new tracked files, no Set Version change.
 v2.2 — 2026-06-18 — PLAN-006 (Slice 4: integrate) implemented: registered integrate.py + test_integrate.py
 as entries 61–62 (v0.1; Engine range 38–55 → +61, Engine-test +62); bumped touched cells (__init__ 40, cli 46,
 test_cli 51) 0.2→0.3 and the cli description (+ integrate); promoted PLAN-006 + its tracker (59–60) 0.1/DRAFT
@@ -66,7 +69,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 | # | Title | Version | Category | Path |
 |---|---|---|---|---|
-| 1 | Operating Contract (binding) | 1.3 | Governance | `CLAUDE.md` |
+| 1 | Operating Contract (binding) | 1.4 | Governance | `CLAUDE.md` |
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |

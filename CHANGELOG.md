@@ -2,6 +2,25 @@
 
 Newest entries at the top.
 
+## [2026-06-20] — CLAUDE.md § 4 Critical-files cleanup
+
+- **Type:** Major (edits `CLAUDE.md`, a Critical File) but **doc-only** — no behavior change, no Set
+  Version bump. Project-specific (root operating-contract copy only; the template's generic § 4 is
+  untouched).
+- **What:**
+  - Dropped the stale "(created when the engine lands)" note on the `src/standard_document_updater/`
+    Critical-File entry — the engine package has existed since PLAN-003.
+  - **Promoted `config/projects.toml` to a Critical File.** It is the target-suite registry — it defines
+    which repos the tool reads/writes; a silent edit could redirect a write to the wrong repo (the
+    highest-cost mistake per `docs/SESSION_OPENER.md` § 2). Editing it is now always Major.
+  - Reworked the "Future critical files" list accordingly (config/schema bullet folded into the now-active
+    `config/projects.toml` entry).
+- **Versions:** root `CLAUDE.md` 1.3→1.4 (header + CHANGE LOG); `docs/documents_manifest.md` entry 1
+  1.3→1.4, manifest header 2.2→2.3. `config/projects.toml` is not manifest-tracked (Rule 8 covers `.md`
+  + VERSION-headed `.py`/`.sh`; a `.toml` config file is neither) and carries no VERSION header.
+- **Impact:** No runtime/behavior impact. **QA scenarios:** Rule 11 exempt (governance-doc edit, no
+  observable CLI/engine behavior change).
+
 ## [2026-06-18] — PLAN-006 (Slice 4): `integrate` (worksheet + status write-back)
 
 - **Type:** Major / New module — executed under the § 15 plan workflow (PLAN-006, Phase 3). New engine

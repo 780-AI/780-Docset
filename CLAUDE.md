@@ -1,8 +1,9 @@
-<!-- VERSION: 1.3 -->
-<!-- Last Updated: 2026-06-17 -->
+<!-- VERSION: 1.4 -->
+<!-- Last Updated: 2026-06-20 -->
 <!-- Source: docs/standards/ (this repo). Bootstrapped from Standard Set v1.0 on 2026-06-07. Independent versions from this point forward. -->
 <!--
 CHANGE LOG
+v1.4 — 2026-06-20 — § 4 Critical files: dropped the stale "(created when the engine lands)" note on src/standard_document_updater/ (package now exists); promoted config/projects.toml (the target-suite registry) to a Critical File and updated the "Future critical files" list accordingly. Project-specific (root copy only; template § 4 generic, untouched) — no Set Version bump.
 v1.3 — 2026-06-17 — Add Rule 14 (durable project memory across machines/folder moves). PLAN-005 (Standard Set Version v1.2).
 v1.2 — 2026-06-14 — Project display name renamed to "Standard DocSet" (§ 1). Engine package identifier `standard_document_updater` kept unchanged (Option B). GitLab project + remote renamed to slug `standard-docset`.
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped this repo's project-owned blocks (§ 1 context, § 4 critical files, § 13 domain bullet, § 14 single-agent stub) in PROJECT-OWNED markers so a future sync preserves them; fixed the stale "created when the engine lands" drift on the two docs/architecture.md references (§ 4 drift rule + § 13 domain bullet) now that the doc exists. Adopts Standard Set Version v1.1.
@@ -254,7 +255,8 @@ See `archive/LESSONS.md` L050 for the incident that motivated this rule.
 docs/documents_manifest.md           # the version index — always Major
 CLAUDE.md                            # this operating contract — always Major
 docs/standards/                      # the standards suite this project adopts AND the canonical content the tool reasons about; edits define behavior — always Major
-src/standard_document_updater/       # (created when the engine lands) core diff / merge / version-bump logic — central domain logic — always Major
+src/standard_document_updater/       # core diff / merge / version-bump logic — central domain logic — always Major
+config/projects.toml                 # the target-suite registry — defines which repos the tool reads/writes; a silent edit could redirect a write to the wrong repo — always Major
 ```
 
 **Drift rule for the engine vs. its design doc:** when the tool's behavior toward a standards file changes (how it parses VERSION headers, the manifest, or `STANDARDS_INDEX.md`; how it diffs / merges / version-bumps), the design doc that documents that behavior (`docs/architecture.md`) MUST be updated in the same commit (VERSION bump + CHANGE LOG entry). The code is the dispositive truth; the design doc is the navigable reference. If the two disagree, that's a defect — fix one or the other.
@@ -262,8 +264,8 @@ src/standard_document_updater/       # (created when the engine lands) core diff
 **Note on `docs/standards/`:** these files are both (a) this project's own adopted governance suite and (b) reference content the tool operates on. Treat any edit to them as Major. When backporting a newer Set Version into this project's own copy, follow the explicit-backport procedure in `STANDARDS_INDEX.md` § 4.3 and record it in `docs/SET_VERSION_ADOPTED.md`.
 
 **Future critical files (add as the engine grows):**
-- Config / schema files defining which target suites are registered and how they map to the source
 - Any module other modules depend on (parser, differ, writer)
+- Any future config / schema file beyond `config/projects.toml` (already Critical above) that defines target-suite mapping
 <!-- PROJECT-OWNED:END -->
 
 **Identification rule for adding new entries:** A file is "critical" if a silent or unintended change to it could:
