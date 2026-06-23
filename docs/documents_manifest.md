@@ -1,7 +1,12 @@
-<!-- VERSION: 2.8 -->
-<!-- Last Updated: 2026-06-20 -->
+<!-- VERSION: 2.9 -->
+<!-- Last Updated: 2026-06-21 -->
 <!--
 CHANGE LOG
+v2.9 — 2026-06-21 — Drift fix: bumped entry 7 (architecture.md) 0.6→0.8 (roadmap slice→plan numbering
+corrected: sync = PLAN-008, PLAN-007 = remote transport). Also corrected two pre-existing stale version
+cells the v2.2 CHANGE LOG already claimed but never edited in the table: entry 5 (this manifest, self-row)
+2.1→2.9 and entry 6 (folder_structure.md) 0.8→0.9. Filesystem-verified (Rule 2). Doc-only; the version
+column is not governance-validated, which is how the cells drifted. No Set-Version bump.
 v2.8 — 2026-06-20 — Bumped entry 57 (MEMORY_DURABILITY_ROLLOUT_PROMPT.md) 1.0→1.1 — reconciled its step-5
 wording with the settled Rule 14 practice (gitignore `.claude/`) + added `.gitignore` to its ALLOWLIST.
 Wording fix only; no Set-Version bump, STANDARDS_INDEX untouched.
@@ -92,9 +97,9 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.1 | Governance | `docs/documents_manifest.md` |
-| 6 | Folder Structure | 0.8 | Governance | `docs/folder_structure.md` |
-| 7 | Architecture (system-design record) | 0.6 | Docs | `docs/architecture.md` |
+| 5 | Documents Manifest | 2.9 | Governance | `docs/documents_manifest.md` |
+| 6 | Folder Structure | 0.9 | Governance | `docs/folder_structure.md` |
+| 7 | Architecture (system-design record) | 0.8 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.4 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.2 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.4 | Governance | `docs/SET_VERSION_ADOPTED.md` |

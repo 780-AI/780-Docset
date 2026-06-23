@@ -2,6 +2,21 @@
 
 Newest entries at the top.
 
+## [2026-06-21] — Drift fix: architecture.md §10 roadmap numbering + stale manifest version cells
+
+- **Type:** Minor (doc-only; no engine behavior change). **No Set-Version bump.**
+- **What:** (1) [architecture.md](docs/architecture.md) §10 roadmap corrected the stale slice→plan
+  numbering — `sync` is **PLAN-008** (was PLAN-007); **PLAN-007** is the remote-target transport
+  infrastructure expansion inserted before `sync`. Now matches the live planning state. (2) While syncing
+  the manifest, found three version-column cells lagging their files (the column is not governance-validated
+  — `check_doc_coverage.py` checks header *presence* + coverage, not cell values): entry 7 architecture.md
+  0.6, entry 6 folder_structure.md 0.8, entry 5 manifest self-row 2.1. The v2.2 manifest CHANGE LOG already
+  claimed "architecture 0.6→0.7, folder_structure 0.8→0.9 synced" but never edited the cells — so this
+  completes that recorded-but-incomplete sync. All values filesystem-verified (Rule 2).
+- **Versions:** `architecture.md` 0.7→0.8; `documents_manifest.md` header 2.8→2.9, entry 7 0.6→0.8,
+  entry 6 0.8→0.9, entry 5 2.1→2.9.
+- **Impact:** none at runtime. **QA scenarios:** Rule 11 exempt (pure doc cleanup, no behavior).
+
 ## [2026-06-20] — MEMORY_DURABILITY_ROLLOUT_PROMPT.md step-5 reconciled with Rule 14 (gitignore .claude/)
 
 - **Type:** Major (edits `docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md`, a Critical File) — wording

@@ -1,7 +1,8 @@
-<!-- VERSION: 0.7 -->
-<!-- Last Updated: 2026-06-18 -->
+<!-- VERSION: 0.8 -->
+<!-- Last Updated: 2026-06-21 -->
 <!--
 CHANGE LOG
+v0.8 — 2026-06-21 — Drift fix: § 10 roadmap corrected the stale slice→plan numbering. `sync` is PLAN-008 (was PLAN-007); PLAN-007 is the remote-target transport infrastructure expansion inserted before `sync`. Matches the live planning state. Doc-only; no engine behavior change.
 v0.7 — 2026-06-18 — PLAN-006 (Slice 4): `integrate` landed. § 8 marks integrate implemented (read-only worksheet + operator-gated Status write-back; A1 division of labor — tool = deterministic spine, Claude authors the lesson + vault edits in-session) + adds the integrate behavior note. § 10 ticks Slice 4 ✅. § 11 resolves the last OPEN decision (genericization hands off to a Claude session — A1; the tool is pure-Python, never calls a model). Read-only on the vault; no Set Version change (no docs/standards/ file touched).
 v0.6 — 2026-06-17 — PLAN-005 (durable memory): engine-slice plan numbers shifted — § 10 annotates Slice 4 = PLAN-006 (`integrate`), Slice 5 = PLAN-007 (`sync`), with a note that PLAN-005 is the durable-memory governance change (not a slice); § 11 OPEN item now resolves at PLAN-006. No engine behavior change.
 v0.5 — 2026-06-16 — PLAN-004 (Slice 3): `harvest` landed. § 8 marks harvest implemented (stdout report grouped by area; cautious cross-project dup flag) + adds the harvest behavior note. § 10 ticks Slice 3 ✅. Read-only; no Set Version change (no docs/standards/ file touched).
@@ -203,11 +204,14 @@ first; judgment-heavy last):
    `--apply` Status write-back (dry-run unless `--write`; validate-all-before-write; rewrite only the
    matched `Status:` line). A1: the tool is the deterministic spine — the genericization + vault edits stay
    in-session. *(No Set Version change — building the tool is read-only on the vault.)*
-5. **Slice 5 — `sync` (PLAN-007).** Section-aware propagation honoring `PROJECT-OWNED`; whole-file for
-   suite-owned.
+5. **Slice 5 — `sync` (PLAN-008).** Section-aware propagation honoring `PROJECT-OWNED`; whole-file for
+   suite-owned. Sequenced after PLAN-007 (remote-target transport — see note below), which `sync` builds
+   on to write to many remote adopters.
 
 > Plan numbering: PLAN-005 is the durable-memory governance change (Rule 14 / Set v1.2), not an engine
-> slice; the engine slices shifted to PLAN-006 (`integrate`) and PLAN-007 (`sync`).
+> slice. PLAN-007 is the remote-target transport infrastructure expansion — a non-slice change inserted
+> before `sync` (since `sync` writes to many remote adopters). The `sync` engine slice is therefore
+> PLAN-008. (Earlier revisions mapped `sync` → PLAN-007; corrected here.)
 
 ## 11. Open decisions (to resolve as each slice is planned)
 
