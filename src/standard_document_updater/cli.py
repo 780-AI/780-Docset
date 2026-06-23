@@ -1,8 +1,11 @@
 # ==============================================================
-# VERSION: 0.3
+# VERSION: 0.4
 # Command-line interface: `python -m standard_document_updater <command>`.
 #
 # CHANGE LOG
+# v0.4 — 2026-06-20 — Materialize each target via the transport layer (local | git | ssh): reads
+#                     run inside a Target.session(); the integrate write-back uses an ExitStack +
+#                     per-target flush; per-target failure is non-fatal for reads (PLAN-007).
 # v0.3 — 2026-06-18 — Add the `integrate` subcommand (worksheet + --apply/--write write-back).
 # v0.2 — 2026-06-16 — Add the `harvest` subcommand (open-log consolidation).
 # v0.1 — 2026-06-16 13:01 — Initial: status + drift subcommands, --vault override.
@@ -12,11 +15,13 @@ from __future__ import annotations
 
 import argparse
 import sys
+from contextlib import ExitStack
 from pathlib import Path
 
 from standard_document_updater import __version__, harvest, integrate, logentry, report, setversion
 from standard_document_updater.errors import StandardDocSetError
 from standard_document_updater.registry import load_registry
+from standard_document_updater.transport import TransportError, make_target
 
 
 def default_vault_root() -> Path:
@@ -34,9 +39,15 @@ def _build_statuses(vault_root: Path) -> list[report.ProjectStatus]:
     vault_version = setversion.parse_vault_version(index_path)
     statuses: list[report.ProjectStatus] = []
     for project in load_registry(registry_path):
-        adopted_path = project.path / "docs" / "SET_VERSION_ADOPTED.md"
-        log_path = project.path / "docs" / "STANDARDS_LOG.md"
-        statuses.append(report.compute_status(project, vault_version, adopted_path, log_path))
+        try:
+            with make_target(project).session() as root:
+                adopted_path = root / "docs" / "SET_VERSION_ADOPTED.md"
+                log_path = root / "docs" / "STANDARDS_LOG.md"
+                statuses.append(
+                    report.compute_status(project, vault_version, adopted_path, log_path)
+                )
+        except TransportError as exc:
+            statuses.append(report.unreachable_status(project, vault_version, str(exc)))
     return statuses
 
 
@@ -59,10 +70,14 @@ def _build_open_items(vault_root: Path) -> list[harvest.OpenItem]:
     registry_path = vault_root / "config" / "projects.toml"
     items: list[harvest.OpenItem] = []
     for project in load_registry(registry_path):
-        log_path = project.path / "docs" / "STANDARDS_LOG.md"
-        for entry in logentry.parse_log(log_path):
-            if entry.is_open:
-                items.append(harvest.OpenItem(project.name, entry))
+        try:
+            with make_target(project).session() as root:
+                log_path = root / "docs" / "STANDARDS_LOG.md"
+                for entry in logentry.parse_log(log_path):
+                    if entry.is_open:
+                        items.append(harvest.OpenItem(project.name, entry))
+        except TransportError as exc:
+            print(f"warning: skipping {project.name!r}: {exc}", file=sys.stderr)
     return items
 
 
@@ -82,13 +97,21 @@ def _cmd_integrate(args: argparse.Namespace) -> int:
         print(integrate.render_worksheet(rows, proposed, set_version))
         return 0
     # write-back path
-    log_path_for = {
-        p.name: p.path / "docs" / "STANDARDS_LOG.md"
-        for p in load_registry(vault_root / "config" / "projects.toml")
-    }
     dispositions = integrate.parse_decisions(args.apply)
-    report = integrate.apply_writeback(dispositions, log_path_for, write=args.write)
-    print("\n".join(report))
+    named = {d.project for d in dispositions}
+    registry_path = vault_root / "config" / "projects.toml"
+    projects = [p for p in load_registry(registry_path) if p.name in named]
+    with ExitStack() as stack:
+        targets = {p.name: make_target(p) for p in projects}
+        roots = {name: stack.enter_context(t.session(writable=True)) for name, t in targets.items()}
+        log_path_for = {name: root / "docs" / "STANDARDS_LOG.md" for name, root in roots.items()}
+        report_lines = integrate.apply_writeback(dispositions, log_path_for, write=args.write)
+        if args.write:
+            count = len(dispositions)
+            message = f"Standard DocSet: integrate write-back ({count} status update(s))"
+            for name in sorted(named & set(targets)):
+                targets[name].flush(roots[name], [Path("docs/STANDARDS_LOG.md")], message)
+    print("\n".join(report_lines))
     return 0
 
 

@@ -1,8 +1,10 @@
 # ==============================================================
-# VERSION: 0.1
+# VERSION: 0.2
 # Unit tests for the registry loader.
 #
 # CHANGE LOG
+# v0.2 — 2026-06-20 — Add transport parse cases (git / ssh / bare-local default) + per-transport
+#                     validation (missing required field, unknown transport) — PLAN-007.
 # v0.1 — 2026-06-16 13:01 — Initial: load / empty / missing / malformed.
 # ==============================================================
 """Tests for standard_document_updater.registry."""
@@ -48,4 +50,76 @@ def test_load_registry_missing_name_raises(tmp_path: Path) -> None:
     reg = tmp_path / "projects.toml"
     _write(reg, '[[project]]\npath = "/tmp/x"\n')
     with pytest.raises(RegistryError):
+        load_registry(reg)
+
+
+def test_load_registry_bare_entry_defaults_local(tmp_path: Path) -> None:
+    reg = tmp_path / "projects.toml"
+    _write(reg, '[[project]]\nname = "alpha"\npath = "/tmp/alpha"\n')
+    [p] = load_registry(reg)
+    assert p.transport == "local"
+    assert p.path == Path("/tmp/alpha")
+    assert p.location == "/tmp/alpha"
+
+
+def test_load_registry_parses_git_transport(tmp_path: Path) -> None:
+    reg = tmp_path / "projects.toml"
+    _write(
+        reg,
+        '[[project]]\nname = "beta"\ntransport = "git"\n'
+        'git_url = "git@gitlab.com:org/beta.git"\ngit_branch = "main"\n',
+    )
+    [p] = load_registry(reg)
+    assert p.transport == "git"
+    assert p.git_url == "git@gitlab.com:org/beta.git"
+    assert p.git_branch == "main"
+    assert p.location == "git:git@gitlab.com:org/beta.git@main"
+
+
+def test_load_registry_git_default_branch(tmp_path: Path) -> None:
+    reg = tmp_path / "projects.toml"
+    _write(reg, '[[project]]\nname = "beta"\ntransport = "git"\ngit_url = "u"\n')
+    [p] = load_registry(reg)
+    assert p.git_branch == ""
+    assert p.location == "git:u"
+
+
+def test_load_registry_parses_ssh_transport(tmp_path: Path) -> None:
+    reg = tmp_path / "projects.toml"
+    _write(
+        reg,
+        '[[project]]\nname = "gamma"\ntransport = "ssh"\n'
+        'ssh_host = "devbox"\nssh_path = "/home/me/gamma"\n',
+    )
+    [p] = load_registry(reg)
+    assert p.transport == "ssh"
+    assert p.ssh_host == "devbox" and p.ssh_path == "/home/me/gamma"
+    assert p.location == "ssh:devbox:/home/me/gamma"
+
+
+def test_load_registry_local_missing_path_raises(tmp_path: Path) -> None:
+    reg = tmp_path / "projects.toml"
+    _write(reg, '[[project]]\nname = "alpha"\ntransport = "local"\n')
+    with pytest.raises(RegistryError, match="path"):
+        load_registry(reg)
+
+
+def test_load_registry_git_missing_url_raises(tmp_path: Path) -> None:
+    reg = tmp_path / "projects.toml"
+    _write(reg, '[[project]]\nname = "beta"\ntransport = "git"\n')
+    with pytest.raises(RegistryError, match="git_url"):
+        load_registry(reg)
+
+
+def test_load_registry_ssh_missing_path_raises(tmp_path: Path) -> None:
+    reg = tmp_path / "projects.toml"
+    _write(reg, '[[project]]\nname = "gamma"\ntransport = "ssh"\nssh_host = "devbox"\n')
+    with pytest.raises(RegistryError, match="ssh_path"):
+        load_registry(reg)
+
+
+def test_load_registry_unknown_transport_raises(tmp_path: Path) -> None:
+    reg = tmp_path / "projects.toml"
+    _write(reg, '[[project]]\nname = "x"\ntransport = "carrier-pigeon"\n')
+    with pytest.raises(RegistryError, match="unknown transport"):
         load_registry(reg)

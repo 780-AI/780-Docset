@@ -1,8 +1,10 @@
 # ==============================================================
-# VERSION: 0.1
+# VERSION: 0.2
 # Build + render the project Set-Version comparison report.
 #
 # CHANGE LOG
+# v0.2 — 2026-06-20 — Table column PATH -> LOCATION (transport-aware); add unreachable_status() for
+#                     targets a transport cannot reach (PLAN-007).
 # v0.1 — 2026-06-16 13:01 — Initial: state computation, table render, drift filter.
 # ==============================================================
 """Comparison report: each project's adopted version vs the vault version."""
@@ -59,6 +61,13 @@ def compute_status(
     return ProjectStatus(project, adopted, vault, state, open_entries)
 
 
+def unreachable_status(
+    project: Project, vault: tuple[int, ...], note: str
+) -> ProjectStatus:
+    """A status row for a target the transport could not reach (read path, DD-3)."""
+    return ProjectStatus(project, None, vault, State.UNKNOWN, 0, note)
+
+
 def filter_drift(statuses: list[ProjectStatus]) -> list[ProjectStatus]:
     """Projects not on the vault version (behind / ahead / unknown)."""
     return [s for s in statuses if s.state is not State.CURRENT]
@@ -72,11 +81,11 @@ def render_table(statuses: list[ProjectStatus]) -> str:
     """Render the report as a fixed-width text table."""
     if not statuses:
         return "No projects registered. Add entries to config/projects.toml."
-    headers = ["PROJECT", "PATH", "ADOPTED", "VAULT", "STATE", "OPEN LOG"]
+    headers = ["PROJECT", "LOCATION", "ADOPTED", "VAULT", "STATE", "OPEN LOG"]
     rows = [
         [
             s.project.name,
-            str(s.project.path),
+            s.project.location,           # was: str(s.project.path)
             _fmt_version(s.adopted),
             _fmt_version(s.vault),
             s.state.value,

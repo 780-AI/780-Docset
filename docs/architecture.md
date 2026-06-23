@@ -1,7 +1,8 @@
-<!-- VERSION: 0.8 -->
-<!-- Last Updated: 2026-06-21 -->
+<!-- VERSION: 0.9 -->
+<!-- Last Updated: 2026-06-23 -->
 <!--
 CHANGE LOG
+v0.9 — 2026-06-23 — PLAN-007 (remote-target transport) landed. § 1 adds the "Reach" note (local or remote git/ssh via a pluggable transport; no server). § 8 registry note → per-target `transport` + connection fields; new "Transport" paragraph (materialize → operate → flush; git fast-forward push; per-target failure non-fatal for reads). § 9 read-before-write extended to fetch-fresh materialization + per-target atomic write-back. § 10 marks PLAN-007 ✅ done. § 11 records the transport decisions (D1–D4 / DD-1…DD-6) as DECIDED. Engine behavior added; read-only on the vault (no docs/standards/ edit) → no Set Version change.
 v0.8 — 2026-06-21 — Drift fix: § 10 roadmap corrected the stale slice→plan numbering. `sync` is PLAN-008 (was PLAN-007); PLAN-007 is the remote-target transport infrastructure expansion inserted before `sync`. Matches the live planning state. Doc-only; no engine behavior change.
 v0.7 — 2026-06-18 — PLAN-006 (Slice 4): `integrate` landed. § 8 marks integrate implemented (read-only worksheet + operator-gated Status write-back; A1 division of labor — tool = deterministic spine, Claude authors the lesson + vault edits in-session) + adds the integrate behavior note. § 10 ticks Slice 4 ✅. § 11 resolves the last OPEN decision (genericization hands off to a Claude session — A1; the tool is pure-Python, never calls a model). Read-only on the vault; no Set Version change (no docs/standards/ file touched).
 v0.6 — 2026-06-17 — PLAN-005 (durable memory): engine-slice plan numbers shifted — § 10 annotates Slice 4 = PLAN-006 (`integrate`), Slice 5 = PLAN-007 (`sync`), with a note that PLAN-005 is the durable-memory governance change (not a slice); § 11 OPEN item now resolves at PLAN-006. No engine behavior change.
@@ -26,6 +27,12 @@ current.
 
 **Primary objective: org-wide consistency** — every project, over time, follows the same evolving
 standard. (Not IP secrecy — the concern is uniform practice, not concealment.)
+
+**Reach (PLAN-007).** The tool runs locally but operates on each project *wherever it lives* — a folder
+on this machine, or a remote repo reached over git/ssh — via a pluggable transport layer. It stands up
+no server of its own: git/ssh/rsync use the operator's existing credentials to reach repos that already
+exist. (This retires the earlier "operates on local repository checkouts / no remote infrastructure"
+framing; see `CLAUDE.md` § 1.)
 
 ## 2. The vault model
 
@@ -153,10 +160,12 @@ A Python CLI (per `CLAUDE.md` § 1). All write commands are operator-gated; read
 | `sync` | vault Set Version | every project (honoring `PROJECT-OWNED` markers) | operator-approved |
 | `setup` | the delivery crate | the new project (then strips) | operator-run; this is `SETUP.md` |
 
-**Registry:** a vault-side config (`config/projects.toml`) listing each managed project — **name + path
-only**. A project's adopted Set Version is **read live** from its `docs/SET_VERSION_ADOPTED.md` at report
-time (never cached in the registry — single source of truth, § 9). `status`/`harvest`/`sync` iterate it.
-*(Implemented Slice 2 — PLAN-003.)*
+**Registry:** a vault-side config (`config/projects.toml`) listing each managed project — its
+**`transport`** (`local` | `git` | `ssh`; default `local`) plus the connection fields that transport
+needs (local: `path`; git: `git_url`/`git_branch`; ssh: `ssh_host`/`ssh_path`). A project's adopted Set
+Version is **read live** from the materialized `docs/SET_VERSION_ADOPTED.md` at report time (never cached
+in the registry — single source of truth, § 9). `status`/`harvest`/`sync` iterate it. *(Registry
+implemented Slice 2 — PLAN-003; per-target transport fields added PLAN-007.)*
 
 > `harvest` implemented Slice 3 — PLAN-004: parses every project's `STANDARDS_LOG.md`, collects the
 > `open` entries, prints a consolidated report grouped by area to stdout, and conservatively flags
@@ -173,6 +182,19 @@ time (never cached in the registry — single source of truth, § 9). `status`/`
 > re-reads each target log immediately before writing (§ 9), and rewrites **only** the matched `Status:`
 > line, leaving the rest byte-identical. Read-only on the vault — no Set Version change when the tool is run.
 
+**Transport (PLAN-007).** All four commands are **transport-aware**: each target is *materialized* to a
+local root — `local` = the folder in place; `git` = a shallow + blobless + sparse-`docs/` clone (the
+write path materializes the full branch tip so a commit can be pushed); `ssh` = an rsync of `docs/` — and
+the engine performs its existing Path-based I/O against that root. On the write path the transport
+*flushes* the change back: `git` = commit + **fast-forward** `push origin HEAD:<branch>` with a fixed
+`Standard DocSet <standard-docset@localhost>` identity (never mutating the target's git config, no
+`--force`); `ssh` = rsync the changed files back. The engine stays transport-agnostic — the seam is
+`cli.py` only (the read/write functions keep their Path-based signatures). A per-target transport failure
+is **non-fatal for reads** (`status`/`drift` show the target `unknown`; `harvest`/`integrate` warn on
+stderr and skip); a write-path failure is fatal for that run, but every named target is materialized +
+validated before any push, so a fetch failure aborts before anything is written. No secrets are handled —
+git/ssh/rsync use the operator's existing SSH agent/keys.
+
 ## 9. Invariants
 
 - **No project name anywhere** in the suite (the domain-neutral rule — the dispositive scrub grep stays
@@ -182,7 +204,11 @@ time (never cached in the registry — single source of truth, § 9). `status`/`
 - **Every change to the suite** bumps per-file `VERSION` + the `Set Version`.
 - **Sync never clobbers** a `PROJECT-OWNED` block.
 - **Read before write**: the engine re-reads a target's on-disk files before acting (never a cached
-  version) — per `CLAUDE.md` § 2.
+  version) — per `CLAUDE.md` § 2. Across a transport (PLAN-007) this means a **fetch-fresh
+  materialization** immediately before the run, and a **per-target atomic** write-back:
+  `integrate.apply_writeback` validates **every** disposition before **any** write, then each target's
+  change is flushed/pushed independently. True cross-target atomicity across N independent remotes is
+  impossible, so a mid-sequence push failure is reported loudly — never a silent partial success.
 
 ## 10. Implementation roadmap (slices → plans)
 
@@ -205,13 +231,14 @@ first; judgment-heavy last):
    matched `Status:` line). A1: the tool is the deterministic spine — the genericization + vault edits stay
    in-session. *(No Set Version change — building the tool is read-only on the vault.)*
 5. **Slice 5 — `sync` (PLAN-008).** Section-aware propagation honoring `PROJECT-OWNED`; whole-file for
-   suite-owned. Sequenced after PLAN-007 (remote-target transport — see note below), which `sync` builds
-   on to write to many remote adopters.
+   suite-owned. Sequenced after PLAN-007 (remote-target transport, ✅ done — see note below), which `sync`
+   builds on to write to many remote adopters.
 
 > Plan numbering: PLAN-005 is the durable-memory governance change (Rule 14 / Set v1.2), not an engine
-> slice. PLAN-007 is the remote-target transport infrastructure expansion — a non-slice change inserted
-> before `sync` (since `sync` writes to many remote adopters). The `sync` engine slice is therefore
-> PLAN-008. (Earlier revisions mapped `sync` → PLAN-007; corrected here.)
+> slice. **PLAN-007 — the remote-target transport (`local` | `git` | `ssh`) — ✅ done**: a non-slice
+> infrastructure expansion inserted before `sync` (since `sync` writes to many remote adopters), it made
+> all four commands transport-aware in one plan. The `sync` engine slice is therefore PLAN-008. (Earlier
+> revisions mapped `sync` → PLAN-007; corrected here.)
 
 ## 11. Open decisions (to resolve as each slice is planned)
 
@@ -224,3 +251,11 @@ first; judgment-heavy last):
   (A1): the tool is pure-Python — it builds the worksheet and writes the `Status:` lines back, but never
   calls a model and never edits the vault. The lesson prose + the LESSONS/topical/Set-Version edits are
   authored by Claude in-session under the § 15 flow.
+- ✅ **DECIDED (PLAN-007)** — Remote-target transport: a per-target `transport` key in
+  `config/projects.toml` (`local` default = full back-compat) — **DD-1**; *materialize-to-local-root*
+  abstraction, the transport seam confined to `cli.py` — **D1 / DD-2**; git write-back = **fast-forward
+  direct push** with a fixed `Standard DocSet` commit identity (the `glab`/`gh` merge-request variant
+  deferred) — **D2 / DD-5 / DD-6b**; **all** commands transport-aware in one plan — **D3**; git read fetch
+  = shallow + blobless + sparse `docs/` — **D4**; per-target atomic write-back, per-target transport
+  failure non-fatal for reads — **DD-3 / DD-4**; building the transport is read-only on the vault → **no
+  Set-Version bump** — **DD-6**.

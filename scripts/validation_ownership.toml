@@ -66,6 +66,14 @@ strictness   = "soft"
 require_docs = false
 reason       = "Integration worksheet + gated status write-back — the deterministic half of `integrate`."
 
+[rules.transport]
+source_paths = ["src/standard_document_updater/transport.py"]
+test_paths   = ["tests/test_transport.py"]
+doc_paths    = ["docs/architecture.md"]
+strictness   = "soft"
+require_docs = false
+reason       = "Pluggable target transports (local | git | ssh) — materialize / operate / flush."
+
 [monitored_paths]
 strict = []                               # populate as coverage matures
 soft   = ["src/standard_document_updater/"]

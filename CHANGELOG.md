@@ -2,7 +2,53 @@
 
 Newest entries at the top.
 
-## [2026-06-21] — Installer fix: bootstrap now seeds `docs/Plans/OPEN_TASKS.md` (gap from first adoption)
+## [2026-06-23] — PLAN-007: remote-target transport (local | git | ssh)
+
+- **Type:** Major (new engine module + a registry-schema change + a `CLAUDE.md` § 1 edit — Critical Files).
+  Ran under the § 15 plan workflow (Phase 3 implement). **No Set-Version bump** — engine-only, read-only on
+  the vault (no `docs/standards/` file touched), per plan DD-6.
+- **What:** gave the engine a **pluggable transport layer** so it operates on a target repo wherever it
+  lives — a local folder (unchanged default), a forge remote over SSH (`git`), or a dev host over SSH
+  (`ssh`/rsync) — without standing up any server or permanently cloning every org repo. New
+  [transport.py](src/standard_document_updater/transport.py): a `Target` ABC + `LocalTarget`/`GitTarget`/
+  `SshTarget` drivers + `make_target` + `TransportError`. Each target is *materialized* to a local root
+  (`git` = shallow + blobless + sparse-`docs/` clone; `ssh` = rsync of `docs/`), the engine does its
+  existing Path-based I/O against that root, and the write path *flushes* back (`git` = commit +
+  fast-forward `push origin HEAD:<branch>` with a fixed `Standard DocSet` identity, no `--force`; `ssh` =
+  rsync the changed files up). All four commands (`status`/`drift`/`harvest`/`integrate`) became
+  transport-aware in one plan; the seam is `cli.py` only (read/write functions keep their Path-based
+  signatures, so `integrate.apply_writeback` and its tests are unchanged).
+- **Behavior:** a registry entry with `transport = "git"`/`"ssh"` (or a bare local entry — full
+  back-compat) parses; the report table column `PATH` → `LOCATION` (transport-aware descriptor). A
+  per-target transport failure is **non-fatal for reads** (`status`/`drift` show `unknown`;
+  `harvest`/`integrate` warn on stderr + skip); write-back validates **all** dispositions before **any**
+  write (per-target atomic). No secrets handled — git/ssh/rsync use the operator's existing SSH agent/keys.
+- **Versions:** `transport.py` new (0.1), `test_transport.py` new (0.1); `registry.py` 0.1→0.2, `report.py`
+  0.1→0.2, `cli.py` 0.3→0.4, `__init__.py` 0.3→0.4 (CLI 0.3.0→0.4.0); `test_registry.py` 0.1→0.2,
+  `test_report.py` 0.1→0.2, `test_cli.py` 0.3→0.4. Docs: `CLAUDE.md` 1.4→1.5 (§ 1 deployment shape),
+  `architecture.md` 0.8→0.9 (§ 1/§ 8/§ 9/§ 10/§ 11), `documents_manifest.md` 2.10→2.11 (entries 65–66
+  registered, cells bumped, PLAN-007 63–64 → 1.0/CLOSED), `folder_structure.md` 0.9→0.10. Soft
+  `[rules.transport]` added to `validation_ownership.toml`; `config/projects.toml` gained git/ssh example
+  comments. PLAN-007 + tracker promoted 1.0/CLOSED.
+- **Plan-defect (mechanical, recorded):** the verbatim § 5C `statuses.append(report.compute_status(...))`
+  line, now indented one level deeper inside the `with` block, was 102 cols — an E501 the Rule 13 pass did
+  not catch (the L051 recurrence class). Reflowed output-preserving; no behavior change. Also resolved the
+  `no_implicit_reexport` issue in the new test by importing `subprocess` directly (mypy --strict).
+- **Impact:** local registries behave exactly as before (only display change: `PATH`→`LOCATION`). A write
+  to a remote happens **only** when `integrate --apply … --write` is run against a git/ssh target — a
+  separate, operator-gated action.
+- **QA scenarios (Rule 11 — all PASS, Phase 4):**
+  - ✅ **A** ruff clean (`ruff check src tests`); **B** mypy --strict 0 issues (20 files,
+    `MYPYPATH=src python -m mypy`); **C** pytest 88 pass (57 prior + 31 new); **D** governance both exit 0.
+  - ✅ **E** local back-compat — existing local `status`/`drift`/`harvest`/`integrate` tests green; only the
+    column header changed (`PATH`→`LOCATION`). **F/G** git + ssh registry tables parse (`location` shows
+    `git:…@branch` / `ssh:host:path`). **H** each transport missing a required field / unknown transport →
+    `RegistryError`. **I** `make_target` dispatch (right driver; bogus → `TransportError`). **J** local
+    `session()` yields `project.path` in place (no temp dir; flush/dispose no-op).
+  - ✅ **K** git read fetch = `clone --depth 1 --branch … --filter=blob:none --no-checkout` +
+    `sparse-checkout set docs` + `checkout` (asserted via monkeypatched `_run`). **L** git push write-back =
+    `add` + `commit -c user.name/email` + `push origin HEAD:<branch>`. **M** ssh rsync down/up commands.
+    **N** an unreachable git target → `status` row shows `unknown` + the report does not abort (exit 0).
 
 - **Type:** Major (edits `docs/standards/`, a Critical File) — installer-only. **No Set-Version bump**
   (the v1.3 suite CONTENT is unchanged; `STANDARDS_INDEX` untouched).

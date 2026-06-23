@@ -1,8 +1,9 @@
-<!-- VERSION: 1.4 -->
-<!-- Last Updated: 2026-06-20 -->
+<!-- VERSION: 1.5 -->
+<!-- Last Updated: 2026-06-23 -->
 <!-- Source: docs/standards/ (this repo). Bootstrapped from Standard Set v1.0 on 2026-06-07. Independent versions from this point forward. -->
 <!--
 CHANGE LOG
+v1.5 — 2026-06-23 — PLAN-007 (remote-target transport): § 1 deployment shape retired "operates on local repository checkouts / no remote infrastructure" → "local OR remote (git/ssh) checkouts via a pluggable transport; still no server/deploy infra of its own." Project-specific (root copy only; template § 1 placeholder untouched) — no Set Version bump (engine-only change, no docs/standards/ edit).
 v1.4 — 2026-06-20 — § 4 Critical files: dropped the stale "(created when the engine lands)" note on src/standard_document_updater/ (package now exists); promoted config/projects.toml (the target-suite registry) to a Critical File and updated the "Future critical files" list accordingly. Project-specific (root copy only; template § 4 generic, untouched) — no Set Version bump.
 v1.3 — 2026-06-17 — Add Rule 14 (durable project memory across machines/folder moves). PLAN-005 (Standard Set Version v1.2).
 v1.2 — 2026-06-14 — Project display name renamed to "Standard DocSet" (§ 1). Engine package identifier `standard_document_updater` kept unchanged (Option B). GitLab project + remote renamed to slug `standard-docset`.
@@ -24,7 +25,7 @@ If a rule below conflicts with a request, **refuse or propose a compliant altern
 **Project:** Standard DocSet
 **Domain:** Domain-neutral CLI tool that keeps standards / governance documentation suites up to date and synchronized across any project it is given access to. Reads, diffs, version-bumps, and propagates standards documents (and their per-file VERSION headers, CHANGE LOGs, manifests, and Set-Version state) between a source suite and one or more adopting project repositories. Not tied to any single project's domain — the projects it operates on are inputs, supplied at runtime.
 **Primary languages:** Python 3.11+ (with strict typing via mypy, tests via pytest, lint/format via ruff)
-**Deployment shape:** Local CLI tool — installed and run on the operator's machine; operates on local repository checkouts. No remote infrastructure, no external services, no deploy targets.
+**Deployment shape:** Local CLI tool — installed and run on the operator's machine; operates on local **or** remote (git/ssh) repository checkouts via a pluggable transport layer (PLAN-007). Still no server/deploy infrastructure of its own — git/ssh/rsync reach repos where they already live, using the operator's existing credentials.
 **Multi-agent:** No — single-agent (Claude only). The Codex handoff protocol (§ 14 in the standards template) is intentionally omitted.
 <!-- PROJECT-OWNED:END -->
 

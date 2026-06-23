@@ -1,7 +1,8 @@
-<!-- VERSION: 0.9 -->
-<!-- Last Updated: 2026-06-18 -->
+<!-- VERSION: 0.10 -->
+<!-- Last Updated: 2026-06-23 -->
 <!--
 CHANGE LOG
+v0.10 — 2026-06-23 — PLAN-007 (remote-target transport): added src/standard_document_updater/transport.py and tests/test_transport.py to the tree; noted transport-aware on cli.py, the registry.py connection-fields comment, and the engine-tree comment ("PLAN-007: + transport").
 v0.9 — 2026-06-18 — PLAN-006 (Slice 4): added src/standard_document_updater/integrate.py and tests/test_integrate.py to the tree; noted the integrate subcommand on cli.py and the engine-tree comment ("Slice 4: + integrate").
 v0.8 — 2026-06-17 — PLAN-005 (durable memory): added the `.claude/` workspace (untracked memory store + README) and `scripts/bootstrap_memory.sh` to the tree; bumped the archive LESSONS comment to L001–L050.
 v0.7 — 2026-06-16 — PLAN-004 (Slice 3): added src/standard_document_updater/logentry.py + harvest.py and tests/test_logentry.py + test_harvest.py to the tree; noted the harvest subcommand on cli.py and the engine-tree comment ("Slice 3: + harvest").
@@ -63,17 +64,18 @@ Standard DocSet/
 ├── config/
 │   └── projects.toml              # registry of managed projects (name + path; per architecture.md § 8)
 ├── src/
-│   └── standard_document_updater/  # the CLI engine (Slice 2: registry + status/drift; Slice 3: + harvest; Slice 4: + integrate)
+│   └── standard_document_updater/  # the CLI engine (Slice 2: registry + status/drift; Slice 3: + harvest; Slice 4: + integrate; PLAN-007: + transport)
 │       ├── __init__.py            # package marker + released CLI version
 │       ├── __main__.py            # `python -m standard_document_updater` entry point
 │       ├── errors.py              # exception hierarchy
-│       ├── registry.py            # config/projects.toml loader (name + path)
+│       ├── registry.py            # config/projects.toml loader (name + transport + connection fields)
 │       ├── setversion.py          # live parsers: vault/adopted Set Version + open-log count
 │       ├── logentry.py            # STANDARDS_LOG.md entry parser (LogEntry + parse_log)
 │       ├── harvest.py             # consolidate open log entries → stdout report (group-by-area + dup flag)
 │       ├── integrate.py           # integration worksheet (Area→topical + next-L0NN) + gated Status write-back
+│       ├── transport.py           # pluggable target transports (local | git | ssh): materialize → operate → flush
 │       ├── report.py              # state computation + table render + drift filter
-│       └── cli.py                 # argparse; status / drift / harvest / integrate subcommands
+│       └── cli.py                 # argparse; status / drift / harvest / integrate subcommands (transport-aware)
 ├── tests/                         # pytest suite
 │   ├── conftest.py                # synthetic vault/project fixtures
 │   ├── test_setversion.py
@@ -82,6 +84,7 @@ Standard DocSet/
 │   ├── test_logentry.py
 │   ├── test_harvest.py
 │   ├── test_integrate.py
+│   ├── test_transport.py
 │   └── test_cli.py
 ├── .claude/                      # Claude Code workspace (untracked; Dropbox-synced)
 │   ├── memory/                   # durable memory store — harness symlinks here (Rule 14)

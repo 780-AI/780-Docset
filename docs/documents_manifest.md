@@ -1,7 +1,8 @@
-<!-- VERSION: 2.10 -->
-<!-- Last Updated: 2026-06-21 -->
+<!-- VERSION: 2.11 -->
+<!-- Last Updated: 2026-06-23 -->
 <!--
 CHANGE LOG
+v2.11 — 2026-06-23 — PLAN-007 (remote-target transport) implemented: registered transport.py + test_transport.py as entries 65–66 (v0.1; Engine quick-index range → 40–55, 61–62, 65–66); bumped touched cells — entry 1 (root CLAUDE.md) 1.4→1.5, entry 7 (architecture.md) 0.8→0.9, entry 40 (__init__) 0.3→0.4, entry 43 (registry) 0.1→0.2, entry 45 (report) 0.1→0.2, entry 46 (cli) 0.3→0.4, entry 49 (test_registry) 0.1→0.2, entry 50 (test_report) 0.1→0.2, entry 51 (test_cli) 0.3→0.4; promoted PLAN-007 + tracker (63–64) 0.1/DRAFT → 1.0/CLOSED. Engine behavior added; read-only on the vault → no Set Version change.
 v2.10 — 2026-06-21 — Installer fix (bootstrap gap from first real adoption): bumped entry 26 (SETUP.md)
 1.2→1.3 and entry 24 (NEW_PROJECT_BOOTSTRAP.md) 1.2→1.3 — both now SEED `docs/Plans/OPEN_TASKS.md` at
 bootstrap (it was gitignored but never created). Installer-only; OPEN_TASKS is gitignored/local so it is
@@ -91,19 +92,19 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Governance scripts | 28–29, 56 |
 | Archive | 30 |
 | Plans | 31–39, 59–60, 63–64 |
-| Engine (src + tests) | 40–55, 61–62 |
+| Engine (src + tests) | 40–55, 61–62, 65–66 |
 
 ## Manifest table
 
 | # | Title | Version | Category | Path |
 |---|---|---|---|---|
-| 1 | Operating Contract (binding) | 1.4 | Governance | `CLAUDE.md` |
+| 1 | Operating Contract (binding) | 1.5 | Governance | `CLAUDE.md` |
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
 | 5 | Documents Manifest | 2.10 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.9 | Governance | `docs/folder_structure.md` |
-| 7 | Architecture (system-design record) | 0.8 | Docs | `docs/architecture.md` |
+| 7 | Architecture (system-design record) | 0.9 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.4 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.2 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.4 | Governance | `docs/SET_VERSION_ADOPTED.md` |
@@ -136,18 +137,18 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 37 | PLAN-004 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-004_tracker.md` |
 | 38 | PLAN-005 — durable memory (Rule 14 + Set v1.2) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-005_durable_memory.md` |
 | 39 | PLAN-005 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-005_tracker.md` |
-| 40 | Engine — package marker + CLI version | 0.3 | Engine | `src/standard_document_updater/__init__.py` |
+| 40 | Engine — package marker + CLI version | 0.4 | Engine | `src/standard_document_updater/__init__.py` |
 | 41 | Engine — module entry point | 0.1 | Engine | `src/standard_document_updater/__main__.py` |
 | 42 | Engine — exception hierarchy | 0.1 | Engine | `src/standard_document_updater/errors.py` |
-| 43 | Engine — registry loader | 0.1 | Engine | `src/standard_document_updater/registry.py` |
+| 43 | Engine — registry loader | 0.2 | Engine | `src/standard_document_updater/registry.py` |
 | 44 | Engine — Set-Version / open-log parsers | 0.1 | Engine | `src/standard_document_updater/setversion.py` |
-| 45 | Engine — comparison report | 0.1 | Engine | `src/standard_document_updater/report.py` |
-| 46 | Engine — CLI (status / drift / harvest / integrate) | 0.3 | Engine | `src/standard_document_updater/cli.py` |
+| 45 | Engine — comparison report | 0.2 | Engine | `src/standard_document_updater/report.py` |
+| 46 | Engine — CLI (status / drift / harvest / integrate) | 0.4 | Engine | `src/standard_document_updater/cli.py` |
 | 47 | Engine test — shared fixtures | 0.1 | Engine test | `tests/conftest.py` |
 | 48 | Engine test — setversion | 0.1 | Engine test | `tests/test_setversion.py` |
-| 49 | Engine test — registry | 0.1 | Engine test | `tests/test_registry.py` |
-| 50 | Engine test — report | 0.1 | Engine test | `tests/test_report.py` |
-| 51 | Engine test — cli | 0.3 | Engine test | `tests/test_cli.py` |
+| 49 | Engine test — registry | 0.2 | Engine test | `tests/test_registry.py` |
+| 50 | Engine test — report | 0.2 | Engine test | `tests/test_report.py` |
+| 51 | Engine test — cli | 0.4 | Engine test | `tests/test_cli.py` |
 | 52 | Engine — experiences-log entry parser | 0.1 | Engine | `src/standard_document_updater/logentry.py` |
 | 53 | Engine — harvest report (open-entry consolidation) | 0.1 | Engine | `src/standard_document_updater/harvest.py` |
 | 54 | Engine test — logentry | 0.1 | Engine test | `tests/test_logentry.py` |
@@ -159,8 +160,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 60 | PLAN-006 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-006_tracker.md` |
 | 61 | Engine — integration worksheet + status write-back | 0.1 | Engine | `src/standard_document_updater/integrate.py` |
 | 62 | Engine test — integrate | 0.1 | Engine test | `tests/test_integrate.py` |
-| 63 | PLAN-007 — remote transport (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-007_remote_transport.md` |
-| 64 | PLAN-007 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-007_tracker.md` |
+| 63 | PLAN-007 — remote transport (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-007_remote_transport.md` |
+| 64 | PLAN-007 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-007_tracker.md` |
+| 65 | Engine — pluggable target transports (local \| git \| ssh) | 0.1 | Engine | `src/standard_document_updater/transport.py` |
+| 66 | Engine test — transport | 0.1 | Engine test | `tests/test_transport.py` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -168,12 +171,13 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 ## Last updated
 
-- **Date**: 2026-06-18
-- **Change**: PLAN-006 (Slice 4) implemented — registered integrate.py + test_integrate.py as entries
-  61–62 (v0.1; Engine range → 40–55, 61–62); bumped touched cells (__init__ 40, cli 46, test_cli 51)
+- **Date**: 2026-06-23
+- **Change**: PLAN-007 (remote-target transport) implemented — registered transport.py + test_transport.py
+  as entries 65–66 (v0.1; Engine range → 40–55, 61–62, 65–66); bumped touched cells (CLAUDE.md 1, architecture
+  7, __init__ 40, registry 43, report 45, cli 46, test_registry 49, test_report 50, test_cli 51); promoted
+  PLAN-007 + tracker (63–64) to 1.0/CLOSED. Engine behavior added; read-only on the vault — no Set Version change.
+- **Previous change**: PLAN-006 (Slice 4) implemented — registered integrate.py + test_integrate.py as
+  entries 61–62 (v0.1; Engine range → 40–55, 61–62); bumped touched cells (__init__ 40, cli 46, test_cli 51)
   0.2→0.3 + the cli description (+ integrate); promoted PLAN-006 + tracker (59–60) to 1.0/CLOSED.
   architecture 0.6→0.7, folder_structure 0.8→0.9 synced same-commit. No Set Version change.
-- **Previous change**: PLAN-004 (Slice 3) implemented — registered logentry.py + harvest.py + their two
-  test modules as entries 50–53 (v0.1); bumped touched cells (__init__ 38, cli 44, test_cli 49) 0.1→0.2;
-  promoted PLAN-004 + tracker (36–37) to 1.0/CLOSED.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

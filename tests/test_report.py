@@ -1,8 +1,9 @@
 # ==============================================================
-# VERSION: 0.1
+# VERSION: 0.2
 # Unit tests for state computation + rendering + drift filter.
 #
 # CHANGE LOG
+# v0.2 — 2026-06-20 — Add LOCATION header / git-location cell / unreachable_status cases (PLAN-007).
 # v0.1 — 2026-06-16 13:01 — Initial: current/behind/ahead/unknown + render + filter.
 # ==============================================================
 """Tests for standard_document_updater.report."""
@@ -57,3 +58,23 @@ def test_filter_drift_excludes_current(tmp_path: Path) -> None:
     behind = _status("old", "1.0", 0, tmp_path / "b")
     drifted = report.filter_drift([current, behind])
     assert [s.project.name for s in drifted] == ["old"]
+
+
+def test_render_table_header_is_location() -> None:
+    p = Project(name="x", path=Path("/tmp/x"))
+    s = report.ProjectStatus(p, (1, 1), (1, 1), report.State.CURRENT, 0)
+    header = report.render_table([s]).splitlines()[0]
+    assert "LOCATION" in header and "PATH" not in header
+
+
+def test_render_table_shows_git_location() -> None:
+    p = Project(name="b", transport="git", git_url="git@h:r.git", git_branch="main")
+    s = report.ProjectStatus(p, (1, 1), (1, 1), report.State.CURRENT, 0)
+    assert "git:git@h:r.git@main" in report.render_table([s])
+
+
+def test_unreachable_status_is_unknown() -> None:
+    p = Project(name="b", transport="git", git_url="u")
+    s = report.unreachable_status(p, (1, 1), "clone failed")
+    assert s.state is report.State.UNKNOWN
+    assert s.adopted is None and s.note == "clone failed"

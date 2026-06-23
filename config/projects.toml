@@ -1,15 +1,28 @@
 # ==============================================================
 # Registry of projects managed by Standard DocSet.
 #
-# Stores ONLY name + path per project. A project's adopted Set Version is read
-# LIVE from <path>/docs/SET_VERSION_ADOPTED.md at report time — never cached
-# here (single source of truth, per docs/architecture.md § 9).
+# Each project declares a `transport` (local | git | ssh; default = local) plus
+# the connection fields that transport needs. A project's adopted Set Version is
+# read LIVE from the materialized <root>/docs/SET_VERSION_ADOPTED.md at report
+# time — never cached here (single source of truth, per docs/architecture.md § 9).
 #
-# Add one [[project]] table per managed repository:
+# Add one [[project]] table per managed repository. Examples:
 #
-# [[project]]
+# [[project]]                       # local (default; transport key optional)
 # name = "example-adopter"
 # path = "/Users/you/Documents/example-adopter"
+#
+# [[project]]                       # git: clone/fetch over SSH, write-back = direct push
+# name = "beta"
+# transport = "git"
+# git_url = "git@gitlab.com:org/beta.git"
+# git_branch = "main"               # optional; empty -> the remote's default branch
+#
+# [[project]]                       # ssh: rsync docs/ to/from a dev host
+# name = "gamma"
+# transport = "ssh"
+# ssh_host = "devbox"               # an ssh alias or user@host
+# ssh_path = "/home/me/gamma"
 # ==============================================================
 
 # (empty — no projects registered yet)

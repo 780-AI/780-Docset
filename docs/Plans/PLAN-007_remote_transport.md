@@ -1,8 +1,18 @@
-<!-- VERSION: 0.1 -->
-<!-- Last Updated: 2026-06-20 -->
-<!-- Status: DRAFT -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-06-23 -->
+<!-- Status: CLOSED -->
 <!--
 CHANGE LOG
+v1.0 — 2026-06-23 — Phase 3 implemented + Phase 4 validated; plan CLOSED. Shipped the 18-file ALLOWLIST in
+one commit: transport.py + test_transport.py new; registry/report/cli/__init__ + their tests bumped;
+CLAUDE.md § 1 + architecture.md § 1/§ 8/§ 9/§ 10/§ 11; validation_ownership soft [rules.transport];
+projects.toml git/ssh examples; manifest/folder_structure/CHANGELOG synced; PLAN-007 + tracker → 1.0/CLOSED.
+QA A–N all PASS (ruff clean; mypy --strict 0/20; pytest 88 = 57 prior + 31 new; governance exit 0).
+One mechanical plan-defect (D1): the verbatim § 5C `statuses.append(report.compute_status(...))` line, now
+indented inside the `with` block, was 102 cols (E501 the Rule 13 pass missed — the L051 recurrence class);
+reflowed output-preserving. The new test resolved a mypy `no_implicit_reexport` by importing `subprocess`
+directly. No new design decision beyond D1–D4 / DD-1…DD-6. No Set-Version bump (DD-6). Phase 5 (push) is
+the operator gate.
 v0.1a — 2026-06-20 — Rule 13 senior-review pass (last task of Phase 1; per L051 the tools were ACTUALLY
 RUN, not eyeballed). The § 5 code was materialized in src/ + a real tests/test_transport.py written, then
 `ruff check`, `mypy --strict` (MYPYPATH=src), and `pytest` were run, then the scratch was removed. Named
@@ -134,9 +144,9 @@ bump** (DD-6).
 | 0 — Audit | ✅ done | 2026-06-20 |
 | 1 — Design (this plan + tracker) | ✅ done | 2026-06-20 |
 | 1.x — Rule 13 senior-review pass (runs ruff + mypy --strict + pytest on the § 5 code, per L051) | ✅ done | 2026-06-20 |
-| 2 — Operator approval | ⏸ pending | — |
-| 3 — Implement (fresh session, ALLOWLIST-bounded) | ⏸ pending | — |
-| 4 — Validate (QA A–N + governance) | ⏸ pending | — |
+| 2 — Operator approval | ✅ APPROVE D1.A | 2026-06-20 |
+| 3 — Implement (fresh session, ALLOWLIST-bounded) | ✅ done | 2026-06-23 |
+| 4 — Validate (QA A–N + governance) | ✅ A–N PASS | 2026-06-23 |
 | 5 — Operator gate (push; no tag — Set Version unchanged) | ⏸ pending | — |
 
 ## 5. Verbatim module spec (Phase 3)

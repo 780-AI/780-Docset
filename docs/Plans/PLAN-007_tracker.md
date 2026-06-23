@@ -1,8 +1,11 @@
-<!-- VERSION: 0.1 -->
-<!-- Last Updated: 2026-06-20 -->
-<!-- Status: DRAFT -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-06-23 -->
+<!-- Status: CLOSED -->
 <!--
 CHANGE LOG
+v1.0 — 2026-06-23 — Phase 3 implemented + Phase 4 validated in a fresh session; tracker CLOSED with the
+plan. Phases 2–4 ✅ (Phase 5 push is the operator gate). QA A–N all PASS. One mechanical plan-defect D1
+(§ 5C E501 inside the `with` block — the L051 recurrence class) reflowed output-preserving.
 v0.1 — 2026-06-20 — Sibling tracker created same-commit as the PLAN-007 DRAFT (big plan per § 15.7:
 new module + registry-schema change + a target-repo write over a network transport; 18-file ALLOWLIST;
 multi-scenario Phase-4 verify (A–N); will span sessions — Phase 3 is a fresh session).
@@ -39,33 +42,38 @@ work it tracks. Markers: ⏸ pending · 🔄 in-progress · ✅ done · ❌ bloc
   (needs `MYPYPATH=src` — QA B fixed) + a stale mypy cache. Final: ruff clean, mypy 0/20, 71 tests pass.
   Recorded in the plan CHANGE LOG (v0.1a). **Ready for Phase 2.**
 
-## Phase 2 — Operator approval ⏸
+## Phase 2 — Operator approval ✅ 2026-06-20
 
-- ⏸ Awaiting "APPROVE D1.A" (or deltas). Confirm DD-1 (registry `transport` key), DD-4/DD-5 (per-target
+- ✅ **APPROVE D1.A** (2026-06-20). Confirmed DD-1 (registry `transport` key), DD-4/DD-5 (per-target
   atomic; git direct fast-forward push, fixed identity, operator SSH creds), DD-3 (unreachable = non-fatal).
+  DRAFT `ee7b9e0` pushed.
 
-## Phase 3 — Implement ⏸ (fresh session, ALLOWLIST = § 7)
+## Phase 3 — Implement ✅ 2026-06-23 (fresh session, ALLOWLIST = § 7)
 
-- ⏸ 3.1 `transport.py` — Target ABC + Local/Git/Ssh + make_target + TransportError [5A]
-- ⏸ 3.2 `registry.py` — Project transport fields + per-transport validation (0.1→0.2) [5B]
-- ⏸ 3.3 `cli.py` — materialize via `make_target`/`session`; ExitStack write path; graceful failure (0.3→0.4) [5C]
-- ⏸ 3.4 `report.py` — `location` cell + `unreachable_status`; header PATH→LOCATION (0.1→0.2) [5D]
-- ⏸ 3.5 `__init__.py` 0.3→0.4
-- ⏸ 3.6 `tests/test_transport.py` (new) + 3.7 test_registry / 3.8 test_cli / 3.9 test_report updates [5E]
-- ⏸ 3.10 `validation_ownership.toml` soft `[rules.transport]`
-- ⏸ 3.11 `config/projects.toml` git/ssh example comments
-- ⏸ 3.12 `CLAUDE.md` § 1 (retire "no remote infra") + version bump
-- ⏸ 3.13 `architecture.md` § 1/§ 8/§ 9/§ 10/§ 11 + header bump (no Set-Version bump — DD-6)
-- ⏸ 3.14 `documents_manifest.md` register transport.py + test_transport.py + cells + plan promotion + header
-- ⏸ 3.15 `folder_structure.md` tree + header
-- ⏸ 3.16 `CHANGELOG.md` top entry + QA A–N sub-section
-- ⏸ 3.17 Promote PLAN-007 + this tracker → 1.0 / CLOSED (same commit)
+- ✅ 3.1 `transport.py` — Target ABC + Local/Git/Ssh + make_target + TransportError [5A]
+- ✅ 3.2 `registry.py` — Project transport fields + per-transport validation (0.1→0.2) [5B]
+- ✅ 3.3 `cli.py` — materialize via `make_target`/`session`; ExitStack write path; graceful failure (0.3→0.4) [5C]
+- ✅ 3.4 `report.py` — `location` cell + `unreachable_status`; header PATH→LOCATION (0.1→0.2) [5D]
+- ✅ 3.5 `__init__.py` 0.3→0.4
+- ✅ 3.6 `tests/test_transport.py` (new) + 3.7 test_registry / 3.8 test_cli / 3.9 test_report updates [5E]
+- ✅ 3.10 `validation_ownership.toml` soft `[rules.transport]`
+- ✅ 3.11 `config/projects.toml` git/ssh example comments
+- ✅ 3.12 `CLAUDE.md` § 1 (retire "no remote infra") + version bump (1.4→1.5)
+- ✅ 3.13 `architecture.md` § 1/§ 8/§ 9/§ 10/§ 11 + header bump 0.8→0.9 (no Set-Version bump — DD-6)
+- ✅ 3.14 `documents_manifest.md` register transport.py + test_transport.py (65–66) + cells + plan promotion + header
+- ✅ 3.15 `folder_structure.md` tree + header 0.9→0.10
+- ✅ 3.16 `CHANGELOG.md` top entry + QA A–N sub-section
+- ✅ 3.17 Promote PLAN-007 + this tracker → 1.0 / CLOSED (same commit)
 
-## Phase 4 — Validate ⏸ (QA A–N, plan § 8)
+> Plan-defect D1 (mechanical): the verbatim § 5C `statuses.append(...)` line was 102 cols inside the `with`
+> block (E501 the Rule 13 pass missed — L051 recurrence class) → reflowed output-preserving. The new test
+> resolved a mypy `no_implicit_reexport` by importing `subprocess` directly. No behavior change.
 
-- ⏸ A ruff · B mypy --strict · C pytest · D governance
-- ⏸ E local back-compat · F/G/H registry parse+validation · I make_target dispatch · J local-in-place
-- ⏸ K git read fetch · L git push · M ssh rsync · N unreachable non-fatal
+## Phase 4 — Validate ✅ 2026-06-23 (QA A–N, plan § 8)
+
+- ✅ A ruff · B mypy --strict (0/20) · C pytest (88 = 57 prior + 31 new) · D governance (both exit 0)
+- ✅ E local back-compat · F/G/H registry parse+validation · I make_target dispatch · J local-in-place
+- ✅ K git read fetch · L git push · M ssh rsync · N unreachable non-fatal
 
 ## Phase 5 — Operator gate ⏸
 
