@@ -1,7 +1,11 @@
-<!-- VERSION: 2.9 -->
+<!-- VERSION: 2.10 -->
 <!-- Last Updated: 2026-06-21 -->
 <!--
 CHANGE LOG
+v2.10 — 2026-06-21 — Installer fix (bootstrap gap from first real adoption): bumped entry 26 (SETUP.md)
+1.2→1.3 and entry 24 (NEW_PROJECT_BOOTSTRAP.md) 1.2→1.3 — both now SEED `docs/Plans/OPEN_TASKS.md` at
+bootstrap (it was gitignored but never created). Installer-only; OPEN_TASKS is gitignored/local so it is
+not itself a tracked entry. No Set-Version bump (v1.3 suite CONTENT unchanged).
 v2.9 — 2026-06-21 — Drift fix: bumped entry 7 (architecture.md) 0.6→0.8 (roadmap slice→plan numbering
 corrected: sync = PLAN-008, PLAN-007 = remote transport). Also corrected two pre-existing stale version
 cells the v2.2 CHANGE LOG already claimed but never edited in the table: entry 5 (this manifest, self-row)
@@ -97,7 +101,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.9 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.10 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.9 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.8 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.4 | Governance | `docs/SESSION_OPENER.md` |
@@ -116,9 +120,9 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 21 | Session Closer (template) | 1.1 | Standards | `docs/standards/SESSION_CLOSER.md` |
 | 22 | Standards README (meta) | 1.0 | Standards | `docs/standards/README.md` |
 | 23 | Standards Index (meta) | 1.3 | Standards | `docs/standards/STANDARDS_INDEX.md` |
-| 24 | New Project Bootstrap (meta) | 1.2 | Standards | `docs/standards/NEW_PROJECT_BOOTSTRAP.md` |
+| 24 | New Project Bootstrap (meta) | 1.3 | Standards | `docs/standards/NEW_PROJECT_BOOTSTRAP.md` |
 | 25 | How To Use (meta) | 1.0 | Standards | `docs/standards/HOW_TO_USE.md` |
-| 26 | Setup — one-shot prompt (meta) | 1.2 | Standards | `docs/standards/SETUP.md` |
+| 26 | Setup — one-shot prompt (meta) | 1.3 | Standards | `docs/standards/SETUP.md` |
 | 27 | Standards Log — experiences-log template (meta) | 1.0 | Standards | `docs/standards/STANDARDS_LOG.md` |
 | 28 | Doc Coverage Check | 0.1 | Governance script | `scripts/check_doc_coverage.py` |
 | 29 | Test Coverage Drift Check | 0.1 | Governance script | `scripts/check_test_coverage_drift.py` |

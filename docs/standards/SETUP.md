@@ -1,8 +1,12 @@
-<!-- VERSION: 1.2 -->
-<!-- Last Updated: 2026-06-20 -->
+<!-- VERSION: 1.3 -->
+<!-- Last Updated: 2026-06-21 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.3 — 2026-06-21 — Fixed a bootstrap gap surfaced by the first real adoption: Step 5 gitignored
+`docs/Plans/OPEN_TASKS.md` but never CREATED it, so a fresh project lacked the local-only register. Added
+a Step 5 seed step (standard header + "no open items yet" placeholder; gitignored, not manifest-tracked).
+Installer-only — the v1.3 suite CONTENT is unchanged → no Set-Version bump.
 v1.2 — 2026-06-20 — Caught the bootstrap up to Standard Set Version v1.3 (it had been left at v1.1 across
 the v1.2/v1.3 releases): retargeted every v1.1 reference to v1.3 (intro, prompt header, Step 4 Source line,
 Step 5 SET_VERSION_ADOPTED); registered MEMORY_DURABILITY_ROLLOUT_PROMPT.md in the Step 1 pre-flight check,
@@ -98,6 +102,11 @@ DO THIS, IN ORDER
      untracked / sync-carried per Rule 14, never accidentally committed).
    - TARGET/docs/README.md, TARGET/docs/documents_manifest.md (list every tracked .md + VERSION-bearing
      code file), TARGET/docs/folder_structure.md, TARGET/docs/Plans/.gitkeep.
+   - TARGET/docs/Plans/OPEN_TASKS.md — SEED the local-only open-tasks register (the single "what's open
+     now" index, per L046). Gitignored above, so it is NOT committed / NOT manifest-tracked — but create
+     it now so the register exists from day one with a standard header. Seed content:
+     a `# OPEN_TASKS — local-only register` H1, a one-line "gitignored by design (L046); done = deleted"
+     note, and a `_(no open items yet)_` placeholder.
    - TARGET/docs/STANDARDS_LOG.md — create from TARGET/docs/standards/STANDARDS_LOG.md, removing the
      example entry (the project's own experiences log; a kept file that survives the strip).
    - TARGET/docs/SET_VERSION_ADOPTED.md (Set Version v1.3, adopted <today>).

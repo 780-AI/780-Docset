@@ -2,6 +2,28 @@
 
 Newest entries at the top.
 
+## [2026-06-21] — Installer fix: bootstrap now seeds `docs/Plans/OPEN_TASKS.md` (gap from first adoption)
+
+- **Type:** Major (edits `docs/standards/`, a Critical File) — installer-only. **No Set-Version bump**
+  (the v1.3 suite CONTENT is unchanged; `STANDARDS_INDEX` untouched).
+- **What:** the first real project bootstrap surfaced a gap — SETUP.md (and its long-form companion
+  NEW_PROJECT_BOOTSTRAP.md) **gitignored** `docs/Plans/OPEN_TASKS.md` but had **no step to create it**, so
+  a fresh project came up without the local-only open-tasks register. Added a seed step to both
+  (standard header + "no open items yet" placeholder). `OPEN_TASKS.md` stays gitignored/local-only and is
+  **not** manifest-tracked (per Rule 8) — the fix is "create it", not "track it".
+- **Versions:** `SETUP.md` 1.2→1.3; `NEW_PROJECT_BOOTSTRAP.md` 1.2→1.3; `documents_manifest.md` header
+  2.9→2.10 (entries 24 + 26 → 1.3, self-row entry 5 → 2.10).
+- **Also:** the desktop SOURCE export (`~/Desktop/Standard-DocSet-Suite/`) re-synced for the two changed
+  files so the next bootstrap is fixed.
+- **Impact:** future bootstraps create one additional (gitignored) file. No change to any committed/tracked
+  artifact of an adopting project. **Follow-ups (not in this commit):** retrofit the already-bootstrapped
+  first project (seed its `OPEN_TASKS.md`); operator decision on a portable lesson L052 (would it cut
+  Set v1.4?).
+- **QA scenarios:**
+  - ⏸ **QA-1** — *What:* SETUP.md bootstrap seeds `docs/Plans/OPEN_TASKS.md`. *How:* run the SETUP.md
+    prompt against a fresh TARGET dir. *Pass:* after Step 5, `docs/Plans/OPEN_TASKS.md` exists with the
+    standard header, is matched by `git check-ignore`, and does NOT appear in `git status` / the manifest.
+
 ## [2026-06-21] — Drift fix: architecture.md §10 roadmap numbering + stale manifest version cells
 
 - **Type:** Minor (doc-only; no engine behavior change). **No Set-Version bump.**

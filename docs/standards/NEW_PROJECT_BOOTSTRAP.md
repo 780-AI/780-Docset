@@ -1,8 +1,11 @@
-<!-- VERSION: 1.2 -->
-<!-- Last Updated: 2026-06-20 -->
+<!-- VERSION: 1.3 -->
+<!-- Last Updated: 2026-06-21 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.3 — 2026-06-21 — Step-parity with SETUP.md v1.3: added the Step 4 seed for `docs/Plans/OPEN_TASKS.md`
+(the local-only register was gitignored but never created — a gap surfaced by the first real adoption).
+Installer/walkthrough only — the v1.3 suite CONTENT is unchanged → no Set-Version bump.
 v1.2 — 2026-06-20 — Brought to full Standard Set Version v1.3 parity with SETUP.md (the headline one-shot
 path; this file is its long-form companion, kept in step-parity). Added the project-local SESSION_OPENER/
 CLOSER instantiation, the experiences-log (docs/STANDARDS_LOG.md) create step, Step 8 durable memory
@@ -239,6 +242,22 @@ docs/Plans/OPEN_TASKS.md
 
 # Misc
 *.log
+```
+
+**`docs/Plans/OPEN_TASKS.md`** — SEED the local-only open-tasks register (the single "what's open now"
+index, per L046). It is gitignored above, so it is **not** committed / **not** manifest-tracked — but
+create it now so the register exists from day one with a standard header:
+
+```bash
+cat > docs/Plans/OPEN_TASKS.md <<'EOF'
+# OPEN_TASKS — local-only register
+
+> Gitignored by design (per archive/LESSONS.md L046 + CLAUDE.md § 15.7). The single "what's open
+> right now" index across all plans + non-plan items. NOT committed; lives only on this machine.
+> Done = deleted.
+
+_(no open items yet)_
+EOF
 ```
 
 **`docs/STANDARDS_LOG.md`** — the project's experiences log (the contribution channel feeding harvest →
