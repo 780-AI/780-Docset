@@ -122,7 +122,8 @@ Newest entries at the top.
   first project (seed its `OPEN_TASKS.md`); operator decision on a portable lesson L052 (would it cut
   Set v1.4?).
 - **QA scenarios:**
-  - ⏸ **QA-1** — *What:* SETUP.md bootstrap seeds `docs/Plans/OPEN_TASKS.md`. *How:* run the SETUP.md
+  - ✅ **QA-1** (PASSED 2026-08-16 — operator-verified at a real bootstrap of a new project) — *What:*
+    SETUP.md bootstrap seeds `docs/Plans/OPEN_TASKS.md`. *How:* run the SETUP.md
     prompt against a fresh TARGET dir. *Pass:* after Step 5, `docs/Plans/OPEN_TASKS.md` exists with the
     standard header, is matched by `git check-ignore`, and does NOT appear in `git status` / the manifest.
 
