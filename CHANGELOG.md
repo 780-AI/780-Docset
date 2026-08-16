@@ -2,6 +2,61 @@
 
 Newest entries at the top.
 
+## [2026-08-16] — Standard Set Version v1.5 — upstream intake: EverOn v2.x → vault (PLAN-010)
+
+- **Type:** Major (Critical Files: both CLAUDE.md copies, docs/standards/, the session routines; § 15
+  plan workflow, APPROVED D10.A, single Phase-3 commit).
+- **What:** first upstream intake — EverOn.Equinex's post-split standards evolution (its own line
+  v2.7, commits `c0940f6..b9c8fe6`, 2026-06-08 → 2026-08-16) folded into the vault as **Set v1.5**:
+  eleven genericized lessons (vault L057–L067 in BOTH LESSONS files + an L050 generalization note),
+  one NEW binding rule (**Rule 15** — post-implementation verification of the NEW behavior), one
+  strengthened rule (**Rule 14** upgraded in place from memory-only durability to full
+  **project-data locality**: physical home `.claude/project-data/` for memory + session transcripts,
+  managed by `scripts/claude_project_data.sh` `status`/`adopt`/`link`, replacing
+  `bootstrap_memory.sh` — deleted; verified at session open `SESSION_OPENER` § 1.5 AND close
+  `SESSION_CLOSER` § 1.6). Both CLAUDE.md § 3/§ 13 counts corrected 13 → 15 (stale two
+  rule-additions — the L063 class). Release cascade: STANDARDS_INDEX v1.5, SVA adopts v1.5,
+  SETUP/NPB retargeted (Step 6.5 / Step 8 → project-data locality + `docs/MACHINE_MIGRATION.md`
+  seed), rollout prompt retargeted, NEW_MACHINE_SETUP doubles as the Rule 14 migration catalog,
+  manifest + folder_structure synced. Read-only toward EverOn; no engine (`src/`) change; no
+  `config/projects.toml` change. This repo's own store migrated via the one-time `adopt` run.
+- **Numbering map (EverOn → vault; the § 3 table of PLAN-010, reproduced as the permanent record):**
+
+  | EverOn | Vault | Title (genericized) |
+  |---|---|---|
+  | L050 | L057 | Identical code + different behavior ⇒ runtime cause; instrument first |
+  | L051 | L058 | Audit every caller before fixing a shared utility at one site |
+  | L052 | L059 | Verify evidence provenance before recording a result |
+  | L053 | L060 | Grep every name-form of a removed identifier across code AND docs |
+  | L054 | L061 | A reused helper imports its implicit gates; enumerate them per new context |
+  | L055 | L062 | Plan-embedded code must satisfy the plan's own acceptance criteria; sanitize before pasting |
+  | L056 | L063 | Version stamps drift from their own change logs; grep the actual stamp |
+  | L057 | L064 | Validate on a version-matched runtime; fakes must return real driver types |
+  | L058 | L065 | Reconstruct system state from its own event stream |
+  | L059 | L066 | A liveness signal comes from the monitored layer's own traffic, on the monitor's own clock |
+  | L060 | L067 | Ship-gating verification must exercise the NEW behavior itself |
+  | L061 | — | Merged into the Rule 14 upgrade + the L050 generalization note |
+  | R14 (theirs) | Rule 15 | Post-implementation verification is MANDATORY |
+  | R15 (theirs) | Rule 14 (upgraded) | Project data lives in the project folder |
+
+- **Versions:** root `CLAUDE.md` 1.6→1.7; `docs/standards/CLAUDE.md` 1.3→1.4; both LESSONS headers
+  unchanged (1.0, no-per-lesson-bump practice); `docs/SESSION_OPENER.md` 1.5→1.6; template
+  1.4→1.5; `docs/SESSION_CLOSER.md` 1.3→1.4; template 1.2→1.3; `STANDARDS_INDEX.md` 1.4→1.5;
+  `SET_VERSION_ADOPTED.md` 1.5→1.6; `SETUP.md` 1.4→1.5; `NEW_PROJECT_BOOTSTRAP.md` 1.4→1.5;
+  `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` 1.1→1.2; `NEW_MACHINE_SETUP.md` 1.0→1.1;
+  `documents_manifest.md` 2.14→2.15; `folder_structure.md` 0.11→0.12;
+  `scripts/claude_project_data.sh` NEW 0.1; `scripts/bootstrap_memory.sh` DELETED;
+  PLAN-010 + tracker 0.1→1.0 (CLOSED).
+- **Impact:** doc/governance impact only — no engine runtime change. Session-routine behavior
+  changes: every session open/close now probes project-data locality via the new script; the memory
+  store's physical home moved `.claude/memory/` → `.claude/project-data/memory/` (one-time `adopt`
+  migration on this repo, run as the final Phase-3 step). **QA scenarios:** doc side Rule 11 exempt
+  (standards-suite refresh); script/mechanism side per PLAN-010 § 8 (tracker Phase 4): A `bash -n` ✅,
+  B fixture behaviors (adopt/link/pre-v1.5 absorb) ✅, C this-repo `adopt` feature-ON ✅, D
+  domain-neutral zero-hit grep ✅, E stamp/count greps ✅, F LESSONS ToC↔heading parity ✅, G
+  governance ✅, H delivery-doc parity ✅, I opener § 1.5 live at next session open ⏸, J manifest
+  completeness ✅.
+
 ## [2026-08-16] — docs/STANDARDS_LOG.md instantiated (closes the self-adoption gap)
 
 - **Type:** Minor (new project doc from the suite's own template; no behavior change).

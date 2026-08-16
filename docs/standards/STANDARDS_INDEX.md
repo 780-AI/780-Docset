@@ -1,8 +1,9 @@
-<!-- VERSION: 1.4 -->
+<!-- VERSION: 1.5 -->
 <!-- Last Updated: 2026-08-16 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.5 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010 upstream intake): eleven lessons L057–L067 + NEW Rule 15 (post-implementation verification of the NEW behavior) + Rule 14 upgraded to project-data locality (claude_project_data.sh replaces bootstrap_memory.sh; verified at session open AND close). § 1 counts → 67 lessons / 15 rules; § 2 rows 1 + 9; § 3 caption → v1.5 + cells (CLAUDE.md 1.4, SESSION_OPENER 1.5, SESSION_CLOSER 1.3, STANDARDS_INDEX 1.5, NEW_PROJECT_BOOTSTRAP 1.5, SETUP 1.5, MEMORY_DURABILITY_ROLLOUT_PROMPT 1.2) + total → 67 (LESSONS cell unchanged per the no-per-lesson-bump practice); § 4.1 count swept 13 → 15 (per L060); § 6 history entry added.
 v1.4 — 2026-08-16 — Standard Set Version v1.4: five process-hardening lessons L052–L056 + L051 recurrence #4 (final-indentation clause). § 1 counts → 56 lessons; § 2 row 9 → 56; § 3 caption → v1.4 + cells (CLAUDE.md 1.3, SESSION_OPENER 1.4, SESSION_CLOSER 1.2, STANDARDS_INDEX 1.4, NEW_PROJECT_BOOTSTRAP 1.4, SETUP 1.4; MEMORY_DURABILITY_ROLLOUT_PROMPT cell caught up to its already-shipped 1.1) + total → 56 (LESSONS cell unchanged per the no-per-lesson-bump practice); § 6 history entry added. Anchors: SESSION_OPENER § 1.1 + § 3.1 row (L055 / L051), SESSION_CLOSER § 1.4 + § 2.1 row (L055), CLAUDE.md § 15.2 (L054) + § 15.3 (L056). No rule added or removed.
 v1.3 — 2026-06-20 — Standard Set Version v1.3: lesson L051 (the Rule 13 senior-review pass must mechanically run the linter / type-checker / tests against the plan's embedded code, not eyeball it) + a SESSION_OPENER § 3.1 universal row. § 1 lesson count → 51; § 2 row 9 → 51; § 3 caption → v1.3, SESSION_OPENER cell → 1.3, STANDARDS_INDEX cell → 1.3, total → 51 (LESSONS cell unchanged per the no-per-lesson-bump practice); § 6 history entry added. No existing rule changed (Rule 13 expectations sharpened, not rewritten).
 v1.2 — 2026-06-17 — Standard Set Version v1.2 (PLAN-005): added Rule 14 (durable memory) to CLAUDE.md; SESSION_OPENER § 1.5 + § 3.1 row; lesson L050; new meta file MEMORY_DURABILITY_ROLLOUT_PROMPT.md. § 1 counts → 50 lessons / 14 rules; § 3 → 18 files (11 binding + 7 meta); CLAUDE.md + SESSION_OPENER cells → 1.2; § 6 history entry added.
@@ -37,10 +38,10 @@ Version** tracks the suite as a whole — files added, structure changed, patter
 ## 1. Standard Set Version (current)
 
 ```
-Standard Set Version: v1.4
+Standard Set Version: v1.5
 Released:             2026-08-16
-Baseline:             v1.0 clean domain-neutral baseline + the experiences-log template, PROJECT-OWNED markers, and setup-and-strip (PLAN-002 Slice 1) + durable-memory Rule 14 (PLAN-005) + Rule 13 linter-enforcement lesson L051 (v1.3) + process-hardening lessons L052–L056 and the L051 final-indentation recurrence (v1.4).
-Adopter contract:     11 binding files + 4 meta files (+ SETUP.md + STANDARDS_LOG.md + MEMORY_DURABILITY_ROLLOUT_PROMPT.md); 56 lessons (L001–L056); 14 standing rules in CLAUDE.md
+Baseline:             v1.0 clean domain-neutral baseline + the experiences-log template, PROJECT-OWNED markers, and setup-and-strip (PLAN-002 Slice 1) + durable-memory Rule 14 (PLAN-005) + Rule 13 linter-enforcement lesson L051 (v1.3) + process-hardening lessons L052–L056 and the L051 final-indentation recurrence (v1.4) + upstream-intake process-hardening batch — lessons L057–L067, Rule 15, Rule 14 project-data locality (v1.5).
+Adopter contract:     11 binding files + 4 meta files (+ SETUP.md + STANDARDS_LOG.md + MEMORY_DURABILITY_ROLLOUT_PROMPT.md); 67 lessons (L001–L067); 15 standing rules in CLAUDE.md
 ```
 
 When adopting this suite, record the Set Version in the new project's `CHANGELOG.md` or its own
@@ -58,7 +59,7 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 
 | # | File | Role |
 |---|---|---|
-| 1 | `CLAUDE.md` | Binding contract — 14 standing rules, classification, workflow, validation checklist, dispatcher, plan workflow (§ 15), optional Codex handoff (§ 14) |
+| 1 | `CLAUDE.md` | Binding contract — 15 standing rules, classification, workflow, validation checklist, dispatcher, plan workflow (§ 15), optional Codex handoff (§ 14) |
 | 2 | `PROJECT_STANDARDS.md` | Governance — manifest mechanics, CHANGELOG conventions, tracker structure, commit discipline, sync triggers |
 | 3 | `PROMPT_STANDARDS.md` | Prompt-craft — multi-file edit prompts, ALLOWLIST + verbatim FIND/REPLACE, retry-with-deviation-warning, Codex handoff variant |
 | 4 | `PROJECT_INSTRUCTIONS_TEMPLATE.md` | Claude.ai Project Instructions — three-tier template (static frame, project-specific, per-session) |
@@ -66,7 +67,7 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 | 6 | `ENGINEERING_STANDARDS.md` | Engineering substrate — architecture invariants, coding standards, secrets, container discipline, ops |
 | 7 | `VALIDATION_STANDARDS.md` | Test framework — tiered model, ownership map, deliberate-failure protocol, soak, first-fire expectations |
 | 8 | `CICD_STANDARDS.md` | Pipeline architecture — staged shape, registry-pull deploy, smoke gating, auto-rollback, soak gate, explicit PROD authorization |
-| 9 | `LESSONS.md` | Incident-to-rule archive — 56 lessons (append-only), each with incident + cost + codification + cross-references |
+| 9 | `LESSONS.md` | Incident-to-rule archive — 67 lessons (append-only), each with incident + cost + codification + cross-references |
 | 10 | `SESSION_OPENER.md` | Session-start pre-flight (binding per Rule 9) — environment mapping + failure-mode catalog + first-response output template |
 | 11 | `SESSION_CLOSER.md` | Session-end wrap-up (binding per Rule 12) — wrap-up routine + failure-mode catalog + output template |
 
@@ -86,11 +87,11 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 
 ## 3. Per-file version table
 
-Current state as of Set Version v1.4 (2026-08-16). Files unchanged since v1.0 keep their 2026-06-07 dates.
+Current state as of Set Version v1.5 (2026-08-16). Files unchanged since v1.0 keep their 2026-06-07 dates.
 
 | File | Tier | Version | Last Updated |
 |---|---|---|---|
-| `CLAUDE.md` | Binding | 1.3 | 2026-08-16 |
+| `CLAUDE.md` | Binding | 1.4 | 2026-08-16 |
 | `PROJECT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `PROMPT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `PROJECT_INSTRUCTIONS_TEMPLATE.md` | Binding | 1.0 | 2026-06-07 |
@@ -99,18 +100,18 @@ Current state as of Set Version v1.4 (2026-08-16). Files unchanged since v1.0 ke
 | `VALIDATION_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `CICD_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `LESSONS.md` | Binding | 1.0 | 2026-06-07 |
-| `SESSION_OPENER.md` | Binding | 1.4 | 2026-08-16 |
-| `SESSION_CLOSER.md` | Binding | 1.2 | 2026-08-16 |
+| `SESSION_OPENER.md` | Binding | 1.5 | 2026-08-16 |
+| `SESSION_CLOSER.md` | Binding | 1.3 | 2026-08-16 |
 | `README.md` | Meta | 1.0 | 2026-06-07 |
-| `STANDARDS_INDEX.md` | Meta | 1.4 | 2026-08-16 |
-| `NEW_PROJECT_BOOTSTRAP.md` | Meta | 1.4 | 2026-08-16 |
+| `STANDARDS_INDEX.md` | Meta | 1.5 | 2026-08-16 |
+| `NEW_PROJECT_BOOTSTRAP.md` | Meta | 1.5 | 2026-08-16 |
 | `HOW_TO_USE.md` | Meta | 1.0 | 2026-06-07 |
-| `SETUP.md` | Meta | 1.4 | 2026-08-16 |
+| `SETUP.md` | Meta | 1.5 | 2026-08-16 |
 | `STANDARDS_LOG.md` | Meta | 1.0 | 2026-06-13 |
-| `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` | Meta | 1.1 | 2026-06-20 |
+| `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` | Meta | 1.2 | 2026-08-16 |
 
 **Total file count:** 18 (11 binding + 7 meta).
-**Total lesson count in `LESSONS.md`:** 56 (L001–L056).
+**Total lesson count in `LESSONS.md`:** 67 (L001–L067).
 
 ---
 
@@ -121,7 +122,7 @@ project's directory and follow it. For the manual, step-by-step route, see `NEW_
 
 ### 4.1 What you get
 
-- Repo-root `CLAUDE.md` carrying the 13 standing rules + project-specific critical-files list
+- Repo-root `CLAUDE.md` carrying the 15 standing rules + project-specific critical-files list
 - `docs/standards/` containing the focused standards files
 - `archive/LESSONS.md` carrying the incident-to-rule archive
 - Project-local `docs/SESSION_OPENER.md` + `docs/SESSION_CLOSER.md`
@@ -166,6 +167,30 @@ coordinated multi-file pattern is a Set-Version Minor; a structural change is a 
 ## 6. Standard Set Version history
 
 Newest first. Append-only.
+
+### v1.5 — 2026-08-16 — Upstream-intake batch (L057–L067 + Rule 15 + Rule 14 project-data locality)
+
+Additive Minor. First upstream intake: an adopter lineage that evolved independently on its own Set
+line (2026-06 → 2026-08) folded back into the vault. Eleven genericized lessons: **L057** — identical
+code + different behavior ⇒ runtime cause, instrument first; **L058** — audit every caller before
+fixing a shared utility at one site; **L059** — verify evidence provenance before recording a result;
+**L060** — grep every name-form of a removed identifier across code AND docs; **L061** — a reused
+helper imports its implicit gates, enumerate them per new context; **L062** — plan-embedded code must
+satisfy the plan's own acceptance criteria across all sites, sanitize before pasting; **L063** —
+version stamps drift from their own change logs, grep the actual stamp; **L064** — validate on a
+version-matched runtime with real dependencies, fakes return real driver types; **L065** — reconstruct
+system state from its own event stream; **L066** — a liveness signal comes from the monitored layer's
+own traffic on the monitor's own clock; **L067** — ship-gating verification must exercise the NEW
+behavior itself. One NEW binding rule: **Rule 15** — post-implementation verification of the NEW
+behavior is mandatory (pairs with L067). One strengthened rule: **Rule 14** upgraded in place from
+memory-only durability to full **project-data locality** — physical home `.claude/project-data/`
+(memory + session transcripts), managed by `scripts/claude_project_data.sh`
+(`status`/`adopt`/`link`; replaces `bootstrap_memory.sh`), verified at session open
+(`SESSION_OPENER` § 1.5) AND close (`SESSION_CLOSER` § 1.6); L050 carries a generalization note.
+Session files gain three § 3.1 catalog rows (project-data locality / Rule 15 feature-ON / L063
+stamp-vs-log). The intake mapping (upstream ↔ vault numbering) is recorded permanently in the vault's
+PLAN-010 § 3 and its CHANGELOG. Adopters may stay on v1.4; to migrate, run the updated
+`MEMORY_DURABILITY_ROLLOUT_PROMPT.md` (its `adopt` verb absorbs the old memory-symlink layout).
 
 ### v1.4 — 2026-08-16 — Process-hardening batch (L052–L056 + L051 recurrence #4)
 

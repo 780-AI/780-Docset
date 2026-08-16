@@ -1,8 +1,9 @@
-<!-- VERSION: 1.4 -->
+<!-- VERSION: 1.5 -->
 <!-- Last Updated: 2026-08-16 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.5 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): retargeted every live v1.4 reference to v1.5 (per L053 — delivery docs are a parity set); Step 8 rewritten durable memory → project-data locality (claude_project_data.sh + link/adopt + docs/MACHINE_MIGRATION.md seed), mirroring SETUP Step 6.5; every bootstrap_memory reference swept — tree, Step 8 body, strip not-touched list, troubleshooting (per L060); counts 14 → 15 standing rules.
 v1.4 — 2026-08-16 — Retargeted every live v1.3 reference to v1.4 same-commit with the Standard Set Version v1.4 release (per L053 — delivery docs are a parity set; the parity update now rides the release itself). Walkthrough content otherwise unchanged.
 v1.3 — 2026-06-21 — Step-parity with SETUP.md v1.3: added the Step 4 seed for `docs/Plans/OPEN_TASKS.md`
 (the local-only register was gitignored but never created — a gap surfaced by the first real adoption).
@@ -27,8 +28,8 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 > each step does (or to bootstrap by hand).
 
 **Scope:** the dispositive step-by-step procedure for bootstrapping a new project from this standards
-suite at **Standard Set Version v1.4** — governance scaffold, customized contract, session routines,
-durable memory (Rule 14), the experiences log, governance scripts, CI, a first commit, then a strip of
+suite at **Standard Set Version v1.5** — governance scaffold, customized contract, session routines,
+project-data locality (Rule 14), the experiences log, governance scripts, CI, a first commit, then a strip of
 the delivery machinery.
 
 **Time required:** 30–60 minutes — mostly reading and customization; the copying takes 2 minutes.
@@ -55,7 +56,7 @@ the delivery machinery.
 6. [Step 5 — Add governance scripts](#6-step-5--add-governance-scripts)
 7. [Step 6 — Add CI scaffold](#7-step-6--add-ci-scaffold)
 8. [Step 7 — Add merge-request template](#8-step-7--add-merge-request-template)
-9. [Step 8 — Set up durable memory (Rule 14)](#9-step-8--set-up-durable-memory-rule-14)
+9. [Step 8 — Set up project-data locality (Rule 14)](#9-step-8--set-up-project-data-locality-rule-14)
 10. [Step 9 — Validate](#10-step-9--validate)
 11. [Step 10 — First commit (operative standard installed)](#11-step-10--first-commit-operative-standard-installed)
 12. [Step 10.5 — Strip the setup machinery](#12-step-105--strip-the-setup-machinery)
@@ -87,8 +88,9 @@ operative standard, commit it, then **delete the delivery machinery** in a secon
 │   ├── folder_structure.md
 │   ├── SESSION_OPENER.md          # project-local session-start pre-flight (binding, Rule 9)
 │   ├── SESSION_CLOSER.md          # project-local session wrap-up (binding, Rule 12)
-│   ├── SET_VERSION_ADOPTED.md     # records Standard Set Version v1.4
+│   ├── SET_VERSION_ADOPTED.md     # records Standard Set Version v1.5
 │   ├── STANDARDS_LOG.md           # the project's experiences log (contribution channel)
+│   ├── MACHINE_MIGRATION.md       # out-of-folder state catalog (Rule 14)
 │   ├── standards/                 # 6 topical files KEPT after the strip
 │   │   ├── PROJECT_STANDARDS.md
 │   │   ├── PROMPT_STANDARDS.md
@@ -102,7 +104,7 @@ operative standard, commit it, then **delete the delivery machinery** in a secon
 │   ├── check_test_coverage_drift.py
 │   ├── doc_coverage_allowlist.toml
 │   ├── validation_ownership.toml
-│   └── bootstrap_memory.sh        # idempotent Rule 14 symlink repair
+│   └── claude_project_data.sh     # Rule 14 project-data locality (status / adopt / link)
 └── archive/
     └── LESSONS.md                 # incident-to-rule archive (operative copy)
 ```
@@ -191,8 +193,8 @@ from the suite, including all 14 standing rules):
 - **§ 14 Codex handoff** — single-agent: replace with a short "NOT IN USE (single-agent project)" stub
   and set § 1 Multi-agent = no. Multi-agent: keep § 14 and name the second agent.
 - **Reset the header** to this project's own `VERSION 1.0` with a one-line "Project bootstrap" CHANGE
-  LOG; Source line = `docs/standards/ (this repo). Bootstrapped from Standard Set v1.4 on <today>.`
-  (The v1.4 template already carries **Rule 14** — keep it; Step 8 wires up the mechanism.)
+  LOG; Source line = `docs/standards/ (this repo). Bootstrapped from Standard Set v1.5 on <today>.`
+  (The v1.5 template already carries **Rules 14–15** — keep them; Step 8 wires up the Rule 14 mechanism.)
 
 Example § 1 fill (SaaS API):
 
@@ -270,7 +272,7 @@ cp docs/standards/STANDARDS_LOG.md docs/STANDARDS_LOG.md
 # then edit docs/STANDARDS_LOG.md to remove the example entry (leave the format reference).
 ```
 
-**`docs/SET_VERSION_ADOPTED.md`** — record the adopted version (Standard Set Version **v1.4**, adopted
+**`docs/SET_VERSION_ADOPTED.md`** — record the adopted version (Standard Set Version **v1.5**, adopted
 `<today>`); see Step 12 for the full content.
 
 **`README.md`**, **`docs/README.md`**, **`docs/documents_manifest.md`**, **`docs/folder_structure.md`**
@@ -393,23 +395,29 @@ matures. (CI semantics are validated by a real pipeline run, not local YAML pars
 
 ---
 
-## 9. Step 8 — Set up durable memory (Rule 14)
+## 9. Step 8 — Set up project-data locality (Rule 14)
 
-Make the project's Claude memory survive a machine change / folder move. The contract text is already
-present (the v1.4 template `CLAUDE.md` Rule 14 + `SESSION_OPENER.md` § 1.5 you laid down); this step
-wires up the mechanism, following `docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md`:
+Make the project's Claude data (memory + session transcripts) live INSIDE the project folder, so it
+survives a machine change / folder move. The contract text is already present (the v1.5 template
+`CLAUDE.md` Rule 14 + `SESSION_OPENER.md` § 1.5 you laid down); this step wires up the mechanism,
+following `docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md`:
 
 ```bash
-# 1. Create scripts/bootstrap_memory.sh per the rollout prompt: idempotent — derive the harness key from
-#    the repo's absolute path ('/'→'-', ' '→'-') and (re)create the symlink
-#    ~/.claude/projects/<key>/memory → <repo>/.claude/memory, preserving any pre-existing files.
-mkdir -p .claude/memory
-bash scripts/bootstrap_memory.sh        # paste its output
+# 1. Create scripts/claude_project_data.sh per the rollout prompt: verbs status / adopt / link —
+#    physical home <repo>/.claude/project-data/, symlink left at ~/.claude/projects/<path-key>/
+#    (<path-key> = the repo's absolute path with every non-alphanumeric character replaced by '-').
+bash scripts/claude_project_data.sh link   # fresh project: creates the home + symlink — paste its output
+# (a machine that already has harness data for this path: run `adopt` instead — one-time move-in;
+#  it also absorbs the pre-v1.5 memory-symlink layout)
 ```
 
-- `.claude/` is gitignored (Step 4), so the memory store rides the project's sync but is never
+- Seed `docs/MACHINE_MIGRATION.md` — the catalog of project state that cannot live in the folder
+  (Rule 14 names it): H1 + a one-line "everything project-local lives in the folder (Rule 14); list
+  here ONLY what cannot, with migration steps" note + an empty two-column table (What | How to
+  migrate). Register it in the manifest (per Rule 8).
+- `.claude/` is gitignored (Step 4), so the project-data store rides the project's sync but is never
   accidentally committed.
-- POSIX symlink — macOS/Linux. On Windows, adapt (directory junction) or keep memory synced by other
+- POSIX symlink — macOS/Linux. On Windows, adapt (directory junction) or keep the data synced by other
   means.
 
 ---
@@ -431,15 +439,15 @@ is operator-gated.
 
 ```bash
 cat > /tmp/bootstrap_commit_msg.txt <<'EOF'
-Bootstrap: governance scaffold (Standard Set Version v1.4)
+Bootstrap: governance scaffold (Standard Set Version v1.5)
 
-Installs the operative standard: CLAUDE.md (14 standing rules) at repo root +
+Installs the operative standard: CLAUDE.md (15 standing rules) at repo root +
 the focused standards under docs/standards/, the LESSONS archive, project-local
-SESSION_OPENER/CLOSER, the experiences log, durable memory (Rule 14), governance
+SESSION_OPENER/CLOSER, the experiences log, project-data locality (Rule 14), governance
 scripts, CI scaffold, MR template, and the document manifest — before any feature
 work. No runtime code in this commit.
 
-Bootstrapped from the standards suite at Standard Set Version v1.4 on <today>.
+Bootstrapped from the standards suite at Standard Set Version v1.5 on <today>.
 Independent versions from this point forward; backports are explicit.
 EOF
 
@@ -477,8 +485,8 @@ written; never blind-delete.
   `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` (used once in Step 8, then stripped)  (12 files)
 - **NOT touched** (operative/kept files already outside `docs/standards/`): `CLAUDE.md` (root),
   `archive/LESSONS.md`, `docs/SESSION_OPENER.md`, `docs/SESSION_CLOSER.md`, `docs/SET_VERSION_ADOPTED.md`,
-  `docs/STANDARDS_LOG.md`, `scripts/bootstrap_memory.sh`, `.claude/memory/`, governance scripts, CI,
-  manifest.
+  `docs/STANDARDS_LOG.md`, `docs/MACHINE_MIGRATION.md`, `scripts/claude_project_data.sh`,
+  `.claude/project-data/`, governance scripts, CI, manifest.
 
 In the **same strip commit**, update `docs/documents_manifest.md` + `docs/folder_structure.md` to drop
 the stripped files (Rule 8). Then code-review, `git add -A`, re-check `git status --short`, and
@@ -514,7 +522,7 @@ cat > docs/SET_VERSION_ADOPTED.md <<'EOF'
 
 This project adopts the standards suite at:
 
-- **Standard Set Version:** v1.4
+- **Standard Set Version:** v1.5
 - **Adopted on:** <today>
 - **Source:** <your canonical suite path>
 
@@ -525,12 +533,12 @@ Backports from the source set are explicit. When a newer Set Version is released
 
 | Set Version | Adopted on | Notes |
 |---|---|---|
-| v1.4 | <today> | Initial bootstrap |
+| v1.5 | <today> | Initial bootstrap |
 EOF
 ```
 
-The adopted state at v1.4: **14 standing rules** in `CLAUDE.md` § 3; the suite's lessons in
-`archive/LESSONS.md`; durable memory (Rule 14) wired up.
+The adopted state at v1.5: **15 standing rules** in `CLAUDE.md` § 3; the suite's lessons in
+`archive/LESSONS.md`; project-data locality (Rule 14) wired up.
 
 ---
 
@@ -564,9 +572,10 @@ governance.
 real-pipeline run may surface `needs:` / `stage:` / `rules:` defects. Fix-forward (new commit with a
 letter suffix) — never force-push (Rule 3).
 
-**Memory store empty after a machine change / folder move:** run `bash scripts/bootstrap_memory.sh` to
-re-home the symlink (Rule 14). If the content itself was lost, recover from the prior machine's
-`~/.claude/projects/<old-key>/memory/` (or a sync/backup of it).
+**Project-data store missing or empty after a machine change / folder move:** run
+`bash scripts/claude_project_data.sh link` to re-home the symlink (`status` diagnoses; `adopt`
+moves in un-adopted harness data — Rule 14). If the content itself was lost, recover from the
+prior machine's `~/.claude/projects/<old-key>/` (or a sync/backup of it).
 
 **Using a second agent (Codex / Devin):** keep `CLAUDE.md` § 14, name the agent + domain, and see
 `PROMPT_STANDARDS.md` for the second-agent multi-file-edit prompt variant. Single-agent projects delete
@@ -576,6 +585,6 @@ re-home the symlink (Rule 14). If the content itself was lost, recover from the 
 
 ## End of bootstrap
 
-After Step 12 you have a working governance scaffold on Standard Set Version v1.4. Start feature work in
-your next session — the 14 standing rules now bind every commit, every prompt, every push. The one-shot
+After Step 12 you have a working governance scaffold on Standard Set Version v1.5. Start feature work in
+your next session — the 15 standing rules now bind every commit, every prompt, every push. The one-shot
 equivalent of this walkthrough is `SETUP.md`; keep the two in step-parity if you change the procedure.

@@ -22,6 +22,17 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L067 — Ship-gating verification must exercise the NEW behavior itself](#l067--ship-gating-verification-must-exercise-the-new-behavior-itself)
+ - [L066 — A liveness signal must come from the monitored layer's own traffic, on the monitor's own clock](#l066--a-liveness-signal-must-come-from-the-monitored-layers-own-traffic-on-the-monitors-own-clock)
+ - [L065 — Reconstruct system state from its own event stream to check invariants the log doesn't print](#l065--reconstruct-system-state-from-its-own-event-stream-to-check-invariants-the-log-doesnt-print)
+ - [L064 — Validate on a version-matched runtime with real dependencies; fakes must return real driver types](#l064--validate-on-a-version-matched-runtime-with-real-dependencies-fakes-must-return-real-driver-types)
+ - [L063 — Version stamps drift from their own change logs; grep the actual stamp at edit and review time](#l063--version-stamps-drift-from-their-own-change-logs-grep-the-actual-stamp-at-edit-and-review-time)
+ - [L062 — Plan-embedded code must satisfy the plan's own acceptance criteria across all sites; sanitize before pasting](#l062--plan-embedded-code-must-satisfy-the-plans-own-acceptance-criteria-across-all-sites-sanitize-before-pasting)
+ - [L061 — A reused helper imports its implicit gates; enumerate them per new context](#l061--a-reused-helper-imports-its-implicit-gates-enumerate-them-per-new-context)
+ - [L060 — Grep every name-form of a removed identifier across code AND docs](#l060--grep-every-name-form-of-a-removed-identifier-across-code-and-docs)
+ - [L059 — Verify evidence provenance before recording a result](#l059--verify-evidence-provenance-before-recording-a-result)
+ - [L058 — Audit every caller before fixing a shared utility at one site](#l058--audit-every-caller-before-fixing-a-shared-utility-at-one-site)
+ - [L057 — Identical code + different behavior ⇒ runtime cause; instrument and gather runtime data first](#l057--identical-code--different-behavior--runtime-cause-instrument-and-gather-runtime-data-first)
  - [L056 — The Phase-3 implementer reconciles the plan against the live source before editing](#l056--the-phase-3-implementer-reconciles-the-plan-against-the-live-source-before-editing)
  - [L055 — Recorded push-state must be reconciled against the real remote and flipped in the same wrap-up as the push](#l055--recorded-push-state-must-be-reconciled-against-the-real-remote-and-flipped-in-the-same-wrap-up-as-the-push)
  - [L054 — The Phase-3 ALLOWLIST must enumerate the plan file and sibling tracker promotion rows](#l054--the-phase-3-allowlist-must-enumerate-the-plan-file-and-sibling-tracker-promotion-rows)
@@ -131,6 +142,382 @@ where it lives now (which standards file, which section).>
 ---
 
 ## 3. The lessons (newest first)
+
+### L067 — Ship-gating verification must exercise the NEW behavior itself
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** Upstream-suite intake, incidents 2026-06 → 2026-08 (Standard Set Version v1.5)
+
+#### Incident
+
+A feature shipped after its ship-gating QA passed — compile clean + defaults-byte-identical (the
+rollback guarantee). The scenarios that exercised the feature ON were classed opportunistic and never
+ran. Fifteen days later the operator switched the feature on and found it structurally broken in both
+of its modes; a single feature-ON run with log analysis at ship time — under an hour of work — would
+have caught it same-day.
+
+#### Diagnosis
+
+Rollback-guarantee QA proves only that the OFF path is safe; it says nothing about the feature. When
+feature-ON scenarios are deferrable, verification silently degrades to "whenever someone happens to
+try it" — an unbounded defect window.
+
+#### Codification
+
+Ship-gating verification must exercise the NEW behavior itself in its real runtime and analyze the
+produced evidence against the design intent (per L065); feature-ON QA is ship-gating by default and
+deferring it requires an explicit operator waiver recorded in the tracker. Enforced as binding
+Rule 15.
+
+#### Cross-references
+
+- `CLAUDE.md` § 3 Rule 15 (the binding rule)
+- L065 (the verification method)
+- L059 (evidence provenance)
+- L047 / Rule 11 (scenarios defined at change time — Rule 15 verifies at implementation time)
+
+---
+
+### L066 — A liveness signal must come from the monitored layer's own traffic, on the monitor's own clock
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** Upstream-suite intake, incidents 2026-06 → 2026-08 (Standard Set Version v1.5)
+
+#### Incident
+
+Two independent leaks of one invariant in a monitoring system's "is it alive?" signal: (1) the
+liveness timestamp was stamped from a payload field produced by a foreign clock, so a source with a
+shifted clock looked fresh for hours after going silent; (2) a *different* layer's traffic refreshed
+the timestamp (the host process was alive, so the monitored component could never go stale even when
+absent). Both were invisible in normal operation and surfaced only under a shifted clock and a
+deliberate detach test.
+
+#### Diagnosis
+
+A heartbeat means "the monitored thing itself was heard, on OUR clock." Foreign timestamps are data,
+not clocks; a parent layer's liveness is not the child's.
+
+#### Codification
+
+(a) Never stamp liveness from a timestamp whose clock you don't own; (b) each monitored layer keeps
+its own liveness field, refreshed only by that layer's own traffic; (c) enforce with tests that make
+the wrong call impossible (the wrong-path test raises).
+
+#### Cross-references
+
+- L040-class fail-safe treatment of external data (external input is untrusted)
+- L067 (deliberate-detach tests are feature-ON verification)
+
+---
+
+### L065 — Reconstruct system state from its own event stream to check invariants the log doesn't print
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** Upstream-suite intake, incidents 2026-06 → 2026-08 (Standard Set Version v1.5)
+
+#### Incident
+
+Repeatedly, a QA pass criterion referenced internal state the system's log does not print directly.
+The proven technique: parse the ordered event stream, maintain the state it implies (a book, a queue,
+a counter), snapshot at each decision event, and check the invariant against the system's own printed
+numbers — evidence-grade verdicts with exact figures, used across four separate verifications without
+adding any throwaway instrumentation to the production code.
+
+#### Diagnosis
+
+The alternatives are both bad — weaken the criterion to "looks right," or ship QA-only log lines
+into a critical file.
+
+#### Codification
+
+When a pass criterion cites state not printed in the log, reconstruct it from the event stream rather
+than weakening the criterion or instrumenting production code: parse events in order, maintain the
+implied state, snapshot at decision points, compare against the system's own output. Verify evidence
+provenance first (L059).
+
+#### Cross-references
+
+- L059 (provenance before trusting the file)
+- L067 / Rule 15 (this is the standard verification method for feature-ON evidence)
+
+---
+
+### L064 — Validate on a version-matched runtime with real dependencies; fakes must return real driver types
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** Upstream-suite intake, incidents 2026-06 → 2026-08 (Standard Set Version v1.5)
+
+#### Incident
+
+A subsystem targeting one interpreter version was checked with syntax-level tools that pass on any
+version; standing up a real environment on the TARGET version with the real dependency set and
+running the actual test suite plus a live entry-point exercise caught three real bugs the syntax
+checks had waved through. A related incident one level deeper: a serve path broke in production
+because the test fake returned a convenience type where the real driver returns a typed value — the
+suite passed, the deployment black-paged.
+
+#### Diagnosis
+
+Syntax checks and lint are pre-checks, not validation; a test suite is only as real as its
+environment and its fakes.
+
+#### Codification
+
+Before shipping subsystem code, create or reuse an environment on the target runtime version, install
+the real dependency set, run the full suite there, and exercise the real entry points. Test fakes on
+serve paths must return the real driver types, not convenience shapes.
+
+#### Cross-references
+
+- staging-parity lessons (same principle at environment level)
+- L057 (runtime-first diagnosis — the sibling discipline)
+
+---
+
+### L063 — Version stamps drift from their own change logs; grep the actual stamp at edit and review time
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** Upstream-suite intake, incidents 2026-06 → 2026-08 (Standard Set Version v1.5)
+
+#### Incident
+
+A recurring class — an artifact carries a machine-readable version stamp AND a human change log, and
+the stamp silently stops moving while the log advances. Multiple occurrences in one week in the
+upstream project (a package version field, the same field again at the next bump, a manifest header,
+a derived count table); the vault's own history carries four more (two stale manifest cells, a stale
+self-row, and — found during this plan's audit — the contract's § 3 heading still reading "13
+standing rules" two rule-additions later).
+
+#### Diagnosis
+
+Each instance is silent — nothing breaks at commit time; a later reader trusts the stamp. The class
+recurs because editing the change log *feels* like bumping the version.
+
+#### Codification
+
+A "version bumped" claim is verified against the actual stamp, not the log entry: at edit time AND at
+the Rule 10 review, grep the stamp field itself (`<!-- VERSION:`, `version =`, `# VERSION:`, count
+headings, count-table totals) and confirm it equals the new value. Derived stamps are recomputed from
+source, never incremented. Plans that touch counts pre-compute the arithmetic and the implementer
+grep-verifies every stamp site.
+
+#### Cross-references
+
+- L044 (forcing-function cadence = failure cadence — this one fires per stamp-touching edit)
+- Rule 10 (the review is the second gate)
+
+---
+
+### L062 — Plan-embedded code must satisfy the plan's own acceptance criteria across all sites; sanitize before pasting
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** Upstream-suite intake, incidents 2026-06 → 2026-08 (Standard Set Version v1.5)
+
+#### Incident
+
+Two gates, two failure shapes. At the senior pass: a plan's transformation rules removed an
+identifier while the plan's own acceptance criteria demanded `grep == 0` for it — and the rules
+missed an entire class of sites (in-source help text), making the plan self-contradictory; caught by
+checking the rules against the plan's own § 8/§ 12. At implement time: embedded blocks carried
+target-language footguns that read fine on the page (an escape sequence invalid in the target's
+string literals, a comment placement with runtime meaning, delimiter-unbalancing punctuation in a
+comment) — caught only because the implementer sanitized rather than pasting verbatim.
+
+#### Diagnosis
+
+Plan-embedded code is a hypothesis written against a snapshot, in an editor that doesn't speak the
+target language.
+
+#### Codification
+
+Harden at BOTH gates. (1) The Rule 13 pass verifies the § 5 rules achieve the plan's OWN acceptance
+criteria across ALL site classes — including help text, docs, and user-visible strings, not just
+code. (2) The Phase-3 implementer sanitizes every embedded block against the target language's
+conventions before pasting — never paste verbatim. Extends L060 to the plan-drafting layer.
+
+#### Cross-references
+
+- L049 (the senior pass)
+- L051 (run the tools)
+- L056 (reconcile against live source)
+- L060 (every name-form)
+- Rule 7 (verbatim blocks are the input, not the excuse)
+
+---
+
+### L061 — A reused helper imports its implicit gates; enumerate them per new context
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** Upstream-suite intake, incidents 2026-06 → 2026-08 (Standard Set Version v1.5)
+
+#### Incident
+
+A new feature reused an existing selection helper verbatim. The helper carried an implicit
+minimum-threshold gate that was correct in its original context and wrong in the new one — below the
+threshold it silently selected nothing, the new feature never acted, and a safety net fired instead.
+The plan said "reuses X"; the senior pass confirmed the *logic* matched; neither enumerated the
+helper's implicit preconditions against the new context. A full follow-up plan was needed to fix it.
+
+#### Diagnosis
+
+Reuse imports thresholds, clamps, mode semantics, and ordering assumptions along with the logic.
+"Reuses X verbatim" is not a safe shorthand; the defect class is invisible to a logic-level read.
+
+#### Codification
+
+When a plan reuses an existing helper in a NEW feature context, the Rule 13 pass must enumerate the
+helper's implicit gates — minimums, clamps, mode semantics, selection/ordering assumptions — and
+check each against the new context's intent, not merely confirm the logic reads correctly.
+
+#### Cross-references
+
+- L049 (the pass where the enumeration belongs)
+- L058 (enumerate the blast radius from ground truth, not from a hand-listed subset)
+
+---
+
+### L060 — Grep every name-form of a removed identifier across code AND docs
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** Upstream-suite intake, incidents 2026-06 → 2026-08 (Standard Set Version v1.5)
+
+#### Incident
+
+A feature removal's plan enumerated the code sites and the docs to update; both lists were treated as
+complete. An exhaustive grep across every name-form found the removed feature's hyphenated and
+lowercase forms, helper names, and a user-visible string scattered across four additional docs and
+one live code branch the lists never mentioned — caught only by sweeping both code and docs with
+every form, plus a final verification grep before staging.
+
+#### Diagnosis
+
+A plan's enumerated touch-point lists are a starting inventory, not a complete one; name-forms
+multiply (snake_case, kebab-case, lowercase prose, function names, display strings, markdown anchor
+slugs) and each form hides in a different file class.
+
+#### Codification
+
+Before any removal or rename commit, run an exhaustive, case-insensitive grep across BOTH code and
+all docs using EVERY name-form of the affected identifier — including anchor slugs and user-visible
+strings — and a final verification grep immediately before staging. The same sweep discipline applies
+to domain-neutralization scrubs (a zero-hit grep gate over all forms is the pass criterion).
+
+#### Cross-references
+
+- L058 (audit-all-callers — sibling enumerate-from-source discipline)
+- L038 (the ALLOWLIST count IS the expectation)
+- L062 (the plan-layer extension)
+
+---
+
+### L059 — Verify evidence provenance before recording a result
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** Upstream-suite intake, incidents 2026-06 → 2026-08 (Standard Set Version v1.5)
+
+#### Incident
+
+Two instances of one trap. Evidence logs supplied for a QA verdict turned out to be from the
+predecessor host, not the live one (sizes and line counts didn't match). Later, a single day's log
+contained TWO versions of the system — the old version until mid-day, the new one after — and a
+naïve whole-file tally would have credited the old version's lines to the new. The fix: locate the
+initialization marker, slice the file to the confirmed portion, verify only that.
+
+#### Diagnosis
+
+A filename or date is not provenance — one file can mix versions (mid-run restart) or come from a
+different host entirely. A result recorded against evidence the target never produced is a
+false-confidence record that is very hard to detect later.
+
+#### Codification
+
+Before recording any QA/audit result from an evidence file, verify which host and which version
+actually produced the lines you are about to trust — instance identifiers, init timestamps,
+size/content consistency with the expected source — then slice to the confirmed portion and verify
+only that.
+
+#### Cross-references
+
+- L032 (investigate the underlying data — parent discipline)
+- L065 (the replay method this feeds)
+- L067 / Rule 15 (verification evidence)
+
+---
+
+### L058 — Audit every caller before fixing a shared utility at one site
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** Upstream-suite intake, incidents 2026-06 → 2026-08 (Standard Set Version v1.5)
+
+#### Incident
+
+A bug was reported at one call site of a shared time-reading idiom. Instead of a one-site patch, a
+full audit of the idiom across the codebase found nine sites sharing the same failure mode — license
+expiry, session gates, history bounds, a display — all reading a value that stalls when the
+environment goes quiet. Fixing only the reported site would have left eight latent defects to surface
+one at a time, each re-diagnosed from scratch. All nine were converted in one reviewed commit; QA
+confirmed no regression.
+
+#### Diagnosis
+
+A shared utility's defect is a class, not an instance. The reported site is merely the one that
+happened to be observed.
+
+#### Codification
+
+Before fixing a bug in a shared utility or a repeated idiom, grep every caller and every occurrence
+and categorize each — same defect, or load-bearing as written? Fix the whole class in one reviewed
+pass rather than the reported site.
+
+#### Cross-references
+
+- L039 (grep all reads before splitting global state — the vault's sibling)
+- L060 (every name-form — the removal-side sibling)
+
+---
+
+### L057 — Identical code + different behavior ⇒ runtime cause; instrument and gather runtime data first
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** Upstream-suite intake, incidents 2026-06 → 2026-08 (Standard Set Version v1.5)
+
+#### Incident
+
+A behavior regression was believed to have appeared "after" a recent change. The audit compared the
+implicated code path between the two versions and found it byte-identical — static analysis could
+not explain a behavior change because there was no code change. The cause was a runtime condition (a
+time source that stops advancing when input stops arriving), invisible to any diff. The fix came from
+adding state-transition logging and gathering live evidence across the failure boundary, then
+changing the time source — confirmed from live logs.
+
+#### Diagnosis
+
+Identical code with different behavior means the cause is environmental or runtime — clocks, external
+state, data feeds, timing — a place a diff structurally cannot see. More static re-reading spends
+time proving nothing.
+
+#### Codification
+
+When a behavior change cannot be explained by a code diff, stop static analysis: add instrumentation,
+capture runtime evidence across the failure boundary, and only then change code.
+
+#### Cross-references
+
+- L032 (investigate the underlying data — this is its runtime-shaped case)
+- L064 (validate on the real runtime — the prevention-side sibling)
+
+---
 
 ### L056 — The Phase-3 implementer reconciles the plan against the live source before editing
 
@@ -310,6 +697,17 @@ Durable knowledge was kept in a location that was neither version-controlled nor
 #### Codification
 
 Rule 14: the memory store lives inside the repo at `./.claude/memory/` (rides the same sync as the repo; stable under rename), with the harness dir symlinked to it; `scripts/bootstrap_memory.sh` re-establishes the symlink per machine / after a move; `SESSION_OPENER.md` § 1.5 verifies + self-heals + halts-on-empty as the forcing function. In this incident the content was recovered losslessly from a Dropbox-synced backup of the prior machine's `~/.claude` (the only lossless source); absent that, reconstruction from `OPEN_TASKS.md` is the fallback.
+
+#### Generalization — all project data, not just memory (Set v1.5)
+
+An upstream project independently re-discovered this failure class at larger scope: its entire
+per-project store — memory AND all session transcripts — lived only under the harness's
+machine-local, absolute-path-keyed directory, invisible to every folder-level backup. The rule is
+therefore generalized from "the memory store" to **all machine-local project data** (Rule 14 as of
+Set v1.5): physical home `<repo>/.claude/project-data/`, symlink at the harness path, managed by
+`scripts/claude_project_data.sh` (`status`/`adopt`/`link`), verified at session open AND close.
+Anything that genuinely cannot live in the folder is cataloged in the project's machine-migration
+doc, same-commit.
 
 #### Cross-references
 

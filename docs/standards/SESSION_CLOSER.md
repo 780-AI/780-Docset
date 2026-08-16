@@ -1,8 +1,9 @@
-<!-- VERSION: 1.2 -->
+<!-- VERSION: 1.3 -->
 <!-- Last Updated: 2026-08-16 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.3 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): § 1.6 retitled "/tmp cleanup + locality confirm" — adds the Rule 14 close-side confirm (claude_project_data.sh status → STATUS: OK; new out-of-folder state moved in or cataloged same-commit).
 v1.2 — 2026-08-16 — Standard Set Version v1.4: § 1.4 push-state flip step + § 2.1 row 5 (L055).
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-customizable block (§ 2.2 project-specific wrap-up failure-mode table) in PROJECT-OWNED markers so a future sync preserves it. Standard Set Version v1.1.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
@@ -73,7 +74,7 @@ List new/modified memory files in the project's `~/.claude/projects/<sanitized-c
 - Updated existing memory files (description/body changes)
 - `MEMORY.md` index hook line additions/changes
 
-### 1.6 `/tmp/` cleanup
+### 1.6 `/tmp/` cleanup + locality confirm
 
 Remove session-artifacts:
 - `/tmp/commit_msg.txt` (Rule 4 commit-message files)
@@ -83,6 +84,10 @@ Remove session-artifacts:
 ```bash
 rm -f /tmp/commit_msg.txt /tmp/recent_transcripts.txt
 ```
+
+**Locality confirm (Rule 14):** `bash scripts/claude_project_data.sh status` → expect `STATUS: OK`.
+If any new project state landed outside the folder this session, move it in (same symlink pattern)
+or catalog it in the machine-migration doc — same-commit.
 
 ### 1.7 Lessons-learned scan (the detail-capture step)
 

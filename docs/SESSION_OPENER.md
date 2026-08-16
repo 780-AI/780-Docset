@@ -1,8 +1,9 @@
-<!-- VERSION: 1.5 -->
+<!-- VERSION: 1.6 -->
 <!-- Last Updated: 2026-08-16 -->
 <!-- Source: docs/standards/SESSION_OPENER.md (template) v1.4. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.6 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): § 1.5 rewritten memory-link → project-data locality (claude_project_data.sh status; fix verbs link/adopt); § 1.3 read-the-register-WHOLE note; § 4 output line Memory link → Project data; § 3.1 row 13 upgraded (all project data) + new rows 15 (Rule 15 feature-ON verification) + 16 (L063 stamp-vs-log).
 v1.5 — 2026-08-16 — Standard Set Version v1.4: § 1.1 push-state reconcile-vs-real-remote note (L055); § 3.1 row 14 sharpened with the L051 recurrence-#4 final-indentation clause.
 v1.4 — 2026-06-20 — Added § 3.1 universal row 14 (Rule 13 senior-review pass recorded as run but not actually executed against the § 5 code). Standard Set Version v1.3 (lesson L051).
 v1.3 — 2026-06-17 — PLAN-005: added § 1.5 memory-link health check (verify + self-heal + halt-on-empty, per Rule 14), the § 4 "Memory link" output line, and § 3.1 row 13. Standard Set Version v1.2.
@@ -52,21 +53,28 @@ Read the top of the most relevant tracker for the stated task. **Sources in prio
 - **In-file § 4 phase block** of the active small plan.
 - **Latest CHANGELOG entry** — `head -30 CHANGELOG.md`.
 
+Read the register WHOLE — top to bottom, every time; never a partial slice. Approved or live
+items can sit low in the file.
+
 ### 1.4 Memory recall
 
 Surface 3–5 memories most relevant to the stated task (per `MEMORY_PROTOCOL.md` § 5 verify-before-recommending). Cite each as `[[memory-slug]]`. Recall from the project failure-mode catalog (§ 3 below).
 
-### 1.5 Memory-link health (durability check — per `CLAUDE.md` Rule 14)
+### 1.5 Project-data locality (durability check — per `CLAUDE.md` Rule 14)
 
-Confirm the in-repo memory store is live BEFORE relying on recall (§ 1.4):
+Confirm the in-repo project-data store is live BEFORE relying on recall (§ 1.4):
 
 ```bash
-bash scripts/bootstrap_memory.sh                 # idempotent: (re)creates ~/.claude → ./.claude/memory symlink
-ls -1 .claude/memory/*.md 2>/dev/null | wc -l    # count stored memories (expect > 0 once memory exists)
+bash scripts/claude_project_data.sh status
+ls -1 .claude/project-data/memory/*.md 2>/dev/null | wc -l
 ```
 
-- If bootstrap reports it **re-created** a stale/missing link → note it in the § 4 block (expected on a new machine or after a folder move).
-- If the store is **empty when prior sessions are known to have written memory** → **STOP** and warn the operator in the § 4 block. Memory may have been lost (see Rule 14 + `archive/LESSONS.md` L050); do not proceed as if there is genuinely no history.
+- `STATUS: OK` → proceed. Any other status names its fix verb — run it (`link` after a
+  move/new machine; `adopt` on a machine with un-adopted harness data) and note the repair in
+  the § 4 block.
+- Store **unexpectedly empty** when prior sessions are known to have written memory → **STOP**
+  and warn the operator in the § 4 block (Rule 14 + `archive/LESSONS.md` L050); do not proceed
+  as if there is genuinely no history.
 
 ---
 
@@ -111,8 +119,10 @@ Each row links to the memory/lesson that codifies it. Recall the linked memory w
 | 10 | Behavior-affecting change without a paired QA scenario | every behavior-affecting commit | `CLAUDE.md` **Rule 11 (binding)** + `LESSONS.md` L047 |
 | 11 | Starting a § 15 plan without granular sub-task tracking | any new `docs/Plans/PLAN-NNN_*.md` | `LESSONS.md` L045 + `CLAUDE.md` § 15.7 |
 | 12 | Local-only OPEN_TASKS.md register stale | every session start | `LESSONS.md` L046 + `CLAUDE.md` § 15.7 |
-| 13 | Project memory lost on machine change / folder move | session start; any repo move or new machine | `CLAUDE.md` Rule 14 + `LESSONS.md` L050 |
+| 13 | Project data written or left outside the project folder — locality symlink absent/broken after a machine change or folder move, silently orphaning memory + transcripts | § 1.5 probe on every session-open; any tool creating project state outside the repo | `CLAUDE.md` Rule 14 + `LESSONS.md` L050 (+ v1.5 generalization) |
 | 14 | Rule 13 senior-review pass not actually executed against the § 5 code — or run on an unindented draft snippet instead of the final indentation it ships at (`ruff` / `mypy --strict` / tests) | finalizing any § 15 plan (the Rule 13 pass) | `CLAUDE.md` Rule 13 + `LESSONS.md` L051 (recurrence #4) |
+| 15 | Implementation closed on rollback-guarantee QA alone — the NEW behavior never exercised; broken feature ships with an unbounded defect window | every behavior-affecting implementation, at completion | `CLAUDE.md` **Rule 15 (binding)** + `LESSONS.md` L067 |
+| 16 | Version stamp edited in the change log but not in the stamp field itself (headers, § 3 heading counts, manifest cells, count tables) | every stamp-touching edit + the Rule 10 review | `LESSONS.md` L063 |
 | — | Remote/host rows (staging↔prod, SSH, cloud web-console) from the template | N/A — this project has no remote infra | `LESSONS.md` L035, L043 (retained for reference) |
 
 ### 3.2 Project-specific patterns
@@ -141,7 +151,7 @@ Each row links to the memory/lesson that codifies it. Recall the linked memory w
 - Engine version: <version or "engine not yet implemented">
 - Adopted Standards Set Version: <vX.Y>
 - Registered target suites: <list or "none registered yet">
-- Memory link: <healthy: N files | repaired (new machine / post-move) | EMPTY — operator warned>
+- Project data: <OK: N memory files | repaired (link/adopt run) | EMPTY — operator warned>
 
 **Tracker tip**
 <2-3 line summary of current phase / open task, or "no active tracker">

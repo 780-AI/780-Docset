@@ -1,8 +1,14 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-08-16 -->
-<!-- Status: APPROVED -->
+<!-- Status: CLOSED -->
 <!--
 CHANGE LOG
+v1.0 — 2026-08-16 — Phase 3 implemented (fresh session, single commit): 21-file § 7 ALLOWLIST landed;
+reconcile-first pass (§ 15.3 / L056) found no plan defects; § 5 blocks sanitized per L062 (straight
+quotes; lesson prose mapped onto the live #### Incident/Diagnosis/Codification/Cross-references
+format; archive L050 tail anchored on its project-instance wording). One-time `adopt` migration run as
+the final implementation step (memory + transcripts → .claude/project-data/). QA A–H + J passed; QA-I
+verifies at the next session open. § 11 R1 CLOSED. Plan CLOSED; Standard Set Version v1.5 released.
 v0.1b — 2026-08-16 — Phase 2: **APPROVE D10.A** (operator, 2026-08-16). Status → APPROVED; Phase 3 to run in a fresh session per § 15.3. Capital-Signal pilot decision recorded operator-side (PLAN-009 Phase-4 verification target — see OPEN_TASKS).
 v0.1a — 2026-08-16 — Rule 13 senior-review pass (last task of Phase 1; per L051 + recurrence #4 the
 tools were ACTUALLY RUN). Mechanical results: (1) § 5E script extracted from this file verbatim →
@@ -90,9 +96,11 @@ carry the content; topical folds can ride a later Set bump if wanted.
   incl. the native § 3-heading "13 standing rules" drift find in BOTH CLAUDE.md copies)
 - Phase 1 — Design ✅ 2026-08-16 (this file; Rule 13 pass run + recorded v0.1a)
 - Phase 2 — Operator approval ✅ 2026-08-16 — **APPROVE D10.A**
-- Phase 3 — Implement ⏸ (fresh session; single commit per § 7 ALLOWLIST + the one-time `adopt`
-  migration run, sequenced per § 5F)
-- Phase 4 — Validate ⏸ (§ 8 QA A–J)
+- Phase 3 — Implement ✅ 2026-08-16 (fresh session; single commit per § 7 ALLOWLIST — 21 files + the
+  one-time `adopt` migration run as the final implementation step; reconcile-first pass found no plan
+  defects)
+- Phase 4 — Validate ✅ 2026-08-16 (§ 8 QA A–H + J passed in the Phase-3 session; QA-I ⏸ at the next
+  session open)
 - Phase 5 — Operator gate ⏸ (push + tag `set-v1.5`)
 
 ## 5. Transformation rules (verbatim)
@@ -682,7 +690,7 @@ history). No EverOn-side state to roll back (read-only).
 
 | # | Risk | Mitigation | Status |
 |---|---|---|---|
-| R1 | `adopt` moves the live session's own transcript mid-session | run `adopt` as the LAST Phase-3 step; harness recreates its handle on next write; stray dir merged by `link` (script handles it); QA-I verifies at next open | mitigated |
+| R1 | `adopt` moves the live session's own transcript mid-session | run `adopt` as the LAST Phase-3 step; harness recreates its handle on next write; stray dir merged by `link` (script handles it); QA-I verifies at next open | CLOSED 2026-08-16 — adopt ran as the final Phase-3 step, QA-C OK; QA-I re-confirms at next open |
 | R2 | Future vault↔upstream numbering divergence | § 3 mapping table is the permanent record (plan + CHANGELOG); PLAN-011 convergence ends the second line | documented |
 | R3 | Domain terms slip genericization | QA-D exhaustive case-insensitive multi-form grep (per new L060) at final text | mitigated |
 | R4 | Count/stamp cells drift during the big cascade | QA-E recomputes every stamp from source (per new L063); pre-computed here: rules 14→15, lessons 56→67 | mitigated |

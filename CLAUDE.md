@@ -1,8 +1,9 @@
-<!-- VERSION: 1.6 -->
+<!-- VERSION: 1.7 -->
 <!-- Last Updated: 2026-08-16 -->
 <!-- Source: docs/standards/ (this repo). Bootstrapped from Standard Set v1.0 on 2026-06-07. Independent versions from this point forward. -->
 <!--
 CHANGE LOG
+v1.7 — 2026-08-16 — Standard Set Version v1.5 adoption (PLAN-010 upstream intake): Rule 14 upgraded in place to full project-data locality (memory + session transcripts at .claude/project-data/, managed by scripts/claude_project_data.sh, verified at session open AND close); NEW Rule 15 (post-implementation verification of the NEW behavior is mandatory); § 3 heading + § 13 bullet corrected 13 → 15 standing rules (stale two rule-additions — the L063 class, found in this plan's audit); § 8.4 Rule 15 checklist row added.
 v1.6 — 2026-08-16 — Standard Set Version v1.4 adoption: § 15.2 Phase-1 deliverable now requires the § 7 ALLOWLIST to include the plan + sibling-tracker promotion rows (L054); § 15.3 adds the Phase-3 reconcile-first duty (L056). No rule added or removed.
 v1.5 — 2026-06-23 — PLAN-007 (remote-target transport): § 1 deployment shape retired "operates on local repository checkouts / no remote infrastructure" → "local OR remote (git/ssh) checkouts via a pluggable transport; still no server/deploy infra of its own." Project-specific (root copy only; template § 1 placeholder untouched) — no Set Version bump (engine-only change, no docs/standards/ edit).
 v1.4 — 2026-06-20 — § 4 Critical files: dropped the stale "(created when the engine lands)" note on src/standard_document_updater/ (package now exists); promoted config/projects.toml (the target-suite registry) to a Critical File and updated the "Future critical files" list accordingly. Project-specific (root copy only; template § 4 generic, untouched) — no Set Version bump.
@@ -40,7 +41,7 @@ If a rule below conflicts with a request, **refuse or propose a compliant altern
 
 ---
 
-## 3. The 13 standing rules (binding always)
+## 3. The 15 standing rules (binding always)
 
 These rules apply to every interaction, regardless of task. They are numbered for stable reference (e.g., "per Rule 4"). Numbering never changes — only append.
 
@@ -232,19 +233,75 @@ The canonical review prompt the agent runs verbatim is stored in § 15.8.
 
 See `archive/LESSONS.md` L049 for the incident that motivated this rule.
 
-### Rule 14 — Project memory must be durable across machines and folder moves
+### Rule 14 — Project data lives in the project folder (durable across machines and moves)
 
-The Claude memory store MUST live **inside the repository** at `./.claude/memory/` — the single physical copy — with the harness's per-project memory directory (`~/.claude/projects/<sanitized-abs-path>/memory/`) pointed at it via a **symlink**. Because the repository folder is the unit that is version-controlled and/or cloud-synced (Dropbox here), keeping the real memory files inside it means memory travels with the project: it survives a **machine change** (the synced repo carries the content) and a **folder rename/move** (the repo-relative path is stable).
+All machine-local project data MUST physically live **inside the repository**, so that syncing or
+copying the folder moves the project completely — nothing project-related may exist ONLY outside it.
+The Claude Code per-project store (persistent memory + session transcripts) is the canonical case: the
+harness keeps it at `~/.claude/projects/<path-key>/`, keyed to the folder's **absolute path** — a
+folder move or rename orphans it silently; a machine change loses it. Its physical home is
+**`<repo>/.claude/project-data/`**, with a symlink left at the harness path, managed by
+`scripts/claude_project_data.sh`:
 
-The harness memory path is machine-local and keyed by the folder's absolute path — so it is the one thing that breaks on a move or a new machine. Repair is mechanical and idempotent: `scripts/bootstrap_memory.sh` re-derives the key from the current repo path and (re)creates the symlink. Run it once per machine and after any folder move.
+```bash
+bash scripts/claude_project_data.sh status   # health check (symlink + store)
+bash scripts/claude_project_data.sh adopt    # one-time move-in of existing harness data
+bash scripts/claude_project_data.sh link     # new machine, or after any folder move/rename
+```
 
-This rule is enforced by a forcing function: `SESSION_OPENER.md` § 1.5 verifies the link resolves and the store is non-empty at every session start, **auto-repairs** a stale/missing link, and **HALTS with a warning** if the store is unexpectedly empty (the signal that memory was lost).
+- **`.claude/` stays gitignored** — memory may carry local-only sensitive values; the data travels
+  with folder sync/copies (Dropbox here), never the git remote.
+- **Session-open forcing function:** `SESSION_OPENER.md` § 1.5 runs `status` on every pre-flight,
+  self-heals via the verb `status` names (`link`/`adopt`), and **HALTS with a warning** if the store
+  is unexpectedly empty (the signal that data was lost).
+- **Session-close confirm:** `SESSION_CLOSER.md` § 1.6 re-confirms locality and that no new project
+  state landed outside the folder during the session.
+- **New out-of-folder state is forbidden by default.** Anything that genuinely cannot live in the
+  folder is cataloged with migration steps in `docs/NEW_MACHINE_SETUP.md` (this project's
+  machine-migration doc), same-commit.
 
-**Only permitted abbreviation:** none — the pre-flight check is cheap and silent when healthy.
+**Only permitted abbreviation:** none — the probe is one command.
 
-**Drift on this rule is a Major defect** — a session that proceeds past an *unexpectedly* empty memory store (one where prior sessions are known to have written memory) without surfacing it to the operator is a rule violation. A genuinely new project with no memory yet is not a violation.
+**Drift on this rule is a Major defect** — a session that proceeds past an *unexpectedly* empty
+store without surfacing it, or that leaves new project state outside the folder uncataloged, is a
+rule violation. A genuinely new project with no data yet is not a violation.
 
-See `archive/LESSONS.md` L050 for the incident that motivated this rule.
+See `archive/LESSONS.md` L050 (+ its Set v1.5 generalization note) and PLAN-010 § 3 (the upstream
+L061 mapping).
+
+### Rule 15 — Post-implementation verification of the NEW behavior is MANDATORY
+
+After every implementation of a behavior-affecting change (every § 15 plan Phase 3, and any Minor
+change that alters runtime behavior), a post-implementation verification investigation MUST confirm
+the implemented change actually behaves as designed — before the plan closes and before the change
+is treated as usable:
+
+1. **The NEW behavior itself is exercised** in its real runtime, and the evidence it produces
+   (logs, outputs, event streams) is analyzed against the design intent — reconstructing state from
+   the event stream when the log doesn't print it directly (L065). Compile/type-clean and
+   "defaults unchanged" prove only the rollback guarantee; they say nothing about the feature.
+2. **The agent drives the verification loop:** defines the exact runs needed, requests any
+   operator-driven halves, and analyzes the returned evidence to an explicit evidence-based verdict
+   ("the output shows X, matching/contradicting the design") — not a checkbox flip.
+3. **Feature-ON QA cannot be silently deferred.** A scenario that exercises the new behavior ON is
+   ship-gating by default; classifying it opportunistic/deferred requires an explicit operator
+   waiver recorded in the plan's tracker.
+4. **Expected ≠ observed = defect.** Fix-forward per Rule 3; evidence recorded with provenance
+   verified (L059).
+
+**Why this rule exists:** a change shipped after rollback-guarantee QA alone sat structurally
+broken for fifteen days until the operator happened to exercise it — a single feature-ON run with
+evidence analysis at ship time would have caught it same-day (L067). Rule 11 forces scenarios to be
+DEFINED at change time; Rule 13 hardens the plan BEFORE code; Rule 15 forces the behavior to be
+VERIFIED at implementation-completion — the same granularity as the failure.
+
+**Only permitted abbreviation:** operator explicitly waives verification for a specific change —
+per-change only, recorded in the tracker.
+
+**Drift on this rule is a Major defect** — a plan closing (or a behavior-affecting Minor recorded
+done) without the feature-ON verification evidence, or an explicit waiver, in its tracker.
+
+See `archive/LESSONS.md` L067 for the incident that motivated this rule.
 
 ---
 
@@ -408,6 +465,8 @@ Walk this list before every push.
 - [ ] If behavior affects outputs, validators run for the affected scope
 - [ ] Test results stated honestly — never claim tests passed if they didn't run
 - [ ] For new alerting/check code: deliberate-failure test was run and confirmed the failure path works
+- [ ] Post-implementation verification ran for the NEW behavior itself (Rule 15): feature-ON
+  evidence analyzed to an explicit verdict, or an operator waiver recorded in the tracker
 
 ### 5. Code review (separate from governance)
 
@@ -593,7 +652,7 @@ When a pushed commit fails CI:
 
 - **Version header format & bump rules:** this file, § 7
 - **Minor vs Major workflow:** this file, §§ 5-6
-- **The 13 standing rules:** this file, § 3
+- **The 15 standing rules:** this file, § 3
 - **Critical files list:** this file, § 4
 - **Document version index:** `docs/documents_manifest.md`
 - **Cross-cutting project history:** `CHANGELOG.md` (root)
