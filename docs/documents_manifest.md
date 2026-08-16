@@ -1,7 +1,11 @@
-<!-- VERSION: 2.15 -->
+<!-- VERSION: 2.16 -->
 <!-- Last Updated: 2026-08-16 -->
 <!--
 CHANGE LOG
+v2.16 — 2026-08-16 — Registered PLAN-008 (Slice 5: sync, Set v1.6; APPROVED D8.A same session) + its sibling tracker as
+entries 70–71 (v0.1; appended, not inserted); quick-index Plans range → 31–39, 59–60, 63–64, 68–71;
+self-row 2.15 → 2.16 (grep-verified against the header per L063). Design session only; the Phase-3
+implement commit lands the 25-file § 7 ALLOWLIST.
 v2.15 — 2026-08-16 — PLAN-010 (Standard Set Version v1.5) implemented: entry 56 swapped
 bootstrap_memory.sh → claude_project_data.sh (0.1; Rule 8 delete + register, slot reused to avoid a
 renumber); bumped touched cells (1 root CLAUDE.md → 1.7, 6 folder_structure → 0.12, 8 SESSION_OPENER
@@ -120,7 +124,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Canonical standards suite (Set v1.5) | 11–27, 57 |
 | Governance scripts | 28–29, 56 |
 | Archive | 30 |
-| Plans | 31–39, 59–60, 63–64, 68–69 |
+| Plans | 31–39, 59–60, 63–64, 68–71 |
 | Engine (src + tests) | 40–55, 61–62, 65–66 |
 
 ## Manifest table
@@ -131,7 +135,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.15 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.16 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.12 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.9 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.6 | Governance | `docs/SESSION_OPENER.md` |
@@ -196,6 +200,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 67 | Standards Log — project experiences log | 1.0 | Governance | `docs/STANDARDS_LOG.md` |
 | 68 | PLAN-010 — upstream intake: EverOn v2.x → vault (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-010_everon_upstream_intake.md` |
 | 69 | PLAN-010 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-010_tracker.md` |
+| 70 | PLAN-008 — Slice 5: sync (APPROVED) | 0.1 | Plan | `docs/Plans/PLAN-008_sync.md` |
+| 71 | PLAN-008 tracker (APPROVED) | 0.1 | Plan | `docs/Plans/PLAN-008_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
