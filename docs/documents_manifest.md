@@ -1,7 +1,14 @@
-<!-- VERSION: 2.13 -->
+<!-- VERSION: 2.14 -->
 <!-- Last Updated: 2026-08-16 -->
 <!--
 CHANGE LOG
+v2.14 — 2026-08-16 — Registered PLAN-010 (upstream intake: EverOn v2.x → vault, Set v1.5) DRAFT +
+its sibling tracker as entries 68–69 (v0.1; appended, not inserted); quick-index Plans range →
+31–39, 59–60, 63–64, 68–69; self-row 2.13→2.14. **Fix-forward for v2.13 (`2c7833d`, pushed):** the
+entry-67 table row (`docs/STANDARDS_LOG.md`) was never actually added — v2.13's CHANGE LOG and
+quick-index referenced it but the row was missing (the L063 stamp-vs-log class, caught during the
+PLAN-010 Rule 13 pass); row registered now. Design session only; the Phase-3 implement commit lands
+the 21-file § 7 ALLOWLIST.
 v2.13 — 2026-08-16 — Registered docs/STANDARDS_LOG.md (this project's own experiences-log instance,
 created retroactively — the self-adoption had skipped the instantiation step) as entry 67 (v1.0;
 appended, not inserted, to avoid a renumber); quick-index "Operating contract + project docs" range →
@@ -104,7 +111,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Canonical standards suite (Set v1.4) | 11–27, 57 |
 | Governance scripts | 28–29, 56 |
 | Archive | 30 |
-| Plans | 31–39, 59–60, 63–64 |
+| Plans | 31–39, 59–60, 63–64, 68–69 |
 | Engine (src + tests) | 40–55, 61–62, 65–66 |
 
 ## Manifest table
@@ -177,6 +184,9 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 64 | PLAN-007 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-007_tracker.md` |
 | 65 | Engine — pluggable target transports (local \| git \| ssh) | 0.1 | Engine | `src/standard_document_updater/transport.py` |
 | 66 | Engine test — transport | 0.1 | Engine test | `tests/test_transport.py` |
+| 67 | Standards Log — project experiences log | 1.0 | Governance | `docs/STANDARDS_LOG.md` |
+| 68 | PLAN-010 — upstream intake: EverOn v2.x → vault (APPROVED) | 0.1 | Plan | `docs/Plans/PLAN-010_everon_upstream_intake.md` |
+| 69 | PLAN-010 tracker (APPROVED) | 0.1 | Plan | `docs/Plans/PLAN-010_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
