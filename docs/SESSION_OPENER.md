@@ -1,8 +1,9 @@
-<!-- VERSION: 1.4 -->
-<!-- Last Updated: 2026-06-20 -->
+<!-- VERSION: 1.5 -->
+<!-- Last Updated: 2026-08-16 -->
 <!-- Source: docs/standards/SESSION_OPENER.md (template) v1.4. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.5 — 2026-08-16 — Standard Set Version v1.4: § 1.1 push-state reconcile-vs-real-remote note (L055); § 3.1 row 14 sharpened with the L051 recurrence-#4 final-indentation clause.
 v1.4 — 2026-06-20 — Added § 3.1 universal row 14 (Rule 13 senior-review pass recorded as run but not actually executed against the § 5 code). Standard Set Version v1.3 (lesson L051).
 v1.3 — 2026-06-17 — PLAN-005: added § 1.5 memory-link health check (verify + self-heal + halt-on-empty, per Rule 14), the § 4 "Memory link" output line, and § 3.1 row 13. Standard Set Version v1.2.
 v1.2 — 2026-06-14 — Project display name → "Standard DocSet" (header Source ref + § 2 registry folder path). Engine package `standard_document_updater` unchanged.
@@ -30,6 +31,8 @@ git status --short                            # working-tree dirt
 ```
 
 This project's default branch is `master`. A remote may not be configured yet (local-only CLI tool) — the `origin/master..HEAD` probe is skipped gracefully if there is no `origin`.
+
+When `OPEN_TASKS.md` or a tracker records a push-state ("unpushed" / "push held"), reconcile it against the **real** remote (`git ls-remote origin master`) — not the local `origin/master` cache — before trusting it (per `archive/LESSONS.md` L055). Committed trackers stay frozen at their commit; only the live register is reconciled.
 
 ### 1.2 Operating context (read-only)
 
@@ -109,7 +112,7 @@ Each row links to the memory/lesson that codifies it. Recall the linked memory w
 | 11 | Starting a § 15 plan without granular sub-task tracking | any new `docs/Plans/PLAN-NNN_*.md` | `LESSONS.md` L045 + `CLAUDE.md` § 15.7 |
 | 12 | Local-only OPEN_TASKS.md register stale | every session start | `LESSONS.md` L046 + `CLAUDE.md` § 15.7 |
 | 13 | Project memory lost on machine change / folder move | session start; any repo move or new machine | `CLAUDE.md` Rule 14 + `LESSONS.md` L050 |
-| 14 | Rule 13 senior-review pass recorded as run but not actually executed against the § 5 code (`ruff` / `mypy --strict` / tests) | finalizing any § 15 plan (the Rule 13 pass) | `CLAUDE.md` Rule 13 + `LESSONS.md` L051 |
+| 14 | Rule 13 senior-review pass not actually executed against the § 5 code — or run on an unindented draft snippet instead of the final indentation it ships at (`ruff` / `mypy --strict` / tests) | finalizing any § 15 plan (the Rule 13 pass) | `CLAUDE.md` Rule 13 + `LESSONS.md` L051 (recurrence #4) |
 | — | Remote/host rows (staging↔prod, SSH, cloud web-console) from the template | N/A — this project has no remote infra | `LESSONS.md` L035, L043 (retained for reference) |
 
 ### 3.2 Project-specific patterns

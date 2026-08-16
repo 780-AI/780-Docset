@@ -1,8 +1,9 @@
-<!-- VERSION: 1.3 -->
-<!-- Last Updated: 2026-06-21 -->
+<!-- VERSION: 1.4 -->
+<!-- Last Updated: 2026-08-16 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.4 — 2026-08-16 — Retargeted every live v1.3 reference to v1.4 same-commit with the Standard Set Version v1.4 release (per L053 — delivery docs are a parity set; the parity update now rides the release itself). Prompt content otherwise unchanged.
 v1.3 — 2026-06-21 — Fixed a bootstrap gap surfaced by the first real adoption: Step 5 gitignored
 `docs/Plans/OPEN_TASKS.md` but never CREATED it, so a fresh project lacked the local-only register. Added
 a Step 5 seed step (standard header + "no open items yet" placeholder; gitignored, not manifest-tracked).
@@ -28,7 +29,7 @@ HOW_TO_USE walkthrough as the headline setup path (HOW_TO_USE remains the suppor
 
 **What this is:** a single paste-and-run prompt. Open a fresh Claude Code session **in (or pointing at)
 the new project's directory**, paste the whole fenced block below, and the agent sets the project up
-from scratch on **Standard Set Version v1.3** — governance scaffold, customized contract, session
+from scratch on **Standard Set Version v1.4** — governance scaffold, customized contract, session
 routines, durable memory (Rule 14), governance scripts, CI, and a first commit. No push (operator-gated).
 
 **Before you paste:** know where your canonical standards source lives on this machine (the folder that
@@ -39,7 +40,7 @@ contains this file and its sibling suite). You'll give that path as `SOURCE` in 
 ## The prompt (copy everything between the lines)
 
 ```
-You are bootstrapping a NEW project from my domain-neutral standards suite (Standard Set Version v1.3).
+You are bootstrapping a NEW project from my domain-neutral standards suite (Standard Set Version v1.4).
 
 PATHS
 - SOURCE (canonical suite, read-only): <fill: e.g. ~/standards-source/docs/standards/ — the folder containing CLAUDE.md, LESSONS.md, the focused standards, SESSION_OPENER/CLOSER templates>
@@ -93,8 +94,8 @@ DO THIS, IN ORDER
    - § 14 — if single-agent, replace with a short "NOT IN USE (single-agent project)" stub and set
      § 1 Multi-agent = no; if multi-agent, keep § 14 and name the second agent.
    - Reset the header to this project's own VERSION 1.0 with a one-line "Project bootstrap" CHANGE LOG;
-     Source line = "docs/standards/ (this repo). Bootstrapped from Standard Set v1.3 on <today>."
-     (The v1.3 template CLAUDE.md already carries Rule 14; keep it — § 6.5 wires up the mechanism.)
+     Source line = "docs/standards/ (this repo). Bootstrapped from Standard Set v1.4 on <today>."
+     (The v1.4 template CLAUDE.md already carries Rule 14; keep it — § 6.5 wires up the mechanism.)
 
 5. BUILD SUPPORTING FILES
    - TARGET/README.md (short), TARGET/CHANGELOG.md (bootstrap entry), TARGET/.gitignore
@@ -109,7 +110,7 @@ DO THIS, IN ORDER
      note, and a `_(no open items yet)_` placeholder.
    - TARGET/docs/STANDARDS_LOG.md — create from TARGET/docs/standards/STANDARDS_LOG.md, removing the
      example entry (the project's own experiences log; a kept file that survives the strip).
-   - TARGET/docs/SET_VERSION_ADOPTED.md (Set Version v1.3, adopted <today>).
+   - TARGET/docs/SET_VERSION_ADOPTED.md (Set Version v1.4, adopted <today>).
 
 6. GOVERNANCE + CI
    - TARGET/scripts/check_doc_coverage.py + check_test_coverage_drift.py (permissive scaffolds, exit 0,
@@ -119,7 +120,7 @@ DO THIS, IN ORDER
 
 6.5 DURABLE MEMORY (Rule 14, Standard Set Version v1.2+)
    Make this project's Claude memory survive a machine change / folder move. The contract text is already
-   present (the v1.3 template CLAUDE.md Rule 14 + SESSION_OPENER § 1.5 you laid down in steps 3–4); this
+   present (the v1.4 template CLAUDE.md Rule 14 + SESSION_OPENER § 1.5 you laid down in steps 3–4); this
    step wires up the mechanism, following TARGET/docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md:
    - Create TARGET/scripts/bootstrap_memory.sh per that prompt (idempotent: derive the harness key from
      the repo's absolute path — `'/'`→`'-'`, `' '`→`'-'` — and (re)create the symlink

@@ -22,6 +22,11 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L056 — The Phase-3 implementer reconciles the plan against the live source before editing](#l056--the-phase-3-implementer-reconciles-the-plan-against-the-live-source-before-editing)
+ - [L055 — Recorded push-state must be reconciled against the real remote and flipped in the same wrap-up as the push](#l055--recorded-push-state-must-be-reconciled-against-the-real-remote-and-flipped-in-the-same-wrap-up-as-the-push)
+ - [L054 — The Phase-3 ALLOWLIST must enumerate the plan file and sibling tracker promotion rows](#l054--the-phase-3-allowlist-must-enumerate-the-plan-file-and-sibling-tracker-promotion-rows)
+ - [L053 — Bootstrap delivery docs are a parity set — a procedure change updates all of them in the same pass](#l053--bootstrap-delivery-docs-are-a-parity-set--a-procedure-change-updates-all-of-them-in-the-same-pass)
+ - [L052 — An installer must create every file it references, not just account for it](#l052--an-installer-must-create-every-file-it-references-not-just-account-for-it)
  - [L051 — The senior-review pass must mechanically run the linters / type-checker / tests against the plan's embedded code, not eyeball it](#l051--the-senior-review-pass-must-mechanically-run-the-linters--type-checker--tests-against-the-plans-embedded-code-not-eyeball-it)
  - [L050 — Project memory must live inside the synced repo, not the machine-local harness dir](#l050--project-memory-must-live-inside-the-synced-repo-not-the-machine-local-harness-dir)
  - [L049 — A plan draft is a hypothesis: a mandatory senior-review-and-optimize pass before approval catches what the drafting pass ships](#l049--a-plan-draft-is-a-hypothesis-a-mandatory-senior-review-and-optimize-pass-before-approval-catches-what-the-drafting-pass-ships)
@@ -127,6 +132,133 @@ where it lives now (which standards file, which section).>
 
 ## 3. The lessons (newest first)
 
+### L056 — The Phase-3 implementer reconciles the plan against the live source before editing
+
+**Date:** 2026-08-16
+**Project:** Standard DocSet
+**Phase / Task:** Operator-driven lesson codification (Standard Set Version v1.4)
+
+#### Incident
+
+PLAN-002 passed its Rule 13 senior-review pass, yet its Phase-3 implementation read-back against the live source caught **four genuine defects** (D1–D4): a strip/move step contradiction, a missing Set-Version bump required by an architecture invariant, an unresolvable lay-down reference, and an ALLOWLIST too narrow for its own R3 transformation. The pattern held on every subsequent plan: PLAN-003 (D1–D3), PLAN-004 (D1), PLAN-006 (D1), PLAN-007 (D1) — each Phase 3 surfaced named plan-defects the drafting-side review had missed, rather than silently absorbing them.
+
+#### Diagnosis
+
+The Rule 13 pass hardens the plan *as drafted*, against the source *as it was at drafting time*. Between the Phase-1 session and the Phase-3 session the source moves, and the drafting agent's blind spots ship with the plan. The Phase-3 session is the only party that sees the plan and the live source side by side — reconciling first turns drafting-side defects into cheap, named findings instead of silent implementation drift.
+
+#### Codification
+
+The Phase-3 implementer's first act — before any edit — is a reconcile pass: verify the plan's § 5 code, § 7 ALLOWLIST, and file/line anchors against the live source, and surface every mismatch to the operator as a named plan-defect (D1, D2, …). Backstop to the Rule 13 pass, not a replacement: Rule 13 catches defects at drafting time when they are cheapest; the reconcile pass catches what drafting could not see. Stated in `CLAUDE.md` § 15.3.
+
+#### Cross-references
+
+- `CLAUDE.md` § 15.3 (reconcile-first duty) + § 3 Rule 13
+- PLAN-002 § CHANGE LOG (D1–D4); PLAN-003 / 004 / 006 / 007 CHANGE LOGs (the recurrences)
+
+---
+
+### L055 — Recorded push-state must be reconciled against the real remote and flipped in the same wrap-up as the push
+
+**Date:** 2026-08-16
+**Project:** Standard DocSet
+**Phase / Task:** Operator-driven lesson codification (Standard Set Version v1.4)
+
+#### Incident
+
+The 2026-06-16 session opened by investigating a discrepancy: `OPEN_TASKS.md` said PLAN-002 and PLAN-003 were "unpushed / push held" when both were pushed (verified via `git ls-remote` = real GitLab tip). Root cause: the prior session pushed at 16:14, edited OPEN_TASKS at 16:18, and never flipped the push-state line. The class recurred at codification time: on 2026-08-16 the register still marked commits `618b82b` / `8c990bf` as `[unpushed]` though both had been pushed on 2026-06-23.
+
+#### Diagnosis
+
+Committed tracker files freeze their push-state at commit time (immutable history — a "⏸ push held" in a committed tracker is expected, not drift), while the local register claims to be current. Nothing forced the pushing session to touch the register, and the local `origin/master` ref is a cache — trusting either without querying the real remote reproduces the stale answer.
+
+#### Codification
+
+Two forcing functions: (1) **session open** (`docs/SESSION_OPENER.md` § 1.1) — when OPEN_TASKS or a tracker records a push-state, reconcile it against the *real* remote (`git ls-remote origin master`), not the local `origin/master` cache, before trusting it; (2) **session close** (`docs/SESSION_CLOSER.md` § 1.4 + § 2.1 row) — if a `git push` happened during the session, flip the matching OPEN_TASKS push-state line(s) in the same wrap-up. Committed trackers stay frozen; only the live register is reconciled.
+
+#### Cross-references
+
+- `docs/SESSION_OPENER.md` § 1.1 + `docs/SESSION_CLOSER.md` § 1.4 / § 2.1
+- `LESSONS.md` L046 (the local-only register)
+- Memory: `feedback_pushstate_register_sync`
+
+---
+
+### L054 — The Phase-3 ALLOWLIST must enumerate the plan file and sibling tracker promotion rows
+
+**Date:** 2026-08-16
+**Project:** Standard DocSet
+**Phase / Task:** Operator-driven lesson codification (Standard Set Version v1.4)
+
+#### Incident
+
+PLAN-004's § 7 Phase-3 ALLOWLIST enumerated the 12 code/doc files but omitted `PLAN-004_harvest.md` + `PLAN-004_tracker.md` — even though promoting both to 1.0/CLOSED same-commit is mandated by § 15.5, § 15.7, the plan's own § 5G manifest line, and the tracker's Phase 5. The commit legitimately touched 14 files against an ALLOWLIST implying 12. PLAN-003 had the same gap. PLAN-007 included the two promotion rows (18-file ALLOWLIST) and its Phase-3 count matched `git status` exactly — no reconciliation needed.
+
+#### Diagnosis
+
+The ALLOWLIST discipline works because the enumerated count IS the expected `git status` count (L038) — any mismatch is a stop-and-investigate signal. An ALLOWLIST that structurally undercounts by two trains the implementer to expect and wave through mismatches, eroding the very signal the discipline exists to produce.
+
+#### Codification
+
+Every § 15 plan's Phase-3 ALLOWLIST includes the plan file and its sibling tracker (if any) as explicit same-commit promotion rows, so the enumerated count matches `git status` exactly. Stated in `CLAUDE.md` § 15.2 (Phase 1 deliverable).
+
+#### Cross-references
+
+- `CLAUDE.md` § 15.2 + § 15.5 / § 15.7 (same-commit promotion)
+- `LESSONS.md` L038 (the enumeration IS the count)
+- PLAN-003 / PLAN-004 (the gap) vs PLAN-007 § 7 (the fix proven)
+
+---
+
+### L053 — Bootstrap delivery docs are a parity set — a procedure change updates all of them in the same pass
+
+**Date:** 2026-08-16
+**Project:** Standard DocSet
+**Phase / Task:** Operator-driven lesson codification (Standard Set Version v1.4)
+
+#### Incident
+
+`NEW_PROJECT_BOOTSTRAP.md` sat at v1.1 while `SETUP.md` had moved to v1.2/v1.3 — the walkthrough was two Set Versions behind the installer. Separately, adding `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` to the suite (v1.2) silently broke SETUP.md's strip set-cover (17 of 18 files enumerated). Restoring consistency took three catch-up commits in one session (2026-06-20: `12affa3`, `85ac1e4`, `ca25678`).
+
+#### Diagnosis
+
+Each delivery doc (`SETUP.md`, `NEW_PROJECT_BOOTSTRAP.md`, `MEMORY_DURABILITY_ROLLOUT_PROMPT.md`) restates the same bootstrap procedure for a different consumption mode, so any change to the procedure — or to the suite's file inventory — invalidates all of them at once. Updated one-at-a-time on attention, they drift; the drift is silent because no gate compares them.
+
+#### Codification
+
+The delivery docs are a **parity set**: a change to the bootstrap procedure, the suite's file inventory, or the released Set Version updates every member in the same pass. Sub-rules: (a) **catch-up is installer-only** — bringing a delivery doc up to an *already-released* Set Version bumps the file + manifest only, never the Set Version, and leaves `STANDARDS_INDEX.md` untouched (it bumps only at releases; applied 3× on 2026-06-20); (b) **inventory changes propagate** — adding/removing a `docs/standards/` file updates the SETUP/BOOTSTRAP lay-down + strip set-cover same-commit. Honored in the commit that codifies this: SETUP.md + NEW_PROJECT_BOOTSTRAP.md retargeted v1.3→v1.4 alongside the v1.4 release itself.
+
+#### Cross-references
+
+- `STANDARDS_INDEX.md` § 5 (bump policy)
+- `SETUP.md` / `NEW_PROJECT_BOOTSTRAP.md` / `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` (the parity set)
+
+---
+
+### L052 — An installer must create every file it references, not just account for it
+
+**Date:** 2026-08-16
+**Project:** Standard DocSet
+**Phase / Task:** Operator-driven lesson codification (Standard Set Version v1.4)
+
+#### Incident
+
+The first real project bootstrapped from the suite (2026-06-21, from the desktop export) came up without `docs/Plans/OPEN_TASKS.md`: SETUP.md v1.2 gitignored the file (Step 5) but had no step that created it. The gap surfaced only when the adopting project went looking for its open-tasks register; the operator retrofitted it manually. Fixed same-day in SETUP.md 1.3 + NEW_PROJECT_BOOTSTRAP.md 1.3 (commit `8c990bf`) — both now seed the file with the standard header. Live verification (QA-1) runs at the next real bootstrap.
+
+#### Diagnosis
+
+Referencing a file (gitignoring it, describing it, pointing a session routine at it) is not creating it. The gap was silent because the file is optional-by-design downstream — SESSION_OPENER § 1.3 reads it "IF PRESENT," so its absence looks like a project with no open tasks rather than a broken bootstrap. Any file an installer references but does not create is a latent per-adoption defect.
+
+#### Codification
+
+A bootstrap installer must CREATE every file it references — seed it with the standard header and an empty-state placeholder — and the delivery docs' step lists are audited so every referenced artifact has a creating step. Portable to any suite-delivery installer.
+
+#### Cross-references
+
+- `SETUP.md` Step 5 seed + `NEW_PROJECT_BOOTSTRAP.md` Step 4 seed (the fix, commit `8c990bf`)
+- `LESSONS.md` L046 (the register the gap orphaned), L053 (the parity set the fix must ride)
+
+---
+
 ### L051 — The senior-review pass must mechanically run the linters / type-checker / tests against the plan's embedded code, not eyeball it
 
 **Date:** 2026-06-20
@@ -148,6 +280,10 @@ The Rule 13 forcing function existed and fired, but its recorded result was neve
 #### Codification
 
 L051 + a `docs/SESSION_OPENER.md` § 3.1 universal catalog row: the Rule 13 pass MUST actually run `ruff` + `mypy --strict` + the test reasoning against the EXACT § 5 code the plan commits; the fix MUST be reflected in § 5 itself (not only narrated in the CHANGE LOG); and the recorded result MUST name the specific lines fixed — or state that the tools could not be run, and why. A "ran ruff" claim with no named findings is treated as not-run. Shipped as Standard Set Version v1.3 (additive Minor — no existing rule changed; Rule 13's expectations are sharpened, not rewritten).
+
+#### Recurrence #4 — the tools must run at the final indentation the code ships at (2026-06-23, PLAN-007; codified at Set v1.4)
+
+PLAN-007's Rule 13 pass DID materialize the § 5 code in `src/` and mechanically ran `ruff` + `mypy --strict` + `pytest` (per this lesson) — and Phase 3 still hit one E501: the § 5C `statuses.append(report.compute_status(...))` line was clean as drafted but 102 cols once indented inside its final `with` block (plan-defect D1, reflowed output-preserving). **Sharpening:** the tools must run against the § 5 code *at the exact indentation and nesting it ships at* — materialize it in its real position in the tree (final enclosing blocks included), not as an unindented draft snippet.
 
 #### Cross-references
 

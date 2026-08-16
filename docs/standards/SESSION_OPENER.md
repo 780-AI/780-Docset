@@ -1,8 +1,9 @@
-<!-- VERSION: 1.3 -->
-<!-- Last Updated: 2026-06-20 -->
+<!-- VERSION: 1.4 -->
+<!-- Last Updated: 2026-08-16 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.4 — 2026-08-16 — Standard Set Version v1.4: § 1.1 push-state reconcile-vs-real-remote note (L055); § 3.1 row 15 sharpened with the L051 recurrence-#4 final-indentation clause.
 v1.3 — 2026-06-20 — Added § 3.1 universal row 15 (Rule 13 senior-review pass recorded as run but not actually executed against the plan's embedded code). Standard Set Version v1.3 (lesson L051).
 v1.2 — 2026-06-17 — PLAN-005: added § 1.5 memory-link health check (verify + self-heal + halt-on-empty, per Rule 14), the § 4 "Memory link" output line, and § 3.1 row 14. Standard Set Version v1.2.
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-customizable blocks (§ 2 environment mapping table, § 3.2 project-specific failure-mode table) in PROJECT-OWNED markers so a future sync preserves them. Standard Set Version v1.1.
@@ -32,6 +33,8 @@ git status --short # working-tree dirt
 ```
 
 Replace `<main-branch>` with `main` / `master` per project convention.
+
+If a local register (`OPEN_TASKS.md`) or a tracker records a push-state ("unpushed" / "push held"), reconcile it against the **real** remote (`git ls-remote origin <main-branch>`) — not the local remote-tracking cache — before trusting it (per `LESSONS.md` L055). Committed trackers stay frozen at their commit; only the live register is reconciled.
 
 ### 1.2 Live system state (read-only — skip if task is purely local)
 - **Staging deploy SHA**: `ssh <staging-user>@<staging-host> "cat <staging-deploy-marker> 2>/dev/null"`
@@ -119,7 +122,7 @@ Each row links to the memory that codifies it. Recall the linked memory when its
 | 12 | Local-only OPEN_TASKS.md register stale or unmaintained (if the project uses the convention) | every session start | `LESSONS.md` L046 + `CLAUDE.md` § 15.7 |
 | 13 | Behavior-affecting change shipped without a paired QA / smoke-test scenario in the plan's tracker or OPEN_TASKS | every behavior-affecting commit | `CLAUDE.md` **Rule 11 (binding)** + `LESSONS.md` L047 |
 | 14 | Project memory lost on machine change / folder move | session start; any repo move or new machine | `CLAUDE.md` Rule 14 + `LESSONS.md` L050 |
-| 15 | Rule 13 senior-review pass recorded as run but not actually executed against the plan's embedded code (linter / type-checker / tests) | finalizing any § 15 plan (the Rule 13 pass) | `CLAUDE.md` Rule 13 + `LESSONS.md` L051 |
+| 15 | Rule 13 senior-review pass not actually executed against the plan's embedded code — or run on an unindented draft snippet instead of the final indentation it ships at (linter / type-checker / tests) | finalizing any § 15 plan (the Rule 13 pass) | `CLAUDE.md` Rule 13 + `LESSONS.md` L051 (recurrence #4) |
 
 ### 3.2 Project-specific patterns
 

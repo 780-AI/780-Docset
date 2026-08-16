@@ -1,8 +1,9 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-06-13 -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-08-16 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.2 — 2026-08-16 — Standard Set Version v1.4: § 1.4 push-state flip step + § 2.1 row 5 (L055).
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-customizable block (§ 2.2 project-specific wrap-up failure-mode table) in PROJECT-OWNED markers so a future sync preserves it. Standard Set Version v1.1.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
@@ -62,6 +63,8 @@ If `docs/Plans/OPEN_TASKS.md` exists (gitignored local-only register per L046), 
 - Operator-driven (no plan) items
 - Maintenance / housekeeping items
 - **Lesson candidates** section (if populated by step 1.7 below)
+
+**Push-state flip (per `LESSONS.md` L055):** if a `git push` happened this session, flip the matching `OPEN_TASKS.md` push-state line(s) ("unpushed" / "push held" → pushed + date) in this same wrap-up. Committed trackers stay frozen at their commit; only the live register is flipped.
 
 ### 1.5 Memory updates landed this session
 
@@ -128,6 +131,7 @@ Each row links to the memory or lesson that codifies it.
 | 2 | Lessons-learned scan skipped — new insights lost between sessions | every wrap-up | `LESSONS.md` L048 |
 | 3 | `/tmp/` artifacts left behind (commit_msg.txt etc.) | every wrap-up | this file § 1.6 |
 | 4 | `OPEN_TASKS.md` not updated with session-end state | every wrap-up | this file § 1.4 + `LESSONS.md` L046 |
+| 5 | Push-state line not flipped after a mid-session push — register reads "unpushed" for pushed work | any session that ran `git push` | this file § 1.4 + `LESSONS.md` L055 |
 
 ### 2.2 Project-specific patterns
 

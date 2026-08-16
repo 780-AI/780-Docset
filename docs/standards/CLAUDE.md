@@ -1,8 +1,9 @@
-<!-- VERSION: 1.2 -->
-<!-- Last Updated: 2026-06-17 -->
+<!-- VERSION: 1.3 -->
+<!-- Last Updated: 2026-08-16 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). TEMPLATE — adopters copy to repo root and fill <placeholders>. -->
 <!--
 CHANGE LOG
+v1.3 — 2026-08-16 — Standard Set Version v1.4: § 15.2 ALLOWLIST promotion-rows requirement (L054) + § 15.3 Phase-3 reconcile-first duty (L056). No rule added or removed.
 v1.2 — 2026-06-17 — Add Rule 14 (durable project memory across machines/folder moves). Standard Set Version v1.2 (PLAN-005).
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-customizable blocks (§ 1 context, § 4 critical files, § 13 domain bullet, § 14 Codex section) in PROJECT-OWNED markers so a future sync preserves them. Standard Set Version v1.1.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline (template). Established as Standard Set Version v1.0.
@@ -681,7 +682,7 @@ If you're unsure, classify as vital. Cost of a written plan is ~30–60 minutes;
 | Phase | Owner | Deliverable |
 |---|---|---|
 | 0 — Audit | Plan author | All integration points cited by `file:line`; external dependencies verified to exist; existing behavior summarized. |
-| 1 — Design | Plan author | Plan committed to `docs/Plans/` per Rule 1. Contains: § 1 goal, § 2 operator constraints, § 3 scope summary, § 4 phase tracker, § 5 verbatim transformation rules per call-site (per Rule 7), § 6 spec update map, § 7 explicit ALLOWLIST (the bullet enumeration IS the count — see LESSONS L038), § 8 validation gate including demo smoke test, § 9 explicit operator-approval decision point, § 10 rollback path, § 11 known risks with mitigation, § 12 acceptance criteria. **The final task of Phase 1 is the Rule 13 senior-review-and-optimize pass (§ 15.8) — run once on the complete plan + sibling tracker, immediately before Phase 2; the plan is not finalized until it has run.** |
+| 1 — Design | Plan author | Plan committed to `docs/Plans/` per Rule 1. Contains: § 1 goal, § 2 operator constraints, § 3 scope summary, § 4 phase tracker, § 5 verbatim transformation rules per call-site (per Rule 7), § 6 spec update map, § 7 explicit ALLOWLIST (the bullet enumeration IS the count — see LESSONS L038 — and it MUST include the plan file + sibling tracker as same-commit promotion rows, per L054), § 8 validation gate including demo smoke test, § 9 explicit operator-approval decision point, § 10 rollback path, § 11 known risks with mitigation, § 12 acceptance criteria. **The final task of Phase 1 is the Rule 13 senior-review-and-optimize pass (§ 15.8) — run once on the complete plan + sibling tracker, immediately before Phase 2; the plan is not finalized until it has run.** |
 | 2 — Operator approval | Operator | Written response: "APPROVE D1.A" (or alternative). No code is touched until this approval lands. |
 | 3 — Implement | Fresh agent session | Single commit, ALLOWLIST-bounded. Prompted from the plan file as the authoritative spec. The new session does not need to read the conversation history that produced the plan. |
 | 4 — Validate | Implementer + operator | Type-check / compile clean; governance scripts pass; § 8 demo smoke test walked. |
@@ -699,7 +700,7 @@ The Phase 3 prompt:
 - Notes any operator-side deltas from the plan (e.g., "drop the X suffix per operator request").
 - Reminds the implementer to follow the operating contract (CLAUDE.md, Rule 4, Rule 6, Rule 7).
 
-If the implementer Claude finds any ambiguity in the plan, that's a plan defect — surface it to the operator rather than silently fill from prior conversation (per § 10 AI behavior rules).
+If the implementer Claude finds any ambiguity in the plan, that's a plan defect — surface it to the operator rather than silently fill from prior conversation (per § 10 AI behavior rules). Before any edit, the implementer's first act is a **reconcile pass**: verify the plan's § 5 code, § 7 ALLOWLIST, and file/line anchors against the live source, and surface any mismatch as a named plan-defect (D1, D2, …) — the backstop to the Rule 13 pass (per LESSONS L056).
 
 ### 15.4 Closed-risk annotation (Rule 6 sync trigger)
 

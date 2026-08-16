@@ -22,6 +22,11 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L056 — The Phase-3 implementer reconciles the plan against the live source before editing](#l056--the-phase-3-implementer-reconciles-the-plan-against-the-live-source-before-editing)
+ - [L055 — Recorded push-state must be reconciled against the real remote and flipped in the same wrap-up as the push](#l055--recorded-push-state-must-be-reconciled-against-the-real-remote-and-flipped-in-the-same-wrap-up-as-the-push)
+ - [L054 — The Phase-3 ALLOWLIST must enumerate the plan file and sibling tracker promotion rows](#l054--the-phase-3-allowlist-must-enumerate-the-plan-file-and-sibling-tracker-promotion-rows)
+ - [L053 — Bootstrap delivery docs are a parity set — a procedure change updates all of them in the same pass](#l053--bootstrap-delivery-docs-are-a-parity-set--a-procedure-change-updates-all-of-them-in-the-same-pass)
+ - [L052 — An installer must create every file it references, not just account for it](#l052--an-installer-must-create-every-file-it-references-not-just-account-for-it)
  - [L051 — The senior-review pass must mechanically run the linters / type-checker / tests against the plan's embedded code, not eyeball it](#l051--the-senior-review-pass-must-mechanically-run-the-linters--type-checker--tests-against-the-plans-embedded-code-not-eyeball-it)
  - [L050 — Project memory must live inside the synced repo, not the machine-local harness dir](#l050--project-memory-must-live-inside-the-synced-repo-not-the-machine-local-harness-dir)
  - [L049 — A plan draft is a hypothesis: a mandatory senior-review-and-optimize pass before approval catches what the drafting pass ships](#l049--a-plan-draft-is-a-hypothesis-a-mandatory-senior-review-and-optimize-pass-before-approval-catches-what-the-drafting-pass-ships)
@@ -127,6 +132,131 @@ where it lives now (which standards file, which section).>
 
 ## 3. The lessons (newest first)
 
+### L056 — The Phase-3 implementer reconciles the plan against the live source before editing
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** § 15 plan workflow hardening (Phase 3 discipline)
+
+#### Incident
+
+A plan that had passed its mandatory senior-review-and-optimize pass (Rule 13) still reached implementation carrying four genuine defects: a pair of contradictory steps, a missing version bump required by a documented invariant, a reference to a file that did not exist, and an ALLOWLIST too narrow for one of its own transformation rules. None was caught until the implementing session read the plan back against the live source tree before editing. Later plans repeated the pattern: each implementation phase surfaced named plan-defects the drafting-side review had missed.
+
+#### Diagnosis
+
+The Rule 13 pass hardens the plan *as drafted*, against the source *as it was at drafting time*. Between drafting and implementation the source moves, and the drafting agent's blind spots ship with the plan. The implementing session is the only party that sees the plan and the live source side by side — if it starts editing on trust, drafting-side defects become silent implementation drift; if it reconciles first, they become cheap, named findings.
+
+#### Codification
+
+The Phase-3 implementer's first act — before any edit — is a reconcile pass: verify the plan's embedded code, its ALLOWLIST, and its file/line anchors against the live source, and surface every mismatch to the operator as a named plan-defect (D1, D2, …) rather than silently absorbing or fixing it. This is the backstop to the Rule 13 pass, not a replacement for it: Rule 13 catches defects at drafting time when they are cheapest; the reconcile pass catches what drafting could not see.
+
+#### Cross-references
+
+- `CLAUDE.md` § 15.3 (the two-session split — reconcile-first duty) + § 3 Rule 13
+- `LESSONS.md` L049 (the senior-review pass), L051 (mechanical tool runs)
+
+---
+
+### L055 — Recorded push-state must be reconciled against the real remote and flipped in the same wrap-up as the push
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** register hygiene (session open/close discipline)
+
+#### Incident
+
+A session opened by investigating a discrepancy: the local-only open-tasks register said two closed plans were "unpushed / push held" when both had long been pushed (verified against the real remote via `git ls-remote`). Root cause: the session that pushed had edited the register minutes after the push — but never flipped the push-state line. The stale line survived several sessions and eventually cost an investigation to untangle.
+
+#### Diagnosis
+
+Push-state is recorded in two places with different truth semantics: committed tracker files freeze their state at commit time (immutable history — a "push held" in a committed tracker is expected, not drift), while the local register claims to be current. A register line is only as fresh as the last hand that touched it, and nothing forced the pushing session to touch it. Meanwhile the local `origin/<branch>` ref is a cache — trusting it (or the register) without querying the real remote reproduces the stale answer.
+
+#### Codification
+
+Two forcing functions, at the two ends of the failure: (1) **session open** — when the register or a tracker records a push-state, reconcile it against the *real* remote (`git ls-remote origin <branch>`), not the local remote-tracking cache, before trusting it; (2) **session close** — if a `git push` happened during the session, flip the matching register push-state line(s) in the same wrap-up. Committed trackers are left frozen; only the live register is reconciled.
+
+#### Cross-references
+
+- `SESSION_OPENER.md` § 1.1 (reconcile before trusting) + `SESSION_CLOSER.md` § 1.4 / § 2.1 (flip on wrap-up)
+- `LESSONS.md` L046 (the local-only register)
+
+---
+
+### L054 — The Phase-3 ALLOWLIST must enumerate the plan file and sibling tracker promotion rows
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** § 15 plan drafting (ALLOWLIST completeness)
+
+#### Incident
+
+Two consecutive plans enumerated only their code and doc files in the Phase-3 ALLOWLIST and omitted the plan file and its sibling tracker — even though promoting both to v1.0 / CLOSED in the same commit is mandated by the plan workflow itself. Each implementation commit therefore legitimately touched N+2 files against an ALLOWLIST that said N, forcing the implementer to reconcile the mismatch every time. A later plan that included the two promotion rows shipped with ALLOWLIST count = `git status` count, no reconciliation needed.
+
+#### Diagnosis
+
+The ALLOWLIST discipline works because the enumerated count IS the expected `git status` count (L038) — any mismatch is a stop-and-investigate signal. An ALLOWLIST that structurally undercounts by two trains the implementer to expect and wave through mismatches, eroding the very signal the discipline exists to produce.
+
+#### Codification
+
+Every § 15 plan's Phase-3 ALLOWLIST includes the plan file and its sibling tracker (if any) as explicit same-commit promotion rows, so the enumerated count matches `git status` exactly. The workflow's § 15.2 Phase-1 deliverable states this requirement.
+
+#### Cross-references
+
+- `CLAUDE.md` § 15.2 (Phase 1 deliverable) + § 15.5 / § 15.7 (same-commit promotion)
+- `LESSONS.md` L038 (the enumeration IS the count)
+
+---
+
+### L053 — Bootstrap delivery docs are a parity set — a procedure change updates all of them in the same pass
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** suite maintenance (delivery-doc discipline)
+
+#### Incident
+
+The suite's delivery docs — the one-shot bootstrap installer, the long-form walkthrough, and a rollout prompt — drifted apart: the walkthrough sat two Set Versions behind the installer, and adding a new file to the suite silently broke the installer's strip-step set-cover (it enumerated 17 of 18 files). Three separate catch-up commits in one session were needed to restore consistency.
+
+#### Diagnosis
+
+Each delivery doc restates the same bootstrap procedure for a different consumption mode, so any change to the procedure — or to the suite's file inventory — invalidates all of them at once. Updated one-at-a-time on attention, they drift; the drift is silent because no gate compares them.
+
+#### Codification
+
+The delivery docs are a **parity set**: a change to the bootstrap procedure, the suite's file inventory, or the released Set Version updates every member in the same pass. Two sub-rules: (a) **catch-up is installer-only** — bringing a delivery doc up to an *already-released* Set Version bumps the file and the manifest only, never the Set Version, and leaves the set index untouched (it bumps only at releases); (b) **inventory changes propagate** — adding or removing a suite file updates the lay-down list and the strip set-cover in the same commit.
+
+#### Cross-references
+
+- `STANDARDS_INDEX.md` § 5 (bump policy)
+- `SETUP.md` / `NEW_PROJECT_BOOTSTRAP.md` (the parity set)
+
+---
+
+### L052 — An installer must create every file it references, not just account for it
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** suite delivery (bootstrap installer)
+
+#### Incident
+
+The first real project bootstrapped with the one-shot installer came up without its local-only open-tasks register: the installer's gitignore step listed the file, but no step created it. The gap surfaced only when the adopting project's first session went looking for the register.
+
+#### Diagnosis
+
+Referencing a file (gitignoring it, describing it, pointing a session routine at it) is not creating it. The gap was silent because the file is optional-by-design downstream — the session pre-flight reads it "if present," so its absence looks like a project with no open tasks rather than a broken bootstrap. Any file an installer references but does not create is a latent per-adoption defect.
+
+#### Codification
+
+A bootstrap installer must CREATE every file it references — seed it with the standard header and an empty-state placeholder — and the delivery docs' step lists are audited so every referenced artifact has a creating step. (Applies to any suite-delivery installer, not just this one.)
+
+#### Cross-references
+
+- `SETUP.md` / `NEW_PROJECT_BOOTSTRAP.md` (the seed steps)
+- `LESSONS.md` L046 (the register the gap orphaned), L053 (the parity set the fix must ride)
+
+---
+
 ### L051 — The senior-review pass must mechanically run the linters / type-checker / tests against the plan's embedded code, not eyeball it
 
 **Date:** 2026-06-07
@@ -144,6 +274,10 @@ A review that is *recorded as* mechanically run but is actually eyeballed gives 
 #### Codification
 
 The Rule 13 senior-review pass MUST mechanically run the linter + type-checker + the tests against the EXACT embedded code the plan commits (not a paraphrase, not a mental model of it); any fix MUST be reflected in the plan's code section itself, not merely narrated in the CHANGE LOG; and the recorded result MUST name the specific lines / checks it fixed — or explicitly state that the tools could not be run, and why. A "ran the tools" claim with no named findings is treated as not-run.
+
+#### Recurrence #4 — the tools must run at the final indentation the code ships at (Set v1.4)
+
+A fourth recurrence sharpened the practice: a plan's senior-review pass DID materialize the embedded code and mechanically run the linter / type-checker / tests (per this lesson) — and the implementation phase still hit one over-length line. The reviewed snippet was clean as drafted, but exceeded the limit once placed at its final indentation inside an enclosing block. **Sharpening:** the tools must run against the embedded code *at the exact indentation and nesting it ships at* — materialize it in its real position in the tree (final enclosing blocks included), not as an unindented draft snippet.
 
 #### Cross-references
 

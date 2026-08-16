@@ -1,8 +1,9 @@
-<!-- VERSION: 1.3 -->
-<!-- Last Updated: 2026-06-21 -->
+<!-- VERSION: 1.4 -->
+<!-- Last Updated: 2026-08-16 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.4 — 2026-08-16 — Retargeted every live v1.3 reference to v1.4 same-commit with the Standard Set Version v1.4 release (per L053 — delivery docs are a parity set; the parity update now rides the release itself). Walkthrough content otherwise unchanged.
 v1.3 — 2026-06-21 — Step-parity with SETUP.md v1.3: added the Step 4 seed for `docs/Plans/OPEN_TASKS.md`
 (the local-only register was gitignored but never created — a gap surfaced by the first real adoption).
 Installer/walkthrough only — the v1.3 suite CONTENT is unchanged → no Set-Version bump.
@@ -26,7 +27,7 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 > each step does (or to bootstrap by hand).
 
 **Scope:** the dispositive step-by-step procedure for bootstrapping a new project from this standards
-suite at **Standard Set Version v1.3** — governance scaffold, customized contract, session routines,
+suite at **Standard Set Version v1.4** — governance scaffold, customized contract, session routines,
 durable memory (Rule 14), the experiences log, governance scripts, CI, a first commit, then a strip of
 the delivery machinery.
 
@@ -86,7 +87,7 @@ operative standard, commit it, then **delete the delivery machinery** in a secon
 │   ├── folder_structure.md
 │   ├── SESSION_OPENER.md          # project-local session-start pre-flight (binding, Rule 9)
 │   ├── SESSION_CLOSER.md          # project-local session wrap-up (binding, Rule 12)
-│   ├── SET_VERSION_ADOPTED.md     # records Standard Set Version v1.3
+│   ├── SET_VERSION_ADOPTED.md     # records Standard Set Version v1.4
 │   ├── STANDARDS_LOG.md           # the project's experiences log (contribution channel)
 │   ├── standards/                 # 6 topical files KEPT after the strip
 │   │   ├── PROJECT_STANDARDS.md
@@ -190,8 +191,8 @@ from the suite, including all 14 standing rules):
 - **§ 14 Codex handoff** — single-agent: replace with a short "NOT IN USE (single-agent project)" stub
   and set § 1 Multi-agent = no. Multi-agent: keep § 14 and name the second agent.
 - **Reset the header** to this project's own `VERSION 1.0` with a one-line "Project bootstrap" CHANGE
-  LOG; Source line = `docs/standards/ (this repo). Bootstrapped from Standard Set v1.3 on <today>.`
-  (The v1.3 template already carries **Rule 14** — keep it; Step 8 wires up the mechanism.)
+  LOG; Source line = `docs/standards/ (this repo). Bootstrapped from Standard Set v1.4 on <today>.`
+  (The v1.4 template already carries **Rule 14** — keep it; Step 8 wires up the mechanism.)
 
 Example § 1 fill (SaaS API):
 
@@ -269,7 +270,7 @@ cp docs/standards/STANDARDS_LOG.md docs/STANDARDS_LOG.md
 # then edit docs/STANDARDS_LOG.md to remove the example entry (leave the format reference).
 ```
 
-**`docs/SET_VERSION_ADOPTED.md`** — record the adopted version (Standard Set Version **v1.3**, adopted
+**`docs/SET_VERSION_ADOPTED.md`** — record the adopted version (Standard Set Version **v1.4**, adopted
 `<today>`); see Step 12 for the full content.
 
 **`README.md`**, **`docs/README.md`**, **`docs/documents_manifest.md`**, **`docs/folder_structure.md`**
@@ -395,7 +396,7 @@ matures. (CI semantics are validated by a real pipeline run, not local YAML pars
 ## 9. Step 8 — Set up durable memory (Rule 14)
 
 Make the project's Claude memory survive a machine change / folder move. The contract text is already
-present (the v1.3 template `CLAUDE.md` Rule 14 + `SESSION_OPENER.md` § 1.5 you laid down); this step
+present (the v1.4 template `CLAUDE.md` Rule 14 + `SESSION_OPENER.md` § 1.5 you laid down); this step
 wires up the mechanism, following `docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md`:
 
 ```bash
@@ -430,7 +431,7 @@ is operator-gated.
 
 ```bash
 cat > /tmp/bootstrap_commit_msg.txt <<'EOF'
-Bootstrap: governance scaffold (Standard Set Version v1.3)
+Bootstrap: governance scaffold (Standard Set Version v1.4)
 
 Installs the operative standard: CLAUDE.md (14 standing rules) at repo root +
 the focused standards under docs/standards/, the LESSONS archive, project-local
@@ -438,7 +439,7 @@ SESSION_OPENER/CLOSER, the experiences log, durable memory (Rule 14), governance
 scripts, CI scaffold, MR template, and the document manifest — before any feature
 work. No runtime code in this commit.
 
-Bootstrapped from the standards suite at Standard Set Version v1.3 on <today>.
+Bootstrapped from the standards suite at Standard Set Version v1.4 on <today>.
 Independent versions from this point forward; backports are explicit.
 EOF
 
@@ -513,7 +514,7 @@ cat > docs/SET_VERSION_ADOPTED.md <<'EOF'
 
 This project adopts the standards suite at:
 
-- **Standard Set Version:** v1.3
+- **Standard Set Version:** v1.4
 - **Adopted on:** <today>
 - **Source:** <your canonical suite path>
 
@@ -524,11 +525,11 @@ Backports from the source set are explicit. When a newer Set Version is released
 
 | Set Version | Adopted on | Notes |
 |---|---|---|
-| v1.3 | <today> | Initial bootstrap |
+| v1.4 | <today> | Initial bootstrap |
 EOF
 ```
 
-The adopted state at v1.3: **14 standing rules** in `CLAUDE.md` § 3; the suite's lessons in
+The adopted state at v1.4: **14 standing rules** in `CLAUDE.md` § 3; the suite's lessons in
 `archive/LESSONS.md`; durable memory (Rule 14) wired up.
 
 ---
@@ -575,6 +576,6 @@ re-home the symlink (Rule 14). If the content itself was lost, recover from the 
 
 ## End of bootstrap
 
-After Step 12 you have a working governance scaffold on Standard Set Version v1.3. Start feature work in
+After Step 12 you have a working governance scaffold on Standard Set Version v1.4. Start feature work in
 your next session — the 14 standing rules now bind every commit, every prompt, every push. The one-shot
 equivalent of this walkthrough is `SETUP.md`; keep the two in step-parity if you change the procedure.

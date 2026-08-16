@@ -1,8 +1,9 @@
-<!-- VERSION: 1.2 -->
-<!-- Last Updated: 2026-06-14 -->
-<!-- Source: docs/standards/SESSION_CLOSER.md (template) v1.0. Project-local instance for Standard DocSet. -->
+<!-- VERSION: 1.3 -->
+<!-- Last Updated: 2026-08-16 -->
+<!-- Source: docs/standards/SESSION_CLOSER.md (template) v1.2. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.3 — 2026-08-16 — Standard Set Version v1.4: § 1.4 push-state flip step + § 2.1 row 5 (L055); header Source ref → template v1.2.
 v1.2 — 2026-06-14 — Project display name → "Standard DocSet" (header Source ref + binding-instance line). Engine package `standard_document_updater` unchanged.
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-owned block (§ 2.2 project-specific wrap-up failure-mode table) in PROJECT-OWNED markers so a future sync preserves it.
 v1.0 — 2026-06-07 — Project bootstrap. Instantiated from the v1.0 template (docs/standards/SESSION_CLOSER.md v1.0). Customized § 1.2 versions (tool engine version + adopted Set Version; no EA / deploy artifact) and § 4 output block. BINDING per CLAUDE.md Rule 12.
@@ -42,6 +43,8 @@ git log --oneline -<N>                          # session commits (N ≈ count m
 ### 1.4 Outstanding `docs/Plans/OPEN_TASKS.md` (if present, gitignored)
 Surface active items, drafting/future items, operator-driven items, maintenance items, and the **Lesson candidates** section.
 
+**Push-state flip (per `archive/LESSONS.md` L055):** if a `git push` happened this session, flip the matching OPEN_TASKS push-state line(s) ("unpushed" / "push held" → pushed + date) in this same wrap-up. Committed trackers stay frozen at their commit; only the live register is flipped.
+
 ### 1.5 Memory updates landed this session
 List new/modified memory files under `~/.claude/projects/<sanitized-cwd>/memory/` + any `MEMORY.md` index changes.
 
@@ -72,6 +75,7 @@ End with explicit "Session wrap-up complete. Safe to close." Wait for any operat
 | 2 | Lessons-learned scan skipped — insights lost between sessions | every wrap-up | `LESSONS.md` L048 |
 | 3 | `/tmp/` artifacts left behind | every wrap-up | this file § 1.6 |
 | 4 | `OPEN_TASKS.md` not updated with session-end state | every wrap-up | this file § 1.4 + `LESSONS.md` L046 |
+| 5 | Push-state line not flipped after a mid-session push — register reads "unpushed" for pushed work | any session that ran `git push` | this file § 1.4 + `LESSONS.md` L055 |
 
 ### 2.2 Project-specific patterns
 

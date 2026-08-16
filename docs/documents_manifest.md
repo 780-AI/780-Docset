@@ -1,7 +1,15 @@
-<!-- VERSION: 2.11 -->
-<!-- Last Updated: 2026-06-23 -->
+<!-- VERSION: 2.12 -->
+<!-- Last Updated: 2026-08-16 -->
 <!--
 CHANGE LOG
+v2.12 — 2026-08-16 — Standard Set Version v1.4 (process-hardening batch: lessons L052–L056 + L051
+recurrence #4): bumped touched cells — entry 1 (root CLAUDE.md) 1.5→1.6, entry 8 (project SESSION_OPENER)
+1.4→1.5, entry 9 (project SESSION_CLOSER) 1.2→1.3, entry 10 (SET_VERSION_ADOPTED) 1.4→1.5, entry 11
+(template CLAUDE.md) 1.2→1.3, entry 20 (template SESSION_OPENER) 1.3→1.4, entry 21 (template
+SESSION_CLOSER) 1.1→1.2, entry 23 (STANDARDS_INDEX) 1.3→1.4, entry 24 (NEW_PROJECT_BOOTSTRAP) 1.3→1.4,
+entry 26 (SETUP) 1.3→1.4. LESSONS rows (12 template, 30 adopter) left at 1.0 per the established
+no-per-lesson-bump practice. Also caught up two stale cells: self-row (entry 5) 2.10→2.12 (was never
+bumped at v2.11) and the quick-index caption "Set v1.2" → "Set v1.4". Doc-only; no engine change.
 v2.11 — 2026-06-23 — PLAN-007 (remote-target transport) implemented: registered transport.py + test_transport.py as entries 65–66 (v0.1; Engine quick-index range → 40–55, 61–62, 65–66); bumped touched cells — entry 1 (root CLAUDE.md) 1.4→1.5, entry 7 (architecture.md) 0.8→0.9, entry 40 (__init__) 0.3→0.4, entry 43 (registry) 0.1→0.2, entry 45 (report) 0.1→0.2, entry 46 (cli) 0.3→0.4, entry 49 (test_registry) 0.1→0.2, entry 50 (test_report) 0.1→0.2, entry 51 (test_cli) 0.3→0.4; promoted PLAN-007 + tracker (63–64) 0.1/DRAFT → 1.0/CLOSED. Engine behavior added; read-only on the vault → no Set Version change.
 v2.10 — 2026-06-21 — Installer fix (bootstrap gap from first real adoption): bumped entry 26 (SETUP.md)
 1.2→1.3 and entry 24 (NEW_PROJECT_BOOTSTRAP.md) 1.2→1.3 — both now SEED `docs/Plans/OPEN_TASKS.md` at
@@ -88,7 +96,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Module / Section | Entry range |
 |---|---|
 | Operating contract + project docs | 1–10, 58 |
-| Canonical standards suite (Set v1.2) | 11–27, 57 |
+| Canonical standards suite (Set v1.4) | 11–27, 57 |
 | Governance scripts | 28–29, 56 |
 | Archive | 30 |
 | Plans | 31–39, 59–60, 63–64 |
@@ -98,17 +106,17 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 | # | Title | Version | Category | Path |
 |---|---|---|---|---|
-| 1 | Operating Contract (binding) | 1.5 | Governance | `CLAUDE.md` |
+| 1 | Operating Contract (binding) | 1.6 | Governance | `CLAUDE.md` |
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.10 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.12 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.9 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.9 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.4 | Governance | `docs/SESSION_OPENER.md` |
-| 9 | Session Closer (project-local, binding) | 1.2 | Governance | `docs/SESSION_CLOSER.md` |
-| 10 | Set Version Adopted | 1.4 | Governance | `docs/SET_VERSION_ADOPTED.md` |
-| 11 | CLAUDE.md (template) | 1.2 | Standards | `docs/standards/CLAUDE.md` |
+| 8 | Session Opener (project-local, binding) | 1.5 | Governance | `docs/SESSION_OPENER.md` |
+| 9 | Session Closer (project-local, binding) | 1.3 | Governance | `docs/SESSION_CLOSER.md` |
+| 10 | Set Version Adopted | 1.5 | Governance | `docs/SET_VERSION_ADOPTED.md` |
+| 11 | CLAUDE.md (template) | 1.3 | Standards | `docs/standards/CLAUDE.md` |
 | 12 | Lessons Archive (template) | 1.0 | Standards | `docs/standards/LESSONS.md` |
 | 13 | Project Standards | 1.0 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
 | 14 | Prompt Standards | 1.0 | Standards | `docs/standards/PROMPT_STANDARDS.md` |
@@ -117,13 +125,13 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 17 | Engineering Standards | 1.0 | Standards | `docs/standards/ENGINEERING_STANDARDS.md` |
 | 18 | Validation Standards | 1.0 | Standards | `docs/standards/VALIDATION_STANDARDS.md` |
 | 19 | CI/CD Standards | 1.0 | Standards | `docs/standards/CICD_STANDARDS.md` |
-| 20 | Session Opener (template) | 1.3 | Standards | `docs/standards/SESSION_OPENER.md` |
-| 21 | Session Closer (template) | 1.1 | Standards | `docs/standards/SESSION_CLOSER.md` |
+| 20 | Session Opener (template) | 1.4 | Standards | `docs/standards/SESSION_OPENER.md` |
+| 21 | Session Closer (template) | 1.2 | Standards | `docs/standards/SESSION_CLOSER.md` |
 | 22 | Standards README (meta) | 1.0 | Standards | `docs/standards/README.md` |
-| 23 | Standards Index (meta) | 1.3 | Standards | `docs/standards/STANDARDS_INDEX.md` |
-| 24 | New Project Bootstrap (meta) | 1.3 | Standards | `docs/standards/NEW_PROJECT_BOOTSTRAP.md` |
+| 23 | Standards Index (meta) | 1.4 | Standards | `docs/standards/STANDARDS_INDEX.md` |
+| 24 | New Project Bootstrap (meta) | 1.4 | Standards | `docs/standards/NEW_PROJECT_BOOTSTRAP.md` |
 | 25 | How To Use (meta) | 1.0 | Standards | `docs/standards/HOW_TO_USE.md` |
-| 26 | Setup — one-shot prompt (meta) | 1.3 | Standards | `docs/standards/SETUP.md` |
+| 26 | Setup — one-shot prompt (meta) | 1.4 | Standards | `docs/standards/SETUP.md` |
 | 27 | Standards Log — experiences-log template (meta) | 1.0 | Standards | `docs/standards/STANDARDS_LOG.md` |
 | 28 | Doc Coverage Check | 0.1 | Governance script | `scripts/check_doc_coverage.py` |
 | 29 | Test Coverage Drift Check | 0.1 | Governance script | `scripts/check_test_coverage_drift.py` |

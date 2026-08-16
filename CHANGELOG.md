@@ -2,6 +2,46 @@
 
 Newest entries at the top.
 
+## [2026-08-16] — Standard Set Version v1.4 — process-hardening batch (L052–L056 + L051 recurrence #4)
+
+- **Type:** Major (edits `docs/standards/` + root `CLAUDE.md` — Critical Files). Doc-only; § 15 plan
+  workflow not required per § 15.6 (doc edits follow the sync triggers directly). Operator-approved batch
+  ("get all 1, 2 and 3 done" — elevate the queued lesson candidates and release v1.4).
+- **What:** codified the six queued lesson candidates from OPEN_TASKS into the suite (template
+  `docs/standards/LESSONS.md` genericized + `archive/LESSONS.md` project-specific, both append-only,
+  headers unchanged per the no-per-lesson-bump practice):
+  - **L052** — an installer must CREATE every file it references (the OPEN_TASKS bootstrap-seed gap,
+    fixed in `8c990bf`).
+  - **L053** — the bootstrap delivery docs (`SETUP.md` / `NEW_PROJECT_BOOTSTRAP.md` / rollout prompt) are
+    a **parity set** updated in the same pass; catch-up to a released Set Version is installer-only (no
+    Set-Version bump); suite-inventory changes update lay-down + strip set-cover same-commit.
+  - **L054** — the § 7 Phase-3 ALLOWLIST must include the plan + sibling-tracker promotion rows
+    (PLAN-003/004 undercounted by 2; PLAN-007 proved the fix). Anchored in `CLAUDE.md` § 15.2.
+  - **L055** — recorded push-state reconciles against the *real* remote (`git ls-remote`) at session open
+    and is flipped in the same wrap-up as the push. Anchored in `SESSION_OPENER` § 1.1 +
+    `SESSION_CLOSER` § 1.4 / § 2.1 row 5 (template + project instances).
+  - **L056** — the Phase-3 implementer's first act is a reconcile pass of the plan against the live
+    source (PLAN-002 D1–D4; recurred through PLAN-007). Anchored in `CLAUDE.md` § 15.3.
+  - **L051 recurrence #4** — the Rule 13 tools must run against the § 5 code *at the final indentation it
+    ships at* (PLAN-007 D1); appended to L051 in both LESSONS files + sharpened `SESSION_OPENER` § 3.1
+    row (project 14 / template 15).
+- **Honoring L053 in the same commit:** SETUP.md + NEW_PROJECT_BOOTSTRAP.md retargeted every live v1.3
+  reference to v1.4 alongside the release (the parity update rides the release itself, ending the
+  catch-up-later pattern). STANDARDS_INDEX § 3 cells for SETUP/NPB/rollout-prompt caught up to their
+  already-shipped versions.
+- **Versions:** template suite — `LESSONS.md` (content only, header 1.0), `CLAUDE.md` 1.2→1.3,
+  `SESSION_OPENER.md` 1.3→1.4, `SESSION_CLOSER.md` 1.1→1.2, `STANDARDS_INDEX.md` 1.3→1.4 (Set v1.4
+  release entry), `SETUP.md` 1.3→1.4, `NEW_PROJECT_BOOTSTRAP.md` 1.3→1.4. Adopter instances —
+  root `CLAUDE.md` 1.5→1.6, `archive/LESSONS.md` (content only, header 1.0), `docs/SESSION_OPENER.md`
+  1.4→1.5, `docs/SESSION_CLOSER.md` 1.2→1.3, `docs/SET_VERSION_ADOPTED.md` 1.4→1.5 (v1.4 backport row).
+  Sync — `documents_manifest.md` 2.11→2.12 (incl. stale self-row 2.10→2.12 + quick-index caption
+  Set v1.2→v1.4 caught up).
+- **Impact:** no runtime/engine impact — governance and suite content only. No standing rule added or
+  removed; Rule 13 / § 15 expectations sharpened. Next § 15 plan (PLAN-008) drafts under the sharpened
+  L051/L054/L056 discipline.
+- **QA scenarios:** Rule 11 exempt (lessons-archive additions + standards-suite refresh + governance-doc
+  edits with no behavior impact).
+
 ## [2026-06-23] — PLAN-007: remote-target transport (local | git | ssh)
 
 - **Type:** Major (new engine module + a registry-schema change + a `CLAUDE.md` § 1 edit — Critical Files).
