@@ -1,7 +1,12 @@
-<!-- VERSION: 2.12 -->
+<!-- VERSION: 2.13 -->
 <!-- Last Updated: 2026-08-16 -->
 <!--
 CHANGE LOG
+v2.13 — 2026-08-16 — Registered docs/STANDARDS_LOG.md (this project's own experiences-log instance,
+created retroactively — the self-adoption had skipped the instantiation step) as entry 67 (v1.0;
+appended, not inserted, to avoid a renumber); quick-index "Operating contract + project docs" range →
+1–10, 58, 67; bumped entry 6 (folder_structure.md) cell 0.9→0.11 (cell was stale — the v2.11 commit
+bumped the file to 0.10 but not this cell; filesystem-verified) and self-row 2.12→2.13. Doc-only.
 v2.12 — 2026-08-16 — Standard Set Version v1.4 (process-hardening batch: lessons L052–L056 + L051
 recurrence #4): bumped touched cells — entry 1 (root CLAUDE.md) 1.5→1.6, entry 8 (project SESSION_OPENER)
 1.4→1.5, entry 9 (project SESSION_CLOSER) 1.2→1.3, entry 10 (SET_VERSION_ADOPTED) 1.4→1.5, entry 11
@@ -95,7 +100,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 | Module / Section | Entry range |
 |---|---|
-| Operating contract + project docs | 1–10, 58 |
+| Operating contract + project docs | 1–10, 58, 67 |
 | Canonical standards suite (Set v1.4) | 11–27, 57 |
 | Governance scripts | 28–29, 56 |
 | Archive | 30 |
@@ -110,8 +115,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.12 | Governance | `docs/documents_manifest.md` |
-| 6 | Folder Structure | 0.9 | Governance | `docs/folder_structure.md` |
+| 5 | Documents Manifest | 2.13 | Governance | `docs/documents_manifest.md` |
+| 6 | Folder Structure | 0.11 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.9 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.5 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.3 | Governance | `docs/SESSION_CLOSER.md` |

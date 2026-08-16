@@ -2,6 +2,22 @@
 
 Newest entries at the top.
 
+## [2026-08-16] — docs/STANDARDS_LOG.md instantiated (closes the self-adoption gap)
+
+- **Type:** Minor (new project doc from the suite's own template; no behavior change).
+- **What:** created this repo's own `docs/STANDARDS_LOG.md` from the v1.0 template — the experiences-log
+  instance every adopter gets at bootstrap. The suite's self-adoption (PLAN-002 era) skipped the
+  instantiation step; the gap sat in OPEN_TASKS since 2026-06-20 ("fix when convenient"). Example entry
+  removed per the template's instantiation note; a self-adoption note added (this repo is also the vault,
+  so portable lessons codify directly into the LESSONS files — the log exists so the project exercises
+  the same contribution channel as any adopter, and so `harvest` has a real in-repo target to read).
+- **Versions:** `docs/STANDARDS_LOG.md` new (1.0, manifest entry 67); `folder_structure.md` 0.10→0.11
+  (tree + two stale labels caught up: standards/ caption v1.1→v1.4, template LESSONS caption
+  L001–L049→L056); `documents_manifest.md` 2.12→2.13 (entry 67 appended; quick-index range; entry 6
+  cell 0.9→0.11 staleness caught up).
+- **Impact:** none at runtime. A live `harvest` against this repo now finds an (empty) log instead of a
+  missing file. **QA scenarios:** Rule 11 exempt (doc creation, no behavior change).
+
 ## [2026-08-16] — Standard Set Version v1.4 — process-hardening batch (L052–L056 + L051 recurrence #4)
 
 - **Type:** Major (edits `docs/standards/` + root `CLAUDE.md` — Critical Files). Doc-only; § 15 plan

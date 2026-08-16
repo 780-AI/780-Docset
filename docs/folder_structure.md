@@ -1,7 +1,8 @@
-<!-- VERSION: 0.10 -->
-<!-- Last Updated: 2026-06-23 -->
+<!-- VERSION: 0.11 -->
+<!-- Last Updated: 2026-08-16 -->
 <!--
 CHANGE LOG
+v0.11 — 2026-08-16 — Added docs/STANDARDS_LOG.md (this project's own experiences-log instance, created retroactively) to the docs/ tree; caught up two stale tree labels — standards/ suite caption "Set Version v1.1" → v1.4 and template LESSONS caption "L001–L049" → L001–L056.
 v0.10 — 2026-06-23 — PLAN-007 (remote-target transport): added src/standard_document_updater/transport.py and tests/test_transport.py to the tree; noted transport-aware on cli.py, the registry.py connection-fields comment, and the engine-tree comment ("PLAN-007: + transport").
 v0.9 — 2026-06-18 — PLAN-006 (Slice 4): added src/standard_document_updater/integrate.py and tests/test_integrate.py to the tree; noted the integrate subcommand on cli.py and the engine-tree comment ("Slice 4: + integrate").
 v0.8 — 2026-06-17 — PLAN-005 (durable memory): added the `.claude/` workspace (untracked memory store + README) and `scripts/bootstrap_memory.sh` to the tree; bumped the archive LESSONS comment to L001–L050.
@@ -40,10 +41,11 @@ Standard DocSet/
 │   ├── SESSION_OPENER.md          # binding session-start pre-flight (Rule 9)
 │   ├── SESSION_CLOSER.md          # binding session-end wrap-up (Rule 12)
 │   ├── SET_VERSION_ADOPTED.md     # adopted Standard Set Version (moved here so it survives the setup strip)
-│   ├── standards/                 # canonical domain-neutral suite (Set Version v1.1)
+│   ├── STANDARDS_LOG.md           # this project's experiences log (contribution channel; kept file)
+│   ├── standards/                 # canonical domain-neutral suite (Set Version v1.4)
 │   │   ├── SETUP.md               # one-shot bootstrap prompt
 │   │   ├── CLAUDE.md             # operating-contract TEMPLATE (with placeholders)
-│   │   ├── LESSONS.md            # lessons archive (canonical template, L001–L049)
+│   │   ├── LESSONS.md            # lessons archive (canonical template, L001–L056)
 │   │   ├── CICD_STANDARDS.md
 │   │   ├── ENGINEERING_STANDARDS.md
 │   │   ├── HOW_TO_USE.md
