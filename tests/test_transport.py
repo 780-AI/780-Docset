@@ -1,8 +1,10 @@
 # ==============================================================
-# VERSION: 0.1
+# VERSION: 0.2
 # Unit tests for the pluggable target transports (local | git | ssh).
 #
 # CHANGE LOG
+# v0.2 — 2026-08-16 — PLAN-008: full=True sessions — git sparse set adds archive; ssh
+#         materializes archive/ + root CLAUDE.md alongside docs/.
 # v0.1 — 2026-06-20 — Initial: make_target dispatch + Local/Git/Ssh materialize/flush + _run errors.
 # ==============================================================
 """Tests for standard_document_updater.transport."""
@@ -93,6 +95,29 @@ def test_git_read_materialize_is_shallow_blobless_sparse(monkeypatch: pytest.Mon
     assert "--no-checkout" in cmds[0] and "--branch" in cmds[0]
     assert cmds[1][3:] == ["sparse-checkout", "set", "docs"]
     assert cmds[2][3] == "checkout"
+
+
+def test_git_read_full_sparse_includes_archive(monkeypatch: pytest.MonkeyPatch) -> None:
+    cmds: list[list[str]] = []
+    monkeypatch.setattr(transport, "_run", _capture(cmds))
+    t = transport.make_target(Project(name="b", transport="git", git_url="git@h:r.git"))
+    with t.session(full=True):
+        pass
+    assert cmds[1][3:] == ["sparse-checkout", "set", "docs", "archive"]
+
+
+def test_ssh_full_materializes_archive_and_root_claude(monkeypatch: pytest.MonkeyPatch) -> None:
+    cmds: list[list[str]] = []
+    monkeypatch.setattr(transport, "_run", _capture(cmds))
+    t = transport.make_target(
+        Project(name="c", transport="ssh", ssh_host="devbox", ssh_path="/home/me/repo/")
+    )
+    with t.session(full=True) as root:
+        assert cmds[0][2] == "devbox:/home/me/repo/docs/"
+        assert cmds[1][2] == "devbox:/home/me/repo/archive/"
+        assert cmds[1][3] == f"{root / 'archive'}/"
+        assert cmds[2][2] == "devbox:/home/me/repo/CLAUDE.md"
+        assert cmds[2][3] == f"{root / 'CLAUDE.md'}"
 
 
 def test_git_write_materialize_is_full_clone(monkeypatch: pytest.MonkeyPatch) -> None:

@@ -1,8 +1,10 @@
 # ==============================================================
-# VERSION: 0.1
+# VERSION: 0.2
 # Unit tests for setversion parsers.
 #
 # CHANGE LOG
+# v0.2 — 2026-08-16 — DD-1: pin the delegated semantics — Status must equal 'open'
+#         (case-insensitive), not merely start with it.
 # v0.1 — 2026-06-16 13:01 — Initial: version parsing + open-log counting.
 # ==============================================================
 """Tests for standard_document_updater.setversion."""
@@ -55,3 +57,15 @@ def test_count_open_log_entries_counts_only_open(tmp_path: Path) -> None:
 
 def test_count_open_log_entries_absent_file_is_zero(tmp_path: Path) -> None:
     assert setversion.count_open_log_entries(tmp_path / "missing.md") == 0
+
+
+def test_count_open_log_entries_requires_exact_open(tmp_path: Path) -> None:
+    log = tmp_path / "STANDARDS_LOG.md"
+    log.write_text(
+        "## E001 — a\n- Status:      open\n\n"
+        "## E002 — b\n- Status:      opened by mistake\n\n"
+        "## E003 — c\n- Status:      Open\n\n",
+        encoding="utf-8",
+    )
+    # DD-1: delegated to logentry.is_open — exact 'open' (case-insensitive), not startswith
+    assert setversion.count_open_log_entries(log) == 2

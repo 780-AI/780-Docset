@@ -1,7 +1,8 @@
-<!-- VERSION: 0.12 -->
+<!-- VERSION: 0.13 -->
 <!-- Last Updated: 2026-08-16 -->
 <!--
 CHANGE LOG
+v0.13 — 2026-08-16 — PLAN-008 (Slice 5: sync, Standard Set Version v1.6): added src/standard_document_updater/sync.py and tests/test_sync.py to the tree; noted the sync subcommand on cli.py and the engine-tree comment ("Slice 5: + sync"); suite caption v1.5 → v1.6.
 v0.12 — 2026-08-16 — PLAN-010 (Standard Set Version v1.5): scripts listing swap bootstrap_memory.sh → claude_project_data.sh; .claude/ tree memory/ → project-data/ (memory + session transcripts); suite caption v1.4 → v1.5; both LESSONS captions → L001–L067.
 v0.11 — 2026-08-16 — Added docs/STANDARDS_LOG.md (this project's own experiences-log instance, created retroactively) to the docs/ tree; caught up two stale tree labels — standards/ suite caption "Set Version v1.1" → v1.4 and template LESSONS caption "L001–L049" → L001–L056.
 v0.10 — 2026-06-23 — PLAN-007 (remote-target transport): added src/standard_document_updater/transport.py and tests/test_transport.py to the tree; noted transport-aware on cli.py, the registry.py connection-fields comment, and the engine-tree comment ("PLAN-007: + transport").
@@ -43,7 +44,7 @@ Standard DocSet/
 │   ├── SESSION_CLOSER.md          # binding session-end wrap-up (Rule 12)
 │   ├── SET_VERSION_ADOPTED.md     # adopted Standard Set Version (moved here so it survives the setup strip)
 │   ├── STANDARDS_LOG.md           # this project's experiences log (contribution channel; kept file)
-│   ├── standards/                 # canonical domain-neutral suite (Set Version v1.5)
+│   ├── standards/                 # canonical domain-neutral suite (Set Version v1.6)
 │   │   ├── SETUP.md               # one-shot bootstrap prompt
 │   │   ├── CLAUDE.md             # operating-contract TEMPLATE (with placeholders)
 │   │   ├── LESSONS.md            # lessons archive (canonical template, L001–L067)
@@ -67,7 +68,7 @@ Standard DocSet/
 ├── config/
 │   └── projects.toml              # registry of managed projects (name + path; per architecture.md § 8)
 ├── src/
-│   └── standard_document_updater/  # the CLI engine (Slice 2: registry + status/drift; Slice 3: + harvest; Slice 4: + integrate; PLAN-007: + transport)
+│   └── standard_document_updater/  # the CLI engine (Slice 2: registry + status/drift; Slice 3: + harvest; Slice 4: + integrate; PLAN-007: + transport; Slice 5: + sync)
 │       ├── __init__.py            # package marker + released CLI version
 │       ├── __main__.py            # `python -m standard_document_updater` entry point
 │       ├── errors.py              # exception hierarchy
@@ -77,8 +78,9 @@ Standard DocSet/
 │       ├── harvest.py             # consolidate open log entries → stdout report (group-by-area + dup flag)
 │       ├── integrate.py           # integration worksheet (Area→topical + next-L0NN) + gated Status write-back
 │       ├── transport.py           # pluggable target transports (local | git | ssh): materialize → operate → flush
+│       ├── sync.py                # section-aware suite propagation (replace | merge | record per file)
 │       ├── report.py              # state computation + table render + drift filter
-│       └── cli.py                 # argparse; status / drift / harvest / integrate subcommands (transport-aware)
+│       └── cli.py                 # argparse; status / drift / harvest / integrate / sync subcommands (transport-aware)
 ├── tests/                         # pytest suite
 │   ├── conftest.py                # synthetic vault/project fixtures
 │   ├── test_setversion.py
@@ -88,6 +90,7 @@ Standard DocSet/
 │   ├── test_harvest.py
 │   ├── test_integrate.py
 │   ├── test_transport.py
+│   ├── test_sync.py
 │   └── test_cli.py
 ├── .claude/                      # Claude Code workspace (untracked; Dropbox-synced)
 │   ├── project-data/             # Claude project data (memory + session transcripts) — harness symlinks here (Rule 14)

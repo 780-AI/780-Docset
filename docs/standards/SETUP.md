@@ -1,8 +1,9 @@
-<!-- VERSION: 1.5 -->
+<!-- VERSION: 1.6 -->
 <!-- Last Updated: 2026-08-16 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.6 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008): instantiation wording — delete the TEMPLATE-ONLY block, fill the PROJECT-OWNED heading block; § 3.1 stays suite-owned (customizations → § 3.2); retargeted every live v1.5 reference to v1.6 (per L053 — delivery docs are a parity set).
 v1.5 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): retargeted every live v1.4 reference to v1.5 (per L053 — delivery docs are a parity set); Step 6.5 rewritten durable memory → project-data locality (creates scripts/claude_project_data.sh, runs link, seeds docs/MACHINE_MIGRATION.md); every bootstrap_memory reference swept — Step 6.5 body + Step 8.5 not-touched list (per L060).
 v1.4 — 2026-08-16 — Retargeted every live v1.3 reference to v1.4 same-commit with the Standard Set Version v1.4 release (per L053 — delivery docs are a parity set; the parity update now rides the release itself). Prompt content otherwise unchanged.
 v1.3 — 2026-06-21 — Fixed a bootstrap gap surfaced by the first real adoption: Step 5 gitignored
@@ -30,7 +31,7 @@ HOW_TO_USE walkthrough as the headline setup path (HOW_TO_USE remains the suppor
 
 **What this is:** a single paste-and-run prompt. Open a fresh Claude Code session **in (or pointing at)
 the new project's directory**, paste the whole fenced block below, and the agent sets the project up
-from scratch on **Standard Set Version v1.5** — governance scaffold, customized contract, session
+from scratch on **Standard Set Version v1.6** — governance scaffold, customized contract, session
 routines, project-data locality (Rule 14), governance scripts, CI, and a first commit. No push (operator-gated).
 
 **Before you paste:** know where your canonical standards source lives on this machine (the folder that
@@ -41,7 +42,7 @@ contains this file and its sibling suite). You'll give that path as `SOURCE` in 
 ## The prompt (copy everything between the lines)
 
 ```
-You are bootstrapping a NEW project from my domain-neutral standards suite (Standard Set Version v1.5).
+You are bootstrapping a NEW project from my domain-neutral standards suite (Standard Set Version v1.6).
 
 PATHS
 - SOURCE (canonical suite, read-only): <fill: e.g. ~/standards-source/docs/standards/ — the folder containing CLAUDE.md, LESSONS.md, the focused standards, SESSION_OPENER/CLOSER templates>
@@ -84,8 +85,11 @@ DO THIS, IN ORDER
      + SETUP.md + STANDARDS_LOG.md + MEMORY_DURABILITY_ROLLOUT_PROMPT.md + SESSION_OPENER.md
      + SESSION_CLOSER.md  → TARGET/docs/standards/
    - Instantiate project-local TARGET/docs/SESSION_OPENER.md and TARGET/docs/SESSION_CLOSER.md from the
-     templates (drop the "TEMPLATE" banner; customize §§ 2–3 for this project: branch name, the
-     environment/registry mapping, failure-mode rows; no remote rows if there's no remote infra).
+     templates: delete the TEMPLATE-ONLY block (markers included); fill the PROJECT-OWNED heading block
+     with this project's name; customize the PROJECT-OWNED blocks (§ 2 environment/registry mapping,
+     § 3.2 project rows — branch name, no remote rows if there's no remote infra). § 3.1 (the universal
+     catalog) stays suite-owned VERBATIM — project-specific patterns + N/A annotations go in § 3.2, so
+     a future `sync` can update § 3.1. Keep every PROJECT-OWNED marker.
 
 4. CUSTOMIZE CLAUDE.md (TARGET root)
    - § 1 project context — fill from my answers.
@@ -95,8 +99,8 @@ DO THIS, IN ORDER
    - § 14 — if single-agent, replace with a short "NOT IN USE (single-agent project)" stub and set
      § 1 Multi-agent = no; if multi-agent, keep § 14 and name the second agent.
    - Reset the header to this project's own VERSION 1.0 with a one-line "Project bootstrap" CHANGE LOG;
-     Source line = "docs/standards/ (this repo). Bootstrapped from Standard Set v1.5 on <today>."
-     (The v1.5 template CLAUDE.md already carries Rules 14–15; keep them — § 6.5 wires up the Rule 14 mechanism.)
+     Source line = "docs/standards/ (this repo). Bootstrapped from Standard Set v1.6 on <today>."
+     (The v1.6 template CLAUDE.md already carries Rules 14–15; keep them — § 6.5 wires up the Rule 14 mechanism.)
 
 5. BUILD SUPPORTING FILES
    - TARGET/README.md (short), TARGET/CHANGELOG.md (bootstrap entry), TARGET/.gitignore
@@ -111,7 +115,7 @@ DO THIS, IN ORDER
      note, and a `_(no open items yet)_` placeholder.
    - TARGET/docs/STANDARDS_LOG.md — create from TARGET/docs/standards/STANDARDS_LOG.md, removing the
      example entry (the project's own experiences log; a kept file that survives the strip).
-   - TARGET/docs/SET_VERSION_ADOPTED.md (Set Version v1.5, adopted <today>).
+   - TARGET/docs/SET_VERSION_ADOPTED.md (Set Version v1.6, adopted <today>).
 
 6. GOVERNANCE + CI
    - TARGET/scripts/check_doc_coverage.py + check_test_coverage_drift.py (permissive scaffolds, exit 0,
@@ -119,9 +123,9 @@ DO THIS, IN ORDER
    - CI per my choice: GitHub → .github/workflows/governance.yml; GitLab → .gitlab-ci.yml + MR template;
      none → skip. Governance stage runs the two scripts on the default branch + PR/MR.
 
-6.5 PROJECT-DATA LOCALITY (Rule 14, Standard Set Version v1.5+)
+6.5 PROJECT-DATA LOCALITY (Rule 14, Standard Set Version v1.6+)
    Make this project's Claude data (memory + session transcripts) live INSIDE the project folder, so it
-   survives a machine change / folder move. The contract text is already present (the v1.5 template
+   survives a machine change / folder move. The contract text is already present (the v1.6 template
    CLAUDE.md Rule 14 + SESSION_OPENER § 1.5 you laid down in steps 3–4); this step wires up the
    mechanism, following TARGET/docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md:
    - Create TARGET/scripts/claude_project_data.sh per that prompt (verbs status / adopt / link; physical
@@ -129,7 +133,7 @@ DO THIS, IN ORDER
      <path-key> = the repo's absolute path with every non-alphanumeric character replaced by `-`).
    - Run `bash scripts/claude_project_data.sh link` (fresh project: creates the home + symlink); paste
      its output. If this machine already has harness data for this path, run `adopt` instead (one-time
-     move-in; it also absorbs the pre-v1.5 memory-symlink layout).
+     move-in; it also absorbs the pre-v1.6 memory-symlink layout).
    - Seed TARGET/docs/MACHINE_MIGRATION.md — the catalog of project state that cannot live in the folder
      (Rule 14 names it): a `# MACHINE_MIGRATION — out-of-folder state catalog` H1, a one-line
      "everything project-local lives in the folder (Rule 14); list here ONLY what cannot, with migration

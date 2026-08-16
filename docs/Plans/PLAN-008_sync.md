@@ -1,8 +1,16 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-08-16 -->
-<!-- Status: APPROVED -->
+<!-- Status: CLOSED -->
 <!--
 CHANGE LOG
+v1.0 — 2026-08-16 — Phase 3 implemented in a fresh session (single commit, 25-file § 7 ALLOWLIST;
+reconcile pass clean — all 10 § 5A–5F blocks re-extracted from this file and written byte-for-byte,
+diffs vs live source matched the plan's described scope, 7/7 § 5G FIND anchors unique, all
+from-versions verified; no plan defects). Phase 4: QA A–D + F–J PASSED (A: ruff/mypy --strict clean,
+pytest 110 passed at ship indentation; C/D: Rule 15 feature-ON runs against the REAL vault content —
+local dry-run→write→idempotent + git push to a local bare remote, all assertions green; E:
+operator-waived to the post-registration live smoke, recorded in the tracker). Plan CLOSED; Phase 5
+(push + tag `set-v1.6`) awaits the operator gate.
 v0.1b — 2026-08-16 — Phase 2: **APPROVE D8.A** (operator, 2026-08-16). Status → APPROVED; Phase 3 to
 run in a fresh session per § 15.3. D1 (TEMPLATE-ONLY markers + instance-heading PROJECT-OWNED blocks,
 Set v1.6) and D2 (§ 3.1 stays suite-owned) confirmed; QA-E ssh live-path waiver confirmed (Rule 15,
@@ -123,8 +131,9 @@ Out of scope: registering targets; the ssh live run; adopt-mode for divergent/le
 - Phase 1 — Design ✅ 2026-08-16 (this file; § 5 code proven in overlay BEFORE embedding; Rule 13
   pass re-extracts from THIS file and re-runs the tools)
 - Phase 2 — Operator approval ✅ 2026-08-16 — **APPROVE D8.A**
-- Phase 3 — Implement ⏸ (fresh session; single commit per § 7 ALLOWLIST)
-- Phase 4 — Validate ⏸ (§ 8 QA A–J)
+- Phase 3 — Implement ✅ 2026-08-16 (fresh session; single commit per § 7 ALLOWLIST; reconcile pass
+  clean — no plan defects)
+- Phase 4 — Validate ✅ 2026-08-16 (QA A–D + F–J passed; E operator-waived per Rule 15 — see tracker)
 - Phase 5 — Operator gate ⏸ (push + tag `set-v1.6`)
 
 ## 5. Transformation rules (verbatim)

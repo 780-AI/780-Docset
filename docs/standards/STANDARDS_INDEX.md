@@ -1,8 +1,9 @@
-<!-- VERSION: 1.5 -->
+<!-- VERSION: 1.6 -->
 <!-- Last Updated: 2026-08-16 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.6 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008 sync-enablement): TEMPLATE-ONLY marker convention + PROJECT-OWNED instance-heading blocks in the two session templates + § 14 stub-keep wording; the `sync` engine ships (Slice 5). § 1 block → v1.6 (counts unchanged — 15 rules / 67 lessons); § 3 caption → v1.6 + cells (CLAUDE.md 1.5, SESSION_OPENER 1.6, SESSION_CLOSER 1.4, SETUP 1.6, NEW_PROJECT_BOOTSTRAP 1.6, STANDARDS_INDEX 1.6); § 6 history entry added. No rule or lesson content change.
 v1.5 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010 upstream intake): eleven lessons L057–L067 + NEW Rule 15 (post-implementation verification of the NEW behavior) + Rule 14 upgraded to project-data locality (claude_project_data.sh replaces bootstrap_memory.sh; verified at session open AND close). § 1 counts → 67 lessons / 15 rules; § 2 rows 1 + 9; § 3 caption → v1.5 + cells (CLAUDE.md 1.4, SESSION_OPENER 1.5, SESSION_CLOSER 1.3, STANDARDS_INDEX 1.5, NEW_PROJECT_BOOTSTRAP 1.5, SETUP 1.5, MEMORY_DURABILITY_ROLLOUT_PROMPT 1.2) + total → 67 (LESSONS cell unchanged per the no-per-lesson-bump practice); § 4.1 count swept 13 → 15 (per L060); § 6 history entry added.
 v1.4 — 2026-08-16 — Standard Set Version v1.4: five process-hardening lessons L052–L056 + L051 recurrence #4 (final-indentation clause). § 1 counts → 56 lessons; § 2 row 9 → 56; § 3 caption → v1.4 + cells (CLAUDE.md 1.3, SESSION_OPENER 1.4, SESSION_CLOSER 1.2, STANDARDS_INDEX 1.4, NEW_PROJECT_BOOTSTRAP 1.4, SETUP 1.4; MEMORY_DURABILITY_ROLLOUT_PROMPT cell caught up to its already-shipped 1.1) + total → 56 (LESSONS cell unchanged per the no-per-lesson-bump practice); § 6 history entry added. Anchors: SESSION_OPENER § 1.1 + § 3.1 row (L055 / L051), SESSION_CLOSER § 1.4 + § 2.1 row (L055), CLAUDE.md § 15.2 (L054) + § 15.3 (L056). No rule added or removed.
 v1.3 — 2026-06-20 — Standard Set Version v1.3: lesson L051 (the Rule 13 senior-review pass must mechanically run the linter / type-checker / tests against the plan's embedded code, not eyeball it) + a SESSION_OPENER § 3.1 universal row. § 1 lesson count → 51; § 2 row 9 → 51; § 3 caption → v1.3, SESSION_OPENER cell → 1.3, STANDARDS_INDEX cell → 1.3, total → 51 (LESSONS cell unchanged per the no-per-lesson-bump practice); § 6 history entry added. No existing rule changed (Rule 13 expectations sharpened, not rewritten).
@@ -38,9 +39,9 @@ Version** tracks the suite as a whole — files added, structure changed, patter
 ## 1. Standard Set Version (current)
 
 ```
-Standard Set Version: v1.5
+Standard Set Version: v1.6
 Released:             2026-08-16
-Baseline:             v1.0 clean domain-neutral baseline + the experiences-log template, PROJECT-OWNED markers, and setup-and-strip (PLAN-002 Slice 1) + durable-memory Rule 14 (PLAN-005) + Rule 13 linter-enforcement lesson L051 (v1.3) + process-hardening lessons L052–L056 and the L051 final-indentation recurrence (v1.4) + upstream-intake process-hardening batch — lessons L057–L067, Rule 15, Rule 14 project-data locality (v1.5).
+Baseline:             v1.0 clean domain-neutral baseline + the experiences-log template, PROJECT-OWNED markers, and setup-and-strip (PLAN-002 Slice 1) + durable-memory Rule 14 (PLAN-005) + Rule 13 linter-enforcement lesson L051 (v1.3) + process-hardening lessons L052–L056 and the L051 final-indentation recurrence (v1.4) + upstream-intake process-hardening batch — lessons L057–L067, Rule 15, Rule 14 project-data locality (v1.5) + sync-enablement markers (v1.6).
 Adopter contract:     11 binding files + 4 meta files (+ SETUP.md + STANDARDS_LOG.md + MEMORY_DURABILITY_ROLLOUT_PROMPT.md); 67 lessons (L001–L067); 15 standing rules in CLAUDE.md
 ```
 
@@ -87,11 +88,11 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 
 ## 3. Per-file version table
 
-Current state as of Set Version v1.5 (2026-08-16). Files unchanged since v1.0 keep their 2026-06-07 dates.
+Current state as of Set Version v1.6 (2026-08-16). Files unchanged since v1.0 keep their 2026-06-07 dates.
 
 | File | Tier | Version | Last Updated |
 |---|---|---|---|
-| `CLAUDE.md` | Binding | 1.4 | 2026-08-16 |
+| `CLAUDE.md` | Binding | 1.5 | 2026-08-16 |
 | `PROJECT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `PROMPT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `PROJECT_INSTRUCTIONS_TEMPLATE.md` | Binding | 1.0 | 2026-06-07 |
@@ -100,13 +101,13 @@ Current state as of Set Version v1.5 (2026-08-16). Files unchanged since v1.0 ke
 | `VALIDATION_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `CICD_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `LESSONS.md` | Binding | 1.0 | 2026-06-07 |
-| `SESSION_OPENER.md` | Binding | 1.5 | 2026-08-16 |
-| `SESSION_CLOSER.md` | Binding | 1.3 | 2026-08-16 |
+| `SESSION_OPENER.md` | Binding | 1.6 | 2026-08-16 |
+| `SESSION_CLOSER.md` | Binding | 1.4 | 2026-08-16 |
 | `README.md` | Meta | 1.0 | 2026-06-07 |
-| `STANDARDS_INDEX.md` | Meta | 1.5 | 2026-08-16 |
-| `NEW_PROJECT_BOOTSTRAP.md` | Meta | 1.5 | 2026-08-16 |
+| `STANDARDS_INDEX.md` | Meta | 1.6 | 2026-08-16 |
+| `NEW_PROJECT_BOOTSTRAP.md` | Meta | 1.6 | 2026-08-16 |
 | `HOW_TO_USE.md` | Meta | 1.0 | 2026-06-07 |
-| `SETUP.md` | Meta | 1.5 | 2026-08-16 |
+| `SETUP.md` | Meta | 1.6 | 2026-08-16 |
 | `STANDARDS_LOG.md` | Meta | 1.0 | 2026-06-13 |
 | `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` | Meta | 1.2 | 2026-08-16 |
 
@@ -167,6 +168,22 @@ coordinated multi-file pattern is a Set-Version Minor; a structural change is a 
 ## 6. Standard Set Version history
 
 Newest first. Append-only.
+
+### v1.6 — 2026-08-16 — Sync-enablement markers (PLAN-008: the `sync` engine ships)
+
+Additive Minor. Marker/wording enablement only — no rule or lesson content change (counts stay
+15 rules / 67 lessons). The two session templates gain a `TEMPLATE-ONLY` banner block (deleted at
+instantiation; never propagated by sync) and a `PROJECT-OWNED` instance-heading block (so
+section-merge sync preserves each adopter's own heading); the template `CLAUDE.md` § 14 marker
+comment switches to stub-keep wording (single-agent adopters replace the § 14 body with a
+"NOT IN USE" stub INSIDE the block — deleting the block would break sync's ordinal block matching);
+`SETUP.md` + `NEW_PROJECT_BOOTSTRAP.md` instantiation wording updated to match (delete the
+TEMPLATE-ONLY block, fill the heading block, keep every marker; § 3.1 stays suite-owned VERBATIM —
+customizations go to § 3.2). The engine's `sync` command ships alongside (dry-run by default;
+suite-owned files replaced whole, mixed files section-merged with PROJECT-OWNED blocks preserved,
+`SET_VERSION_ADOPTED.md` mechanically updated). Adopters may stay on v1.5 — pre-v1.6 instances lack
+the heading wrap and will count-mismatch on their FIRST sync, by design (loud, per-file, nothing
+written): wrap once by hand or via adopt-mode, then sync forever.
 
 ### v1.5 — 2026-08-16 — Upstream-intake batch (L057–L067 + Rule 15 + Rule 14 project-data locality)
 

@@ -1,8 +1,11 @@
 # ==============================================================
-# VERSION: 0.1
+# VERSION: 0.2
 # Pluggable target transports (local | git | ssh): materialize -> operate -> flush.
 #
 # CHANGE LOG
+# v0.2 — 2026-08-16 — PLAN-008 (sync): sessions grow a `full` scope — full=True materializes the
+#         whole sync footprint (docs/ + archive/ + root CLAUDE.md); git read path adds `archive`
+#         to the sparse set (cone mode already includes root files); ssh adds two rsyncs.
 # v0.1 — 2026-06-20 — Initial: Target ABC + Local/Git/Ssh drivers + make_target.
 # ==============================================================
 """Reach a target repo wherever it lives, keeping the engine transport-agnostic.
@@ -29,7 +32,9 @@ from pathlib import Path
 from standard_document_updater.errors import StandardDocSetError
 from standard_document_updater.registry import Project
 
-_DOCS = "docs"  # the only subtree the current commands touch (status/drift/harvest/integrate)
+_DOCS = "docs"        # the subtree status/drift/harvest/integrate touch (full=False sessions)
+_ARCHIVE = "archive"  # + root CLAUDE.md: the wider footprint `sync` needs (full=True sessions)
+_ROOT_FILE = "CLAUDE.md"
 _COMMIT_NAME = "Standard DocSet"
 _COMMIT_EMAIL = "standard-docset@localhost"
 
@@ -64,16 +69,21 @@ class Target(ABC):
         return self.project.location
 
     @contextmanager
-    def session(self, *, writable: bool = False) -> Iterator[Path]:
-        """Yield a local repo root for the target; clean up any temp copy on exit."""
-        root = self._materialize(writable=writable)
+    def session(self, *, writable: bool = False, full: bool = False) -> Iterator[Path]:
+        """Yield a local repo root for the target; clean up any temp copy on exit.
+
+        full=True materializes the whole sync footprint (docs/ + archive/ + root
+        CLAUDE.md) instead of docs/ only — required by `sync`, whose targets
+        include files outside docs/.
+        """
+        root = self._materialize(writable=writable, full=full)
         try:
             yield root
         finally:
             self._dispose(root)
 
     @abstractmethod
-    def _materialize(self, *, writable: bool) -> Path:
+    def _materialize(self, *, writable: bool, full: bool) -> Path:
         """Fetch the repo to a local root (in place for local; a temp dir otherwise)."""
 
     def flush(self, root: Path, changed: list[Path], message: str) -> None:  # noqa: B027
@@ -86,7 +96,7 @@ class Target(ABC):
 class LocalTarget(Target):
     """A repo that is a folder on this machine. Reads and writes happen in place."""
 
-    def _materialize(self, *, writable: bool) -> Path:
+    def _materialize(self, *, writable: bool, full: bool) -> Path:
         path = self.project.path
         if path is None or not path.exists():
             raise TransportError(f"local target {self.name!r}: path not found: {path}")
@@ -96,7 +106,7 @@ class LocalTarget(Target):
 class GitTarget(Target):
     """A repo fetched from a forge remote over SSH. Write-back = direct push (D2/D5)."""
 
-    def _materialize(self, *, writable: bool) -> Path:
+    def _materialize(self, *, writable: bool, full: bool) -> Path:
         url = self.project.git_url
         if not url:
             raise TransportError(f"git target {self.name!r}: missing git_url")
@@ -107,9 +117,10 @@ class GitTarget(Target):
             base += ["--branch", branch]
         if writable:  # full branch tip so a commit can be pushed
             _run([*base, url, str(dest)])
-        else:  # read path: shallow + blobless + sparse docs/ only (D4)
+        else:  # read path: shallow + blobless + sparse (D4); cone mode keeps root files
             _run([*base, "--filter=blob:none", "--no-checkout", url, str(dest)])
-            _run(["git", "-C", str(dest), "sparse-checkout", "set", _DOCS])
+            sparse = [_DOCS, _ARCHIVE] if full else [_DOCS]
+            _run(["git", "-C", str(dest), "sparse-checkout", "set", *sparse])
             _run(["git", "-C", str(dest), "checkout"])
         return dest
 
@@ -132,11 +143,15 @@ class GitTarget(Target):
 class SshTarget(Target):
     """A repo on a remote host reached via rsync over SSH. Only docs/ is materialized."""
 
-    def _materialize(self, *, writable: bool) -> Path:
+    def _materialize(self, *, writable: bool, full: bool) -> Path:
         host, base = self._endpoint()
         dest = Path(tempfile.mkdtemp(prefix="stddocset-ssh-"))
         (dest / _DOCS).mkdir(parents=True, exist_ok=True)
         _run(["rsync", "-az", f"{host}:{base}/{_DOCS}/", f"{dest / _DOCS}/"])
+        if full:  # the sync footprint reaches outside docs/ — hard-fail if absent
+            (dest / _ARCHIVE).mkdir(parents=True, exist_ok=True)
+            _run(["rsync", "-az", f"{host}:{base}/{_ARCHIVE}/", f"{dest / _ARCHIVE}/"])
+            _run(["rsync", "-az", f"{host}:{base}/{_ROOT_FILE}", f"{dest / _ROOT_FILE}"])
         return dest
 
     def flush(self, root: Path, changed: list[Path], message: str) -> None:

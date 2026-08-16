@@ -1,8 +1,9 @@
-<!-- VERSION: 1.5 -->
+<!-- VERSION: 1.6 -->
 <!-- Last Updated: 2026-08-16 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.6 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008 sync-enablement): TEMPLATE-ONLY banner block + PROJECT-OWNED instance-heading block, so section-merge sync never propagates template banners and preserves the adopter's heading.
 v1.5 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): § 1.5 rewritten memory-link → project-data locality (claude_project_data.sh status; fix verbs link/adopt); § 1.3 read-the-register-WHOLE note; § 4 output line Memory link → Project data; § 3.1 row 14 upgraded (all project data) + new rows 16 (Rule 15 feature-ON verification) + 17 (L063 stamp-vs-log).
 v1.4 — 2026-08-16 — Standard Set Version v1.4: § 1.1 push-state reconcile-vs-real-remote note (L055); § 3.1 row 15 sharpened with the L051 recurrence-#4 final-indentation clause.
 v1.3 — 2026-06-20 — Added § 3.1 universal row 15 (Rule 13 senior-review pass recorded as run but not actually executed against the plan's embedded code). Standard Set Version v1.3 (lesson L051).
@@ -12,9 +13,16 @@ v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and sour
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
+<!-- TEMPLATE-ONLY:BEGIN (delivery-crate banner — deleted at instantiation; sync never propagates this block) -->
 # SESSION_OPENER.md — Mandatory session-start pre-flight (template)
 
-> **This file is a TEMPLATE.** Adopters copy it to their project's `docs/SESSION_OPENER.md`, customize the placeholder sections per project, and add the binding rule to their repo-root `CLAUDE.md` (per template `CLAUDE.md` Rule 9 / § 3). Once instantiated, the project-local copy is BINDING for every Claude session in that repository.
+> **This file is a TEMPLATE.** Adopters copy it to their project's `docs/SESSION_OPENER.md`, customize the placeholder sections per project, and add the binding rule to their repo-root `CLAUDE.md` (per template `CLAUDE.md` Rule 9 / § 3). Once instantiated, the project-local copy is BINDING for every Claude session in that repository. At instantiation: delete this TEMPLATE-ONLY block (markers included) and fill in the PROJECT-OWNED heading block below.
+<!-- TEMPLATE-ONLY:END -->
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
+# SESSION_OPENER.md — Mandatory session-start pre-flight (project-local)
+
+> **This is the BINDING project-local instance** for `<project-name>`. Every Claude session in this repository MUST read this file and execute its § 1 pre-flight, then post the § 4 first-response output block BEFORE acting on the operator's first task (per `CLAUDE.md` Rule 9).
+<!-- PROJECT-OWNED:END -->
 
 **Why this file exists:** Repeat mistakes across sessions traced to a single root cause — skipping context-loading at session start and going straight to action. Knowledge encoded in memory (host→env mapping, "grep tests before param change", etc.) is recalled only when the agent thinks to recall it. Without a forcing function, that recall is unreliable. SESSION_OPENER.md IS the forcing function: the binding rule says "read this file and execute its § 1 pre-flight before any action," and the § 4 first-response output template is the proof-of-pre-flight visible to the operator. See `LESSONS.md` L043 for the incident that motivated this.
 

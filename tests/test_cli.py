@@ -1,8 +1,11 @@
 # ==============================================================
-# VERSION: 0.4
-# End-to-end tests for the CLI (status / drift / harvest / integrate).
+# VERSION: 0.5
+# End-to-end tests for the CLI (status / drift / harvest / integrate / sync).
 #
 # CHANGE LOG
+# v0.5 — 2026-08-16 — PLAN-008: five sync tests — empty registry; dry-run writes nothing;
+#         --write applies + idempotent second run; unknown --project errors; per-target
+#         failure isolation (exit 1, healthy targets still synced).
 # v0.4 — 2026-06-20 — Add transport-aware tests: status over a (mocked) git target computes a row;
 #                     an unreachable git target is non-fatal; integrate --write to a local target
 #                     writes through the new ExitStack/session path (PLAN-007).
@@ -190,3 +193,65 @@ def test_status_unreachable_git_target_is_nonfatal(
     assert main(["--vault", str(root), "status"]) == 0  # non-fatal for a read command
     out = capsys.readouterr().out
     assert "beta" in out and "unknown" in out
+
+
+# --- sync (PLAN-008) -------------------------------------------------------------
+
+MakePair = Callable[..., tuple[Path, Path]]
+
+
+def test_sync_empty_registry_exit_zero(
+    make_vault: Make, write_registry: Make, capsys: pytest.CaptureFixture[str]
+) -> None:
+    root = make_vault("1.1")
+    write_registry(root, [])
+    assert main(["--vault", str(root), "sync"]) == 0
+    assert "No registered projects to sync" in capsys.readouterr().out
+
+
+def test_sync_dry_run_reports_and_writes_nothing(
+    make_suite_pair: MakePair, write_registry: Make, capsys: pytest.CaptureFixture[str]
+) -> None:
+    vault, target = make_suite_pair()
+    write_registry(vault, [("acme", target)])
+    before = (target / "CLAUDE.md").read_text(encoding="utf-8")
+    assert main(["--vault", str(vault), "sync"]) == 0
+    out = capsys.readouterr().out
+    assert "DRY-RUN" in out and "need sync" in out and "(dry-run — re-run with --write" in out
+    assert (target / "CLAUDE.md").read_text(encoding="utf-8") == before
+
+
+def test_sync_write_applies_and_second_run_is_up_to_date(
+    make_suite_pair: MakePair, write_registry: Make, capsys: pytest.CaptureFixture[str]
+) -> None:
+    vault, target = make_suite_pair()
+    write_registry(vault, [("acme", target)])
+    assert main(["--vault", str(vault), "sync", "--write"]) == 0
+    assert "wrote + flushed" in capsys.readouterr().out
+    merged = (target / "CLAUDE.md").read_text(encoding="utf-8")
+    assert "Acme CLI." in merged and "## 3. Rules NEW." in merged
+    sva = (target / "docs" / "SET_VERSION_ADOPTED.md").read_text(encoding="utf-8")
+    assert "- **Standard Set Version:** v1.5 (synced from the vault by the engine" in sva
+    assert main(["--vault", str(vault), "sync", "--write"]) == 0
+    assert "up-to-date" in capsys.readouterr().out
+
+
+def test_sync_unknown_project_filter_errors(
+    make_suite_pair: MakePair, write_registry: Make, capsys: pytest.CaptureFixture[str]
+) -> None:
+    vault, target = make_suite_pair()
+    write_registry(vault, [("acme", target)])
+    assert main(["--vault", str(vault), "sync", "--project", "nope"]) == 2
+    assert "not in the registry: nope" in capsys.readouterr().err
+
+
+def test_sync_per_target_failure_is_isolated_exit_one(
+    make_suite_pair: MakePair, write_registry: Make, tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    vault, target = make_suite_pair()
+    write_registry(vault, [("ghost", tmp_path / "missing"), ("acme", target)])
+    assert main(["--vault", str(vault), "sync", "--write"]) == 1
+    captured = capsys.readouterr()
+    assert "ghost" in captured.err and "1 target(s) FAILED" in captured.err
+    assert "[acme]" in captured.out and "wrote + flushed" in captured.out

@@ -1,7 +1,8 @@
-<!-- VERSION: 0.9 -->
-<!-- Last Updated: 2026-06-23 -->
+<!-- VERSION: 0.10 -->
+<!-- Last Updated: 2026-08-16 -->
 <!--
 CHANGE LOG
+v0.10 — 2026-08-16 — PLAN-008 (Slice 5: `sync`) landed. § 7 adds the sync-enablement additions (TEMPLATE-ONLY marker convention; ordinal PROJECT-OWNED block matching with strict count check; § 14 stub-keep). § 8 marks sync implemented ✅ + behavior note (dry-run default; --write/--project/--diff; per-target isolation exit 1; target manifest deliberately not edited; mechanical SVA record update); transport paragraph += full-footprint sessions (DD-B: full=True materializes docs/ + archive/ + root CLAUDE.md). § 10 ticks Slice 5 ✅ — the harvest → integrate → sync loop is complete. § 11 records the PLAN-008 decisions (D1/D2 + DD-A…DD-I) as DECIDED. Ships with Standard Set Version v1.6 (sync-enablement markers) in the same commit.
 v0.9 — 2026-06-23 — PLAN-007 (remote-target transport) landed. § 1 adds the "Reach" note (local or remote git/ssh via a pluggable transport; no server). § 8 registry note → per-target `transport` + connection fields; new "Transport" paragraph (materialize → operate → flush; git fast-forward push; per-target failure non-fatal for reads). § 9 read-before-write extended to fetch-fresh materialization + per-target atomic write-back. § 10 marks PLAN-007 ✅ done. § 11 records the transport decisions (D1–D4 / DD-1…DD-6) as DECIDED. Engine behavior added; read-only on the vault (no docs/standards/ edit) → no Set Version change.
 v0.8 — 2026-06-21 — Drift fix: § 10 roadmap corrected the stale slice→plan numbering. `sync` is PLAN-008 (was PLAN-007); PLAN-007 is the remote-target transport infrastructure expansion inserted before `sync`. Matches the live planning state. Doc-only; no engine behavior change.
 v0.7 — 2026-06-18 — PLAN-006 (Slice 4): `integrate` landed. § 8 marks integrate implemented (read-only worksheet + operator-gated Status write-back; A1 division of labor — tool = deterministic spine, Claude authors the lesson + vault edits in-session) + adds the integrate behavior note. § 10 ticks Slice 4 ✅. § 11 resolves the last OPEN decision (genericization hands off to a Claude session — A1; the tool is pure-Python, never calls a model). Read-only on the vault; no Set Version change (no docs/standards/ file touched).
@@ -144,6 +145,16 @@ Sync replaces everything **except** marked blocks. Simple, explicit, agent-verif
 added to the CLAUDE.md + session **templates** (so every adopter inherits them) and to this repo's own
 adopter instances in Slice 1 (PLAN-002, Set Version v1.1).
 
+**Sync-enablement additions (PLAN-008, Set Version v1.6).** Three refinements make the merge fully
+mechanical: (a) **`TEMPLATE-ONLY` markers** — banner blocks in the two session templates are stripped
+from the template body before merging, so sync never propagates template banners into an adopter;
+(b) **ordinal block matching** — PROJECT-OWNED blocks pair template↔target by position under a STRICT
+count-equality check; any mismatch (or unbalanced/nested markers) fails that file loudly (`SyncError`)
+and nothing is written to it; the target's own BEGIN-comment text is preserved verbatim;
+(c) **§ 14 stub-keep** — single-agent adopters replace the template `CLAUDE.md` § 14 body with a
+"NOT IN USE" stub INSIDE the markers rather than deleting the block, since deletion would break the
+ordinal matching.
+
 **The enabling protocol:** per-file `VERSION` headers + the `Set Version` are what make drift
 machine-detectable ("is this project's copy behind the vault?"). The suite's own discipline *is* the
 protocol the engine runs on.
@@ -157,7 +168,7 @@ A Python CLI (per `CLAUDE.md` § 1). All write commands are operator-gated; read
 | `status` / `drift` ✅ | vault + each project's Set Version + open log count | — | none (read-only) |
 | `harvest` ✅ | every project's `STANDARDS_LOG.md` | a consolidated report (to stdout) | none (read-only) |
 | `integrate` ✅ | open log entries (worksheet) + the decisions TOML (write-back) | project logs (the matched `Status:` line, gated); the **vault** edits (LESSONS + topical + Set Version) are authored by Claude in-session, not by the tool | operator-approved (write-back is dry-run unless `--write`) |
-| `sync` | vault Set Version | every project (honoring `PROJECT-OWNED` markers) | operator-approved |
+| `sync` ✅ | vault suite + Set Version | every project (honoring `PROJECT-OWNED` markers) | operator-approved (dry-run unless `--write`) |
 | `setup` | the delivery crate | the new project (then strips) | operator-run; this is `SETUP.md` |
 
 **Registry:** a vault-side config (`config/projects.toml`) listing each managed project — its
@@ -181,6 +192,18 @@ implemented Slice 2 — PLAN-003; per-target transport fields added PLAN-007.)*
 > **dry-run** diff; `--write` actually writes. It validates every disposition first (no partial writes),
 > re-reads each target log immediately before writing (§ 9), and rewrites **only** the matched `Status:`
 > line, leaving the rest byte-identical. Read-only on the vault — no Set Version change when the tool is run.
+>
+> `sync` implemented Slice 5 — PLAN-008: section-aware propagation of the vault suite to every
+> registered target (the § 7 ownership table, carried in code as `SYNC_MAP`): suite-owned files are
+> **replaced whole**; the three mixed files are **section-merged** (every PROJECT-OWNED block preserved
+> verbatim; TEMPLATE-ONLY blocks stripped; the target keeps its own header, minor-bumped with a standard
+> sync CHANGE-LOG line); `docs/SET_VERSION_ADOPTED.md` gets a mechanical adoption-record update. Dry-run
+> report by default; `--write` applies + flushes per target; `--project NAME` (repeatable) filters;
+> `--diff` prints unified diffs. Within one target every file is validated before any write (no partial
+> target writes); a failed target is isolated — reported to stderr, the run continues, exit 1 at the end
+> with a FAILED summary. Idempotent: an up-to-date target is never re-bumped. The target's
+> `documents_manifest` is deliberately NOT edited — after a write the CLI prints a note to reconcile the
+> target's manifest at that project's next session (DD-F). The vault itself is never a sync target (DD-H).
 
 **Transport (PLAN-007).** All four commands are **transport-aware**: each target is *materialized* to a
 local root — `local` = the folder in place; `git` = a shallow + blobless + sparse-`docs/` clone (the
@@ -194,6 +217,12 @@ is **non-fatal for reads** (`status`/`drift` show the target `unknown`; `harvest
 stderr and skip); a write-path failure is fatal for that run, but every named target is materialized +
 validated before any push, so a fetch failure aborts before anything is written. No secrets are handled —
 git/ssh/rsync use the operator's existing SSH agent/keys.
+
+**Full-footprint sessions (PLAN-008, DD-B).** `sync`'s footprint includes `archive/LESSONS.md` and the
+root `CLAUDE.md`, which live outside `docs/` — `Target.session()` therefore takes `full: bool = False`.
+Full ssh sessions rsync `docs/` + `archive/` + `CLAUDE.md` (each required — hard-fail if absent); full
+git READ sessions add `archive` to the sparse set (cone mode already includes root files); git WRITE
+sessions were already full clones. Existing commands are unchanged (`full=False`).
 
 ## 9. Invariants
 
@@ -230,9 +259,11 @@ first; judgment-heavy last):
    `--apply` Status write-back (dry-run unless `--write`; validate-all-before-write; rewrite only the
    matched `Status:` line). A1: the tool is the deterministic spine — the genericization + vault edits stay
    in-session. *(No Set Version change — building the tool is read-only on the vault.)*
-5. **Slice 5 — `sync` (PLAN-008).** Section-aware propagation honoring `PROJECT-OWNED`; whole-file for
-   suite-owned. Sequenced after PLAN-007 (remote-target transport, ✅ done — see note below), which `sync`
-   builds on to write to many remote adopters.
+5. ✅ **Slice 5 — `sync`** (done — PLAN-008, Set Version v1.6). Section-aware propagation honoring
+   `PROJECT-OWNED` (ordinal matching, strict count check; TEMPLATE-ONLY blocks stripped); whole-file
+   replace for suite-owned; mechanical `SET_VERSION_ADOPTED.md` record update. Dry-run default;
+   `--write`/`--project`/`--diff`; per-target isolation; full-footprint transport sessions (DD-B).
+   Built on PLAN-007's transport layer. *The harvest → integrate → sync loop is complete.*
 
 > Plan numbering: PLAN-005 is the durable-memory governance change (Rule 14 / Set v1.2), not an engine
 > slice. **PLAN-007 — the remote-target transport (`local` | `git` | `ssh`) — ✅ done**: a non-slice
@@ -259,3 +290,18 @@ first; judgment-heavy last):
   = shallow + blobless + sparse `docs/` — **D4**; per-target atomic write-back, per-target transport
   failure non-fatal for reads — **DD-3 / DD-4**; building the transport is read-only on the vault → **no
   Set-Version bump** — **DD-6**.
+- ✅ **DECIDED (PLAN-008, Slice 5)** — `sync` shape: dry-run report by default, `--write` applies +
+  flushes, `--project` (repeatable) filters, `--diff` prints unified diffs — **DD-A**; full-footprint
+  sessions (`Target.session(full=True)` materializes `docs/` + `archive/` + root `CLAUDE.md`) — **DD-B**;
+  ordinal PROJECT-OWNED matching with a strict count-equality check, per-file `SyncError` on
+  mismatch/unbalanced markers — **DD-C**; merged files keep the TARGET's own header (minor-bumped +
+  standard sync log line), replaced files carry the vault file verbatim, unchanged bodies never
+  re-bumped (idempotence) — **DD-D**; mechanical SVA adoption-record update; a target missing the SVA
+  file or backport table errors (adopt-mode's job, not sync's) — **DD-E**; the target's
+  `documents_manifest` is NOT edited (post-write operator note instead) — **DD-F**; DD-1 folded:
+  `count_open_log_entries` delegates to `logentry.parse_log`, exact `open` match (the harvest
+  criterion) — **DD-G**; the vault is never a sync target (its own instances reconcile same-commit at
+  each release) — **DD-H**; per-target isolation (continue on failure, exit 1 + FAILED summary) —
+  **DD-I**; TEMPLATE-ONLY markers + instance-heading PROJECT-OWNED blocks + § 14 stub-keep wording =
+  Standard Set Version v1.6 — **D1**; SESSION_OPENER § 3.1 (universal catalog) stays suite-owned,
+  adopter customizations live in § 3.2 — **D2**.

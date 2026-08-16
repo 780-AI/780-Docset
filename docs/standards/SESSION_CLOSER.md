@@ -1,8 +1,9 @@
-<!-- VERSION: 1.3 -->
+<!-- VERSION: 1.4 -->
 <!-- Last Updated: 2026-08-16 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.4 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008 sync-enablement): TEMPLATE-ONLY banner block + PROJECT-OWNED instance-heading block, so section-merge sync never propagates template banners and preserves the adopter's heading.
 v1.3 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): § 1.6 retitled "/tmp cleanup + locality confirm" — adds the Rule 14 close-side confirm (claude_project_data.sh status → STATUS: OK; new out-of-folder state moved in or cataloged same-commit).
 v1.2 — 2026-08-16 — Standard Set Version v1.4: § 1.4 push-state flip step + § 2.1 row 5 (L055).
 v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-customizable block (§ 2.2 project-specific wrap-up failure-mode table) in PROJECT-OWNED markers so a future sync preserves it. Standard Set Version v1.1.
@@ -10,9 +11,16 @@ v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and sour
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
 
+<!-- TEMPLATE-ONLY:BEGIN (delivery-crate banner — deleted at instantiation; sync never propagates this block) -->
 # SESSION_CLOSER.md — Mandatory wrap-up routine on operator command (template)
 
-> **This file is a TEMPLATE.** Adopters copy it to their project's `docs/SESSION_CLOSER.md`, customize the placeholder sections per project (output-block specifics, project-specific failure-mode rows in § 2), and add the binding rule to their repo-root `CLAUDE.md` (per template `CLAUDE.md` Rule 12 / § 3). Once instantiated, the project-local copy is BINDING for every Claude session in that repository.
+> **This file is a TEMPLATE.** Adopters copy it to their project's `docs/SESSION_CLOSER.md`, customize the placeholder sections per project (output-block specifics, project-specific failure-mode rows in § 2), and add the binding rule to their repo-root `CLAUDE.md` (per template `CLAUDE.md` Rule 12 / § 3). Once instantiated, the project-local copy is BINDING for every Claude session in that repository. At instantiation: delete this TEMPLATE-ONLY block (markers included) and fill in the PROJECT-OWNED heading block below.
+<!-- TEMPLATE-ONLY:END -->
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
+# SESSION_CLOSER.md — Mandatory wrap-up routine on operator command (project-local)
+
+> **This is the BINDING project-local instance** for `<project-name>`. When the operator triggers a wrap-up, Claude MUST read this file and execute its § 1 routine, then post the § 4 output block BEFORE any farewell (per `CLAUDE.md` Rule 12).
+<!-- PROJECT-OWNED:END -->
 
 **Why this file exists:** Across long sessions, new patterns / new rules / new lessons / scope expansions / memory updates emerge organically and are easy to forget by farewell time. Without a forcing function at session-end, codification slips and the next session can't pick up cleanly. SESSION_CLOSER.md IS the forcing function: the binding rule (Rule 12) says "read this file and execute its routine before any farewell," and the § 4 output template is the proof-of-wrap-up visible to the operator. See `LESSONS.md` L048 for the originating pattern.
 

@@ -1,8 +1,9 @@
-<!-- VERSION: 1.4 -->
+<!-- VERSION: 1.5 -->
 <!-- Last Updated: 2026-08-16 -->
 <!-- Source: docs/standards/SESSION_CLOSER.md (template) v1.3. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.5 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008): heading block wrapped in PROJECT-OWNED — reconciles with the v1.6 template structure; owned-block count now 2 = template's 2.
 v1.4 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): § 1.6 retitled "/tmp cleanup + locality confirm" — adds the Rule 14 close-side confirm (claude_project_data.sh status → STATUS: OK; new out-of-folder state moved in or cataloged same-commit); header Source ref → template v1.3.
 v1.3 — 2026-08-16 — Standard Set Version v1.4: § 1.4 push-state flip step + § 2.1 row 5 (L055); header Source ref → template v1.2.
 v1.2 — 2026-06-14 — Project display name → "Standard DocSet" (header Source ref + binding-instance line). Engine package `standard_document_updater` unchanged.
@@ -10,9 +11,11 @@ v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-owned block (§ 
 v1.0 — 2026-06-07 — Project bootstrap. Instantiated from the v1.0 template (docs/standards/SESSION_CLOSER.md v1.0). Customized § 1.2 versions (tool engine version + adopted Set Version; no EA / deploy artifact) and § 4 output block. BINDING per CLAUDE.md Rule 12.
 -->
 
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 # SESSION_CLOSER.md — Mandatory wrap-up routine on operator command (project-local)
 
 > **This is the BINDING project-local instance** for `Standard DocSet`. When the operator triggers a wrap-up, Claude MUST read this file and execute its § 1 routine, then post the § 4 output block BEFORE any farewell (per `CLAUDE.md` Rule 12).
+<!-- PROJECT-OWNED:END -->
 
 **Why this file exists:** Across long sessions, new patterns / rules / lessons / scope changes emerge and are easy to forget by farewell time. This file is the forcing function; the § 4 output block is the proof-of-wrap-up. Symmetric counterpart to `docs/SESSION_OPENER.md` (Rule 9). See `archive/LESSONS.md` L048.
 

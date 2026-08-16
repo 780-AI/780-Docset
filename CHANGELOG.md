@@ -2,6 +2,48 @@
 
 Newest entries at the top.
 
+## [2026-08-16] — Standard Set Version v1.6 + engine Slice 5: `sync` (PLAN-008)
+
+- **Type:** Major (Critical Files: `src/standard_document_updater/` + `docs/standards/`; § 15 plan
+  workflow, APPROVED D8.A, single Phase-3 commit, 25-file ALLOWLIST).
+- **What:** the last engine slice — **`sync`** propagates the vault suite to every registered adopter
+  without clobbering its customizations (architecture § 7): suite-owned files **replaced whole**; the
+  three mixed files (`CLAUDE.md`, both session files) **section-merged** — every PROJECT-OWNED block
+  preserved verbatim (ordinal matching, STRICT count check, per-file `SyncError` on mismatch — nothing
+  written to a structurally surprising target), TEMPLATE-ONLY blocks stripped, the target keeps its own
+  header minor-bumped; `docs/SET_VERSION_ADOPTED.md` mechanically updated (bullets + newest-first
+  backport row). Dry-run by default; `--write` applies + flushes per target over the PLAN-007 transport
+  layer; `--project` filters; `--diff` prints unified diffs; per-target failure isolation (exit 1 +
+  FAILED summary); idempotent (second run = all up-to-date); the target's `documents_manifest` is
+  deliberately NOT edited (post-write operator note instead, DD-F). Transport grows full-footprint
+  sessions (DD-B: `full=True` materializes `docs/` + `archive/` + root `CLAUDE.md`; existing commands
+  unchanged). DD-1 folded (deferred since PLAN-004): `setversion.count_open_log_entries` delegates to
+  `logentry.parse_log` — exact `open` match, pinned by a regression test. **Standard Set Version
+  v1.6** (sync-enablement, marker/wording only — counts stay 15 rules / 67 lessons): TEMPLATE-ONLY
+  banner blocks + PROJECT-OWNED instance-heading blocks in the two session templates; this vault's own
+  instances wrapped to match (opener 3/3, closer 2/2 owned blocks); template `CLAUDE.md` § 14 marker
+  comment → stub-keep wording; SETUP/NPB instantiation wording + L053 v1.5→v1.6 parity retarget.
+  The harvest → integrate → sync loop is complete. Registry stays EMPTY — no real target repo read or
+  written by this plan; QA ran against tmp fixtures + a scratch local bare git remote.
+- **Versions:** engine `__init__` 0.4→0.5 (CLI 0.5.0); `cli.py` 0.4→0.5; `transport.py` 0.1→0.2;
+  `setversion.py` 0.1→0.2; NEW `sync.py` 0.1 + `tests/test_sync.py` 0.1; `conftest.py` 0.1→0.2;
+  `test_transport.py` 0.1→0.2; `test_cli.py` 0.4→0.5; `test_setversion.py` 0.1→0.2; template
+  `SESSION_OPENER.md` 1.5→1.6; template `SESSION_CLOSER.md` 1.3→1.4; `docs/SESSION_OPENER.md` 1.6→1.7;
+  `docs/SESSION_CLOSER.md` 1.4→1.5; template `CLAUDE.md` 1.4→1.5; `STANDARDS_INDEX.md` 1.5→1.6;
+  `SET_VERSION_ADOPTED.md` 1.6→1.7; `SETUP.md` 1.5→1.6; `NEW_PROJECT_BOOTSTRAP.md` 1.5→1.6;
+  `architecture.md` 0.9→0.10; `documents_manifest.md` 2.16→2.17; `folder_structure.md` 0.12→0.13;
+  PLAN-008 + tracker 0.1→1.0 (CLOSED).
+- **Impact:** new engine behavior — the `sync` subcommand ships (dry-run default; writes only with
+  `--write`, and only to registry targets, of which there are none yet). Existing commands' behavior
+  unchanged except DD-1: the status/drift open-log count now requires Status exactly `open`
+  (case-insensitive) instead of `startswith("open")` — it can no longer disagree with harvest.
+  **QA scenarios (Rule 11; per PLAN-008 § 8, tracker Phase 4):** A tools at ship indentation
+  (ruff/mypy --strict/pytest 110) ✅; B test_sync 14 cases ✅; C CLI feature-ON local
+  (5 CLI cases + manual dry-run → write → idempotent re-run) ✅; D git transport feature-ON vs local
+  bare remote ✅; E ssh live path ⏭ operator-waived to the post-registration live smoke (Rule 15
+  waiver in tracker; pairs with PLAN-007 QA K–N); F v1.6 stamp/parity greps ✅; G marker integrity
+  ✅; H governance ✅; I domain-neutral zero-hit ✅; J manifest completeness ✅.
+
 ## [2026-08-16] — Standard Set Version v1.5 — upstream intake: EverOn v2.x → vault (PLAN-010)
 
 - **Type:** Major (Critical Files: both CLAUDE.md copies, docs/standards/, the session routines; § 15

@@ -1,8 +1,9 @@
-<!-- VERSION: 1.4 -->
+<!-- VERSION: 1.5 -->
 <!-- Last Updated: 2026-08-16 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). TEMPLATE — adopters copy to repo root and fill <placeholders>. -->
 <!--
 CHANGE LOG
+v1.5 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008): § 14 marker comment — stub-keep wording: deleting the block would break sync's ordinal block matching; aligns with SETUP step 4's stub guidance.
 v1.4 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010 upstream intake): Rule 14 upgraded in place to full project-data locality (memory + session transcripts at .claude/project-data/, managed by scripts/claude_project_data.sh, verified at session open AND close); NEW Rule 15 (post-implementation verification of the NEW behavior is mandatory); § 3 heading + § 13 bullet corrected 13 → 15 standing rules (stale two rule-additions — the L063 class); § 8.4 Rule 15 checklist row added.
 v1.3 — 2026-08-16 — Standard Set Version v1.4: § 15.2 ALLOWLIST promotion-rows requirement (L054) + § 15.3 Phase-3 reconcile-first duty (L056). No rule added or removed.
 v1.2 — 2026-06-17 — Add Rule 14 (durable project memory across machines/folder moves). Standard Set Version v1.2 (PLAN-005).
@@ -658,7 +659,7 @@ If you find content in multiple places, that is a **defect**. Resolve it: keep t
 
 ---
 
-<!-- PROJECT-OWNED:BEGIN (sync preserves this block) — single-agent adopters delete this entire § 14 block -->
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) — single-agent adopters replace the § 14 body with a "NOT IN USE" stub INSIDE this block; keep the markers (sync matches blocks by position) -->
 ## 14. Codex handoff protocol (OPTIONAL — only if using a second AI agent)
 
 **Adopt this section only if your project uses a second AI coding agent (Codex, Devin, or other) alongside the primary agent (Claude). Single-agent projects delete this section entirely** and set § 1 Multi-agent to "no".

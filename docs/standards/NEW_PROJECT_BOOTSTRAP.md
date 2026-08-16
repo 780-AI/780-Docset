@@ -1,8 +1,9 @@
-<!-- VERSION: 1.5 -->
+<!-- VERSION: 1.6 -->
 <!-- Last Updated: 2026-08-16 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.6 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008): instantiation wording — delete the TEMPLATE-ONLY block, fill the PROJECT-OWNED heading block; § 3.1 stays suite-owned (customizations → § 3.2); retargeted every live v1.5 reference to v1.6 (per L053 — delivery docs are a parity set).
 v1.5 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): retargeted every live v1.4 reference to v1.5 (per L053 — delivery docs are a parity set); Step 8 rewritten durable memory → project-data locality (claude_project_data.sh + link/adopt + docs/MACHINE_MIGRATION.md seed), mirroring SETUP Step 6.5; every bootstrap_memory reference swept — tree, Step 8 body, strip not-touched list, troubleshooting (per L060); counts 14 → 15 standing rules.
 v1.4 — 2026-08-16 — Retargeted every live v1.3 reference to v1.4 same-commit with the Standard Set Version v1.4 release (per L053 — delivery docs are a parity set; the parity update now rides the release itself). Walkthrough content otherwise unchanged.
 v1.3 — 2026-06-21 — Step-parity with SETUP.md v1.3: added the Step 4 seed for `docs/Plans/OPEN_TASKS.md`
@@ -28,7 +29,7 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 > each step does (or to bootstrap by hand).
 
 **Scope:** the dispositive step-by-step procedure for bootstrapping a new project from this standards
-suite at **Standard Set Version v1.5** — governance scaffold, customized contract, session routines,
+suite at **Standard Set Version v1.6** — governance scaffold, customized contract, session routines,
 project-data locality (Rule 14), the experiences log, governance scripts, CI, a first commit, then a strip of
 the delivery machinery.
 
@@ -88,7 +89,7 @@ operative standard, commit it, then **delete the delivery machinery** in a secon
 │   ├── folder_structure.md
 │   ├── SESSION_OPENER.md          # project-local session-start pre-flight (binding, Rule 9)
 │   ├── SESSION_CLOSER.md          # project-local session wrap-up (binding, Rule 12)
-│   ├── SET_VERSION_ADOPTED.md     # records Standard Set Version v1.5
+│   ├── SET_VERSION_ADOPTED.md     # records Standard Set Version v1.6
 │   ├── STANDARDS_LOG.md           # the project's experiences log (contribution channel)
 │   ├── MACHINE_MIGRATION.md       # out-of-folder state catalog (Rule 14)
 │   ├── standards/                 # 6 topical files KEPT after the strip
@@ -173,10 +174,12 @@ cp docs/standards/SESSION_OPENER.md docs/SESSION_OPENER.md
 cp docs/standards/SESSION_CLOSER.md docs/SESSION_CLOSER.md
 ```
 
-Then edit `docs/SESSION_OPENER.md` and `docs/SESSION_CLOSER.md`: drop the "(template)" banner, and
-customize §§ 2–3 for this project — the branch name, the environment/registry mapping, the failure-mode
-rows (drop the remote-host rows if there's no remote infra). Keep the `PROJECT-OWNED` markers so a future
-`sync` preserves your customizations.
+Then edit `docs/SESSION_OPENER.md` and `docs/SESSION_CLOSER.md`: delete the TEMPLATE-ONLY block (markers
+included); fill the PROJECT-OWNED heading block with this project's name; customize the PROJECT-OWNED
+blocks — § 2 environment/registry mapping and § 3.2 project rows (branch name; no remote-host rows if
+there's no remote infra). § 3.1 (the universal catalog) stays suite-owned VERBATIM — project-specific
+patterns + N/A annotations belong in § 3.2, so a future `sync` can update § 3.1. Keep every
+`PROJECT-OWNED` marker so sync preserves your customizations.
 
 ---
 
@@ -193,8 +196,8 @@ from the suite, including all 14 standing rules):
 - **§ 14 Codex handoff** — single-agent: replace with a short "NOT IN USE (single-agent project)" stub
   and set § 1 Multi-agent = no. Multi-agent: keep § 14 and name the second agent.
 - **Reset the header** to this project's own `VERSION 1.0` with a one-line "Project bootstrap" CHANGE
-  LOG; Source line = `docs/standards/ (this repo). Bootstrapped from Standard Set v1.5 on <today>.`
-  (The v1.5 template already carries **Rules 14–15** — keep them; Step 8 wires up the Rule 14 mechanism.)
+  LOG; Source line = `docs/standards/ (this repo). Bootstrapped from Standard Set v1.6 on <today>.`
+  (The v1.6 template already carries **Rules 14–15** — keep them; Step 8 wires up the Rule 14 mechanism.)
 
 Example § 1 fill (SaaS API):
 
@@ -272,7 +275,7 @@ cp docs/standards/STANDARDS_LOG.md docs/STANDARDS_LOG.md
 # then edit docs/STANDARDS_LOG.md to remove the example entry (leave the format reference).
 ```
 
-**`docs/SET_VERSION_ADOPTED.md`** — record the adopted version (Standard Set Version **v1.5**, adopted
+**`docs/SET_VERSION_ADOPTED.md`** — record the adopted version (Standard Set Version **v1.6**, adopted
 `<today>`); see Step 12 for the full content.
 
 **`README.md`**, **`docs/README.md`**, **`docs/documents_manifest.md`**, **`docs/folder_structure.md`**
@@ -398,7 +401,7 @@ matures. (CI semantics are validated by a real pipeline run, not local YAML pars
 ## 9. Step 8 — Set up project-data locality (Rule 14)
 
 Make the project's Claude data (memory + session transcripts) live INSIDE the project folder, so it
-survives a machine change / folder move. The contract text is already present (the v1.5 template
+survives a machine change / folder move. The contract text is already present (the v1.6 template
 `CLAUDE.md` Rule 14 + `SESSION_OPENER.md` § 1.5 you laid down); this step wires up the mechanism,
 following `docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md`:
 
@@ -408,7 +411,7 @@ following `docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md`:
 #    (<path-key> = the repo's absolute path with every non-alphanumeric character replaced by '-').
 bash scripts/claude_project_data.sh link   # fresh project: creates the home + symlink — paste its output
 # (a machine that already has harness data for this path: run `adopt` instead — one-time move-in;
-#  it also absorbs the pre-v1.5 memory-symlink layout)
+#  it also absorbs the pre-v1.6 memory-symlink layout)
 ```
 
 - Seed `docs/MACHINE_MIGRATION.md` — the catalog of project state that cannot live in the folder
@@ -439,7 +442,7 @@ is operator-gated.
 
 ```bash
 cat > /tmp/bootstrap_commit_msg.txt <<'EOF'
-Bootstrap: governance scaffold (Standard Set Version v1.5)
+Bootstrap: governance scaffold (Standard Set Version v1.6)
 
 Installs the operative standard: CLAUDE.md (15 standing rules) at repo root +
 the focused standards under docs/standards/, the LESSONS archive, project-local
@@ -447,7 +450,7 @@ SESSION_OPENER/CLOSER, the experiences log, project-data locality (Rule 14), gov
 scripts, CI scaffold, MR template, and the document manifest — before any feature
 work. No runtime code in this commit.
 
-Bootstrapped from the standards suite at Standard Set Version v1.5 on <today>.
+Bootstrapped from the standards suite at Standard Set Version v1.6 on <today>.
 Independent versions from this point forward; backports are explicit.
 EOF
 
@@ -522,7 +525,7 @@ cat > docs/SET_VERSION_ADOPTED.md <<'EOF'
 
 This project adopts the standards suite at:
 
-- **Standard Set Version:** v1.5
+- **Standard Set Version:** v1.6
 - **Adopted on:** <today>
 - **Source:** <your canonical suite path>
 
@@ -533,11 +536,11 @@ Backports from the source set are explicit. When a newer Set Version is released
 
 | Set Version | Adopted on | Notes |
 |---|---|---|
-| v1.5 | <today> | Initial bootstrap |
+| v1.6 | <today> | Initial bootstrap |
 EOF
 ```
 
-The adopted state at v1.5: **15 standing rules** in `CLAUDE.md` § 3; the suite's lessons in
+The adopted state at v1.6: **15 standing rules** in `CLAUDE.md` § 3; the suite's lessons in
 `archive/LESSONS.md`; project-data locality (Rule 14) wired up.
 
 ---
@@ -585,6 +588,6 @@ prior machine's `~/.claude/projects/<old-key>/` (or a sync/backup of it).
 
 ## End of bootstrap
 
-After Step 12 you have a working governance scaffold on Standard Set Version v1.5. Start feature work in
+After Step 12 you have a working governance scaffold on Standard Set Version v1.6. Start feature work in
 your next session — the 15 standing rules now bind every commit, every prompt, every push. The one-shot
 equivalent of this walkthrough is `SETUP.md`; keep the two in step-parity if you change the procedure.

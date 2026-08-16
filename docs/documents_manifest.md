@@ -1,7 +1,17 @@
-<!-- VERSION: 2.16 -->
+<!-- VERSION: 2.17 -->
 <!-- Last Updated: 2026-08-16 -->
 <!--
 CHANGE LOG
+v2.17 — 2026-08-16 — PLAN-008 (Slice 5: sync, Standard Set Version v1.6) implemented: registered
+sync.py + test_sync.py as entries 72–73 (v0.1; appended — Engine quick-index range → 40–55, 61–62,
+65–66, 72–73); bumped touched cells — engine (40 __init__ 0.4→0.5, 44 setversion 0.1→0.2, 46 cli
+0.4→0.5 + description "+ sync", 65 transport 0.1→0.2), tests (47 conftest 0.1→0.2, 48 test_setversion
+0.1→0.2, 51 test_cli 0.4→0.5, 66 test_transport 0.1→0.2), docs (6 folder_structure 0.12→0.13,
+7 architecture 0.9→0.10, 8 SESSION_OPENER 1.6→1.7, 9 SESSION_CLOSER 1.4→1.5, 10 SVA 1.6→1.7,
+11 template CLAUDE.md 1.4→1.5, 20 template OPENER 1.5→1.6, 21 template CLOSER 1.3→1.4,
+23 STANDARDS_INDEX 1.5→1.6, 24 NPB 1.5→1.6, 26 SETUP 1.5→1.6); promoted PLAN-008 + tracker (70–71)
+to 1.0/CLOSED; quick-index suite caption Set v1.5 → v1.6; self-row 2.16 → 2.17 (grep-verified against
+the header per L063).
 v2.16 — 2026-08-16 — Registered PLAN-008 (Slice 5: sync, Set v1.6; APPROVED D8.A same session) + its sibling tracker as
 entries 70–71 (v0.1; appended, not inserted); quick-index Plans range → 31–39, 59–60, 63–64, 68–71;
 self-row 2.15 → 2.16 (grep-verified against the header per L063). Design session only; the Phase-3
@@ -121,11 +131,11 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Module / Section | Entry range |
 |---|---|
 | Operating contract + project docs | 1–10, 58, 67 |
-| Canonical standards suite (Set v1.5) | 11–27, 57 |
+| Canonical standards suite (Set v1.6) | 11–27, 57 |
 | Governance scripts | 28–29, 56 |
 | Archive | 30 |
 | Plans | 31–39, 59–60, 63–64, 68–71 |
-| Engine (src + tests) | 40–55, 61–62, 65–66 |
+| Engine (src + tests) | 40–55, 61–62, 65–66, 72–73 |
 
 ## Manifest table
 
@@ -135,13 +145,13 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.16 | Governance | `docs/documents_manifest.md` |
-| 6 | Folder Structure | 0.12 | Governance | `docs/folder_structure.md` |
-| 7 | Architecture (system-design record) | 0.9 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.6 | Governance | `docs/SESSION_OPENER.md` |
-| 9 | Session Closer (project-local, binding) | 1.4 | Governance | `docs/SESSION_CLOSER.md` |
-| 10 | Set Version Adopted | 1.6 | Governance | `docs/SET_VERSION_ADOPTED.md` |
-| 11 | CLAUDE.md (template) | 1.4 | Standards | `docs/standards/CLAUDE.md` |
+| 5 | Documents Manifest | 2.17 | Governance | `docs/documents_manifest.md` |
+| 6 | Folder Structure | 0.13 | Governance | `docs/folder_structure.md` |
+| 7 | Architecture (system-design record) | 0.10 | Docs | `docs/architecture.md` |
+| 8 | Session Opener (project-local, binding) | 1.7 | Governance | `docs/SESSION_OPENER.md` |
+| 9 | Session Closer (project-local, binding) | 1.5 | Governance | `docs/SESSION_CLOSER.md` |
+| 10 | Set Version Adopted | 1.7 | Governance | `docs/SET_VERSION_ADOPTED.md` |
+| 11 | CLAUDE.md (template) | 1.5 | Standards | `docs/standards/CLAUDE.md` |
 | 12 | Lessons Archive (template) | 1.0 | Standards | `docs/standards/LESSONS.md` |
 | 13 | Project Standards | 1.0 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
 | 14 | Prompt Standards | 1.0 | Standards | `docs/standards/PROMPT_STANDARDS.md` |
@@ -150,13 +160,13 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 17 | Engineering Standards | 1.0 | Standards | `docs/standards/ENGINEERING_STANDARDS.md` |
 | 18 | Validation Standards | 1.0 | Standards | `docs/standards/VALIDATION_STANDARDS.md` |
 | 19 | CI/CD Standards | 1.0 | Standards | `docs/standards/CICD_STANDARDS.md` |
-| 20 | Session Opener (template) | 1.5 | Standards | `docs/standards/SESSION_OPENER.md` |
-| 21 | Session Closer (template) | 1.3 | Standards | `docs/standards/SESSION_CLOSER.md` |
+| 20 | Session Opener (template) | 1.6 | Standards | `docs/standards/SESSION_OPENER.md` |
+| 21 | Session Closer (template) | 1.4 | Standards | `docs/standards/SESSION_CLOSER.md` |
 | 22 | Standards README (meta) | 1.0 | Standards | `docs/standards/README.md` |
-| 23 | Standards Index (meta) | 1.5 | Standards | `docs/standards/STANDARDS_INDEX.md` |
-| 24 | New Project Bootstrap (meta) | 1.5 | Standards | `docs/standards/NEW_PROJECT_BOOTSTRAP.md` |
+| 23 | Standards Index (meta) | 1.6 | Standards | `docs/standards/STANDARDS_INDEX.md` |
+| 24 | New Project Bootstrap (meta) | 1.6 | Standards | `docs/standards/NEW_PROJECT_BOOTSTRAP.md` |
 | 25 | How To Use (meta) | 1.0 | Standards | `docs/standards/HOW_TO_USE.md` |
-| 26 | Setup — one-shot prompt (meta) | 1.5 | Standards | `docs/standards/SETUP.md` |
+| 26 | Setup — one-shot prompt (meta) | 1.6 | Standards | `docs/standards/SETUP.md` |
 | 27 | Standards Log — experiences-log template (meta) | 1.0 | Standards | `docs/standards/STANDARDS_LOG.md` |
 | 28 | Doc Coverage Check | 0.1 | Governance script | `scripts/check_doc_coverage.py` |
 | 29 | Test Coverage Drift Check | 0.1 | Governance script | `scripts/check_test_coverage_drift.py` |
@@ -170,18 +180,18 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 37 | PLAN-004 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-004_tracker.md` |
 | 38 | PLAN-005 — durable memory (Rule 14 + Set v1.2) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-005_durable_memory.md` |
 | 39 | PLAN-005 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-005_tracker.md` |
-| 40 | Engine — package marker + CLI version | 0.4 | Engine | `src/standard_document_updater/__init__.py` |
+| 40 | Engine — package marker + CLI version | 0.5 | Engine | `src/standard_document_updater/__init__.py` |
 | 41 | Engine — module entry point | 0.1 | Engine | `src/standard_document_updater/__main__.py` |
 | 42 | Engine — exception hierarchy | 0.1 | Engine | `src/standard_document_updater/errors.py` |
 | 43 | Engine — registry loader | 0.2 | Engine | `src/standard_document_updater/registry.py` |
-| 44 | Engine — Set-Version / open-log parsers | 0.1 | Engine | `src/standard_document_updater/setversion.py` |
+| 44 | Engine — Set-Version / open-log parsers | 0.2 | Engine | `src/standard_document_updater/setversion.py` |
 | 45 | Engine — comparison report | 0.2 | Engine | `src/standard_document_updater/report.py` |
-| 46 | Engine — CLI (status / drift / harvest / integrate) | 0.4 | Engine | `src/standard_document_updater/cli.py` |
-| 47 | Engine test — shared fixtures | 0.1 | Engine test | `tests/conftest.py` |
-| 48 | Engine test — setversion | 0.1 | Engine test | `tests/test_setversion.py` |
+| 46 | Engine — CLI (status / drift / harvest / integrate / sync) | 0.5 | Engine | `src/standard_document_updater/cli.py` |
+| 47 | Engine test — shared fixtures | 0.2 | Engine test | `tests/conftest.py` |
+| 48 | Engine test — setversion | 0.2 | Engine test | `tests/test_setversion.py` |
 | 49 | Engine test — registry | 0.2 | Engine test | `tests/test_registry.py` |
 | 50 | Engine test — report | 0.2 | Engine test | `tests/test_report.py` |
-| 51 | Engine test — cli | 0.4 | Engine test | `tests/test_cli.py` |
+| 51 | Engine test — cli | 0.5 | Engine test | `tests/test_cli.py` |
 | 52 | Engine — experiences-log entry parser | 0.1 | Engine | `src/standard_document_updater/logentry.py` |
 | 53 | Engine — harvest report (open-entry consolidation) | 0.1 | Engine | `src/standard_document_updater/harvest.py` |
 | 54 | Engine test — logentry | 0.1 | Engine test | `tests/test_logentry.py` |
@@ -195,13 +205,15 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 62 | Engine test — integrate | 0.1 | Engine test | `tests/test_integrate.py` |
 | 63 | PLAN-007 — remote transport (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-007_remote_transport.md` |
 | 64 | PLAN-007 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-007_tracker.md` |
-| 65 | Engine — pluggable target transports (local \| git \| ssh) | 0.1 | Engine | `src/standard_document_updater/transport.py` |
-| 66 | Engine test — transport | 0.1 | Engine test | `tests/test_transport.py` |
+| 65 | Engine — pluggable target transports (local \| git \| ssh) | 0.2 | Engine | `src/standard_document_updater/transport.py` |
+| 66 | Engine test — transport | 0.2 | Engine test | `tests/test_transport.py` |
 | 67 | Standards Log — project experiences log | 1.0 | Governance | `docs/STANDARDS_LOG.md` |
 | 68 | PLAN-010 — upstream intake: EverOn v2.x → vault (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-010_everon_upstream_intake.md` |
 | 69 | PLAN-010 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-010_tracker.md` |
-| 70 | PLAN-008 — Slice 5: sync (APPROVED) | 0.1 | Plan | `docs/Plans/PLAN-008_sync.md` |
-| 71 | PLAN-008 tracker (APPROVED) | 0.1 | Plan | `docs/Plans/PLAN-008_tracker.md` |
+| 70 | PLAN-008 — Slice 5: sync (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-008_sync.md` |
+| 71 | PLAN-008 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-008_tracker.md` |
+| 72 | Engine — section-aware suite propagation (sync) | 0.1 | Engine | `src/standard_document_updater/sync.py` |
+| 73 | Engine test — sync | 0.1 | Engine test | `tests/test_sync.py` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -210,12 +222,12 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-08-16
-- **Change**: PLAN-010 (upstream intake → Standard Set Version v1.5) implemented — 19 tracked files
-  touched + the script swap (entry 56: bootstrap_memory.sh deleted, claude_project_data.sh registered
-  in the reused slot); 13 doc cells bumped; PLAN-010 + tracker (68–69) promoted to 1.0/CLOSED;
-  quick-index suite caption → Set v1.5; self-row caught up 2.13 → 2.15 (L063 class). Doc + governance-
-  script change only; no engine change.
-- **Previous change**: PLAN-007 (remote-target transport) implemented — registered transport.py +
-  test_transport.py as entries 65–66 (v0.1; Engine range → 40–55, 61–62, 65–66); bumped touched cells;
-  promoted PLAN-007 + tracker (63–64) to 1.0/CLOSED. Engine behavior added; no Set Version change.
+- **Change**: PLAN-008 (Slice 5: `sync` → Standard Set Version v1.6) implemented — registered sync.py +
+  test_sync.py as entries 72–73; 8 engine/test cells + 11 doc cells bumped; PLAN-008 + tracker (70–71)
+  promoted to 1.0/CLOSED; quick-index suite caption → Set v1.6. Engine Slice 5 ships — the
+  harvest → integrate → sync loop is complete.
+- **Previous change**: PLAN-010 (upstream intake → Standard Set Version v1.5) implemented — 19 tracked
+  files touched + the script swap (entry 56: bootstrap_memory.sh deleted, claude_project_data.sh
+  registered in the reused slot); 13 doc cells bumped; PLAN-010 + tracker (68–69) promoted to
+  1.0/CLOSED; quick-index suite caption → Set v1.5. Doc + governance-script change only.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

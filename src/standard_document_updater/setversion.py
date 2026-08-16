@@ -1,8 +1,11 @@
 # ==============================================================
-# VERSION: 0.1
+# VERSION: 0.2
 # Parse Set Versions + open-log counts from standards files (live reads).
 #
 # CHANGE LOG
+# v0.2 — 2026-08-16 — DD-1 (deferred since PLAN-004): count_open_log_entries delegates to
+#                     logentry.parse_log — one log parser, one truth. Status match tightens
+#                     from startswith("open") to == "open" (the harvest criterion).
 # v0.1 — 2026-06-16 13:01 — Initial: vault version, adopted version, open-log count.
 # ==============================================================
 """Live parsers for the version/log state the report needs.
@@ -24,11 +27,10 @@ import re
 from pathlib import Path
 
 from standard_document_updater.errors import ParseError
+from standard_document_updater.logentry import parse_log
 
 _VAULT_RE = re.compile(r"^Standard Set Version:\s*v(\d+(?:\.\d+)+)", re.MULTILINE)
 _ADOPTED_RE = re.compile(r"\*\*Standard Set Version:\*\*\s*v(\d+(?:\.\d+)+)")
-_ENTRY_RE = re.compile(r"^##\s+E\d+\b", re.MULTILINE)
-_STATUS_RE = re.compile(r"^-\s*Status:\s*(\S+)", re.MULTILINE)
 
 
 def parse_vault_version(standards_index_path: Path) -> tuple[int, ...]:
@@ -51,19 +53,10 @@ def _parse_version(path: Path, pattern: re.Pattern[str], label: str) -> tuple[in
 
 
 def count_open_log_entries(log_path: Path) -> int:
-    """Count STANDARDS_LOG.md entries whose Status begins with 'open'.
+    """Count STANDARDS_LOG.md entries whose Status is 'open' (the harvest criterion).
 
     Returns 0 when the log file is absent (a project may not have started one).
+    Delegates to logentry.parse_log (DD-1) — one log parser, one truth: the
+    status/drift open-count can never disagree with what harvest collects.
     """
-    if not log_path.exists():
-        return 0
-    text = log_path.read_text(encoding="utf-8")
-    headings = list(_ENTRY_RE.finditer(text))
-    count = 0
-    for i, heading in enumerate(headings):
-        start = heading.start()
-        end = headings[i + 1].start() if i + 1 < len(headings) else len(text)
-        status = _STATUS_RE.search(text[start:end])
-        if status is not None and status.group(1).lower().startswith("open"):
-            count += 1
-    return count
+    return sum(1 for entry in parse_log(log_path) if entry.is_open)

@@ -1,8 +1,9 @@
-<!-- VERSION: 1.6 -->
+<!-- VERSION: 1.7 -->
 <!-- Last Updated: 2026-08-16 -->
 <!-- Source: docs/standards/SESSION_OPENER.md (template) v1.4. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.7 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008): heading block wrapped in PROJECT-OWNED — reconciles with the v1.6 template structure; owned-block count now 3 = template's 3.
 v1.6 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): § 1.5 rewritten memory-link → project-data locality (claude_project_data.sh status; fix verbs link/adopt); § 1.3 read-the-register-WHOLE note; § 4 output line Memory link → Project data; § 3.1 row 13 upgraded (all project data) + new rows 15 (Rule 15 feature-ON verification) + 16 (L063 stamp-vs-log).
 v1.5 — 2026-08-16 — Standard Set Version v1.4: § 1.1 push-state reconcile-vs-real-remote note (L055); § 3.1 row 14 sharpened with the L051 recurrence-#4 final-indentation clause.
 v1.4 — 2026-06-20 — Added § 3.1 universal row 14 (Rule 13 senior-review pass recorded as run but not actually executed against the § 5 code). Standard Set Version v1.3 (lesson L051).
@@ -12,9 +13,11 @@ v1.1 — 2026-06-13 — PLAN-002 (Slice 1): wrapped the project-owned blocks (§
 v1.0 — 2026-06-07 — Project bootstrap. Instantiated from the v1.0 template (docs/standards/SESSION_OPENER.md v1.0). Customized for a single-agent, local-CLI, domain-neutral project: § 1.2 live-system probes replaced with "registered target suites" (no remote infra); § 2 environment mapping rewritten as the source-suite + target-repo registry (no staging/prod hosts); § 3.1 universal failure-mode catalog kept (remote rows annotated N/A for this project); § 4 output template trimmed of the live-system block. BINDING per CLAUDE.md Rule 9.
 -->
 
+<!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 # SESSION_OPENER.md — Mandatory session-start pre-flight (project-local)
 
 > **This is the BINDING project-local instance** for `Standard DocSet`. Every Claude session in this repository MUST read this file and execute its § 1 pre-flight, then post the § 4 first-response output block BEFORE acting on the operator's first task (per `CLAUDE.md` Rule 9).
+<!-- PROJECT-OWNED:END -->
 
 **Why this file exists:** Repeat mistakes across sessions trace to one root cause — skipping context-loading at session start and going straight to action. This file is the forcing function; the § 4 output block is the proof-of-pre-flight visible to the operator. See `archive/LESSONS.md` L043.
 

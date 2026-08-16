@@ -1,8 +1,11 @@
 # ==============================================================
-# VERSION: 0.4
+# VERSION: 0.5
 # Command-line interface: `python -m standard_document_updater <command>`.
 #
 # CHANGE LOG
+# v0.5 — 2026-08-16 — PLAN-008 (Slice 5): add the `sync` subcommand (dry-run report by default;
+#                     --write applies + flushes per target; --project filter; --diff). Per-target
+#                     failure is isolated (continue others, exit 1 at the end).
 # v0.4 — 2026-06-20 — Materialize each target via the transport layer (local | git | ssh): reads
 #                     run inside a Target.session(); the integrate write-back uses an ExitStack +
 #                     per-target flush; per-target failure is non-fatal for reads (PLAN-007).
@@ -16,11 +19,20 @@ from __future__ import annotations
 import argparse
 import sys
 from contextlib import ExitStack
+from datetime import date
 from pathlib import Path
 
-from standard_document_updater import __version__, harvest, integrate, logentry, report, setversion
+from standard_document_updater import (
+    __version__,
+    harvest,
+    integrate,
+    logentry,
+    report,
+    setversion,
+    sync,
+)
 from standard_document_updater.errors import StandardDocSetError
-from standard_document_updater.registry import load_registry
+from standard_document_updater.registry import Project, load_registry
 from standard_document_updater.transport import TransportError, make_target
 
 
@@ -115,6 +127,57 @@ def _cmd_integrate(args: argparse.Namespace) -> int:
     return 0
 
 
+def _sync_projects(vault_root: Path, only: list[str] | None) -> list[Project]:
+    """Registry rows to sync, honoring the --project filter (unknown names error)."""
+    projects = load_registry(vault_root / "config" / "projects.toml")
+    if only is None:
+        return projects
+    by_name = {p.name: p for p in projects}
+    unknown = [name for name in only if name not in by_name]
+    if unknown:
+        raise StandardDocSetError(f"not in the registry: {', '.join(sorted(unknown))}")
+    return [by_name[name] for name in only]
+
+
+def _cmd_sync(args: argparse.Namespace) -> int:
+    vault_root: Path = args.vault
+    index = vault_root / "docs" / "standards" / "STANDARDS_INDEX.md"
+    set_version = "v" + ".".join(str(n) for n in setversion.parse_vault_version(index))
+    today = date.today().isoformat()
+    projects = _sync_projects(vault_root, args.project)
+    if not projects:
+        print("No registered projects to sync. (Register targets in config/projects.toml.)")
+        return 0
+    if not args.write:
+        print(f"DRY-RUN — vault Standard Set Version {set_version}; no target is written.\n")
+    failed: list[str] = []
+    for project in projects:
+        try:
+            target = make_target(project)
+            with target.session(writable=args.write, full=True) as root:
+                actions = sync.plan_target(vault_root, root, set_version, today)
+                print(sync.render_plan(project.name, actions, show_diff=args.diff))
+                changed = [a for a in actions if a.changed]
+                if args.write and changed:
+                    written = sync.apply_actions(root, changed)
+                    message = f"Standard DocSet: sync to Standard Set Version {set_version}"
+                    target.flush(root, written, message)
+                    print(f"  -> wrote + flushed {len(written)} file(s)")
+                    print(
+                        "  note: sync does not edit the target's documents_manifest — "
+                        "reconcile its cells at that project's next session"
+                    )
+        except StandardDocSetError as exc:  # incl. TransportError / SyncError: isolate the target
+            print(f"error: {project.name}: {exc}", file=sys.stderr)
+            failed.append(project.name)
+    if failed:
+        print(f"\n{len(failed)} target(s) FAILED: {', '.join(failed)}", file=sys.stderr)
+        return 1
+    if not args.write:
+        print("\n(dry-run — re-run with --write to apply)")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="standard_document_updater",
@@ -149,6 +212,27 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="actually write (default is a dry-run diff); only valid with --apply",
     )
+    p_sync = sub.add_parser(
+        "sync",
+        help="propagate the vault suite to registered projects (dry-run unless --write)",
+    )
+    p_sync.add_argument(
+        "--write",
+        action="store_true",
+        help="write the changes and flush them to each target (default: dry-run report)",
+    )
+    p_sync.add_argument(
+        "--project",
+        action="append",
+        default=None,
+        metavar="NAME",
+        help="limit the run to the named registry project (repeatable)",
+    )
+    p_sync.add_argument(
+        "--diff",
+        action="store_true",
+        help="show a unified diff for every file that would change",
+    )
     return parser
 
 
@@ -160,6 +244,7 @@ def main(argv: list[str] | None = None) -> int:
         "drift": _cmd_drift,
         "harvest": _cmd_harvest,
         "integrate": _cmd_integrate,
+        "sync": _cmd_sync,
     }
     try:
         return handlers[args.command](args)
