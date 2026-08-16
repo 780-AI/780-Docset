@@ -1,7 +1,12 @@
-<!-- VERSION: 2.17 -->
+<!-- VERSION: 2.18 -->
 <!-- Last Updated: 2026-08-16 -->
 <!--
 CHANGE LOG
+v2.18 — 2026-08-16 — Registered PLAN-009 (skill-based delivery, Set v2.0; APPROVED D9.A same session)
++ its sibling tracker as entries 74–75 (plan 0.2, tracker 0.1; appended, not inserted); quick-index
+Plans range → 31–39, 59–60, 63–64, 68–71, 74–75; self-row 2.17 → 2.18 (grep-verified against the
+header per L063). Design session only; the Phase-3 implement commit lands the 21-file § 7.2 ALLOWLIST
+(skill/ + bootstrap_skill.sh + 3 retirements + Set v2.0).
 v2.17 — 2026-08-16 — PLAN-008 (Slice 5: sync, Standard Set Version v1.6) implemented: registered
 sync.py + test_sync.py as entries 72–73 (v0.1; appended — Engine quick-index range → 40–55, 61–62,
 65–66, 72–73); bumped touched cells — engine (40 __init__ 0.4→0.5, 44 setversion 0.1→0.2, 46 cli
@@ -134,7 +139,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Canonical standards suite (Set v1.6) | 11–27, 57 |
 | Governance scripts | 28–29, 56 |
 | Archive | 30 |
-| Plans | 31–39, 59–60, 63–64, 68–71 |
+| Plans | 31–39, 59–60, 63–64, 68–71, 74–75 |
 | Engine (src + tests) | 40–55, 61–62, 65–66, 72–73 |
 
 ## Manifest table
@@ -145,7 +150,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.17 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.18 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.13 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.10 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.7 | Governance | `docs/SESSION_OPENER.md` |
@@ -214,6 +219,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 71 | PLAN-008 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-008_tracker.md` |
 | 72 | Engine — section-aware suite propagation (sync) | 0.1 | Engine | `src/standard_document_updater/sync.py` |
 | 73 | Engine test — sync | 0.1 | Engine test | `tests/test_sync.py` |
+| 74 | PLAN-009 — skill-based delivery (Set v2.0) (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-009_skill_delivery.md` |
+| 75 | PLAN-009 tracker | 0.1 | Plan | `docs/Plans/PLAN-009_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -222,12 +229,11 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-08-16
-- **Change**: PLAN-008 (Slice 5: `sync` → Standard Set Version v1.6) implemented — registered sync.py +
-  test_sync.py as entries 72–73; 8 engine/test cells + 11 doc cells bumped; PLAN-008 + tracker (70–71)
-  promoted to 1.0/CLOSED; quick-index suite caption → Set v1.6. Engine Slice 5 ships — the
-  harvest → integrate → sync loop is complete.
-- **Previous change**: PLAN-010 (upstream intake → Standard Set Version v1.5) implemented — 19 tracked
-  files touched + the script swap (entry 56: bootstrap_memory.sh deleted, claude_project_data.sh
-  registered in the reused slot); 13 doc cells bumped; PLAN-010 + tracker (68–69) promoted to
-  1.0/CLOSED; quick-index suite caption → Set v1.5. Doc + governance-script change only.
+- **Change**: Registered PLAN-009 (skill-based delivery → Set v2.0; APPROVED D9.A same session) + its
+  sibling tracker as entries 74–75. Design session only — the Phase-3 implement commit lands the
+  21-file ALLOWLIST (skill/ + bootstrap_skill.sh + SETUP/NPB/MDRP retirements + Set v2.0).
+- **Previous change**: PLAN-008 (Slice 5: `sync` → Standard Set Version v1.6) implemented — registered
+  sync.py + test_sync.py as entries 72–73; 8 engine/test cells + 11 doc cells bumped; PLAN-008 +
+  tracker (70–71) promoted to 1.0/CLOSED; quick-index suite caption → Set v1.6. Engine Slice 5
+  ships — the harvest → integrate → sync loop is complete.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

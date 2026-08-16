@@ -2,6 +2,26 @@
 
 Newest entries at the top.
 
+## [2026-08-16] — PLAN-009 approved (D9.A): skill-based delivery — design + tracker
+
+- **Type:** Design session (§ 15 Phases 0–2; docs-only — no behavior change, no engine change).
+- **What:** PLAN-009 drafted, Rule 13-hardened, and operator-approved (APPROVE D9.A; D-1
+  live-reference, D-2 `skill/` top-level home, D-3 retire NEW_PROJECT_BOOTSTRAP.md, D-4 retire
+  MEMORY_DURABILITY_ROLLOUT_PROMPT.md, D-5 two-stage close gated on the real adopt-mode pilot). The
+  plan replaces the SETUP.md paste-prompt delivery with a **live-reference Claude Code skill**
+  (bootstrap + adopt modes; concierge default + self-service vault clone; step-0 self-pull), retiring
+  SETUP/NPB/MDRP from the suite → **Standard Set Version v2.0** at the Phase-3 implement commit. The
+  skill carries no copy of the suite (no export step, no parity surface — the L053 fork class removed
+  structurally). Spike evidence recorded in the plan: symlinked skill dirs documented as supported;
+  four FS probes passed (read into CloudStorage, two-link chain, physical `..`, pathlib). Rule 13
+  pass ran the tools against the plan's own fenced bodies (`bash -n` on § 5A/§ 5D; 11/11 FIND anchors
+  `grep -F`-verified) and fixed the escaped-backtick anchor defect it found.
+- **QA scenarios:** defined in plan § 8 / tracker Phase 4 (QA-A…QA-G, all ⏸) — they gate the Phase-3
+  commits per Rule 11; QA-A/B/E are Rule 15 feature-ON gates (QA-E = the real Capital-Signal
+  adoption, D-5 closure gate).
+- **Versions:** NEW `docs/Plans/PLAN-009_skill_delivery.md` 0.2 (APPROVED) + `docs/Plans/PLAN-009_tracker.md`
+  0.1; `docs/documents_manifest.md` 2.17→2.18. No runtime impact.
+
 ## [2026-08-16] — Standard Set Version v1.6 + engine Slice 5: `sync` (PLAN-008)
 
 - **Type:** Major (Critical Files: `src/standard_document_updater/` + `docs/standards/`; § 15 plan
