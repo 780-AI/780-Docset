@@ -2,6 +2,24 @@
 
 Newest entries at the top.
 
+## [2026-08-17] — First target registered: EverOn.Capital-Signal (PLAN-009 QA-F)
+
+- **Type:** Registration (Critical File `config/projects.toml` — planned, operator-approved QA-F
+  step; no engine change).
+- **What:** EverOn.Capital-Signal — adopted to Standard Set v2.0 earlier today by the skill's adopt
+  mode (its commits `d0e0781` + `2caa53e`, held local) — registered as the first `sync` target
+  (local transport, `/Users/parsaazad/Documents/EverOn.Capital-Signal`, machine-affine note in the
+  registry). Project SESSION_OPENER § 2 registry table filled (vault Dropbox path — clears the
+  stale `~/Documents/` deferred minor; canonical source = this repo's `docs/standards/`; the
+  target row).
+- **QA scenarios (Rule 11):** QA-F ✅ 2026-08-17 — vault-side on the machine holding the target:
+  `status` = ADOPTED v2.0 / VAULT v2.0 / current / open-log 1; `sync` dry-run = up-to-date across
+  all 11 SYNC_MAP items (a just-adopted target is a sync no-op); `harvest` = surfaces the pilot's
+  E001 (also satisfying the PLAN-011 harvest-verification requirement with a real entry). Outputs
+  verbatim in PLAN-009_tracker Phase 4.
+- **Versions:** `docs/SESSION_OPENER.md` 1.7→1.8; manifest 2.19→2.20. Impact: `status`/`drift`/
+  `harvest`/`sync` now operate on one registered target; no behavior change to the engine itself.
+
 ## [2026-08-17] — Standard Set Version v2.0: skill-based delivery ships (PLAN-009 Phase 3, release commit)
 
 - **Type:** Major (Critical Files: `docs/standards/`; § 15 plan workflow, APPROVED D9.A; release

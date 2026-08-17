@@ -1,8 +1,9 @@
-<!-- VERSION: 1.7 -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 1.8 -->
+<!-- Last Updated: 2026-08-17 -->
 <!-- Source: docs/standards/SESSION_OPENER.md (template) v1.4. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.8 — 2026-08-17 — First target registration (PLAN-009 QA-F): § 2 registry table filled — vault path corrected to the Dropbox location (stale ~/Documents/ deferred-minor cleared), canonical source = this repo's docs/standards/, first registered target EverOn.Capital-Signal (local transport, machine-affine note).
 v1.7 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008): heading block wrapped in PROJECT-OWNED — reconciles with the v1.6 template structure; owned-block count now 3 = template's 3.
 v1.6 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): § 1.5 rewritten memory-link → project-data locality (claude_project_data.sh status; fix verbs link/adopt); § 1.3 read-the-register-WHOLE note; § 4 output line Memory link → Project data; § 3.1 row 13 upgraded (all project data) + new rows 15 (Rule 15 feature-ON verification) + 16 (L063 stamp-vs-log).
 v1.5 — 2026-08-16 — Standard Set Version v1.4: § 1.1 push-state reconcile-vs-real-remote note (L055); § 3.1 row 14 sharpened with the L051 recurrence-#4 final-indentation clause.
@@ -88,9 +89,9 @@ ls -1 .claude/project-data/memory/*.md 2>/dev/null | wc -l
 <!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 | Role | Path | Notes |
 |---|---|---|
-| **This repo (the tool)** | `~/Documents/Standard DocSet/` | The CLI tool itself; its own `docs/standards/` is its adopted suite. |
-| **Canonical source suite** | `<to be registered>` | The authoritative standards set the tool propagates FROM (the most current adopter suite on this machine). |
-| **Target repo(s)** | `<to be registered>` | Adopting project repos the tool updates TO. Supplied at runtime; never assumed. |
+| **This repo (the tool + vault)** | `~/Library/CloudStorage/Dropbox/Projects/Standard DocSet/` | Dropbox-synced across machines (`$HOME` differs per machine); the CLI tool itself. |
+| **Canonical source suite** | `docs/standards/` (this repo) | The vault IS the source — the authoritative set the tool propagates FROM (also its own adopted suite). |
+| **Target repo(s)** | `EverOn.Capital-Signal` — `/Users/parsaazad/Documents/EverOn.Capital-Signal` (MacBook Air) | Registered in `config/projects.toml` (local transport, machine-affine — run writes on the Air). Set v2.0 adopter, 2026-08-17 (PLAN-009 pilot). |
 <!-- PROJECT-OWNED:END -->
 
 **Cross-checks before writing to any target:**

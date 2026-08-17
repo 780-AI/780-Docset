@@ -1,7 +1,11 @@
-<!-- VERSION: 2.19 -->
+<!-- VERSION: 2.20 -->
 <!-- Last Updated: 2026-08-17 -->
 <!--
 CHANGE LOG
+v2.20 — 2026-08-17 — First target registration (PLAN-009 QA-F): bumped entry 8 (project
+SESSION_OPENER) 1.7→1.8 (§ 2 registry filled — Dropbox vault path, canonical source, the
+Capital-Signal target row). config/projects.toml carries no VERSION header (not manifest-tracked,
+per the standing note). Self-row 2.19 → 2.20 (grep-verified against the header per L063).
 v2.19 — 2026-08-17 — PLAN-009 (skill delivery, Standard Set Version v2.0) implemented: registered
 skill/SKILL.md + skill/modes/bootstrap.md + skill/modes/adopt.md + scripts/bootstrap_skill.sh as
 entries 76–79 (all 0.1; new Delivery quick-index row 76–79); DELETED the rows for the three retired
@@ -161,10 +165,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.19 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.20 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.11 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.7 | Governance | `docs/SESSION_OPENER.md` |
+| 8 | Session Opener (project-local, binding) | 1.8 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.5 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.8 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.5 | Standards | `docs/standards/CLAUDE.md` |
@@ -241,7 +245,11 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-08-17
-- **Change**: PLAN-009 (skill delivery → Standard Set Version v2.0) implemented — registered the
+- **Change**: First target registration (PLAN-009 QA-F): EverOn.Capital-Signal registered in
+  config/projects.toml (local transport, MacBook Air path); project SESSION_OPENER § 2 registry
+  filled (entry 8 → 1.8). QA-F evidence: status current v2.0=v2.0, sync dry-run up-to-date across
+  all 11 items, harvest surfaces E001.
+- **Prior change**: PLAN-009 (skill delivery → Standard Set Version v2.0) implemented — registered the
   delivery skill (skill/SKILL.md + modes/bootstrap.md + modes/adopt.md) + scripts/bootstrap_skill.sh
   as entries 76–79; deleted the three retired-file rows (24 NPB, 26 SETUP, 57 MDRP); 12 doc/plan
   cells bumped; quick-index suite caption → Set v2.0 + new Delivery row. Plan stays EXECUTING until
