@@ -1,8 +1,19 @@
-<!-- VERSION: 0.3 -->
-<!-- Status: EXECUTING (release commit landed; closure gated on QA-E per D-5) -->
+<!-- VERSION: 1.0 -->
+<!-- Status: CLOSED -->
 <!-- Last Updated: 2026-08-17 -->
 <!--
 CHANGE LOG
+v1.0 — 2026-08-17 — CLOSED (D-5 stage 2, same day as the release commit). QA-E PASSED: real
+Capital-Signal adoption via adopt mode (target commits `d0e0781` prep + `2caa53e` adopt; approved
+dry-run list == applied set, 29 logical items, zero deviation; 20-section CLAUDE.md disposition
+audit — nothing dropped silently; lessons delta vault 67 ⊇ CS 48 with zero leftovers; markers
+4/3/2 engine-verified + live merge idempotence; E001 upstream defect — CLOSER template § 1.2
+INDEX ref — logged to the pilot's STANDARDS_LOG, deliberately unpatched locally). QA-F PASSED:
+pilot registered (vault commit `e9576d2`) + on the machine holding the target: status ADOPTED
+v2.0 / VAULT v2.0 / current / open-log 1; sync dry-run up-to-date across all 11 SYNC_MAP items;
+harvest surfaces E001 (also satisfies the PLAN-011 harvest-verification requirement). QA-A
+COMPLETED (operator invoked the skill live; Step 0 reported v2.0 @ 66d45d5). § 11 R1/R3/R5/R8
+annotated CLOSED. Phase 5 (push + annotated tag `set-v2.0`) remains operator-gated.
 v0.3 — 2026-08-17 — Phase 3 release-commit session (fresh session per § 15.3). Reconcile pass:
 11/11 § 5G–5K anchors byte-exact at the audited lines; all § 5F/5L–5Q structural claims verified;
 zero blocking defects. Three named plan-defects fixed in-flight with disclosure (tracker has the
@@ -124,8 +135,8 @@ still says "L001–L049" (stale since v1.0; untouched — outside the delivery s
 | 0 — Audit | ✅ done | 2026-08-16 |
 | 1 — Design (this file; Rule 13 pass at end) | ✅ done | 2026-08-16 |
 | 2 — Operator approval (D9.A + D-1…D-5) | ✅ operator: "approved" = APPROVE D9.A; D-1…D-5 per recommendations | 2026-08-16 |
-| 3 — Implement (commit 1: release; commit 2: closure after QA-E) | 🔄 commit 1 landed this session; commit 2 awaits QA-E (D-5) | 2026-08-17 |
-| 4 — Validate (QA-A…QA-G; A/B/E are Rule 15 feature-ON gates) | 🔄 QA-B/C/D/G ✅; QA-A partial (listing = operator confirm); QA-E/F pending (separate session) | 2026-08-17 |
+| 3 — Implement (commit 1: release; commit 2: closure after QA-E) | ✅ commit 1 `66d45d5`; commit 2 = this closure commit | 2026-08-17 |
+| 4 — Validate (QA-A…QA-G; A/B/E are Rule 15 feature-ON gates) | ✅ all seven passed — QA-E pilot commits `d0e0781`+`2caa53e`; QA-F status/sync/harvest on the target's machine; evidence in the tracker | 2026-08-17 |
 | 5 — Operator gate (push + tag `set-v2.0`) | ⏸ pending | — |
 
 ## 5. Transformation rules (verbatim, per Rule 7)
@@ -801,14 +812,14 @@ waiver recorded in the tracker. QA-D exercises the self-update path.
 
 | # | Risk | Mitigation |
 |---|---|---|
-| R1 | Supporting-file reads at use time are docs-silent (only SKILL.md loading via symlink is documented) | FS probes passed (2026-08-16); QA-A/B exercise the full path before the release commit ships; D-1 fallback = copy-bundle |
+| R1 | Supporting-file reads at use time are docs-silent (only SKILL.md loading via symlink is documented) | FS probes passed (2026-08-16); QA-A/B exercise the full path before the release commit ships; D-1 fallback = copy-bundle — **CLOSED 2026-08-17** (QA-A/B passed; live delivery read every supporting file) |
 | R2 | Skill invisible on a machine that never ran the installer | By design (concierge — team machines need nothing); NEW_MACHINE_SETUP § 5O row covers the curator's machines |
-| R3 | Stale references to retired files linger | Phase 0 enumerated every live site (§ 5G–5K); QA-G zero-hit grep gates the commit |
+| R3 | Stale references to retired files linger | Phase 0 enumerated every live site (§ 5G–5K); QA-G zero-hit grep gates the commit — **CLOSED 2026-08-17** (QA-G passed, hits classified history-only) |
 | R4 | v2.0 alarms existing adopters | § 5F migration note: machinery never survived in adopters — no footprint change, `sync` unaffected |
-| R5 | Adopt mode meets an unmapped artifact shape at the pilot | § 4 dry-run gate = nothing written unapproved; defects fix-forward; dormant pilot = low blast radius |
+| R5 | Adopt mode meets an unmapped artifact shape at the pilot | § 4 dry-run gate = nothing written unapproved; defects fix-forward; dormant pilot = low blast radius — **CLOSED 2026-08-17** (QA-E pilot passed; every artifact mapped, incl. the manifest-rename prep + project_rules.md relocation via D-A…D-D) |
 | R6 | Dropbox/CloudStorage symlink oddities | The only symlink is machine-local (`~/.claude`, outside Dropbox), recreated idempotently by § 5D; probe 1 verified reads INTO CloudStorage |
 | R7 | `pull --ff-only` fails on a diverged vault clone | Step 0 WARNs + proceeds on the local copy + surfaces to operator (never blocks delivery on network) |
-| R8 | Skill description exceeds the 1,536-char listing cap | § 5A description is ~340 chars; QA-A confirms listing |
+| R8 | Skill description exceeds the 1,536-char listing cap | § 5A description is ~340 chars; QA-A confirms listing — **CLOSED 2026-08-17** (skill listed + invoked live) |
 
 ## 12. Acceptance criteria
 

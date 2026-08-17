@@ -1,7 +1,10 @@
-<!-- VERSION: 2.20 -->
+<!-- VERSION: 2.21 -->
 <!-- Last Updated: 2026-08-17 -->
 <!--
 CHANGE LOG
+v2.21 — 2026-08-17 — PLAN-009 closure (D-5 stage 2): promoted PLAN-009 + tracker (74–75) to
+1.0/CLOSED (QA-E pilot adoption + QA-F registration/sync-no-op/harvest all passed same day).
+Self-row 2.20 → 2.21 (grep-verified against the header per L063).
 v2.20 — 2026-08-17 — First target registration (PLAN-009 QA-F): bumped entry 8 (project
 SESSION_OPENER) 1.7→1.8 (§ 2 registry filled — Dropbox vault path, canonical source, the
 Capital-Signal target row). config/projects.toml carries no VERSION header (not manifest-tracked,
@@ -165,7 +168,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.20 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.21 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.11 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.8 | Governance | `docs/SESSION_OPENER.md` |
@@ -231,8 +234,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 71 | PLAN-008 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-008_tracker.md` |
 | 72 | Engine — section-aware suite propagation (sync) | 0.1 | Engine | `src/standard_document_updater/sync.py` |
 | 73 | Engine test — sync | 0.1 | Engine test | `tests/test_sync.py` |
-| 74 | PLAN-009 — skill-based delivery (Set v2.0) (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-009_skill_delivery.md` |
-| 75 | PLAN-009 tracker | 0.2 | Plan | `docs/Plans/PLAN-009_tracker.md` |
+| 74 | PLAN-009 — skill-based delivery (Set v2.0) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-009_skill_delivery.md` |
+| 75 | PLAN-009 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-009_tracker.md` |
 | 76 | Delivery skill — mode dispatch + step-0 vault resolve | 0.1 | Delivery | `skill/SKILL.md` |
 | 77 | Delivery skill — bootstrap mode | 0.1 | Delivery | `skill/modes/bootstrap.md` |
 | 78 | Delivery skill — adopt mode | 0.1 | Delivery | `skill/modes/adopt.md` |
@@ -245,10 +248,13 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-08-17
-- **Change**: First target registration (PLAN-009 QA-F): EverOn.Capital-Signal registered in
+- **Change**: PLAN-009 CLOSED (D-5 stage 2) — plan + tracker (74–75) promoted to 1.0/CLOSED. Full
+  QA slate passed: QA-A…D + G at the release commit; QA-E (real Capital-Signal adoption,
+  target commits d0e0781 + 2caa53e) and QA-F (registration e9576d2; status current, sync dry-run
+  up-to-date 11/11, harvest surfaces E001) same day. Phase 5 push + tag `set-v2.0` pending.
+- **Prior change**: First target registration (PLAN-009 QA-F): EverOn.Capital-Signal registered in
   config/projects.toml (local transport, MacBook Air path); project SESSION_OPENER § 2 registry
-  filled (entry 8 → 1.8). QA-F evidence: status current v2.0=v2.0, sync dry-run up-to-date across
-  all 11 items, harvest surfaces E001.
+  filled (entry 8 → 1.8).
 - **Prior change**: PLAN-009 (skill delivery → Standard Set Version v2.0) implemented — registered the
   delivery skill (skill/SKILL.md + modes/bootstrap.md + modes/adopt.md) + scripts/bootstrap_skill.sh
   as entries 76–79; deleted the three retired-file rows (24 NPB, 26 SETUP, 57 MDRP); 12 doc/plan

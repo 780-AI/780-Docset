@@ -2,6 +2,27 @@
 
 Newest entries at the top.
 
+## [2026-08-17] — PLAN-009 CLOSED: adopt-mode pilot passed (QA-E) + first sync target live (QA-F)
+
+- **Type:** Plan closure (D-5 stage 2; docs-only commit — plan + tracker promotion, manifest cells,
+  this note).
+- **QA-E verdict (adopt-mode ship gate):** PASSED. EverOn.Capital-Signal adopted to Standard Set
+  v2.0 by the skill's adopt mode in its own session on the machine holding the target: intake-first
+  walked (lessons delta vault 67 ⊇ CS 48, zero CS-only leftovers), clean tree, operator-approved
+  dry-run list (decisions D-A delete / D-B project_rules.md / D-C drop / D-D rename-prep) ==
+  applied set line-for-line (29 logical items, zero deviation; target commits `d0e0781` +
+  `2caa53e`, held local). Marker/count integrity engine-verified (4/3/2, merge idempotence); the
+  pilot logged **E001** — a real upstream template defect (CLOSER § 1.2 references
+  STANDARDS_INDEX.md, which adopters don't carry) — into its STANDARDS_LOG instead of patching
+  locally: the contribution channel working as designed on day one. E001 = Set v2.1 candidate.
+- **QA-F verdict:** PASSED. Pilot registered (`e9576d2`); on the target's machine: `status` current
+  (v2.0 = v2.0, open-log 1), `sync` dry-run up-to-date across all 11 SYNC_MAP items (a
+  just-adopted target is a sync no-op — "converge once, sync forever" held end-to-end), `harvest`
+  surfaces E001 (also satisfying the PLAN-011 harvest-verification requirement with a real entry).
+- **Versions:** PLAN-009 0.3→1.0 (CLOSED, § 11 R1/R3/R5/R8 closed), tracker 0.2→1.0 (CLOSED),
+  manifest 2.20→2.21. Impact: none at runtime — bookkeeping closure; Phase 5 (push + annotated tag
+  `set-v2.0`) remains operator-gated.
+
 ## [2026-08-17] — First target registered: EverOn.Capital-Signal (PLAN-009 QA-F)
 
 - **Type:** Registration (Critical File `config/projects.toml` — planned, operator-approved QA-F
