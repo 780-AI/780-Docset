@@ -1,8 +1,11 @@
-<!-- VERSION: 0.1 -->
-<!-- Status: APPROVED (D9.A, 2026-08-16) -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 0.2 -->
+<!-- Status: EXECUTING (release commit landed; closure gated on QA-E per D-5) -->
+<!-- Last Updated: 2026-08-17 -->
 <!--
 CHANGE LOG
+v0.2 — 2026-08-17 — Phase 3 release-commit session: commit-1 checklist ticked; reconcile-pass
+record + plan-defect register (D1/D2/D3) added; Phase 4 QA table updated with evidence
+(QA-B/C/D/G ✅; QA-A partial — fresh-session listing = operator confirm; QA-E/F pending).
 v0.1 — 2026-08-16 23:15 — Initial (same commit as the PLAN-009 draft). Big-plan sibling tracker:
 Phase 3 spans 2 commits (release + closure), Phase 4 is multi-scenario (QA-A…QA-G), and the
 Capital-Signal pilot is cross-session.
@@ -54,24 +57,46 @@ Plan: `docs/Plans/PLAN-009_skill_delivery.md`. Status markers: ⏸ pending / �
   D-3 NPB retire, D-4 MDRP retire, D-5 two-stage close — all per the plan's § 9 recommendations).
 - ✅ 2026-08-16 — design commit landed per § 7.1 (plan + tracker + manifest rows + CHANGELOG).
 
-## Phase 3 — Implement ⏸ (fresh session; reconcile pass first per § 15.3)
+## Phase 3 — Implement 🔄 (commit 1 landed 2026-08-17; commit 2 awaits QA-E)
 
-### Commit 1 — the release commit (§ 7.2, 21 files)
+### Commit 1 — the release commit (§ 7.2, 21 files) — ✅ 2026-08-17
 
-- ⏸ Reconcile pass: § 5 anchors + § 7.2 ALLOWLIST vs live source; mismatches surfaced as D1, D2, …
-- ⏸ § 5A `skill/SKILL.md` (byte-for-byte from the plan fence)
-- ⏸ § 5B `skill/modes/bootstrap.md`
-- ⏸ § 5C `skill/modes/adopt.md`
-- ⏸ § 5D `scripts/bootstrap_skill.sh` (+ `bash -n` at ship state)
-- ⏸ § 5E retirements (3 × git rm)
-- ⏸ § 5F STANDARDS_INDEX → v2.0
-- ⏸ § 5G HOW_TO_USE / § 5H README(std) / § 5I STANDARDS_LOG / § 5J OPENER / § 5K CLOSER
-- ⏸ § 5L architecture / § 5M folder_structure (incl. 15-rules rider) / § 5N SVA / § 5O
-  NEW_MACHINE_SETUP
-- ⏸ § 5P manifest (rows + cells + L063 stamp-vs-log grep) / § 5Q CHANGELOG
-- ⏸ QA-A…QA-D run + evidence recorded below (gate: before the commit ships)
-- ⏸ Governance scripts (stdout verbatim) → Rule 10 named review table → "go on commit?" →
-  `git add -A` (status check before AND after) → `commit -F`
+- ✅ 2026-08-17 — Reconcile pass: 11/11 § 5G–5K anchors `grep -F`-verified byte-exact at the
+  audited lines (17/18/104, 22/153/195/199, 4/70, 252, 279); § 5F/5L–5Q structural claims + § 7.2
+  preconditions all verified; ZERO blocking defects. Three named defects surfaced + fixed with
+  disclosure — see the plan-defect register below.
+- ✅ 2026-08-17 — § 5A `skill/SKILL.md` (byte-extracted from the plan fence: 61 lines, 3184 bytes)
+- ✅ 2026-08-17 — § 5B `skill/modes/bootstrap.md` (byte-extracted; + D3 sync-ready SVA amendment)
+- ✅ 2026-08-17 — § 5C `skill/modes/adopt.md` (byte-extracted; + D3 sync-ready SVA amendment)
+- ✅ 2026-08-17 — § 5D `scripts/bootstrap_skill.sh` (byte-extracted; `bash -n` PASS at ship state)
+- ✅ 2026-08-17 — § 5E retirements (3 × git rm: SETUP / NPB / MDRP)
+- ✅ 2026-08-17 — § 5F STANDARDS_INDEX → v2.0 (§ 1 block, § 2 pruned + delivery note, § 3 15-file
+  table, § 4 skill path, § 6 v2.0 entry + verbatim migration note)
+- ✅ 2026-08-17 — § 5G HOW_TO_USE 1.1 / § 5H README(std) 1.1 / § 5I STANDARDS_LOG 1.1 /
+  § 5J OPENER template 1.7 / § 5K CLOSER template 1.5
+- ✅ 2026-08-17 — § 5L architecture 0.11 (incl. D1) / § 5M folder_structure 0.14 (incl. 15-rules
+  rider + D2) / § 5N SVA 1.8 / § 5O NEW_MACHINE_SETUP 1.2 (Pre-flight renumbered § 5 → § 6)
+- ✅ 2026-08-17 — § 5P manifest 2.19 (rows 76–79 added; 24/26/57 deleted; cells bumped;
+  stamp-vs-log grep-checked per L063) / § 5Q CHANGELOG release entry
+- ✅ 2026-08-17 — QA-A(partial)/B/C/D + QA-G run pre-commit; evidence in the Phase 4 table below
+- ✅ 2026-08-17 — Governance 0/0 (stdout in chat) → Rule 10 named review table posted →
+  operator gate → `git add -A` (status checked before AND after) → `commit -F`
+
+### Plan-defect register (reconcile pass + QA, 2026-08-17 — per § 15.3 / L056)
+
+- **D1 (minor, editorial):** architecture § 3 trailing sentence "Deleting the machinery
+  satisfies…" was not enumerated in § 5L and would have contradicted the new "Never enters" row —
+  rewritten alongside the § 5L row edit.
+- **D2 (minor, editorial):** folder_structure STANDARDS_LOG tree caption still said "(SETUP copies
+  to…)" — retargeted to the delivery skill alongside § 5M.
+- **D3 (REAL — the Rule 15 feature-ON class):** § 5B/§ 5C's SET_VERSION_ADOPTED bullets specified
+  no shape, but `sync.record_adoption` (sync.py) hard-requires a VERSION comment header, the exact
+  `- **Standard Set Version:**` bullet, and the `| Set Version | Adopted on | Notes |` backport
+  table — SyncError otherwise. A skill-delivered project would have FAILED its first sync
+  (contradicting DD-E + "converge once, sync forever"). Both mode files amended with the
+  sync-ready shape; verified by running the engine's own `plan_target` against the QA-B bootstrap:
+  11 files validated, NO SyncError, all changed=False. Found by executing the feature, not by
+  reading the plan — L067 vindicated.
 
 ### Commit 2 — the closure commit (§ 7.3, after QA-E/QA-F)
 
@@ -81,13 +106,13 @@ Plan: `docs/Plans/PLAN-009_skill_delivery.md`. Status markers: ⏸ pending / �
 
 | ID | Scenario (plan § 8) | Status | Date | Evidence |
 |---|---|---|---|---|
-| QA-A ⚑ | Fresh-session skill discovery + Step 0 report line | ⏸ | — | — |
-| QA-B ⚑ | Bootstrap end-to-end on a scratch target (zero machinery; SVA stamped; governance 0) | ⏸ | — | — |
-| QA-C | Installer idempotence + re-point | ⏸ | — | — |
-| QA-D | Step-0 self-pull + offline WARN | ⏸ | — | — |
+| QA-A ⚑ | Fresh-session skill discovery + Step 0 report line | 🔄 partial | 2026-08-17 | Installer created `~/.claude/skills/standard-docset → <vault>/skill`; Step 0 block executed verbatim: pull "Already up to date.", report `Delivering Standard Set Version v2.0 from vault commit 1a061c6` — v2.0 read LIVE from the working tree (live-reference + supporting-file reads proven; R1 closed). Fresh-session LISTING half = operator confirm at the commit gate (`claude` CLI not reachable from the implement session's shell). |
+| QA-B ⚑ | Bootstrap end-to-end on a scratch target (zero machinery; SVA stamped; governance 0) | ✅ | 2026-08-17 | Full bootstrap.md walk on a scratch target (answers: sample-cli-project / local CLI / single-agent / CI none): operative footprint complete; machinery scan 0 hits (docs/standards = exactly the 6 topical); marker counts 4/3/2, TEMPLATE-ONLY 0; placeholder scrub 0 on target-owned files; locality `STATUS: OK`; governance scaffolds exit 0 (stdout in chat); single commit, no remote. DECISIVE: engine `plan_target` on the fresh bootstrap → 11 files validated, NO SyncError, all changed=False (sync no-op). One QA-harness bug (duplicated header comments from the executor's header surgery) fixed + re-verified — not a skill defect. Supersedes the OPEN_TASKS "SETUP.md end-to-end live test" item (⏭ there). |
+| QA-C | Installer idempotence + re-point | ✅ | 2026-08-17 | Second run → `Already installed:` exit 0; link pointed elsewhere → `Re-pointing (was -> …)` + reinstalled; verified both directions (also exercised in the QA-D restore). |
+| QA-D | Step-0 self-pull + offline WARN | ✅ | 2026-08-17 | `file://` scratch clone reset to c9898f0 (behind-by-one), symlink re-pointed → Step 0 observed `Fast-forward` c9898f0..1a061c6 + report line with the tip sha; origin set invalid → WARN line + proceed-on-local-copy observed; symlink restored via the installer. (Report showed Set v1.6 — the clone's committed INDEX predates the release commit; the pull mechanism is what QA-D verifies.) |
 | QA-E ⚑ | REAL adopt pilot: Capital-Signal (dry-run list == applied diff; markers intact) — adopt-mode + closure gate; separate session | ⏸ | — | — |
 | QA-F | Pilot registered + `sync` dry-run reports current | ⏸ | — | — |
-| QA-G | Zero-hit greps (domain-neutral incl. skill/; no live retired-file refs) | ⏸ | — | — |
+| QA-G | Zero-hit greps (domain-neutral incl. skill/; no live retired-file refs) | ✅ | 2026-08-17 | Gate 1 (EverOn\|Capital-Signal\|Equinex over docs/standards/ + skill/): **0 hits**. Gate 2 (retired-file names over the sweep set): every hit classified in chat — CHANGE LOG comments, INDEX § 6 history + § 1 Baseline retirement statement, LESSONS L052/L053 bodies, or explicit retirement annotations (architecture § 3/§ 4/§ 10/§ 11, folder_structure "successor to" caption — the § 5L/§ 5M plan-mandated texts); zero live delivery pointers at retired files. Governance 0/0. |
 
 Waiver register (Rule 15): _(empty — QA-E may not be deferred without an explicit operator waiver
 recorded here)_

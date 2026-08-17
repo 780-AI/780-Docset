@@ -2,6 +2,42 @@
 
 Newest entries at the top.
 
+## [2026-08-17] — Standard Set Version v2.0: skill-based delivery ships (PLAN-009 Phase 3, release commit)
+
+- **Type:** Major (Critical Files: `docs/standards/`; § 15 plan workflow, APPROVED D9.A; release
+  commit 1 of 2 per D-5 two-stage close — the plan stays EXECUTING until QA-E, the real adopt-mode
+  pilot, passes in a separate session).
+- **What:** the delivery machinery is retired and replaced by the vault-side **live-reference
+  standard-docset skill**. NEW: `skill/SKILL.md` (mode dispatch + step-0 vault resolve/self-pull) +
+  `skill/modes/bootstrap.md` + `skill/modes/adopt.md` (byte-extracted from the plan's § 5A–5C
+  fences) + `scripts/bootstrap_skill.sh` (idempotent per-machine symlink installer). RETIRED
+  (git rm; git history is the archive): `docs/standards/SETUP.md`, `NEW_PROJECT_BOOTSTRAP.md`,
+  `MEMORY_DURABILITY_ROLLOUT_PROMPT.md`. STANDARDS_INDEX → **v2.0** (15 files = 11 binding +
+  4 meta; § 2 delivery note; § 6 entry with the no-adopter-action migration note). Live delivery
+  pointers swept (HOW_TO_USE, standards README, STANDARDS_LOG template, both session templates);
+  architecture §§ 3/4/8/10/11, folder_structure (+ 15-rules rider), SET_VERSION_ADOPTED (vault
+  self-adopts v2.0), NEW_MACHINE_SETUP (§ 5 skill-symlink catalog row) synced same-commit.
+  Three plan defects fixed in-flight with disclosure (tracker register): D1/D2 editorial; **D3
+  real** — the mode files' SET_VERSION_ADOPTED spec lacked the sync-ready shape
+  `sync.record_adoption` hard-requires (a fresh delivery would have failed its first sync);
+  amended and proven by running the engine's `plan_target` against the QA-B bootstrap (11 files,
+  no SyncError, all changed=False — a fresh delivery is a sync no-op).
+- **QA scenarios (Rule 11 / Rule 15):** QA-B ✅ (feature-ON: full scratch bootstrap — zero
+  machinery, markers 4/3/2, SVA stamped v2.0 + vault sha, locality OK, governance 0, single
+  commit, engine sync no-op), QA-C ✅ (installer idempotence + re-point), QA-D ✅ (self-pull
+  fast-forward + offline WARN), QA-G ✅ (domain-neutral 0 hits; retired-name hits all
+  history/retirement-annotation), QA-A 🔄 partial (Step-0/live-reference half ✅ with evidence;
+  fresh-session listing half = operator confirm at the commit gate), QA-E ⏸ (real Capital-Signal
+  adopt pilot — adopt-mode + closure gate, separate session), QA-F ⏸ (post-adopt sync no-op on the
+  pilot). Evidence verbatim in `docs/Plans/PLAN-009_tracker.md` Phase 4.
+- **Versions:** NEW skill/SKILL.md 0.1, skill/modes/bootstrap.md 0.1, skill/modes/adopt.md 0.1,
+  scripts/bootstrap_skill.sh 0.1; STANDARDS_INDEX 1.6→2.0; HOW_TO_USE 1.0→1.1; standards README
+  1.0→1.1; STANDARDS_LOG template 1.0→1.1; template SESSION_OPENER 1.6→1.7; template
+  SESSION_CLOSER 1.4→1.5; architecture 0.10→0.11; folder_structure 0.13→0.14; SET_VERSION_ADOPTED
+  1.7→1.8; NEW_MACHINE_SETUP 1.1→1.2; manifest 2.18→2.19; PLAN-009 0.2→0.3 (EXECUTING); tracker
+  0.1→0.2. **Impact:** delivery behavior changes (the skill replaces the paste prompts); no engine
+  (`src/`) change; adopter on-disk footprint unchanged; `sync` unaffected.
+
 ## [2026-08-16] — PLAN-009 approved (D9.A): skill-based delivery — design + tracker
 
 - **Type:** Design session (§ 15 Phases 0–2; docs-only — no behavior change, no engine change).

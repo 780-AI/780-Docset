@@ -1,8 +1,9 @@
-<!-- VERSION: 1.6 -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 1.7 -->
+<!-- Last Updated: 2026-08-17 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.7 — 2026-08-17 — Standard Set Version v2.0 (PLAN-009): End-of-file bootstrap pointer retargeted — the delivery skill instantiates the project-local copy during bootstrap (was: walk the retired NEW_PROJECT_BOOTSTRAP.md Step <N>).
 v1.6 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008 sync-enablement): TEMPLATE-ONLY banner block + PROJECT-OWNED instance-heading block, so section-merge sync never propagates template banners and preserves the adopter's heading.
 v1.5 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): § 1.5 rewritten memory-link → project-data locality (claude_project_data.sh status; fix verbs link/adopt); § 1.3 read-the-register-WHOLE note; § 4 output line Memory link → Project data; § 3.1 row 14 upgraded (all project data) + new rows 16 (Rule 15 feature-ON verification) + 17 (L063 stamp-vs-log).
 v1.4 — 2026-08-16 — Standard Set Version v1.4: § 1.1 push-state reconcile-vs-real-remote note (L055); § 3.1 row 15 sharpened with the L051 recurrence-#4 final-indentation clause.
@@ -249,4 +250,4 @@ The pre-flight runs ONCE at the front of a session, not at every turn. After it 
 
 ## End of file
 
-If you are reading this in a freshly-bootstrapped project, your next step is to walk `NEW_PROJECT_BOOTSTRAP.md` Step <N> to instantiate the project-local copy and customize §§ 2 + 3. If you are reading this as a working contributor, you should have already produced the § 4 output block — if you haven't, do so now before continuing.
+If you are reading this in a freshly-bootstrapped project, the delivery skill instantiates the project-local copy and customizes §§ 2 + 3 during bootstrap. If you are reading this as a working contributor, you should have already produced the § 4 output block — if you haven't, do so now before continuing.

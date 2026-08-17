@@ -1,7 +1,17 @@
-<!-- VERSION: 2.18 -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 2.19 -->
+<!-- Last Updated: 2026-08-17 -->
 <!--
 CHANGE LOG
+v2.19 — 2026-08-17 — PLAN-009 (skill delivery, Standard Set Version v2.0) implemented: registered
+skill/SKILL.md + skill/modes/bootstrap.md + skill/modes/adopt.md + scripts/bootstrap_skill.sh as
+entries 76–79 (all 0.1; new Delivery quick-index row 76–79); DELETED the rows for the three retired
+files (24 NEW_PROJECT_BOOTSTRAP, 26 SETUP, 57 MEMORY_DURABILITY_ROLLOUT_PROMPT — row removal, no
+renumbering of surviving entries; suite range → 11–23, 25, 27); bumped touched cells —
+6 folder_structure 0.13→0.14, 7 architecture 0.10→0.11, 10 SVA 1.7→1.8, 20 template OPENER 1.6→1.7,
+21 template CLOSER 1.4→1.5, 22 standards README 1.0→1.1, 23 STANDARDS_INDEX 1.6→2.0, 25 HOW_TO_USE
+1.0→1.1, 27 STANDARDS_LOG template 1.0→1.1, 58 NEW_MACHINE_SETUP 1.1→1.2, 74 PLAN-009 0.2→0.3
+(EXECUTING), 75 tracker 0.1→0.2; quick-index suite caption Set v1.6 → v2.0; self-row 2.18 → 2.19
+(grep-verified against the header per L063).
 v2.18 — 2026-08-16 — Registered PLAN-009 (skill-based delivery, Set v2.0; APPROVED D9.A same session)
 + its sibling tracker as entries 74–75 (plan 0.2, tracker 0.1; appended, not inserted); quick-index
 Plans range → 31–39, 59–60, 63–64, 68–71, 74–75; self-row 2.17 → 2.18 (grep-verified against the
@@ -136,11 +146,12 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Module / Section | Entry range |
 |---|---|
 | Operating contract + project docs | 1–10, 58, 67 |
-| Canonical standards suite (Set v1.6) | 11–27, 57 |
+| Canonical standards suite (Set v2.0) | 11–23, 25, 27 |
 | Governance scripts | 28–29, 56 |
 | Archive | 30 |
 | Plans | 31–39, 59–60, 63–64, 68–71, 74–75 |
 | Engine (src + tests) | 40–55, 61–62, 65–66, 72–73 |
+| Delivery skill (vault-side) | 76–79 |
 
 ## Manifest table
 
@@ -150,12 +161,12 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.18 | Governance | `docs/documents_manifest.md` |
-| 6 | Folder Structure | 0.13 | Governance | `docs/folder_structure.md` |
-| 7 | Architecture (system-design record) | 0.10 | Docs | `docs/architecture.md` |
+| 5 | Documents Manifest | 2.19 | Governance | `docs/documents_manifest.md` |
+| 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
+| 7 | Architecture (system-design record) | 0.11 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.7 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.5 | Governance | `docs/SESSION_CLOSER.md` |
-| 10 | Set Version Adopted | 1.7 | Governance | `docs/SET_VERSION_ADOPTED.md` |
+| 10 | Set Version Adopted | 1.8 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.5 | Standards | `docs/standards/CLAUDE.md` |
 | 12 | Lessons Archive (template) | 1.0 | Standards | `docs/standards/LESSONS.md` |
 | 13 | Project Standards | 1.0 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
@@ -165,14 +176,12 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 17 | Engineering Standards | 1.0 | Standards | `docs/standards/ENGINEERING_STANDARDS.md` |
 | 18 | Validation Standards | 1.0 | Standards | `docs/standards/VALIDATION_STANDARDS.md` |
 | 19 | CI/CD Standards | 1.0 | Standards | `docs/standards/CICD_STANDARDS.md` |
-| 20 | Session Opener (template) | 1.6 | Standards | `docs/standards/SESSION_OPENER.md` |
-| 21 | Session Closer (template) | 1.4 | Standards | `docs/standards/SESSION_CLOSER.md` |
-| 22 | Standards README (meta) | 1.0 | Standards | `docs/standards/README.md` |
-| 23 | Standards Index (meta) | 1.6 | Standards | `docs/standards/STANDARDS_INDEX.md` |
-| 24 | New Project Bootstrap (meta) | 1.6 | Standards | `docs/standards/NEW_PROJECT_BOOTSTRAP.md` |
-| 25 | How To Use (meta) | 1.0 | Standards | `docs/standards/HOW_TO_USE.md` |
-| 26 | Setup — one-shot prompt (meta) | 1.6 | Standards | `docs/standards/SETUP.md` |
-| 27 | Standards Log — experiences-log template (meta) | 1.0 | Standards | `docs/standards/STANDARDS_LOG.md` |
+| 20 | Session Opener (template) | 1.7 | Standards | `docs/standards/SESSION_OPENER.md` |
+| 21 | Session Closer (template) | 1.5 | Standards | `docs/standards/SESSION_CLOSER.md` |
+| 22 | Standards README (meta) | 1.1 | Standards | `docs/standards/README.md` |
+| 23 | Standards Index (meta) | 2.0 | Standards | `docs/standards/STANDARDS_INDEX.md` |
+| 25 | How To Use (meta) | 1.1 | Standards | `docs/standards/HOW_TO_USE.md` |
+| 27 | Standards Log — experiences-log template (meta) | 1.1 | Standards | `docs/standards/STANDARDS_LOG.md` |
 | 28 | Doc Coverage Check | 0.1 | Governance script | `scripts/check_doc_coverage.py` |
 | 29 | Test Coverage Drift Check | 0.1 | Governance script | `scripts/check_test_coverage_drift.py` |
 | 30 | Lessons Archive (adopter copy) | 1.0 | Governance | `archive/LESSONS.md` |
@@ -202,8 +211,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 54 | Engine test — logentry | 0.1 | Engine test | `tests/test_logentry.py` |
 | 55 | Engine test — harvest | 0.1 | Engine test | `tests/test_harvest.py` |
 | 56 | Project-data locality script | 0.1 | Governance script | `scripts/claude_project_data.sh` |
-| 57 | Memory Durability Rollout Prompt (meta) | 1.2 | Standards | `docs/standards/MEMORY_DURABILITY_ROLLOUT_PROMPT.md` |
-| 58 | New-Machine Setup (re-home checklist + Rule 14 migration catalog) | 1.1 | Docs | `docs/NEW_MACHINE_SETUP.md` |
+| 58 | New-Machine Setup (re-home checklist + Rule 14 migration catalog) | 1.2 | Docs | `docs/NEW_MACHINE_SETUP.md` |
 | 59 | PLAN-006 — Slice 4 (integrate) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-006_integrate.md` |
 | 60 | PLAN-006 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-006_tracker.md` |
 | 61 | Engine — integration worksheet + status write-back | 0.1 | Engine | `src/standard_document_updater/integrate.py` |
@@ -219,8 +227,12 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 71 | PLAN-008 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-008_tracker.md` |
 | 72 | Engine — section-aware suite propagation (sync) | 0.1 | Engine | `src/standard_document_updater/sync.py` |
 | 73 | Engine test — sync | 0.1 | Engine test | `tests/test_sync.py` |
-| 74 | PLAN-009 — skill-based delivery (Set v2.0) (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-009_skill_delivery.md` |
-| 75 | PLAN-009 tracker | 0.1 | Plan | `docs/Plans/PLAN-009_tracker.md` |
+| 74 | PLAN-009 — skill-based delivery (Set v2.0) (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-009_skill_delivery.md` |
+| 75 | PLAN-009 tracker | 0.2 | Plan | `docs/Plans/PLAN-009_tracker.md` |
+| 76 | Delivery skill — mode dispatch + step-0 vault resolve | 0.1 | Delivery | `skill/SKILL.md` |
+| 77 | Delivery skill — bootstrap mode | 0.1 | Delivery | `skill/modes/bootstrap.md` |
+| 78 | Delivery skill — adopt mode | 0.1 | Delivery | `skill/modes/adopt.md` |
+| 79 | Delivery-skill installer (per-machine symlink) | 0.1 | Delivery | `scripts/bootstrap_skill.sh` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -228,12 +240,14 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 ## Last updated
 
-- **Date**: 2026-08-16
-- **Change**: Registered PLAN-009 (skill-based delivery → Set v2.0; APPROVED D9.A same session) + its
-  sibling tracker as entries 74–75. Design session only — the Phase-3 implement commit lands the
-  21-file ALLOWLIST (skill/ + bootstrap_skill.sh + SETUP/NPB/MDRP retirements + Set v2.0).
-- **Previous change**: PLAN-008 (Slice 5: `sync` → Standard Set Version v1.6) implemented — registered
-  sync.py + test_sync.py as entries 72–73; 8 engine/test cells + 11 doc cells bumped; PLAN-008 +
-  tracker (70–71) promoted to 1.0/CLOSED; quick-index suite caption → Set v1.6. Engine Slice 5
-  ships — the harvest → integrate → sync loop is complete.
+- **Date**: 2026-08-17
+- **Change**: PLAN-009 (skill delivery → Standard Set Version v2.0) implemented — registered the
+  delivery skill (skill/SKILL.md + modes/bootstrap.md + modes/adopt.md) + scripts/bootstrap_skill.sh
+  as entries 76–79; deleted the three retired-file rows (24 NPB, 26 SETUP, 57 MDRP); 12 doc/plan
+  cells bumped; quick-index suite caption → Set v2.0 + new Delivery row. Plan stays EXECUTING until
+  the real adopt-mode pilot (QA-E) passes per D-5.
+- **Previous change**: Registered PLAN-009 (skill-based delivery → Set v2.0; APPROVED D9.A same
+  session) + its sibling tracker as entries 74–75. Design session only — the Phase-3 implement
+  commit lands the 21-file ALLOWLIST (skill/ + bootstrap_skill.sh + SETUP/NPB/MDRP retirements +
+  Set v2.0).
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

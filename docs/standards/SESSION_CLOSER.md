@@ -1,8 +1,9 @@
-<!-- VERSION: 1.4 -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 1.5 -->
+<!-- Last Updated: 2026-08-17 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.5 — 2026-08-17 — Standard Set Version v2.0 (PLAN-009): End-of-file bootstrap pointer retargeted — the delivery skill instantiates the project-local copy during bootstrap (was: walk the retired NEW_PROJECT_BOOTSTRAP.md).
 v1.4 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008 sync-enablement): TEMPLATE-ONLY banner block + PROJECT-OWNED instance-heading block, so section-merge sync never propagates template banners and preserves the adopter's heading.
 v1.3 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): § 1.6 retitled "/tmp cleanup + locality confirm" — adds the Rule 14 close-side confirm (claude_project_data.sh status → STATUS: OK; new out-of-folder state moved in or cataloged same-commit).
 v1.2 — 2026-08-16 — Standard Set Version v1.4: § 1.4 push-state flip step + § 2.1 row 5 (L055).
@@ -276,4 +277,4 @@ The wrap-up runs ONCE at the back of a session, not at every turn. After it has 
 
 ## End of file
 
-If you are reading this in a freshly-bootstrapped project, your next step is to walk `NEW_PROJECT_BOOTSTRAP.md` to instantiate the project-local copy and customize §§ 2 + 4 output-block specifics. If you are reading this as a working contributor responding to a "wrap up" command, you should already be producing the § 4 output block — if you haven't, do so now before any farewell message.
+If you are reading this in a freshly-bootstrapped project, the delivery skill instantiates the project-local copy and customizes §§ 2 + 4 output-block specifics during bootstrap. If you are reading this as a working contributor responding to a "wrap up" command, you should already be producing the § 4 output block — if you haven't, do so now before any farewell message.

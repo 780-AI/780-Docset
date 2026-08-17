@@ -1,8 +1,11 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-08-17 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-08-17 — Standard Set Version v2.0 (PLAN-009): the four delivery pointers retargeted
+from the retired NEW_PROJECT_BOOTSTRAP.md to the vault-side standard-docset delivery skill
+(STANDARDS_INDEX § 4); the § 4 walkthrough retained as orientation for the manual pattern.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
@@ -19,7 +22,7 @@ Distilled from production governance lessons. Every rule below has at least one 
 
 | If you want to... | Read this first |
 |---|---|
-| **Adopt these standards in a new project** | `NEW_PROJECT_BOOTSTRAP.md` (detailed walkthrough); `HOW_TO_USE.md` § 3 (copy-paste bootstrap prompt) |
+| **Adopt these standards in a new project** | the standard-docset delivery skill (vault-side; `STANDARDS_INDEX.md` § 4) |
 | **Find a ready-to-paste prompt for common workflows** | `HOW_TO_USE.md` (bootstrap, Day-One feature work, code review, prompt audit, quarterly audit, lesson backport) |
 | Understand the overall architecture | § 2 (The 10-file modular suite) |
 | See why this repo exists at all | § 1 (Mental model) and § 7 (Why this design) |
@@ -150,7 +153,6 @@ The suite is organized as **10 binding files** (core operating contract + 7 focu
 |---|---|---|
 | `README.md` | Humans (new adopters, contributors) | Entry point — overview, orientation, dispatcher |
 | `STANDARDS_INDEX.md` | Humans + AI | Versioned set manifest: Standard Set Version + per-file version table + Set-Version-bump policy |
-| `NEW_PROJECT_BOOTSTRAP.md` | Humans adopting the suite | Detailed Day-Zero walkthrough: how to start a new project from this template (copy commands, customization, first commit, supporting scripts, CI scaffold) |
 | `HOW_TO_USE.md` | Humans using the suite day-to-day | Practical usage guide: copy-paste bootstrap prompt + supporting prompts (Day-One feature work, code review, prompt audit, quarterly audit, lesson backport) + troubleshooting |
 
 **Total: ~8,100+ lines across 14 files (10 binding + 4 meta).** No single file over ~1,400 lines, each topically coherent, each loaded by dispatcher pattern when its topic is in scope (except `SESSION_OPENER.md` which is loaded automatically at session start per `CLAUDE.md` Rule 9).
@@ -192,11 +194,11 @@ Same way. When making a change, identify the category and read the focused file'
 
 This is the operational guide for adopting these standards in a new project. Four milestones: Day Zero, Day One, Week One, Month One.
 
-> **Detailed Day-Zero walkthrough:** See `NEW_PROJECT_BOOTSTRAP.md` for the full step-by-step bootstrap procedure (copy commands, customization checklist tied to placeholders, governance script setup, CI scaffold, first commit). The summary below is the orientation; the bootstrap file is the dispositive walkthrough.
+> **Delivery note (Set v2.0):** bootstrap/adopt is performed by the vault-side standard-docset skill (`STANDARDS_INDEX.md` § 4). The walkthrough below is retained as orientation for the manual pattern.
 
 ### 4.1 Day Zero — bootstrap a new project
 
-Before any feature work, set up the governance scaffold. Order matters. **The procedure summarized below is implemented in full detail in `NEW_PROJECT_BOOTSTRAP.md`** — read both, follow the bootstrap file's commands.
+Before any feature work, set up the governance scaffold. Order matters. **The operational path is the delivery skill (bootstrap mode)** — the steps below are the orientation.
 
 #### Step 1 — Create the repo and clone it locally
 

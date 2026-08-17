@@ -1,8 +1,9 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-08-17 -->
 <!-- Re-home checklist: bring this vault to full operation on a new machine. Project-local (not a suite file). -->
 <!--
 CHANGE LOG
+v1.2 — 2026-08-17 — PLAN-009 (Set v2.0): added § 5 delivery-skill symlink (machine-local ~/.claude/skills/standard-docset; restore via bash scripts/bootstrap_skill.sh, idempotent) + its entry in the Rule 14 catalog intro; Pre-flight renumbered § 5 → § 6.
 v1.1 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): this doc now doubles as the Rule 14 machine-migration catalog (§§ 2–3 ARE the out-of-folder state entries); § 4 retargeted memory symlink → project-data link (claude_project_data.sh status/adopt/link replaces bootstrap_memory.sh); § 1 intro mentions .claude/project-data/.
 v1.0 — 2026-06-17 — Initial. Derived from the 2026-06-17 re-home (L050).
 -->
@@ -17,7 +18,8 @@ Derived from the 2026-06-17 re-home (see `archive/LESSONS.md` L050).
 
 > **This doc is also the Rule 14 machine-migration catalog** — the named register of project state that
 > genuinely cannot live in the project folder. Its entries are the sections below: the Python toolchain
-> (§ 2, rebuilt per machine), and SSH push credentials (§ 3, per-machine keys). Anything new that must
+> (§ 2, rebuilt per machine), SSH push credentials (§ 3, per-machine keys), and the delivery-skill
+> symlink (§ 5, re-created by `bash scripts/bootstrap_skill.sh`). Anything new that must
 > live outside the folder is added here with its migration steps, same-commit (per `CLAUDE.md` Rule 14).
 
 ## 1. Repo
@@ -61,7 +63,19 @@ The **content** (memory + session transcripts) is already present (Dropbox carri
 stray harness dir a pre-link session created. If the store is unexpectedly empty, recover per L050 (a
 backup/sync of the prior machine's `~/.claude`).
 
-## 5. Pre-flight
+## 5. Delivery-skill symlink (per `CLAUDE.md` Rule 14)
+
+The standard-docset delivery skill is machine-local state: `~/.claude/skills/standard-docset` is a
+symlink into this vault's `skill/` dir. Restore it with:
+
+```bash
+bash scripts/bootstrap_skill.sh     # idempotent; re-points a stale link, errors on a non-link
+```
+
+New Claude Code sessions on the machine then list the `standard-docset` skill (delivery per
+`docs/standards/STANDARDS_INDEX.md` § 4).
+
+## 6. Pre-flight
 
 Run the `docs/SESSION_OPENER.md` § 1 pre-flight — its § 1.5 runs `claude_project_data.sh status` and
 names the fix verb on any non-OK state, so a healthy run confirms the re-home is complete.

@@ -1,8 +1,9 @@
-<!-- VERSION: 1.6 -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 2.0 -->
+<!-- Last Updated: 2026-08-17 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v2.0 — 2026-08-17 — Standard Set Version v2.0 (PLAN-009 skill delivery): SETUP.md + NEW_PROJECT_BOOTSTRAP.md + MEMORY_DURABILITY_ROLLOUT_PROMPT.md retired in favor of the vault-side live-reference delivery skill (skill/SKILL.md + skill/modes/ + scripts/bootstrap_skill.sh — vault machinery, never copied to adopters). § 1 block → v2.0 (counts unchanged — 15 rules / 67 lessons; total → 15 files = 11 binding + 4 meta); § 2 Tier 2 table pruned to README / STANDARDS_INDEX / HOW_TO_USE (+ STANDARDS_LOG) + delivery note added; § 3 caption → v2.0 + cells (README 1.1, HOW_TO_USE 1.1, STANDARDS_LOG 1.1, SESSION_OPENER 1.7, SESSION_CLOSER 1.5, STANDARDS_INDEX 2.0); § 4 delivery path rewritten (skill, concierge/self-service); § 5 unchanged (live-reference — no release-procedure step added); § 6 v2.0 history entry with the adopter-migration note.
 v1.6 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008 sync-enablement): TEMPLATE-ONLY marker convention + PROJECT-OWNED instance-heading blocks in the two session templates + § 14 stub-keep wording; the `sync` engine ships (Slice 5). § 1 block → v1.6 (counts unchanged — 15 rules / 67 lessons); § 3 caption → v1.6 + cells (CLAUDE.md 1.5, SESSION_OPENER 1.6, SESSION_CLOSER 1.4, SETUP 1.6, NEW_PROJECT_BOOTSTRAP 1.6, STANDARDS_INDEX 1.6); § 6 history entry added. No rule or lesson content change.
 v1.5 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010 upstream intake): eleven lessons L057–L067 + NEW Rule 15 (post-implementation verification of the NEW behavior) + Rule 14 upgraded to project-data locality (claude_project_data.sh replaces bootstrap_memory.sh; verified at session open AND close). § 1 counts → 67 lessons / 15 rules; § 2 rows 1 + 9; § 3 caption → v1.5 + cells (CLAUDE.md 1.4, SESSION_OPENER 1.5, SESSION_CLOSER 1.3, STANDARDS_INDEX 1.5, NEW_PROJECT_BOOTSTRAP 1.5, SETUP 1.5, MEMORY_DURABILITY_ROLLOUT_PROMPT 1.2) + total → 67 (LESSONS cell unchanged per the no-per-lesson-bump practice); § 4.1 count swept 13 → 15 (per L060); § 6 history entry added.
 v1.4 — 2026-08-16 — Standard Set Version v1.4: five process-hardening lessons L052–L056 + L051 recurrence #4 (final-indentation clause). § 1 counts → 56 lessons; § 2 row 9 → 56; § 3 caption → v1.4 + cells (CLAUDE.md 1.3, SESSION_OPENER 1.4, SESSION_CLOSER 1.2, STANDARDS_INDEX 1.4, NEW_PROJECT_BOOTSTRAP 1.4, SETUP 1.4; MEMORY_DURABILITY_ROLLOUT_PROMPT cell caught up to its already-shipped 1.1) + total → 56 (LESSONS cell unchanged per the no-per-lesson-bump practice); § 6 history entry added. Anchors: SESSION_OPENER § 1.1 + § 3.1 row (L055 / L051), SESSION_CLOSER § 1.4 + § 2.1 row (L055), CLAUDE.md § 15.2 (L054) + § 15.3 (L056). No rule added or removed.
@@ -39,10 +40,10 @@ Version** tracks the suite as a whole — files added, structure changed, patter
 ## 1. Standard Set Version (current)
 
 ```
-Standard Set Version: v1.6
-Released:             2026-08-16
-Baseline:             v1.0 clean domain-neutral baseline + the experiences-log template, PROJECT-OWNED markers, and setup-and-strip (PLAN-002 Slice 1) + durable-memory Rule 14 (PLAN-005) + Rule 13 linter-enforcement lesson L051 (v1.3) + process-hardening lessons L052–L056 and the L051 final-indentation recurrence (v1.4) + upstream-intake process-hardening batch — lessons L057–L067, Rule 15, Rule 14 project-data locality (v1.5) + sync-enablement markers (v1.6).
-Adopter contract:     11 binding files + 4 meta files (+ SETUP.md + STANDARDS_LOG.md + MEMORY_DURABILITY_ROLLOUT_PROMPT.md); 67 lessons (L001–L067); 15 standing rules in CLAUDE.md
+Standard Set Version: v2.0
+Released:             2026-08-17
+Baseline:             v1.x line (v1.0 baseline … sync-enablement markers v1.6) + skill delivery: the SETUP/NEW_PROJECT_BOOTSTRAP/MEMORY_DURABILITY_ROLLOUT_PROMPT machinery is retired in favor of the vault-side live-reference delivery skill (PLAN-009).
+Adopter contract:     11 binding files + 3 meta files (+ STANDARDS_LOG.md); 67 lessons (L001–L067); 15 standing rules in CLAUDE.md
 ```
 
 When adopting this suite, record the Set Version in the new project's `CHANGELOG.md` or its own
@@ -78,17 +79,18 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 |---|---|---|
 | 1 | `README.md` | Entry point — overview, mental model, dispatcher reference, orientation |
 | 2 | `STANDARDS_INDEX.md` | This file — versioned set manifest, per-file table, bump policy |
-| 3 | `NEW_PROJECT_BOOTSTRAP.md` | Detailed Day-Zero walkthrough — copy + customize + first commit |
-| 4 | `HOW_TO_USE.md` | Practical usage guide — pointer to `SETUP.md` + supporting prompts (Day-One, code review, audit) |
-| + | `SETUP.md` | **The one-shot bootstrap prompt** — paste into a fresh agent session to set up a new project from scratch |
-| + | `STANDARDS_LOG.md` | **Experiences-log template** — the per-project contribution channel; `SETUP.md` copies it to the project's `docs/STANDARDS_LOG.md` (an adopter artifact, not a binding rule) |
-| + | `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` | **Memory-durability rollout prompt** — paste-in prompt that sets up Rule 14 durable memory in an adopting project (setup machinery; stripped after use) |
+| 3 | `HOW_TO_USE.md` | Practical usage guide — supporting prompts (Day-One, code review, audit); delivery is the vault-side skill |
+| + | `STANDARDS_LOG.md` | **Experiences-log template** — the per-project contribution channel; the delivery skill copies it to the project's `docs/STANDARDS_LOG.md` (an adopter artifact, not a binding rule) |
+
+> **Delivery (not part of the set):** the suite is delivered by the vault-side skill
+> (`skill/SKILL.md` + `skill/modes/` + `scripts/bootstrap_skill.sh`) — live-reference vault
+> machinery, versioned in the vault's own manifest, never copied to adopters.
 
 ---
 
 ## 3. Per-file version table
 
-Current state as of Set Version v1.6 (2026-08-16). Files unchanged since v1.0 keep their 2026-06-07 dates.
+Current state as of Set Version v2.0 (2026-08-17). Files unchanged since v1.0 keep their 2026-06-07 dates.
 
 | File | Tier | Version | Last Updated |
 |---|---|---|---|
@@ -101,25 +103,24 @@ Current state as of Set Version v1.6 (2026-08-16). Files unchanged since v1.0 ke
 | `VALIDATION_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `CICD_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `LESSONS.md` | Binding | 1.0 | 2026-06-07 |
-| `SESSION_OPENER.md` | Binding | 1.6 | 2026-08-16 |
-| `SESSION_CLOSER.md` | Binding | 1.4 | 2026-08-16 |
-| `README.md` | Meta | 1.0 | 2026-06-07 |
-| `STANDARDS_INDEX.md` | Meta | 1.6 | 2026-08-16 |
-| `NEW_PROJECT_BOOTSTRAP.md` | Meta | 1.6 | 2026-08-16 |
-| `HOW_TO_USE.md` | Meta | 1.0 | 2026-06-07 |
-| `SETUP.md` | Meta | 1.6 | 2026-08-16 |
-| `STANDARDS_LOG.md` | Meta | 1.0 | 2026-06-13 |
-| `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` | Meta | 1.2 | 2026-08-16 |
+| `SESSION_OPENER.md` | Binding | 1.7 | 2026-08-17 |
+| `SESSION_CLOSER.md` | Binding | 1.5 | 2026-08-17 |
+| `README.md` | Meta | 1.1 | 2026-08-17 |
+| `STANDARDS_INDEX.md` | Meta | 2.0 | 2026-08-17 |
+| `HOW_TO_USE.md` | Meta | 1.1 | 2026-08-17 |
+| `STANDARDS_LOG.md` | Meta | 1.1 | 2026-08-17 |
 
-**Total file count:** 18 (11 binding + 7 meta).
+**Total file count:** 15 (11 binding + 4 meta).
 **Total lesson count in `LESSONS.md`:** 67 (L001–L067).
 
 ---
 
 ## 4. How to apply this set to a new project
 
-The fastest path is **`SETUP.md`** — paste its prompt into a fresh Claude Code session in the new
-project's directory and follow it. For the manual, step-by-step route, see `NEW_PROJECT_BOOTSTRAP.md`.
+The delivery path is the **standard-docset skill** (vault-side): concierge — the curator runs
+it against the target; or self-service — clone the vault repo and run
+`bash scripts/bootstrap_skill.sh` once, then invoke the skill in a session opened at the
+target. Bootstrap mode covers new projects; adopt mode migrates existing ones (dry-run gated).
 
 ### 4.1 What you get
 
@@ -168,6 +169,27 @@ coordinated multi-file pattern is a Set-Version Minor; a structural change is a 
 ## 6. Standard Set Version history
 
 Newest first. Append-only.
+
+### v2.0 — 2026-08-17 — Skill delivery (machinery retired)
+
+Structural Major (PLAN-009). The delivery machinery — `SETUP.md` (the one-shot bootstrap prompt),
+`NEW_PROJECT_BOOTSTRAP.md` (the Day-Zero walkthrough), and `MEMORY_DURABILITY_ROLLOUT_PROMPT.md`
+(the Rule 14 retrofit prompt) — is retired from the set. Delivery is now the vault-side
+**standard-docset skill** (`skill/SKILL.md` + `skill/modes/bootstrap.md` + `skill/modes/adopt.md`
++ the per-machine installer `scripts/bootstrap_skill.sh`): **live-reference** — the skill carries
+no copy of the suite; it resolves the vault through its own symlink, self-pulls at step 0, and
+reads `docs/standards/` directly at delivery time, so there is no bundle, no export script, and no
+re-export release step (the L053 delivery-parity class is removed structurally, not managed).
+Distribution is a plugin-free dual route: **concierge** (the curator runs the skill against the
+target — team machines need nothing installed) and **self-service** (clone the vault repo, run the
+installer once). Bootstrap mode covers new projects; adopt mode migrates existing ones (dry-run
+gated, customization-preserving, performs the one-time v1.6 heading-wrap) and ships gated on a
+real pilot adoption. No release-procedure step is added to § 5 — live-reference means the skill
+needs no per-release refresh.
+
+**No adopter action required** — the retired files were setup machinery that never survived in
+adopters (the strip removed them), so no adopter footprint changes and `sync` is unaffected. New
+deliveries use the skill; old-SETUP adopters just register + heading-wrap + sync.
 
 ### v1.6 — 2026-08-16 — Sync-enablement markers (PLAN-008: the `sync` engine ships)
 

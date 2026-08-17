@@ -1,8 +1,11 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-08-17 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-08-17 — Standard Set Version v2.0 (PLAN-009): delivery pointers retargeted from the
+retired SETUP.md / NEW_PROJECT_BOOTSTRAP.md to the vault-side standard-docset delivery skill
+(STANDARDS_INDEX § 4).
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Slimmed: the long bootstrap walkthrough is replaced
 by a pointer to SETUP.md (the one-shot prompt). Retains the supporting prompts (Day-One feature work,
 code review, prompt audit, quarterly audit, lesson backport), scrubbed and trimmed. Established as
@@ -14,8 +17,7 @@ Standard Set Version v1.0.
 This file holds the **supporting prompts** for working day-to-day with the suite. The headline workflow
 — bootstrapping a new project — has its own dedicated file.
 
-- **Bootstrap a new project →** use **`SETUP.md`** (a single paste-and-run prompt).
-- **Detailed click-through walkthrough →** `NEW_PROJECT_BOOTSTRAP.md`.
+- **Bootstrap or adopt a project →** the **standard-docset delivery skill** (vault-side; see `STANDARDS_INDEX.md` § 4).
 - **Conceptual overview →** `README.md`. **Versioned set manifest →** `STANDARDS_INDEX.md`.
 
 The prompts below establish the binding session protocol from message 1 so you don't re-explain it each
@@ -101,7 +103,7 @@ ONE step at a time: show me the draft lesson first; wait for approval before edi
 
 ## Where to go next
 
-- **Bootstrapping now?** → `SETUP.md`.
+- **Bootstrapping now?** → the standard-docset delivery skill (`STANDARDS_INDEX.md` § 4).
 - **Starting your first feature?** → § 1 above.
 - **Sending a multi-file edit prompt?** → audit it with § 3 first.
 - **Why is the suite shaped this way?** → `README.md` (design rationale).

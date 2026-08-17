@@ -1,7 +1,8 @@
-<!-- VERSION: 0.13 -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 0.14 -->
+<!-- Last Updated: 2026-08-17 -->
 <!--
 CHANGE LOG
+v0.14 — 2026-08-17 — PLAN-009 (skill delivery, Standard Set Version v2.0): added the skill/ top-level dir (SKILL.md + modes/bootstrap.md + modes/adopt.md) and scripts/bootstrap_skill.sh to the tree; removed the retired SETUP.md + NEW_PROJECT_BOOTSTRAP.md lines from docs/standards/ (MDRP was never listed — pre-existing gap recorded in the plan); suite caption v1.6 → v2.0; STANDARDS_LOG template caption retargeted SETUP → the delivery skill; rider — root CLAUDE.md caption "13 standing rules" → "15 standing rules".
 v0.13 — 2026-08-16 — PLAN-008 (Slice 5: sync, Standard Set Version v1.6): added src/standard_document_updater/sync.py and tests/test_sync.py to the tree; noted the sync subcommand on cli.py and the engine-tree comment ("Slice 5: + sync"); suite caption v1.5 → v1.6.
 v0.12 — 2026-08-16 — PLAN-010 (Standard Set Version v1.5): scripts listing swap bootstrap_memory.sh → claude_project_data.sh; .claude/ tree memory/ → project-data/ (memory + session transcripts); suite caption v1.4 → v1.5; both LESSONS captions → L001–L067.
 v0.11 — 2026-08-16 — Added docs/STANDARDS_LOG.md (this project's own experiences-log instance, created retroactively) to the docs/ tree; caught up two stale tree labels — standards/ suite caption "Set Version v1.1" → v1.4 and template LESSONS caption "L001–L049" → L001–L056.
@@ -27,7 +28,7 @@ same commit.
 
 ```
 Standard DocSet/
-├── CLAUDE.md                      # operating contract (binding; 13 standing rules)
+├── CLAUDE.md                      # operating contract (binding; 15 standing rules)
 ├── README.md                      # project overview
 ├── CHANGELOG.md                   # cross-cutting history (newest first)
 ├── .gitignore
@@ -44,15 +45,13 @@ Standard DocSet/
 │   ├── SESSION_CLOSER.md          # binding session-end wrap-up (Rule 12)
 │   ├── SET_VERSION_ADOPTED.md     # adopted Standard Set Version (moved here so it survives the setup strip)
 │   ├── STANDARDS_LOG.md           # this project's experiences log (contribution channel; kept file)
-│   ├── standards/                 # canonical domain-neutral suite (Set Version v1.6)
-│   │   ├── SETUP.md               # one-shot bootstrap prompt
+│   ├── standards/                 # canonical domain-neutral suite (Set Version v2.0)
 │   │   ├── CLAUDE.md             # operating-contract TEMPLATE (with placeholders)
 │   │   ├── LESSONS.md            # lessons archive (canonical template, L001–L067)
 │   │   ├── CICD_STANDARDS.md
 │   │   ├── ENGINEERING_STANDARDS.md
 │   │   ├── HOW_TO_USE.md
 │   │   ├── MEMORY_PROTOCOL.md
-│   │   ├── NEW_PROJECT_BOOTSTRAP.md
 │   │   ├── PROJECT_INSTRUCTIONS_TEMPLATE.md
 │   │   ├── PROJECT_STANDARDS.md
 │   │   ├── PROMPT_STANDARDS.md
@@ -60,10 +59,15 @@ Standard DocSet/
 │   │   ├── SESSION_CLOSER.md
 │   │   ├── SESSION_OPENER.md
 │   │   ├── STANDARDS_INDEX.md
-│   │   ├── STANDARDS_LOG.md       # experiences-log TEMPLATE (SETUP copies to docs/STANDARDS_LOG.md)
+│   │   ├── STANDARDS_LOG.md       # experiences-log TEMPLATE (the delivery skill copies to docs/STANDARDS_LOG.md)
 │   │   └── VALIDATION_STANDARDS.md
 │   └── Plans/                     # committed planning docs (Rule 1); OPEN_TASKS.md is gitignored
 │       └── .gitkeep
+├── skill/                         # delivery skill (live-reference; PLAN-009) — symlinked to ~/.claude/skills/standard-docset by scripts/bootstrap_skill.sh
+│   ├── SKILL.md                   # mode dispatch + step-0 vault resolve/self-pull
+│   └── modes/
+│       ├── bootstrap.md           # NEW-project delivery (successor to SETUP.md)
+│       └── adopt.md               # EXISTING-project migration (dry-run gated)
 ├── pyproject.toml                 # packaging + tool config (setuptools / ruff / mypy / pytest)
 ├── config/
 │   └── projects.toml              # registry of managed projects (name + path; per architecture.md § 8)
@@ -96,6 +100,7 @@ Standard DocSet/
 │   ├── project-data/             # Claude project data (memory + session transcripts) — harness symlinks here (Rule 14)
 │   └── README_memory.md
 ├── scripts/
+│   ├── bootstrap_skill.sh        # per-machine skill installer (idempotent symlink)
 │   ├── claude_project_data.sh    # Rule 14 project-data locality tool (status / adopt / link)
 │   ├── check_doc_coverage.py
 │   ├── check_test_coverage_drift.py

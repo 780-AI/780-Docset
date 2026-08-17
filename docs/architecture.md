@@ -1,7 +1,8 @@
-<!-- VERSION: 0.10 -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 0.11 -->
+<!-- Last Updated: 2026-08-17 -->
 <!--
 CHANGE LOG
+v0.11 — 2026-08-17 — PLAN-009 (skill delivery, Standard Set Version v2.0) landed. § 3 machinery row → never enters the project (SETUP/NPB/MDRP retired from the suite at v2.0). § 4 rewritten: delivery = the vault-side live-reference standard-docset skill (symlink resolve + step-0 self-pull; copies from the live docs/standards/; stamps SET_VERSION_ADOPTED with Set Version + vault commit; no crate, no strip; bootstrap | adopt modes, adopt dry-run gated; concierge default / self-service clone). § 8 `setup` row → `skill` row. § 10 appends roadmap item 6 (delivery layer ✅). § 11 records the PLAN-009 decisions (D-1…D-5) as DECIDED.
 v0.10 — 2026-08-16 — PLAN-008 (Slice 5: `sync`) landed. § 7 adds the sync-enablement additions (TEMPLATE-ONLY marker convention; ordinal PROJECT-OWNED block matching with strict count check; § 14 stub-keep). § 8 marks sync implemented ✅ + behavior note (dry-run default; --write/--project/--diff; per-target isolation exit 1; target manifest deliberately not edited; mechanical SVA record update); transport paragraph += full-footprint sessions (DD-B: full=True materializes docs/ + archive/ + root CLAUDE.md). § 10 ticks Slice 5 ✅ — the harvest → integrate → sync loop is complete. § 11 records the PLAN-008 decisions (D1/D2 + DD-A…DD-I) as DECIDED. Ships with Standard Set Version v1.6 (sync-enablement markers) in the same commit.
 v0.9 — 2026-06-23 — PLAN-007 (remote-target transport) landed. § 1 adds the "Reach" note (local or remote git/ssh via a pluggable transport; no server). § 8 registry note → per-target `transport` + connection fields; new "Transport" paragraph (materialize → operate → flush; git fast-forward push; per-target failure non-fatal for reads). § 9 read-before-write extended to fetch-fresh materialization + per-target atomic write-back. § 10 marks PLAN-007 ✅ done. § 11 records the transport decisions (D1–D4 / DD-1…DD-6) as DECIDED. Engine behavior added; read-only on the vault (no docs/standards/ edit) → no Set Version change.
 v0.8 — 2026-06-21 — Drift fix: § 10 roadmap corrected the stale slice→plan numbering. `sync` is PLAN-008 (was PLAN-007); PLAN-007 is the remote-target transport infrastructure expansion inserted before `sync`. Matches the live planning state. Doc-only; no engine behavior change.
@@ -51,25 +52,32 @@ framing; see `CLAUDE.md` § 1.)
 |---|---|---|---|
 | **Operative standard** (governs how you build) | `CLAUDE.md` (root), the topical library (ENGINEERING / CICD / VALIDATION / PROJECT / PROMPT / MEMORY), `LESSONS.md`, project-local `SESSION_OPENER/CLOSER`, governance scripts, CI, manifest | **Kept** | this is *what makes every project behave identically*; dropping it causes drift |
 | **Contribution channel** | `docs/STANDARDS_LOG.md` (§ 5) | **Kept** | the project's outbox of experiences to feed back |
-| **Setup / maintenance machinery** (only used to *deliver or maintain* the suite) | `SETUP.md`, `NEW_PROJECT_BOOTSTRAP.md`, `STANDARDS_INDEX.md`, meta `README.md`, `HOW_TO_USE.md`, `PROJECT_INSTRUCTIONS_TEMPLATE.md`, the CLAUDE/LESSONS/SESSION **templates** | **Stripped** | never runs during normal development → zero operational cost to remove |
+| **Setup / maintenance machinery** (only used to *deliver or maintain* the suite) | `STANDARDS_INDEX.md`, meta `README.md`, `HOW_TO_USE.md`, `PROJECT_INSTRUCTIONS_TEMPLATE.md`, the CLAUDE/LESSONS/SESSION **templates** (retired from the suite at v2.0: SETUP / NEW_PROJECT_BOOTSTRAP / MEMORY_DURABILITY_ROLLOUT_PROMPT) | **Never enters** | delivery is the vault-side skill (Set v2.0) — the machinery stays in the vault; the crate/strip mechanism is retired for new deliveries |
 
-Deleting the machinery satisfies "don't leave the whole ready-to-deploy package in the project" with no
-effect on how the project operates.
+The machinery never entering a target satisfies "don't leave the whole ready-to-deploy package in the
+project" with no effect on how the project operates (Set v2.0 — before the skill, `SETUP.md` deleted
+it after use).
 
-## 4. Setup-and-strip (delivery: vault → project)
+## 4. Delivery (vault → project): the skill
 
-1. Copy the suite into the new project's `docs/standards/` — a transient **delivery crate**.
-2. Run `SETUP.md` inside the project. It:
-   - instantiates the operative files (root `CLAUDE.md` with placeholders filled; project-local
-     `docs/SESSION_OPENER/CLOSER.md`; governance scripts; CI; manifest; `docs/STANDARDS_LOG.md`),
-   - copies the **kept** files to their permanent homes (the topical library + `LESSONS.md` stay; the
-     instantiated `CLAUDE.md` → root; `SET_VERSION_ADOPTED.md` → `docs/` so it survives),
-   - makes everything operational (governance exits 0, first commit),
-   - **deletes the setup-machinery files** from `docs/standards/` (the crate's packing materials).
-3. The **vault keeps its own `docs/standards/` permanently** — the strip only ever happens in *target*
-   projects.
+Delivery is the vault-side **standard-docset skill** (`skill/SKILL.md` + `skill/modes/`; PLAN-009,
+Set Version v2.0) — **live-reference**: the skill carries no copy of the suite. Two modes:
+**bootstrap** (new project) and **adopt** (existing project — dry-run gated; also performs the
+one-time v1.6 heading-wrap that sync's ordinal matching needs).
 
-> Note: `SETUP.md` performs the strip as of Slice 1 (PLAN-002, Set Version v1.1) — see § 10.
+1. The skill resolves the vault through its own symlink (`~/.claude/skills/standard-docset` →
+   `<vault>/skill`, created once per machine by `scripts/bootstrap_skill.sh`) and **self-pulls** the
+   vault repo at step 0 — it self-updates at use time.
+2. It **copies the operative files directly from the live `docs/standards/`** (read-only on the
+   vault), instantiates the mixed files (root `CLAUDE.md` + the two session files — every
+   PROJECT-OWNED marker kept), and stamps the project's `docs/SET_VERSION_ADOPTED.md` with the
+   delivered Set Version + vault commit.
+3. **No crate, no strip** — machinery never enters the target, so there is nothing to delete.
+4. Distribution is plugin-free: **concierge** (default — the curator runs the skill against the
+   target; team machines need nothing installed) or **self-service** (clone the vault repo, run the
+   installer once).
+
+> The old `SETUP.md` setup-and-strip path is retired (v2.0) — see § 10 item 6.
 
 ## 5. The experiences log — the contribution channel
 
@@ -169,7 +177,7 @@ A Python CLI (per `CLAUDE.md` § 1). All write commands are operator-gated; read
 | `harvest` ✅ | every project's `STANDARDS_LOG.md` | a consolidated report (to stdout) | none (read-only) |
 | `integrate` ✅ | open log entries (worksheet) + the decisions TOML (write-back) | project logs (the matched `Status:` line, gated); the **vault** edits (LESSONS + topical + Set Version) are authored by Claude in-session, not by the tool | operator-approved (write-back is dry-run unless `--write`) |
 | `sync` ✅ | vault suite + Set Version | every project (honoring `PROJECT-OWNED` markers) | operator-approved (dry-run unless `--write`) |
-| `setup` | the delivery crate | the new project (then strips) | operator-run; this is `SETUP.md` |
+| `skill` (bootstrap \| adopt) | the live vault suite | the new/adopting project | operator-run Claude Code skill (`skill/SKILL.md`); adopt mode dry-run gated |
 
 **Registry:** a vault-side config (`config/projects.toml`) listing each managed project — its
 **`transport`** (`local` | `git` | `ssh`; default `local`) plus the connection fields that transport
@@ -264,6 +272,8 @@ first; judgment-heavy last):
    replace for suite-owned; mechanical `SET_VERSION_ADOPTED.md` record update. Dry-run default;
    `--write`/`--project`/`--diff`; per-target isolation; full-footprint transport sessions (DD-B).
    Built on PLAN-007's transport layer. *The harvest → integrate → sync loop is complete.*
+6. ✅ **Delivery layer — the standard-docset skill** (done — PLAN-009, Set Version v2.0).
+   Live-reference skill (bootstrap + adopt) + per-machine installer; SETUP/NPB/MDRP retired.
 
 > Plan numbering: PLAN-005 is the durable-memory governance change (Rule 14 / Set v1.2), not an engine
 > slice. **PLAN-007 — the remote-target transport (`local` | `git` | `ssh`) — ✅ done**: a non-slice
@@ -305,3 +315,12 @@ first; judgment-heavy last):
   **DD-I**; TEMPLATE-ONLY markers + instance-heading PROJECT-OWNED blocks + § 14 stub-keep wording =
   Standard Set Version v1.6 — **D1**; SESSION_OPENER § 3.1 (universal catalog) stays suite-owned,
   adopter customizations live in § 3.2 — **D2**.
+- ✅ **DECIDED (PLAN-009)** — Skill-based delivery (Set Version v2.0): **live-reference** — the
+  skill reads the live vault suite through its own symlink; no bundle, no export script, no
+  re-export release step (the L053 parity class removed structurally; spike-backed — symlinked
+  skill dirs documented supported + 4 FS probes passed) — **D-1**; skill home = new top-level
+  `skill/` dir — **D-2**; `NEW_PROJECT_BOOTSTRAP.md` retired — **D-3**;
+  `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` retired (adopt mode absorbs the Rule 14 retrofit) —
+  **D-4**; **two-stage close** — the release commit ships bootstrap mode fully verified (QA-A…D);
+  the plan stays EXECUTING until the real adopt-mode pilot passes, then a closure commit promotes
+  plan + tracker — **D-5**.

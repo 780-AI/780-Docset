@@ -1,8 +1,19 @@
-<!-- VERSION: 0.2 -->
-<!-- Status: APPROVED (D9.A, 2026-08-16) -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 0.3 -->
+<!-- Status: EXECUTING (release commit landed; closure gated on QA-E per D-5) -->
+<!-- Last Updated: 2026-08-17 -->
 <!--
 CHANGE LOG
+v0.3 — 2026-08-17 — Phase 3 release-commit session (fresh session per § 15.3). Reconcile pass:
+11/11 § 5G–5K anchors byte-exact at the audited lines; all § 5F/5L–5Q structural claims verified;
+zero blocking defects. Three named plan-defects fixed in-flight with disclosure (tracker has the
+record): D1 architecture § 3 trailing strip-sentence (unenumerated, contradicted the new row);
+D2 folder_structure STANDARDS_LOG caption "(SETUP copies…)"; D3 REAL (QA-B-found, Rule 15 class) —
+§ 5B/§ 5C SVA bullets lacked the sync-ready shape `sync.record_adoption` hard-requires (VERSION
+header + exact bullets + backport table → SyncError on a fresh delivery's first sync); both mode
+files amended, then the engine's own `plan_target` run against the QA-B bootstrap: 11 files
+validated, NO SyncError, all changed=False (sync no-op — converge once, sync forever proven).
+Status → EXECUTING; § 4 Phase 3 commit-1 + Phase 4 QA ticks (QA-B/C/D/G ✅; QA-A partial —
+fresh-session listing = operator confirm at the gate; QA-E/F pending, separate session per D-5).
 v0.2 — 2026-08-16 23:40 — Rule 13 senior-review-and-optimize pass (recorded per § 15.8). Tools run
 against the plan's own fenced bodies at final ship indentation: re-extracted § 5D + the § 5A Step 0
 block → `bash -n` PASS on both; Step 0 SET_VERSION/VAULT_SHA pipeline exercised against the real
@@ -113,8 +124,8 @@ still says "L001–L049" (stale since v1.0; untouched — outside the delivery s
 | 0 — Audit | ✅ done | 2026-08-16 |
 | 1 — Design (this file; Rule 13 pass at end) | ✅ done | 2026-08-16 |
 | 2 — Operator approval (D9.A + D-1…D-5) | ✅ operator: "approved" = APPROVE D9.A; D-1…D-5 per recommendations | 2026-08-16 |
-| 3 — Implement (commit 1: release; commit 2: closure after QA-E) | ⏸ pending | — |
-| 4 — Validate (QA-A…QA-G; A/B/E are Rule 15 feature-ON gates) | ⏸ pending | — |
+| 3 — Implement (commit 1: release; commit 2: closure after QA-E) | 🔄 commit 1 landed this session; commit 2 awaits QA-E (D-5) | 2026-08-17 |
+| 4 — Validate (QA-A…QA-G; A/B/E are Rule 15 feature-ON gates) | 🔄 QA-B/C/D/G ✅; QA-A partial (listing = operator confirm); QA-E/F pending (separate session) | 2026-08-17 |
 | 5 — Operator gate (push + tag `set-v2.0`) | ⏸ pending | — |
 
 ## 5. Transformation rules (verbatim, per Rule 7)
