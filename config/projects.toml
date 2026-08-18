@@ -25,11 +25,15 @@
 # ssh_path = "/home/me/gamma"
 # ==============================================================
 
-# NOTE on machine-affinity: `local` paths are machine-specific. This vault folder syncs
-# (Dropbox) across machines whose $HOME differs — a local target registered for one machine
-# reports non-fatally as unreachable on the others (status/harvest warn + skip; per
+# NOTE on machine-affinity: absolute `local` paths are machine-specific. This vault folder syncs
+# (Dropbox) across machines whose $HOME differs — a local target registered by absolute path for
+# one machine reports non-fatally as unreachable on the others (status/harvest warn + skip; per
 # architecture.md § 8). Run write commands for a local target on the machine that holds it.
+# EXCEPTION: a target that itself lives in the synced Dropbox folder can be registered with a
+# `~/` path — the registry expands `~` at load (registry.py `_build_project`), so every machine
+# resolves its own copy. Still run writes on ONE machine at a time and let Dropbox settle before
+# touching the target from another (concurrent git ops on a Dropbox-synced repo can conflict).
 
 [[project]]                        # PLAN-009 QA-E pilot adopter (Set v2.0, adopted 2026-08-17)
 name = "EverOn.Capital-Signal"
-path = "/Users/parsaazad/Documents/EverOn.Capital-Signal"   # MacBook Air — run sync/write there
+path = "~/Library/CloudStorage/Dropbox/Projects/EverOn.Capital-Signal"   # Dropbox-synced (moved 2026-08-18); ~ resolves per machine

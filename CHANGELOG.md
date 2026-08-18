@@ -2,6 +2,30 @@
 
 Newest entries at the top.
 
+## [2026-08-18] — Capital-Signal moved to Dropbox: registry re-pointed to a ~-based path
+
+- **Type:** Registration update (Critical File `config/projects.toml`; no engine change).
+- **What:** Operator moved EverOn.Capital-Signal from `/Users/parsaazad/Documents/` (MacBook Air)
+  into the synced Dropbox folder. Registry entry re-pointed to
+  `~/Library/CloudStorage/Dropbox/Projects/EverOn.Capital-Signal` — the registry expands `~` at
+  load (`registry.py` `_build_project`), so every machine syncing the folder resolves its own
+  copy: the machine-affinity constraint dissolves for this target (registry NOTE updated with the
+  `~/`-path exception + the one-machine-at-a-time / let-Dropbox-settle caution). Post-move
+  integrity verified on the receiving machine: clean tree, both adoption commits at tip, `fsck`
+  clean (dangling objects only). `ls-remote` reconcile (L055) showed CS master = `2caa53e` — the
+  pilot's adoption commits are PUSHED (the register's "held local on the Air" note was stale;
+  flipped). CS project-data re-linked on this machine (`link`, 57 memory files intact). Project
+  SESSION_OPENER § 2 target row updated. Manifest Last-updated block normalized to the
+  § 2.6 schema (one Change / one Previous change — three drifted "Prior change" rows dropped).
+- **QA scenarios (Rule 11; Rule 15 feature-ON):** all three ✅ 2026-08-18, run from the
+  NON-holding machine — the exact capability the change enables (impossible pre-move): `status` =
+  CS resolves at the expanded path, ADOPTED v2.0 / VAULT v2.0 / current / open-log 1; `sync`
+  dry-run = up-to-date across all 11 SYNC_MAP items (the no-op invariant holds post-move);
+  `harvest` = surfaces E001. Outputs verbatim in the session chat.
+- **Versions:** manifest 2.21→2.22, project SESSION_OPENER 1.8→1.9. Impact: registry data +
+  bookkeeping only — no engine behavior change; sync/harvest/status against CS now run from any
+  machine syncing the Dropbox folder (writes one machine at a time).
+
 ## [2026-08-17] — PLAN-009 CLOSED: adopt-mode pilot passed (QA-E) + first sync target live (QA-F)
 
 - **Type:** Plan closure (D-5 stage 2; docs-only commit — plan + tracker promotion, manifest cells,

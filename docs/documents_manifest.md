@@ -1,7 +1,11 @@
-<!-- VERSION: 2.21 -->
-<!-- Last Updated: 2026-08-17 -->
+<!-- VERSION: 2.22 -->
+<!-- Last Updated: 2026-08-18 -->
 <!--
 CHANGE LOG
+v2.22 — 2026-08-18 — Capital-Signal Dropbox-move re-registration: bumped entry 8 (project
+SESSION_OPENER) 1.8→1.9 (§ 2 target row → ~-based Dropbox path, machine-affinity resolved).
+config/projects.toml itself carries no VERSION header (not manifest-tracked, per the standing
+note). Self-row 2.21 → 2.22 (grep-verified against the header per L063).
 v2.21 — 2026-08-17 — PLAN-009 closure (D-5 stage 2): promoted PLAN-009 + tracker (74–75) to
 1.0/CLOSED (QA-E pilot adoption + QA-F registration/sync-no-op/harvest all passed same day).
 Self-row 2.20 → 2.21 (grep-verified against the header per L063).
@@ -168,10 +172,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.21 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.22 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.11 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.8 | Governance | `docs/SESSION_OPENER.md` |
+| 8 | Session Opener (project-local, binding) | 1.9 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.5 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.8 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.5 | Standards | `docs/standards/CLAUDE.md` |
@@ -247,21 +251,13 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 ## Last updated
 
-- **Date**: 2026-08-17
-- **Change**: PLAN-009 CLOSED (D-5 stage 2) — plan + tracker (74–75) promoted to 1.0/CLOSED. Full
+- **Date**: 2026-08-18
+- **Change**: Capital-Signal moved into the Dropbox folder — registry entry re-pointed to the
+  ~-based path (expands per machine; machine-affinity resolved for this target); project
+  SESSION_OPENER § 2 target row updated (entry 8 → 1.9). Feature-ON QA from the non-holding
+  machine: status current, sync dry-run up-to-date 11/11, harvest surfaces E001.
+- **Previous change**: PLAN-009 CLOSED (D-5 stage 2) — plan + tracker (74–75) promoted to 1.0/CLOSED. Full
   QA slate passed: QA-A…D + G at the release commit; QA-E (real Capital-Signal adoption,
   target commits d0e0781 + 2caa53e) and QA-F (registration e9576d2; status current, sync dry-run
   up-to-date 11/11, harvest surfaces E001) same day. Phase 5 push + tag `set-v2.0` pending.
-- **Prior change**: First target registration (PLAN-009 QA-F): EverOn.Capital-Signal registered in
-  config/projects.toml (local transport, MacBook Air path); project SESSION_OPENER § 2 registry
-  filled (entry 8 → 1.8).
-- **Prior change**: PLAN-009 (skill delivery → Standard Set Version v2.0) implemented — registered the
-  delivery skill (skill/SKILL.md + modes/bootstrap.md + modes/adopt.md) + scripts/bootstrap_skill.sh
-  as entries 76–79; deleted the three retired-file rows (24 NPB, 26 SETUP, 57 MDRP); 12 doc/plan
-  cells bumped; quick-index suite caption → Set v2.0 + new Delivery row. Plan stays EXECUTING until
-  the real adopt-mode pilot (QA-E) passes per D-5.
-- **Previous change**: Registered PLAN-009 (skill-based delivery → Set v2.0; APPROVED D9.A same
-  session) + its sibling tracker as entries 74–75. Design session only — the Phase-3 implement
-  commit lands the 21-file ALLOWLIST (skill/ + bootstrap_skill.sh + SETUP/NPB/MDRP retirements +
-  Set v2.0).
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)
