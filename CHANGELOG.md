@@ -24,15 +24,19 @@ Newest entries at the top.
     tree shows for Capital-Signal EXACTLY the intended delta — SESSION_CLOSER merge-update +
     archive/LESSONS replace-update + SET_VERSION_ADOPTED record v2.0→v2.1 — and no other item
     changed. Output verbatim in the session chat.
-  - QA-V2 ⏸ — `sync --write` to Capital-Signal applies the delta; immediate dry-run re-run
-    reports up-to-date 11/11 (idempotence). Operator-gated (writes to the target repo).
-  - QA-V3 ⏸ — post-sync grep in CS: its `docs/SESSION_CLOSER.md` § 1.2 now references
-    `docs/SET_VERSION_ADOPTED.md`; its SVA records v2.1.
-  - QA-V4 ⏸ — `integrate --apply` decisions TOML (dry-run, then `--write`): CS's E001 Status →
-    `integrated → vault L068 (SESSION_CLOSER § 1.2, Set Version v2.1)`; then `harvest` reports 0
-    open entries and `status` shows open-log 0.
-  - Status flips recorded in OPEN_TASKS on completion (Rule 11 lifecycle); this entry is the
-    permanent record.
+  - QA-V2 ✅ 2026-08-18 — first real `sync --write`: 3 files written + flushed to Capital-Signal;
+    immediate dry-run re-run = up-to-date 11/11 (idempotence). Observed vs chat-predicted delta:
+    local-transport flush is a by-design no-op (transport.py Target.flush default) — writes land
+    in the target's working tree; the target's own session commits them (matches the
+    manifest-reconcile note). Not a defect.
+  - QA-V3 ✅ 2026-08-18 — CS `docs/SESSION_CLOSER.md` § 1.2 now reads
+    `docs/SET_VERSION_ADOPTED.md` (line 49; instance header engine-bumped 2.0→2.1); CS SVA
+    records v2.1 (record row + bullet); genericized L068 present in CS `archive/LESSONS.md`.
+  - QA-V4 ✅ 2026-08-18 — write-back applied: CS E001 `Status: integrated → vault L068
+    (SESSION_CLOSER § 1.2, Set Version v2.1)` (read back verbatim); `harvest` = no open entries;
+    `status` = ADOPTED v2.1 / VAULT v2.1 / current / open-log 0. The harvest → integrate → sync →
+    write-back loop is proven end-to-end on a real entry.
+  - This entry is the permanent record (Rule 11 lifecycle); OPEN_TASKS rows cleared on completion.
 - **Versions:** Set Version v2.0 → **v2.1**; template SESSION_CLOSER 1.5→1.6; standards README
   1.1→1.2; STANDARDS_INDEX 2.0→2.1; SET_VERSION_ADOPTED 1.8→1.9; manifest 2.22→2.23; LESSONS
   files content +L068 (headers unchanged per the no-per-lesson-bump practice). Impact: no vault
