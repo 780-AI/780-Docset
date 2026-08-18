@@ -2,6 +2,42 @@
 
 Newest entries at the top.
 
+## [2026-08-18] — Standard Set Version v2.1: E001 integrated via the first harvest → integrate cycle
+
+- **Type:** Standards-suite Minor (Critical File `docs/standards/` — doc-only template fix, no
+  engine change; operator-confirmed "Major workflow, no § 15 plan" per the § 15.6 doc-only
+  carve-out).
+- **What:** The pilot's E001 (logged during the Capital-Signal adoption; surfaced by `harvest`;
+  worksheet by `integrate`) is integrated: the SESSION_CLOSER **template** § 1.2 read the Set
+  Version from `docs/standards/STANDARDS_INDEX.md` — a vault-side file adopters don't carry —
+  now retargeted to `docs/SET_VERSION_ADOPTED.md`, which exists on both sides (the vault
+  self-adopts; its own CLOSER instance already read the adoption record since bootstrap). Lesson
+  **L068** (template cross-references must resolve in the adopter — SYNC_MAP items +
+  skill-created files only) added to the canonical LESSONS (genericized) and `archive/LESSONS.md`
+  (project-specific), per the dual-voice practice. L060-class count sweep caught + fixed a stale
+  standards README lesson count (48 → 68, drifted since v1.4). E001's suggested mechanized
+  delivery-QA grep is **deferred** (documented discipline in L068 only; a new check script would
+  be behavior-affecting and beyond this doc-only change) — recorded as an open candidate in
+  OPEN_TASKS.
+- **QA scenarios (Rule 11; target-side steps follow this commit):**
+  - QA-V1 ✅ 2026-08-18 (pre-commit, engine-as-oracle): `sync` dry-run against the edited working
+    tree shows for Capital-Signal EXACTLY the intended delta — SESSION_CLOSER merge-update +
+    archive/LESSONS replace-update + SET_VERSION_ADOPTED record v2.0→v2.1 — and no other item
+    changed. Output verbatim in the session chat.
+  - QA-V2 ⏸ — `sync --write` to Capital-Signal applies the delta; immediate dry-run re-run
+    reports up-to-date 11/11 (idempotence). Operator-gated (writes to the target repo).
+  - QA-V3 ⏸ — post-sync grep in CS: its `docs/SESSION_CLOSER.md` § 1.2 now references
+    `docs/SET_VERSION_ADOPTED.md`; its SVA records v2.1.
+  - QA-V4 ⏸ — `integrate --apply` decisions TOML (dry-run, then `--write`): CS's E001 Status →
+    `integrated → vault L068 (SESSION_CLOSER § 1.2, Set Version v2.1)`; then `harvest` reports 0
+    open entries and `status` shows open-log 0.
+  - Status flips recorded in OPEN_TASKS on completion (Rule 11 lifecycle); this entry is the
+    permanent record.
+- **Versions:** Set Version v2.0 → **v2.1**; template SESSION_CLOSER 1.5→1.6; standards README
+  1.1→1.2; STANDARDS_INDEX 2.0→2.1; SET_VERSION_ADOPTED 1.8→1.9; manifest 2.22→2.23; LESSONS
+  files content +L068 (headers unchanged per the no-per-lesson-bump practice). Impact: no vault
+  runtime change; adopter-facing template fix propagates at each target's next `sync`.
+
 ## [2026-08-18] — Capital-Signal moved to Dropbox: registry re-pointed to a ~-based path
 
 - **Type:** Registration update (Critical File `config/projects.toml`; no engine change).

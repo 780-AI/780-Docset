@@ -22,6 +22,7 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L068 — Template cross-references must resolve in the adopter, not the vault](#l068--template-cross-references-must-resolve-in-the-adopter-not-the-vault)
  - [L067 — Ship-gating verification must exercise the NEW behavior itself](#l067--ship-gating-verification-must-exercise-the-new-behavior-itself)
  - [L066 — A liveness signal must come from the monitored layer's own traffic, on the monitor's own clock](#l066--a-liveness-signal-must-come-from-the-monitored-layers-own-traffic-on-the-monitors-own-clock)
  - [L065 — Reconstruct system state from its own event stream to check invariants the log doesn't print](#l065--reconstruct-system-state-from-its-own-event-stream-to-check-invariants-the-log-doesnt-print)
@@ -142,6 +143,44 @@ where it lives now (which standards file, which section).>
 ---
 
 ## 3. The lessons (newest first)
+
+### L068 — Template cross-references must resolve in the adopter, not the vault
+
+**Date:** 2026-06-07
+**Project:** a reference project
+**Phase / Task:** Experiences-log intake — first harvest → integrate cycle (Standard Set Version v2.1)
+
+#### Incident
+
+An adopting project's migration validation grep found its instantiated session-closer § 1.2 pointing
+at the suite's vault-side set manifest (`STANDARDS_INDEX.md`) — a file the delivery contract never
+places in adopters; an adopter's Set Version lives in its own adoption record
+(`SET_VERSION_ADOPTED.md`). Patching the line locally would have broken merge idempotence (the next
+sync would re-impose the suite-owned template text), so the project logged the defect as an open
+experiences-log entry instead — the contribution loop working as designed on day one.
+
+#### Diagnosis
+
+Template body text was written from the vault's perspective, where the reference resolves. Nothing at
+template-edit time checked cross-references against the set of files an adopter actually receives
+(the SYNC_MAP set plus the files the delivery skill creates). Any vault-only reference embedded in
+suite-owned body text ships broken to every adopter — and cannot be fixed target-side without
+breaking sync.
+
+#### Codification
+
+A cross-reference in suite-owned template body text may point only at files the delivery contract
+actually places in an adopter (SYNC_MAP items + skill-created files) — checked at template-edit
+time. Where vault and adopter legitimately differ, the reference either lives in a PROJECT-OWNED
+block or targets the adopter-side file (which the vault, as self-adopter, also carries). Fixed in
+`SESSION_CLOSER.md` § 1.2 (Set Version v2.1).
+
+#### Cross-references
+
+- `SESSION_CLOSER.md` § 1.2 (the corrected reference)
+- `STANDARDS_LOG.md` (the experiences-log → harvest → integrate loop that carried this lesson)
+
+---
 
 ### L067 — Ship-gating verification must exercise the NEW behavior itself
 

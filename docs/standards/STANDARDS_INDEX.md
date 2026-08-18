@@ -1,8 +1,9 @@
-<!-- VERSION: 2.0 -->
-<!-- Last Updated: 2026-08-17 -->
+<!-- VERSION: 2.1 -->
+<!-- Last Updated: 2026-08-18 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v2.1 — 2026-08-18 — Standard Set Version v2.1 (first harvest → integrate cycle — adopter entry E001): SESSION_CLOSER § 1.2 Set-Version reference retargeted to docs/SET_VERSION_ADOPTED.md (adopters don't carry the INDEX) + lesson L068 (template cross-references must resolve in the adopter) + README stale LESSONS count fixed 48 → 68 (drifted since v1.4; L060-class sweep). § 1 block → v2.1 (lesson count → 68; files unchanged); § 2 row 9 → 68; § 3 caption → v2.1 + cells (SESSION_CLOSER 1.6, README 1.2, STANDARDS_INDEX 2.1; LESSONS cell unchanged per the no-per-lesson-bump practice) + lesson total → 68; § 6 history entry added. No rule change.
 v2.0 — 2026-08-17 — Standard Set Version v2.0 (PLAN-009 skill delivery): SETUP.md + NEW_PROJECT_BOOTSTRAP.md + MEMORY_DURABILITY_ROLLOUT_PROMPT.md retired in favor of the vault-side live-reference delivery skill (skill/SKILL.md + skill/modes/ + scripts/bootstrap_skill.sh — vault machinery, never copied to adopters). § 1 block → v2.0 (counts unchanged — 15 rules / 67 lessons; total → 15 files = 11 binding + 4 meta); § 2 Tier 2 table pruned to README / STANDARDS_INDEX / HOW_TO_USE (+ STANDARDS_LOG) + delivery note added; § 3 caption → v2.0 + cells (README 1.1, HOW_TO_USE 1.1, STANDARDS_LOG 1.1, SESSION_OPENER 1.7, SESSION_CLOSER 1.5, STANDARDS_INDEX 2.0); § 4 delivery path rewritten (skill, concierge/self-service); § 5 unchanged (live-reference — no release-procedure step added); § 6 v2.0 history entry with the adopter-migration note.
 v1.6 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008 sync-enablement): TEMPLATE-ONLY marker convention + PROJECT-OWNED instance-heading blocks in the two session templates + § 14 stub-keep wording; the `sync` engine ships (Slice 5). § 1 block → v1.6 (counts unchanged — 15 rules / 67 lessons); § 3 caption → v1.6 + cells (CLAUDE.md 1.5, SESSION_OPENER 1.6, SESSION_CLOSER 1.4, SETUP 1.6, NEW_PROJECT_BOOTSTRAP 1.6, STANDARDS_INDEX 1.6); § 6 history entry added. No rule or lesson content change.
 v1.5 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010 upstream intake): eleven lessons L057–L067 + NEW Rule 15 (post-implementation verification of the NEW behavior) + Rule 14 upgraded to project-data locality (claude_project_data.sh replaces bootstrap_memory.sh; verified at session open AND close). § 1 counts → 67 lessons / 15 rules; § 2 rows 1 + 9; § 3 caption → v1.5 + cells (CLAUDE.md 1.4, SESSION_OPENER 1.5, SESSION_CLOSER 1.3, STANDARDS_INDEX 1.5, NEW_PROJECT_BOOTSTRAP 1.5, SETUP 1.5, MEMORY_DURABILITY_ROLLOUT_PROMPT 1.2) + total → 67 (LESSONS cell unchanged per the no-per-lesson-bump practice); § 4.1 count swept 13 → 15 (per L060); § 6 history entry added.
@@ -40,10 +41,10 @@ Version** tracks the suite as a whole — files added, structure changed, patter
 ## 1. Standard Set Version (current)
 
 ```
-Standard Set Version: v2.0
-Released:             2026-08-17
-Baseline:             v1.x line (v1.0 baseline … sync-enablement markers v1.6) + skill delivery: the SETUP/NEW_PROJECT_BOOTSTRAP/MEMORY_DURABILITY_ROLLOUT_PROMPT machinery is retired in favor of the vault-side live-reference delivery skill (PLAN-009).
-Adopter contract:     11 binding files + 3 meta files (+ STANDARDS_LOG.md); 67 lessons (L001–L067); 15 standing rules in CLAUDE.md
+Standard Set Version: v2.1
+Released:             2026-08-18
+Baseline:             v2.0 (skill delivery, atop the v1.x line) + adopter-reference fix: SESSION_CLOSER § 1.2 reads the Set Version from the adoption record (docs/SET_VERSION_ADOPTED.md) + lesson L068 — the first Set bump produced by the experiences-log harvest → integrate cycle (adopter entry E001).
+Adopter contract:     11 binding files + 3 meta files (+ STANDARDS_LOG.md); 68 lessons (L001–L068); 15 standing rules in CLAUDE.md
 ```
 
 When adopting this suite, record the Set Version in the new project's `CHANGELOG.md` or its own
@@ -69,7 +70,7 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 | 6 | `ENGINEERING_STANDARDS.md` | Engineering substrate — architecture invariants, coding standards, secrets, container discipline, ops |
 | 7 | `VALIDATION_STANDARDS.md` | Test framework — tiered model, ownership map, deliberate-failure protocol, soak, first-fire expectations |
 | 8 | `CICD_STANDARDS.md` | Pipeline architecture — staged shape, registry-pull deploy, smoke gating, auto-rollback, soak gate, explicit PROD authorization |
-| 9 | `LESSONS.md` | Incident-to-rule archive — 67 lessons (append-only), each with incident + cost + codification + cross-references |
+| 9 | `LESSONS.md` | Incident-to-rule archive — 68 lessons (append-only), each with incident + cost + codification + cross-references |
 | 10 | `SESSION_OPENER.md` | Session-start pre-flight (binding per Rule 9) — environment mapping + failure-mode catalog + first-response output template |
 | 11 | `SESSION_CLOSER.md` | Session-end wrap-up (binding per Rule 12) — wrap-up routine + failure-mode catalog + output template |
 
@@ -90,7 +91,7 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 
 ## 3. Per-file version table
 
-Current state as of Set Version v2.0 (2026-08-17). Files unchanged since v1.0 keep their 2026-06-07 dates.
+Current state as of Set Version v2.1 (2026-08-18). Files unchanged since v1.0 keep their 2026-06-07 dates.
 
 | File | Tier | Version | Last Updated |
 |---|---|---|---|
@@ -104,14 +105,14 @@ Current state as of Set Version v2.0 (2026-08-17). Files unchanged since v1.0 ke
 | `CICD_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `LESSONS.md` | Binding | 1.0 | 2026-06-07 |
 | `SESSION_OPENER.md` | Binding | 1.7 | 2026-08-17 |
-| `SESSION_CLOSER.md` | Binding | 1.5 | 2026-08-17 |
-| `README.md` | Meta | 1.1 | 2026-08-17 |
-| `STANDARDS_INDEX.md` | Meta | 2.0 | 2026-08-17 |
+| `SESSION_CLOSER.md` | Binding | 1.6 | 2026-08-18 |
+| `README.md` | Meta | 1.2 | 2026-08-18 |
+| `STANDARDS_INDEX.md` | Meta | 2.1 | 2026-08-18 |
 | `HOW_TO_USE.md` | Meta | 1.1 | 2026-08-17 |
 | `STANDARDS_LOG.md` | Meta | 1.1 | 2026-08-17 |
 
 **Total file count:** 15 (11 binding + 4 meta).
-**Total lesson count in `LESSONS.md`:** 67 (L001–L067).
+**Total lesson count in `LESSONS.md`:** 68 (L001–L068).
 
 ---
 
@@ -169,6 +170,19 @@ coordinated multi-file pattern is a Set-Version Minor; a structural change is a 
 ## 6. Standard Set Version history
 
 Newest first. Append-only.
+
+### v2.1 — 2026-08-18 — Adopter-reference fix (first harvest → integrate cycle)
+
+Additive Minor — the first Set bump produced by the experiences-log loop end-to-end. The adopt-mode
+pilot logged E001 (its instantiated SESSION_CLOSER § 1.2 pointed at the vault-side
+`STANDARDS_INDEX.md`, which adopters don't carry), `harvest` surfaced it, `integrate` mapped it to
+lesson **L068** (template cross-references must resolve in the adopter — SYNC_MAP items +
+skill-created files only), and the template fix retargets § 1.2 to `docs/SET_VERSION_ADOPTED.md`
+(present on both sides — the vault self-adopts). SESSION_CLOSER → 1.6; README → 1.2 (stale LESSONS
+count swept 48 → 68, drifted since v1.4); lesson count → 68; no rule
+change. The engine's Status write-back closes the adopter's entry
+(`integrated → vault L068`). E001's suggested mechanized delivery-QA grep (template refs vs
+SYNC_MAP + skill-created files) is deferred — recorded as an open candidate, not shipped here.
 
 ### v2.0 — 2026-08-17 — Skill delivery (machinery retired)
 

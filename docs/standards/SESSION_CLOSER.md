@@ -1,8 +1,9 @@
-<!-- VERSION: 1.5 -->
-<!-- Last Updated: 2026-08-17 -->
+<!-- VERSION: 1.6 -->
+<!-- Last Updated: 2026-08-18 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.6 — 2026-08-18 — Standard Set Version v2.1 (first harvest → integrate cycle, adopter entry E001): § 1.2 Set-Version reference retargeted docs/standards/STANDARDS_INDEX.md → docs/SET_VERSION_ADOPTED.md — adopters don't carry the INDEX (vault-side file); the adoption record exists on both sides (lesson L068).
 v1.5 — 2026-08-17 — Standard Set Version v2.0 (PLAN-009): End-of-file bootstrap pointer retargeted — the delivery skill instantiates the project-local copy during bootstrap (was: walk the retired NEW_PROJECT_BOOTSTRAP.md).
 v1.4 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008 sync-enablement): TEMPLATE-ONLY banner block + PROJECT-OWNED instance-heading block, so section-merge sync never propagates template banners and preserves the adopter's heading.
 v1.3 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): § 1.6 retitled "/tmp cleanup + locality confirm" — adds the Rule 14 close-side confirm (claude_project_data.sh status → STATUS: OK; new out-of-folder state moved in or cataloged same-commit).
@@ -55,7 +56,7 @@ Replace `<main-branch>` with `main` / `master` per project convention.
 Project-specific. Customize per project to surface:
 - Live deployable artifact's version (EA `// VERSION:` / Docker image tag / commit SHA / etc.)
 - Recent snapshots / tags
-- **Standards Set Version** (from `docs/standards/STANDARDS_INDEX.md` § 1)
+- **Standards Set Version** (from `docs/SET_VERSION_ADOPTED.md` — the project's adoption record)
 
 ### 1.3 Pending operator decisions
 

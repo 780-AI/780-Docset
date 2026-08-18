@@ -1,7 +1,13 @@
-<!-- VERSION: 2.22 -->
+<!-- VERSION: 2.23 -->
 <!-- Last Updated: 2026-08-18 -->
 <!--
 CHANGE LOG
+v2.23 — 2026-08-18 — Standard Set Version v2.1 (E001 via the first harvest → integrate cycle):
+bumped cells 10 (SET_VERSION_ADOPTED 1.8→1.9, v2.1 backport row), 21 (template SESSION_CLOSER
+1.5→1.6, § 1.2 reference fix), 22 (standards README 1.1→1.2, stale lesson count 48→68 swept),
+23 (STANDARDS_INDEX 2.0→2.1). LESSONS rows unchanged per the no-per-lesson-bump practice
+(archive excluded from the manifest per Rule 8). Self-row 2.22 → 2.23 (grep-verified against the
+header per L063).
 v2.22 — 2026-08-18 — Capital-Signal Dropbox-move re-registration: bumped entry 8 (project
 SESSION_OPENER) 1.8→1.9 (§ 2 target row → ~-based Dropbox path, machine-affinity resolved).
 config/projects.toml itself carries no VERSION header (not manifest-tracked, per the standing
@@ -172,12 +178,12 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.22 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.23 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.11 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.9 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.5 | Governance | `docs/SESSION_CLOSER.md` |
-| 10 | Set Version Adopted | 1.8 | Governance | `docs/SET_VERSION_ADOPTED.md` |
+| 10 | Set Version Adopted | 1.9 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.5 | Standards | `docs/standards/CLAUDE.md` |
 | 12 | Lessons Archive (template) | 1.0 | Standards | `docs/standards/LESSONS.md` |
 | 13 | Project Standards | 1.0 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
@@ -188,9 +194,9 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 18 | Validation Standards | 1.0 | Standards | `docs/standards/VALIDATION_STANDARDS.md` |
 | 19 | CI/CD Standards | 1.0 | Standards | `docs/standards/CICD_STANDARDS.md` |
 | 20 | Session Opener (template) | 1.7 | Standards | `docs/standards/SESSION_OPENER.md` |
-| 21 | Session Closer (template) | 1.5 | Standards | `docs/standards/SESSION_CLOSER.md` |
-| 22 | Standards README (meta) | 1.1 | Standards | `docs/standards/README.md` |
-| 23 | Standards Index (meta) | 2.0 | Standards | `docs/standards/STANDARDS_INDEX.md` |
+| 21 | Session Closer (template) | 1.6 | Standards | `docs/standards/SESSION_CLOSER.md` |
+| 22 | Standards README (meta) | 1.2 | Standards | `docs/standards/README.md` |
+| 23 | Standards Index (meta) | 2.1 | Standards | `docs/standards/STANDARDS_INDEX.md` |
 | 25 | How To Use (meta) | 1.1 | Standards | `docs/standards/HOW_TO_USE.md` |
 | 27 | Standards Log — experiences-log template (meta) | 1.1 | Standards | `docs/standards/STANDARDS_LOG.md` |
 | 28 | Doc Coverage Check | 0.1 | Governance script | `scripts/check_doc_coverage.py` |
@@ -252,12 +258,12 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-08-18
-- **Change**: Capital-Signal moved into the Dropbox folder — registry entry re-pointed to the
+- **Change**: Standard Set Version v2.1 (E001 via the first harvest → integrate cycle): template
+  SESSION_CLOSER § 1.2 reference fix (21 → 1.6) + lesson L068 (both LESSONS files; rows unchanged
+  per practice) + standards README count sweep (22 → 1.2) + STANDARDS_INDEX → 2.1 (23) + SVA v2.1
+  backport row (10 → 1.9).
+- **Previous change**: Capital-Signal moved into the Dropbox folder — registry entry re-pointed to the
   ~-based path (expands per machine; machine-affinity resolved for this target); project
   SESSION_OPENER § 2 target row updated (entry 8 → 1.9). Feature-ON QA from the non-holding
   machine: status current, sync dry-run up-to-date 11/11, harvest surfaces E001.
-- **Previous change**: PLAN-009 CLOSED (D-5 stage 2) — plan + tracker (74–75) promoted to 1.0/CLOSED. Full
-  QA slate passed: QA-A…D + G at the release commit; QA-E (real Capital-Signal adoption,
-  target commits d0e0781 + 2caa53e) and QA-F (registration e9576d2; status current, sync dry-run
-  up-to-date 11/11, harvest surfaces E001) same day. Phase 5 push + tag `set-v2.0` pending.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)
