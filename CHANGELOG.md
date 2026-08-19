@@ -2,6 +2,31 @@
 
 Newest entries at the top.
 
+## [2026-08-19] — Second target registered: 780-Automation (ssh transport) — ssh read path smoke-proven
+
+- **Type:** Registration (Critical File `config/projects.toml`; no engine change).
+- **What:** 780-Automation — bootstrapped earlier today to Standard Set v2.1 on the team member's
+  Mac (self-service via the portable kit at `/Volumes/780-Data/Standard-Docset`; target commit
+  `cb62527`) — registered as the second sync target and the FIRST ssh-transport target:
+  `ssh_host = a780@172.16.10.61` (LAN IP, DHCP — noted in the registry), `ssh_path =
+  /Users/a780/Projects/780-Automation`. Key auth installed same day (curator machine's ed25519).
+  Pre-registration cross-checks over ssh: repo root resolves, single bootstrap commit, clean tree,
+  SVA v0.1 present, rsync available. Registry entry carries the planned migration note: → git
+  transport once the project lands on the organization GitHub (re-opens DD-6b write-back etiquette
+  before any git `--write`). Project SESSION_OPENER § 2 registry row added (1.9→1.10).
+- **QA scenarios (Rule 11 / Rule 15 feature-ON — all run pre-commit against the edited registry,
+  outputs verbatim in the session chat):**
+  - QA-S1 ✅ 2026-08-19 — `status` resolves 780-Automation over ssh: ADOPTED v2.1 / VAULT v2.1 /
+    current / open-log 0 (fleet table now two targets).
+  - QA-S2 ✅ 2026-08-19 — `sync` dry-run over ssh: up-to-date across all 11 SYNC_MAP items (a
+    fresh kit-bootstrap is a sync no-op — "converge once, sync forever" holds over ssh; the full
+    materialization rsyncs docs/ + archive/ + root CLAUDE.md). **This is the first live exercise
+    of the ssh transport** (PLAN-007 QA K–N class; PLAN-008 ssh-sync read half) — the READ path is
+    proven; the WRITE path (`flush` rsync-back) stays pending until the first real sync delta.
+  - QA-S3 ✅ 2026-08-19 — `harvest` covers the two-project fleet: no open entries.
+- **Versions:** manifest 2.23→2.24, project SESSION_OPENER 1.9→1.10. Impact: registry data +
+  bookkeeping only — no engine behavior change; the vault now maintains two registered targets.
+
 ## [2026-08-18] — Standard Set Version v2.1: E001 integrated via the first harvest → integrate cycle
 
 - **Type:** Standards-suite Minor (Critical File `docs/standards/` — doc-only template fix, no

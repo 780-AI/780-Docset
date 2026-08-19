@@ -37,3 +37,11 @@
 [[project]]                        # PLAN-009 QA-E pilot adopter (Set v2.0, adopted 2026-08-17)
 name = "EverOn.Capital-Signal"
 path = "~/Library/CloudStorage/Dropbox/Projects/EverOn.Capital-Signal"   # Dropbox-synced (moved 2026-08-18); ~ resolves per machine
+
+[[project]]                        # team project; bootstrapped 2026-08-19 via the portable kit (Set v2.1)
+name = "780-Automation"
+transport = "ssh"
+ssh_host = "a780@172.16.10.61"     # team Mac, LAN IP (DHCP — update here if it changes); key auth installed 2026-08-19
+ssh_path = "/Users/a780/Projects/780-Automation"
+# Planned migration: -> git transport once the project lands on the organization GitHub
+# (operator decision 2026-08-19; re-opens DD-6b write-back etiquette before any git --write).

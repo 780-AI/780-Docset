@@ -1,7 +1,11 @@
-<!-- VERSION: 2.23 -->
-<!-- Last Updated: 2026-08-18 -->
+<!-- VERSION: 2.24 -->
+<!-- Last Updated: 2026-08-19 -->
 <!--
 CHANGE LOG
+v2.24 — 2026-08-19 — Second target registration (780-Automation, ssh transport): bumped entry 8
+(project SESSION_OPENER) 1.9→1.10 (§ 2 registry row added). config/projects.toml carries no
+VERSION header (not manifest-tracked, per the standing note). Self-row 2.23 → 2.24 (grep-verified
+against the header per L063).
 v2.23 — 2026-08-18 — Standard Set Version v2.1 (E001 via the first harvest → integrate cycle):
 bumped cells 10 (SET_VERSION_ADOPTED 1.8→1.9, v2.1 backport row), 21 (template SESSION_CLOSER
 1.5→1.6, § 1.2 reference fix), 22 (standards README 1.1→1.2, stale lesson count 48→68 swept),
@@ -178,10 +182,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.23 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.24 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.11 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.9 | Governance | `docs/SESSION_OPENER.md` |
+| 8 | Session Opener (project-local, binding) | 1.10 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.5 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.9 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.5 | Standards | `docs/standards/CLAUDE.md` |
@@ -257,13 +261,13 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 ## Last updated
 
-- **Date**: 2026-08-18
-- **Change**: Standard Set Version v2.1 (E001 via the first harvest → integrate cycle): template
+- **Date**: 2026-08-19
+- **Change**: Second target registered — 780-Automation (ssh transport, team Mac; bootstrapped Set
+  v2.1 via the portable kit); project SESSION_OPENER § 2 registry row added (entry 8 → 1.10).
+  Feature-ON QA over ssh: status current v2.1/v2.1, sync dry-run up-to-date 11/11, harvest clean —
+  the ssh read path's first live smoke.
+- **Previous change**: Standard Set Version v2.1 (E001 via the first harvest → integrate cycle): template
   SESSION_CLOSER § 1.2 reference fix (21 → 1.6) + lesson L068 (both LESSONS files; rows unchanged
   per practice) + standards README count sweep (22 → 1.2) + STANDARDS_INDEX → 2.1 (23) + SVA v2.1
   backport row (10 → 1.9).
-- **Previous change**: Capital-Signal moved into the Dropbox folder — registry entry re-pointed to the
-  ~-based path (expands per machine; machine-affinity resolved for this target); project
-  SESSION_OPENER § 2 target row updated (entry 8 → 1.9). Feature-ON QA from the non-holding
-  machine: status current, sync dry-run up-to-date 11/11, harvest surfaces E001.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)
