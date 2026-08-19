@@ -2,6 +2,39 @@
 
 Newest entries at the top.
 
+## [2026-08-19] — Standard Set Version v2.2: domain-neutral scrub — payload for the first ssh sync --write
+
+- **Type:** Standards-suite Minor (Critical File `docs/standards/`; doc-only scrub, no engine
+  change; § 15.6 carve-out — no plan file).
+- **What:** Four example paths carrying a real username (`/Users/parsaazad/...`, survived the v1.0
+  genericization — the identifier-token scrub class; found by the v2.1 release-gate grep, held in
+  the register) scrubbed to `/Users/you/...` (the registry-example convention): MEMORY_PROTOCOL.md
+  3 sites + PROJECT_INSTRUCTIONS_TEMPLATE.md 1 site, both 1.0→1.1. Counts unchanged (68 lessons /
+  15 rules); no rule or lesson content change. This Minor doubles as the first real sync payload
+  for the ssh transport: MEMORY_PROTOCOL is replace-class in the SYNC_MAP, so both registered
+  targets show a genuine delta.
+- **QA scenarios (Rule 11 / Rule 15 — the ssh WRITE-path smoke):**
+  - QA-W1 2026-08-19 (pre-commit, engine-as-oracle dry-run against the edited tree, vault v2.2):
+    **split verdict.** Capital-Signal ✅ — exactly 2 changed items (MEMORY_PROTOCOL replace + SVA
+    record v2.1→v2.2), nothing else. 780-Automation ❌ — SyncError `docs/SET_VERSION_ADOPTED.md:
+    no CHANGE LOG comment in header` → **defect W-D1**: BOTH skill mode files' "sync-ready SVA
+    shape" spec omits the CHANGE LOG comment block that the engine's record-update hard-requires
+    (`sync.py` `_split_header`). 780's bootstrap followed the spec literally; CS is unaffected
+    only because its adopt session wrote a CHANGE LOG anyway. Root cause of the QA gap: the D3
+    engine-as-oracle run used a SAME-version fixture, so the record-update parser (the only
+    consumer of that block) never executed — first exercised by today's genuine delta.
+    Fix-forward: mode-spec fix commit (same session) + one-time SVA repair on 780 (prepared;
+    pending the team Mac's reachability — it left the network mid-repair).
+  - QA-W2 ⏸ — `sync --write` fleet run: 780-Automation over ssh (**first live `flush` rsync-back —
+    the pending ssh WRITE half**) + Capital-Signal local; immediate dry-run re-run = up-to-date
+    11/11 both targets. Pending: 780 SVA repair + reachability.
+  - QA-W3 ⏸ — remote evidence over ssh: 780-Automation's MEMORY_PROTOCOL carries the scrub (zero
+    `parsaazad` hits) and its SVA records v2.2; same greps on CS locally.
+  - Status flips ride the next bookkeeping commit; this entry is the permanent record.
+- **Versions:** Set v2.1 → **v2.2**; PROJECT_INSTRUCTIONS_TEMPLATE 1.0→1.1; MEMORY_PROTOCOL
+  1.0→1.1; STANDARDS_INDEX 2.1→2.2; SET_VERSION_ADOPTED 1.9→1.10; manifest 2.24→2.25. Impact: no
+  vault runtime change; adopter-facing content fix propagates at each target's next `sync`.
+
 ## [2026-08-19] — Second target registered: 780-Automation (ssh transport) — ssh read path smoke-proven
 
 - **Type:** Registration (Critical File `config/projects.toml`; no engine change).

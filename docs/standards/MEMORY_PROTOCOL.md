@@ -1,8 +1,9 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-08-19 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-08-19 — Standard Set Version v2.2 (domain-neutral scrub): 3 example paths still carried a real username (survived the v1.0 genericization — the identifier-token class) → `/Users/you/...`.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
@@ -129,9 +130,9 @@ Memory entries that follow the shape standard below are easier to audit, easier 
 
 Memory entries should be **single declarative sentences**, not multi-clause paragraphs. Why: when an underlying fact changes, you need to update one entry, not parse a paragraph for the relevant clause.
 
-- ❌ Wrong: "User is working on a reference project which uses Python 3.11 at /usr/local/bin/python3.11 with venv at .venv (rebuilt 2026-04-24) and the repo is at /Users/parsaazad/Documents/a reference project."
+- ❌ Wrong: "User is working on a reference project which uses Python 3.11 at /usr/local/bin/python3.11 with venv at .venv (rebuilt 2026-04-24) and the repo is at /Users/you/Documents/a reference project."
 - ✅ Right (4 separate entries):
- - "a reference project repo path on Mac: /Users/parsaazad/Documents/a reference project."
+ - "a reference project repo path on Mac: /Users/you/Documents/a reference project."
  - "Python 3.11.15 installed via Homebrew at /usr/local/bin/python3.11."
  - "Repo .venv rebuilt on 3.11 (2026-04-24)."
  - "Activate venv: source .venv/bin/activate OR invoke .venv/bin/python directly."
@@ -216,7 +217,7 @@ Why bad: the rationale belongs in `archive/LESSONS.md` (incident → rule → wh
 
 ### 4.6 Cross-project entries that should be project-specific
 
-❌ Pattern: "Project's repo path is /Users/parsaazad/Documents/a reference project" stored in user-wide memory while working on a different project.
+❌ Pattern: "Project's repo path is /Users/you/Documents/a reference project" stored in user-wide memory while working on a different project.
 
 Why bad: the entry now applies (incorrectly) to every project. The agent uses the wrong path on a different project's session.
 

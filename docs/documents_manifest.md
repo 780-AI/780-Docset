@@ -1,7 +1,11 @@
-<!-- VERSION: 2.24 -->
+<!-- VERSION: 2.25 -->
 <!-- Last Updated: 2026-08-19 -->
 <!--
 CHANGE LOG
+v2.25 — 2026-08-19 — Standard Set Version v2.2 (domain-neutral scrub): bumped cells 15
+(PROJECT_INSTRUCTIONS_TEMPLATE 1.0→1.1) + 16 (MEMORY_PROTOCOL 1.0→1.1) (residual `/Users/parsaazad/...`
+example paths → `/Users/you/...`), 23 (STANDARDS_INDEX 2.1→2.2), 10 (SET_VERSION_ADOPTED 1.9→1.10,
+v2.2 backport row). Self-row 2.24 → 2.25 (grep-verified against the header per L063).
 v2.24 — 2026-08-19 — Second target registration (780-Automation, ssh transport): bumped entry 8
 (project SESSION_OPENER) 1.9→1.10 (§ 2 registry row added). config/projects.toml carries no
 VERSION header (not manifest-tracked, per the standing note). Self-row 2.23 → 2.24 (grep-verified
@@ -182,25 +186,25 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.24 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.25 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.11 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.10 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.5 | Governance | `docs/SESSION_CLOSER.md` |
-| 10 | Set Version Adopted | 1.9 | Governance | `docs/SET_VERSION_ADOPTED.md` |
+| 10 | Set Version Adopted | 1.10 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.5 | Standards | `docs/standards/CLAUDE.md` |
 | 12 | Lessons Archive (template) | 1.0 | Standards | `docs/standards/LESSONS.md` |
 | 13 | Project Standards | 1.0 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
 | 14 | Prompt Standards | 1.0 | Standards | `docs/standards/PROMPT_STANDARDS.md` |
-| 15 | Project Instructions Template | 1.0 | Standards | `docs/standards/PROJECT_INSTRUCTIONS_TEMPLATE.md` |
-| 16 | Memory Protocol | 1.0 | Standards | `docs/standards/MEMORY_PROTOCOL.md` |
+| 15 | Project Instructions Template | 1.1 | Standards | `docs/standards/PROJECT_INSTRUCTIONS_TEMPLATE.md` |
+| 16 | Memory Protocol | 1.1 | Standards | `docs/standards/MEMORY_PROTOCOL.md` |
 | 17 | Engineering Standards | 1.0 | Standards | `docs/standards/ENGINEERING_STANDARDS.md` |
 | 18 | Validation Standards | 1.0 | Standards | `docs/standards/VALIDATION_STANDARDS.md` |
 | 19 | CI/CD Standards | 1.0 | Standards | `docs/standards/CICD_STANDARDS.md` |
 | 20 | Session Opener (template) | 1.7 | Standards | `docs/standards/SESSION_OPENER.md` |
 | 21 | Session Closer (template) | 1.6 | Standards | `docs/standards/SESSION_CLOSER.md` |
 | 22 | Standards README (meta) | 1.2 | Standards | `docs/standards/README.md` |
-| 23 | Standards Index (meta) | 2.1 | Standards | `docs/standards/STANDARDS_INDEX.md` |
+| 23 | Standards Index (meta) | 2.2 | Standards | `docs/standards/STANDARDS_INDEX.md` |
 | 25 | How To Use (meta) | 1.1 | Standards | `docs/standards/HOW_TO_USE.md` |
 | 27 | Standards Log — experiences-log template (meta) | 1.1 | Standards | `docs/standards/STANDARDS_LOG.md` |
 | 28 | Doc Coverage Check | 0.1 | Governance script | `scripts/check_doc_coverage.py` |
@@ -262,12 +266,11 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-08-19
-- **Change**: Second target registered — 780-Automation (ssh transport, team Mac; bootstrapped Set
+- **Change**: Standard Set Version v2.2 (domain-neutral scrub): residual real-username example
+  paths genericized — cells 15 + 16 → 1.1, STANDARDS_INDEX → 2.2 (23), SVA v2.2 backport row
+  (10 → 1.10). Payload for the first ssh `sync --write` (780-Automation).
+- **Previous change**: Second target registered — 780-Automation (ssh transport, team Mac; bootstrapped Set
   v2.1 via the portable kit); project SESSION_OPENER § 2 registry row added (entry 8 → 1.10).
   Feature-ON QA over ssh: status current v2.1/v2.1, sync dry-run up-to-date 11/11, harvest clean —
   the ssh read path's first live smoke.
-- **Previous change**: Standard Set Version v2.1 (E001 via the first harvest → integrate cycle): template
-  SESSION_CLOSER § 1.2 reference fix (21 → 1.6) + lesson L068 (both LESSONS files; rows unchanged
-  per practice) + standards README count sweep (22 → 1.2) + STANDARDS_INDEX → 2.1 (23) + SVA v2.1
-  backport row (10 → 1.9).
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

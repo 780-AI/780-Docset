@@ -1,8 +1,9 @@
-<!-- VERSION: 2.1 -->
-<!-- Last Updated: 2026-08-18 -->
+<!-- VERSION: 2.2 -->
+<!-- Last Updated: 2026-08-19 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v2.2 — 2026-08-19 — Standard Set Version v2.2 (domain-neutral scrub): 4 example paths carrying a real username (survived the v1.0 genericization; found by the v2.1 gate grep) scrubbed to `/Users/you/...` — MEMORY_PROTOCOL (3) + PROJECT_INSTRUCTIONS_TEMPLATE (1), both → 1.1. § 1 block → v2.2 (counts unchanged — 68 lessons / 15 rules); § 3 caption → v2.2 + cells (MEMORY_PROTOCOL 1.1, PROJECT_INSTRUCTIONS_TEMPLATE 1.1, STANDARDS_INDEX 2.2); § 6 history entry added. No rule or lesson content change.
 v2.1 — 2026-08-18 — Standard Set Version v2.1 (first harvest → integrate cycle — adopter entry E001): SESSION_CLOSER § 1.2 Set-Version reference retargeted to docs/SET_VERSION_ADOPTED.md (adopters don't carry the INDEX) + lesson L068 (template cross-references must resolve in the adopter) + README stale LESSONS count fixed 48 → 68 (drifted since v1.4; L060-class sweep). § 1 block → v2.1 (lesson count → 68; files unchanged); § 2 row 9 → 68; § 3 caption → v2.1 + cells (SESSION_CLOSER 1.6, README 1.2, STANDARDS_INDEX 2.1; LESSONS cell unchanged per the no-per-lesson-bump practice) + lesson total → 68; § 6 history entry added. No rule change.
 v2.0 — 2026-08-17 — Standard Set Version v2.0 (PLAN-009 skill delivery): SETUP.md + NEW_PROJECT_BOOTSTRAP.md + MEMORY_DURABILITY_ROLLOUT_PROMPT.md retired in favor of the vault-side live-reference delivery skill (skill/SKILL.md + skill/modes/ + scripts/bootstrap_skill.sh — vault machinery, never copied to adopters). § 1 block → v2.0 (counts unchanged — 15 rules / 67 lessons; total → 15 files = 11 binding + 4 meta); § 2 Tier 2 table pruned to README / STANDARDS_INDEX / HOW_TO_USE (+ STANDARDS_LOG) + delivery note added; § 3 caption → v2.0 + cells (README 1.1, HOW_TO_USE 1.1, STANDARDS_LOG 1.1, SESSION_OPENER 1.7, SESSION_CLOSER 1.5, STANDARDS_INDEX 2.0); § 4 delivery path rewritten (skill, concierge/self-service); § 5 unchanged (live-reference — no release-procedure step added); § 6 v2.0 history entry with the adopter-migration note.
 v1.6 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008 sync-enablement): TEMPLATE-ONLY marker convention + PROJECT-OWNED instance-heading blocks in the two session templates + § 14 stub-keep wording; the `sync` engine ships (Slice 5). § 1 block → v1.6 (counts unchanged — 15 rules / 67 lessons); § 3 caption → v1.6 + cells (CLAUDE.md 1.5, SESSION_OPENER 1.6, SESSION_CLOSER 1.4, SETUP 1.6, NEW_PROJECT_BOOTSTRAP 1.6, STANDARDS_INDEX 1.6); § 6 history entry added. No rule or lesson content change.
@@ -41,9 +42,9 @@ Version** tracks the suite as a whole — files added, structure changed, patter
 ## 1. Standard Set Version (current)
 
 ```
-Standard Set Version: v2.1
-Released:             2026-08-18
-Baseline:             v2.0 (skill delivery, atop the v1.x line) + adopter-reference fix: SESSION_CLOSER § 1.2 reads the Set Version from the adoption record (docs/SET_VERSION_ADOPTED.md) + lesson L068 — the first Set bump produced by the experiences-log harvest → integrate cycle (adopter entry E001).
+Standard Set Version: v2.2
+Released:             2026-08-19
+Baseline:             v2.1 (E001 adopter-reference fix + L068, atop v2.0 skill delivery + the v1.x line) + domain-neutral scrub: residual real-username example paths genericized (identifier-token class; MEMORY_PROTOCOL + PROJECT_INSTRUCTIONS_TEMPLATE).
 Adopter contract:     11 binding files + 3 meta files (+ STANDARDS_LOG.md); 68 lessons (L001–L068); 15 standing rules in CLAUDE.md
 ```
 
@@ -91,15 +92,15 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 
 ## 3. Per-file version table
 
-Current state as of Set Version v2.1 (2026-08-18). Files unchanged since v1.0 keep their 2026-06-07 dates.
+Current state as of Set Version v2.2 (2026-08-19). Files unchanged since v1.0 keep their 2026-06-07 dates.
 
 | File | Tier | Version | Last Updated |
 |---|---|---|---|
 | `CLAUDE.md` | Binding | 1.5 | 2026-08-16 |
 | `PROJECT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `PROMPT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
-| `PROJECT_INSTRUCTIONS_TEMPLATE.md` | Binding | 1.0 | 2026-06-07 |
-| `MEMORY_PROTOCOL.md` | Binding | 1.0 | 2026-06-07 |
+| `PROJECT_INSTRUCTIONS_TEMPLATE.md` | Binding | 1.1 | 2026-08-19 |
+| `MEMORY_PROTOCOL.md` | Binding | 1.1 | 2026-08-19 |
 | `ENGINEERING_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `VALIDATION_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `CICD_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
@@ -107,7 +108,7 @@ Current state as of Set Version v2.1 (2026-08-18). Files unchanged since v1.0 ke
 | `SESSION_OPENER.md` | Binding | 1.7 | 2026-08-17 |
 | `SESSION_CLOSER.md` | Binding | 1.6 | 2026-08-18 |
 | `README.md` | Meta | 1.2 | 2026-08-18 |
-| `STANDARDS_INDEX.md` | Meta | 2.1 | 2026-08-18 |
+| `STANDARDS_INDEX.md` | Meta | 2.2 | 2026-08-19 |
 | `HOW_TO_USE.md` | Meta | 1.1 | 2026-08-17 |
 | `STANDARDS_LOG.md` | Meta | 1.1 | 2026-08-17 |
 
@@ -170,6 +171,17 @@ coordinated multi-file pattern is a Set-Version Minor; a structural change is a 
 ## 6. Standard Set Version history
 
 Newest first. Append-only.
+
+### v2.2 — 2026-08-19 — Domain-neutral scrub (identifier-token class)
+
+Additive Minor. Four example paths in the suite still carried a real username
+that survived the v1.0 genericization — the identifier-token scrub gap
+(usernames, SSH users, image names) the scrub-sweep discipline warns about. Found by the v2.1
+release-gate grep; scrubbed to `/Users/you/...` (the registry-example convention):
+MEMORY_PROTOCOL.md (3 sites) + PROJECT_INSTRUCTIONS_TEMPLATE.md (1 site), both → 1.1. Counts
+unchanged (68 lessons / 15 rules); no rule or lesson content change. Sync note: MEMORY_PROTOCOL
+is replace-class in the SYNC_MAP — adopters receive the fix at their next `sync`;
+PROJECT_INSTRUCTIONS_TEMPLATE is vault-side only (not in the SYNC_MAP).
 
 ### v2.1 — 2026-08-18 — Adopter-reference fix (first harvest → integrate cycle)
 

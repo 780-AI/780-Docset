@@ -1,8 +1,9 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-08-19 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-08-19 — Standard Set Version v2.2 (domain-neutral scrub): 1 example path still carried a real username (survived the v1.0 genericization — the identifier-token class) → `/Users/you/...`.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
@@ -521,7 +522,7 @@ docs/documents_manifest.md
 
 ## Environment specifics
 
-- Repo path on Mac: `/Users/parsaazad/Documents/a reference project`
+- Repo path on Mac: `/Users/you/Documents/a reference project`
 - Python: 3.11.15 via Homebrew at `/usr/local/bin/python3.11`
 - Venv: `source .venv/bin/activate` OR invoke `.venv/bin/python` directly
 - Staging VPS 1: `91.98.91.129`, SSH `ssh -i ~/.ssh/app_staging deploy@91.98.91.129`
