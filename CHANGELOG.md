@@ -15,9 +15,11 @@ Newest entries at the top.
   unaffected only because its session wrote the block unprompted. Both specs now spell out the
   block verbatim with the reason attached.
 - **QA scenarios (Rule 11):**
-  - QA-D1a ⏸ — one-time repair of 780-Automation's SVA (prepared; pending the team Mac's
-    reachability), after which the v2.2 sync dry-run plans its record-update cleanly — the
-    repaired shape IS the fixed spec's shape, so this doubles as the spec's shape-validation.
+  - QA-D1a ✅ 2026-08-19 — one-time repair applied to 780-Automation's SVA over ssh (CHANGE LOG
+    block inserted, provenance note in its v0.1 line); the v2.2 sync dry-run then planned its
+    record-update cleanly (2-item delta, identical to CS) and the subsequent `--write` executed
+    it — the repaired shape IS the fixed spec's shape, so this doubles as the spec's
+    shape-validation.
   - QA-D1b ⏸ — the NEXT skill delivery (bootstrap or adopt) produces an SVA whose record-update
     parses on first delta (engine-as-oracle at that delivery — this time against a
     version-DELTA fixture, the path the D3-era same-version oracle never exercised).
@@ -47,12 +49,17 @@ Newest entries at the top.
     consumer of that block) never executed — first exercised by today's genuine delta.
     Fix-forward: mode-spec fix commit (same session) + one-time SVA repair on 780 (prepared;
     pending the team Mac's reachability — it left the network mid-repair).
-  - QA-W2 ⏸ — `sync --write` fleet run: 780-Automation over ssh (**first live `flush` rsync-back —
-    the pending ssh WRITE half**) + Capital-Signal local; immediate dry-run re-run = up-to-date
-    11/11 both targets. Pending: 780 SVA repair + reachability.
-  - QA-W3 ⏸ — remote evidence over ssh: 780-Automation's MEMORY_PROTOCOL carries the scrub (zero
-    `parsaazad` hits) and its SVA records v2.2; same greps on CS locally.
-  - Status flips ride the next bookkeeping commit; this entry is the permanent record.
+  - QA-W2 ✅ 2026-08-19 — after the W-D1 SVA repair landed on 780 (dry-run then planned the
+    identical 2-item delta on both targets), the fleet `sync --write` ran: **first live ssh
+    `flush`** — 2 files rsync'd back to 780-Automation + 2 written locally to CS; immediate
+    dry-run re-run = up-to-date 11/11 on BOTH targets. The ssh WRITE half of the transport smoke
+    is proven.
+  - QA-W3 ✅ 2026-08-19 — remote evidence over ssh: 780's MEMORY_PROTOCOL has zero username hits;
+    its SVA carries the engine-written v0.2 sync log line and records v2.2. Same greps pass on CS.
+    Fleet `status`: both targets ADOPTED v2.2 / VAULT v2.2 / current. (780's tree also holds the
+    team member's own WIP — their session commits the synced files alongside it, per the
+    write-in-place model.)
+  - This entry is the permanent record.
 - **Versions:** Set v2.1 → **v2.2**; PROJECT_INSTRUCTIONS_TEMPLATE 1.0→1.1; MEMORY_PROTOCOL
   1.0→1.1; STANDARDS_INDEX 2.1→2.2; SET_VERSION_ADOPTED 1.9→1.10; manifest 2.24→2.25. Impact: no
   vault runtime change; adopter-facing content fix propagates at each target's next `sync`.
