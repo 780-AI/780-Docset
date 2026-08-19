@@ -1,7 +1,11 @@
-<!-- VERSION: 2.25 -->
+<!-- VERSION: 2.26 -->
 <!-- Last Updated: 2026-08-19 -->
 <!--
 CHANGE LOG
+v2.26 — 2026-08-19 — W-D1 fix-forward (skill mode specs): bumped cells 77 (bootstrap mode 0.1→0.2)
++ 78 (adopt mode 0.1→0.2) — the sync-ready SVA shape in both gains the CHANGE LOG comment block
+the engine's record-update hard-requires. Self-row 2.25 → 2.26 (grep-verified against the header
+per L063).
 v2.25 — 2026-08-19 — Standard Set Version v2.2 (domain-neutral scrub): bumped cells 15
 (PROJECT_INSTRUCTIONS_TEMPLATE 1.0→1.1) + 16 (MEMORY_PROTOCOL 1.0→1.1) (residual `/Users/parsaazad/...`
 example paths → `/Users/you/...`), 23 (STANDARDS_INDEX 2.1→2.2), 10 (SET_VERSION_ADOPTED 1.9→1.10,
@@ -186,7 +190,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.25 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.26 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.11 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.10 | Governance | `docs/SESSION_OPENER.md` |
@@ -255,8 +259,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 74 | PLAN-009 — skill-based delivery (Set v2.0) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-009_skill_delivery.md` |
 | 75 | PLAN-009 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-009_tracker.md` |
 | 76 | Delivery skill — mode dispatch + step-0 vault resolve | 0.1 | Delivery | `skill/SKILL.md` |
-| 77 | Delivery skill — bootstrap mode | 0.1 | Delivery | `skill/modes/bootstrap.md` |
-| 78 | Delivery skill — adopt mode | 0.1 | Delivery | `skill/modes/adopt.md` |
+| 77 | Delivery skill — bootstrap mode | 0.2 | Delivery | `skill/modes/bootstrap.md` |
+| 78 | Delivery skill — adopt mode | 0.2 | Delivery | `skill/modes/adopt.md` |
 | 79 | Delivery-skill installer (per-machine symlink) | 0.1 | Delivery | `scripts/bootstrap_skill.sh` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
@@ -266,11 +270,11 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-08-19
-- **Change**: Standard Set Version v2.2 (domain-neutral scrub): residual real-username example
+- **Change**: W-D1 fix-forward — both skill mode specs (77 + 78 → 0.2): the sync-ready SVA shape
+  gains the CHANGE LOG comment block the engine's record-update hard-requires (found by the v2.2
+  oracle dry-run: the first live bootstrap had shipped an SVA that fails on its first version
+  delta).
+- **Previous change**: Standard Set Version v2.2 (domain-neutral scrub): residual real-username example
   paths genericized — cells 15 + 16 → 1.1, STANDARDS_INDEX → 2.2 (23), SVA v2.2 backport row
   (10 → 1.10). Payload for the first ssh `sync --write` (780-Automation).
-- **Previous change**: Second target registered — 780-Automation (ssh transport, team Mac; bootstrapped Set
-  v2.1 via the portable kit); project SESSION_OPENER § 2 registry row added (entry 8 → 1.10).
-  Feature-ON QA over ssh: status current v2.1/v2.1, sync dry-run up-to-date 11/11, harvest clean —
-  the ssh read path's first live smoke.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

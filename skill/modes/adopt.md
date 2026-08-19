@@ -1,7 +1,8 @@
-<!-- VERSION: 0.1 -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 0.2 -->
+<!-- Last Updated: 2026-08-19 -->
 <!--
 CHANGE LOG
+v0.2 — 2026-08-19 — W-D1 fix: the sync-ready SVA shape gains the required CHANGE LOG comment block — the engine's record-update (sync.py _split_header) hard-requires it; the spec omitted it (the pilot adoption dodged the defect only because its session wrote the block unprompted).
 v0.1 — 2026-08-16 — Initial (PLAN-009, Set v2.0). Migration mode for EXISTING projects: dry-run
 gated, customization-preserving; absorbs the MEMORY_DURABILITY_ROLLOUT_PROMPT retrofit; performs
 the one-time v1.6 heading-wrap sync needs.
@@ -63,7 +64,12 @@ every mapped customization inside PROJECT-OWNED markers. Also:
 - TARGET/`docs/SET_VERSION_ADOPTED.md` — Standard Set Version `$SET_VERSION`, vault commit
   `$VAULT_SHA`, adopted <today>, delivered by the standard-docset skill (adopt mode). Write it
   **sync-ready** — the engine's mechanical record-update hard-requires this shape (SyncError
-  otherwise): `<!-- VERSION: 0.1 -->` + `<!-- Last Updated: <today> -->` comment header; the two
+  otherwise): `<!-- VERSION: 0.1 -->` + `<!-- Last Updated: <today> -->` comment lines; a CHANGE
+  LOG comment block — `<!--`, then `CHANGE LOG`, then the line `v0.1 — <today> — Adoption record
+  created by the standard-docset skill (adopt mode): Standard Set Version $SET_VERSION, vault
+  commit $VAULT_SHA.`, then `-->` — the record-update splits the header at this block's closing
+  `-->` and prepends its own log line into it; omitting the block breaks every future
+  record-update (W-D1); the two
   exact bullets `- **Standard Set Version:** $SET_VERSION (…)` and `- **Adopted on:** <today> (…)`;
   and a seeded backport table (header `| Set Version | Adopted on | Notes |`, separator
   `|---|---|---|`, one initial row for this adoption).

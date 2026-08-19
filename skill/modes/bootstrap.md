@@ -1,7 +1,8 @@
-<!-- VERSION: 0.1 -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 0.2 -->
+<!-- Last Updated: 2026-08-19 -->
 <!--
 CHANGE LOG
+v0.2 — 2026-08-19 — W-D1 fix: § 4 sync-ready SVA shape gains the required CHANGE LOG comment block — the engine's record-update (sync.py _split_header) hard-requires it; the spec omitted it, so the first live bootstrap shipped an SVA that failed on its first version delta.
 v0.1 — 2026-08-16 — Initial (PLAN-009, Set v2.0). Successor to SETUP.md's one-shot prompt: same
 procedure, but the lay-down COPIES the live vault suite (no generation) and no machinery ever
 enters the target (no strip commit).
@@ -66,7 +67,12 @@ templates/meta — there is nothing to strip afterwards).
 - TARGET/`docs/SET_VERSION_ADOPTED.md` — records: Standard Set Version `$SET_VERSION`, vault commit
   `$VAULT_SHA`, adopted <today>, delivered by the standard-docset skill (bootstrap mode). Write it
   **sync-ready** — the engine's mechanical record-update hard-requires this shape (SyncError
-  otherwise): `<!-- VERSION: 0.1 -->` + `<!-- Last Updated: <today> -->` comment header; the two
+  otherwise): `<!-- VERSION: 0.1 -->` + `<!-- Last Updated: <today> -->` comment lines; a CHANGE
+  LOG comment block — `<!--`, then `CHANGE LOG`, then the line `v0.1 — <today> — Adoption record
+  created by the standard-docset skill (bootstrap mode): Standard Set Version $SET_VERSION, vault
+  commit $VAULT_SHA.`, then `-->` — the record-update splits the header at this block's closing
+  `-->` and prepends its own log line into it; omitting the block breaks every future
+  record-update (W-D1); the two
   exact bullets `- **Standard Set Version:** $SET_VERSION (…)` and `- **Adopted on:** <today> (…)`;
   and a seeded backport table (header `| Set Version | Adopted on | Notes |`, separator
   `|---|---|---|`, one initial row for this adoption).

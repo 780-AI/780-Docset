@@ -2,6 +2,28 @@
 
 Newest entries at the top.
 
+## [2026-08-19] — W-D1 fix-forward: sync-ready SVA shape in both skill mode specs gains the CHANGE LOG block
+
+- **Type:** Delivery-skill spec fix (fix-forward per Rule 3; vault machinery — not part of the
+  adopter-facing Set, so no Set bump).
+- **What:** The "sync-ready SVA shape" restated in `skill/modes/bootstrap.md` § 4 and
+  `skill/modes/adopt.md` (both 0.1→0.2) omitted the CHANGE LOG comment block that the engine's
+  record-update hard-requires (`sync.py` `_split_header` splits the target SVA at that block's
+  closing `-->`). Consequence: the first live bootstrap (780-Automation, 2026-08-19) faithfully
+  shipped an SVA that raises SyncError on its first version delta — found same day by the v2.2
+  oracle dry-run (defect **W-D1**, recorded in the v2.2 entry below). The pilot adoption (CS) was
+  unaffected only because its session wrote the block unprompted. Both specs now spell out the
+  block verbatim with the reason attached.
+- **QA scenarios (Rule 11):**
+  - QA-D1a ⏸ — one-time repair of 780-Automation's SVA (prepared; pending the team Mac's
+    reachability), after which the v2.2 sync dry-run plans its record-update cleanly — the
+    repaired shape IS the fixed spec's shape, so this doubles as the spec's shape-validation.
+  - QA-D1b ⏸ — the NEXT skill delivery (bootstrap or adopt) produces an SVA whose record-update
+    parses on first delta (engine-as-oracle at that delivery — this time against a
+    version-DELTA fixture, the path the D3-era same-version oracle never exercised).
+- **Versions:** bootstrap mode 0.1→0.2, adopt mode 0.1→0.2, manifest 2.25→2.26. Impact: spec text
+  only — future deliveries write a complete SVA; no engine change, no adopter-content change.
+
 ## [2026-08-19] — Standard Set Version v2.2: domain-neutral scrub — payload for the first ssh sync --write
 
 - **Type:** Standards-suite Minor (Critical File `docs/standards/`; doc-only scrub, no engine
