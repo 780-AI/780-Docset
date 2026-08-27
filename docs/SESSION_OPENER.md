@@ -1,8 +1,9 @@
-<!-- VERSION: 1.13 -->
+<!-- VERSION: 1.14 -->
 <!-- Last Updated: 2026-08-27 -->
-<!-- Source: docs/standards/SESSION_OPENER.md (template) v1.4. Project-local instance for Standard DocSet. -->
+<!-- Source: docs/standards/SESSION_OPENER.md (template) v1.7. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.14 — 2026-08-27 — Deferred-minor sweep: stale header Source ref template v1.4 → v1.7 (the template moved at Set v2.0; surgical omission since — cleared from the register).
 v1.13 — 2026-08-27 — § 3.2 row 1 added (Rule 16: no integration of externally-authored content without the operator list-and-confirm gate — the nine-orphaned-lessons incident, L069).
 v1.12 — 2026-08-27 — 780-Automation DHCP IP change (§ 2 registry row: 172.16.10.61 → 172.16.11.60; the documented DHCP caveat fired — verified same repo + clean tree + v2.2 before re-pointing).
 v1.11 — 2026-08-27 — Third target registered: 780-VPN (§ 2 registry row — ssh transport to a second team Mac, LAN IP + key auth; bootstrapped Set v2.2 self-service; remote path Dropbox-synced on their side; remote clock +9d skew noted).

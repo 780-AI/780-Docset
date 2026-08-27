@@ -2,6 +2,18 @@
 
 Newest entries at the top.
 
+## [2026-08-27] — Bookkeeping: v2.4 QA-P4 verified + stale instance Source refs cleared
+
+- **Type:** Bookkeeping + deferred-minor sweep (bundled as one commit — single coherent
+  session-close deliverable, deviation recorded per the § 10 practice).
+- **What:** (1) QA-P4 flipped ✅ in the v2.4 entry — full-fleet write ran with the
+  780-Automation hold lifted; fleet v2.4/v2.4 current on all three targets, idempotent, 780
+  spot-greps verified. (2) The long-deferred stale header Source refs fixed: project
+  SESSION_OPENER (1.13→1.14, template ref v1.4→v1.7) + project SESSION_CLOSER (1.5→1.6, template
+  ref v1.3→v1.7) — register row cleared. QA: exempt per Rule 11 (bookkeeping/doc cleanup).
+- **Versions:** project SESSION_OPENER 1.13→1.14, project SESSION_CLOSER 1.5→1.6, manifest
+  2.31→2.32. Impact: none at runtime.
+
 ## [2026-08-27] — Standard Set Version v2.4: environment portability (the Runner note) — 780-Automation hold lifts
 
 - **Type:** Standards-suite release (Critical File `docs/standards/` — doc-only, no engine
@@ -27,8 +39,12 @@ Newest entries at the top.
   - QA-P3 ✅ 2026-08-27 — fleet dry-run: CS + 780-VPN show exactly the predicted 2-item delta
     (CLAUDE.md merge + SVA record); 780-Automation shows the predicted 4-item catch-up
     (CLAUDE.md + LESSONS + SESSION_CLOSER + SVA — v2.3 + v2.4 together).
-  - QA-P4 ⏸ — post-commit: full-fleet `sync --write` (**hold lifted** — both reasons resolved:
-    lessons rescued at v2.3, portability fixed here), idempotence re-run, 780-side spot-greps.
+  - QA-P4 ✅ 2026-08-27 (post-commit, same session) — full-fleet `sync --write` with the
+    780-Automation **hold lifted** (both reasons resolved: lessons rescued at v2.3, portability
+    fixed here): 2+4+2 files written + flushed; idempotence re-run = up-to-date 11/11 on all
+    THREE targets; 780-side spot-greps verified (Runner note in their CLAUDE.md, L078 + ownership
+    banner in their archive, closer binding rule, SVA v2.4); fleet `status` = v2.4/v2.4 current
+    across the board — the first fully-current three-target fleet.
 - **Versions:** template CLAUDE.md 1.5→1.6, STANDARDS_INDEX 2.3→2.4, SET_VERSION_ADOPTED
   1.11→1.12, manifest 2.30→2.31. Impact: standards content release — no engine behavior change;
   root CLAUDE.md untouched (its env-specific wording is a legitimate instance state under the

@@ -1,8 +1,9 @@
-<!-- VERSION: 1.5 -->
-<!-- Last Updated: 2026-08-16 -->
-<!-- Source: docs/standards/SESSION_CLOSER.md (template) v1.3. Project-local instance for Standard DocSet. -->
+<!-- VERSION: 1.6 -->
+<!-- Last Updated: 2026-08-27 -->
+<!-- Source: docs/standards/SESSION_CLOSER.md (template) v1.7. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.6 — 2026-08-27 — Deferred-minor sweep: stale header Source ref template v1.3 → v1.7 (the template moved at Sets v2.0/v2.1/v2.3; surgical omission since — cleared from the register).
 v1.5 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008): heading block wrapped in PROJECT-OWNED — reconciles with the v1.6 template structure; owned-block count now 2 = template's 2.
 v1.4 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): § 1.6 retitled "/tmp cleanup + locality confirm" — adds the Rule 14 close-side confirm (claude_project_data.sh status → STATUS: OK; new out-of-folder state moved in or cataloged same-commit); header Source ref → template v1.3.
 v1.3 — 2026-08-16 — Standard Set Version v1.4: § 1.4 push-state flip step + § 2.1 row 5 (L055); header Source ref → template v1.2.
