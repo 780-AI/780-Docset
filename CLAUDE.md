@@ -1,8 +1,9 @@
-<!-- VERSION: 1.7 -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 1.8 -->
+<!-- Last Updated: 2026-08-27 -->
 <!-- Source: docs/standards/ (this repo). Bootstrapped from Standard Set v1.0 on 2026-06-07. Independent versions from this point forward. -->
 <!--
 CHANGE LOG
+v1.8 — 2026-08-27 — NEW Rule 16 (operator confirmation gate on harvested/intaken content: list + explain + per-item confirm BEFORE any integration edit — operator-decreed, firm, no abbreviation). § 3 heading + § 13 bullet 15 → 16 standing rules. Motivated by the nine orphaned adopter lessons found in 780-Automation's replace-mode archive (L069). Project-specific (root copy only — curator-workflow rule; adopters don't integrate; template § 3 untouched) — no Set Version bump.
 v1.7 — 2026-08-16 — Standard Set Version v1.5 adoption (PLAN-010 upstream intake): Rule 14 upgraded in place to full project-data locality (memory + session transcripts at .claude/project-data/, managed by scripts/claude_project_data.sh, verified at session open AND close); NEW Rule 15 (post-implementation verification of the NEW behavior is mandatory); § 3 heading + § 13 bullet corrected 13 → 15 standing rules (stale two rule-additions — the L063 class, found in this plan's audit); § 8.4 Rule 15 checklist row added.
 v1.6 — 2026-08-16 — Standard Set Version v1.4 adoption: § 15.2 Phase-1 deliverable now requires the § 7 ALLOWLIST to include the plan + sibling-tracker promotion rows (L054); § 15.3 adds the Phase-3 reconcile-first duty (L056). No rule added or removed.
 v1.5 — 2026-06-23 — PLAN-007 (remote-target transport): § 1 deployment shape retired "operates on local repository checkouts / no remote infrastructure" → "local OR remote (git/ssh) checkouts via a pluggable transport; still no server/deploy infra of its own." Project-specific (root copy only; template § 1 placeholder untouched) — no Set Version bump (engine-only change, no docs/standards/ edit).
@@ -41,7 +42,7 @@ If a rule below conflicts with a request, **refuse or propose a compliant altern
 
 ---
 
-## 3. The 15 standing rules (binding always)
+## 3. The 16 standing rules (binding always)
 
 These rules apply to every interaction, regardless of task. They are numbered for stable reference (e.g., "per Rule 4"). Numbering never changes — only append.
 
@@ -302,6 +303,41 @@ per-change only, recorded in the tracker.
 done) without the feature-ON verification evidence, or an explicit waiver, in its tracker.
 
 See `archive/LESSONS.md` L067 for the incident that motivated this rule.
+
+### Rule 16 — Operator confirmation gate on harvested content is MANDATORY
+
+After every `harvest` — and any other intake of externally-authored content (a target project's
+lessons, rules, or observations; including manual rescues of content found outside the E0NN log
+channel) — and BEFORE any of that content is integrated into the document set (canonical LESSONS,
+standing rules, any `docs/standards/` file, a Set Version bump), Claude MUST present in the
+operator-visible chat:
+
+1. **The complete list** of gathered candidate lessons/rules — none omitted, none silently
+   pre-filtered.
+2. **A plain-language explanation per item** — what it says, where it came from (project + file +
+   entry), and exactly what integrating it would change in the suite.
+3. **A recommendation per item** (integrate / genericize-then-integrate / reject) with reasoning.
+
+**No integration edit lands until the operator explicitly confirms.** Confirmation is per-intake:
+a past approval does not extend to the next batch, and a standing "always integrate"
+authorization is not permitted. Items the operator rejects are marked `rejected` in the source
+project's log (or recorded in the intake notes for non-log rescues) — never silently dropped.
+
+**Why this rule exists:** the harvest → integrate flow moves content authored OUTSIDE the vault
+into the binding fleet-wide document set — anything integrated propagates to every registered
+target on the next sync. The 2026-08-27 discovery of nine adopter-authored lessons sitting in
+780-Automation's replace-mode archive made concrete that intake can arrive unreviewed and en
+masse; without a gate at exactly this boundary, third-party content would enter the canonical
+suite on the agent's judgment alone. The gate fires at the same granularity as the risk: each
+intake.
+
+**Only permitted abbreviation:** none — the operator's explicit, per-intake confirmation is
+always required.
+
+**Drift on this rule is a Major defect** — an integration commit landing without the recorded
+list-and-confirm exchange in the operator-visible chat is a rule violation.
+
+See `archive/LESSONS.md` L069 for the originating incident.
 
 ---
 
@@ -652,7 +688,7 @@ When a pushed commit fails CI:
 
 - **Version header format & bump rules:** this file, § 7
 - **Minor vs Major workflow:** this file, §§ 5-6
-- **The 15 standing rules:** this file, § 3
+- **The 16 standing rules:** this file, § 3
 - **Critical files list:** this file, § 4
 - **Document version index:** `docs/documents_manifest.md`
 - **Cross-cutting project history:** `CHANGELOG.md` (root)

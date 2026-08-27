@@ -1,7 +1,12 @@
-<!-- VERSION: 2.28 -->
+<!-- VERSION: 2.29 -->
 <!-- Last Updated: 2026-08-27 -->
 <!--
 CHANGE LOG
+v2.29 — 2026-08-27 — Rule 16 codification (operator intake gate): bumped cells 1 (root CLAUDE.md
+1.7→1.8, new Rule 16 + heading/bullet counts 15→16) + 8 (project SESSION_OPENER 1.12→1.13, § 3.2
+row 1). archive/LESSONS.md L069 added (archive excluded from the manifest per Rule 8; no
+per-lesson header bump per standing practice). Self-row 2.28 → 2.29 (grep-verified against the
+header per L063).
 v2.28 — 2026-08-27 — 780-Automation DHCP IP change: bumped entry 8 (project SESSION_OPENER)
 1.11→1.12 (§ 2 registry row re-pointed 172.16.10.61 → 172.16.11.60). config/projects.toml carries
 no VERSION header (not manifest-tracked, per the standing note). Self-row 2.27 → 2.28
@@ -194,14 +199,14 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 | # | Title | Version | Category | Path |
 |---|---|---|---|---|
-| 1 | Operating Contract (binding) | 1.7 | Governance | `CLAUDE.md` |
+| 1 | Operating Contract (binding) | 1.8 | Governance | `CLAUDE.md` |
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.28 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.29 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.11 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.12 | Governance | `docs/SESSION_OPENER.md` |
+| 8 | Session Opener (project-local, binding) | 1.13 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.5 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.10 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.5 | Standards | `docs/standards/CLAUDE.md` |

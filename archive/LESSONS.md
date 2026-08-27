@@ -22,6 +22,7 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L069 — The engine-owned lessons archive invites appends; adopter lessons need a visible channel and an intake gate](#l069--the-engine-owned-lessons-archive-invites-appends-adopter-lessons-need-a-visible-channel-and-an-intake-gate)
  - [L068 — Template cross-references must resolve in the adopter, not the vault](#l068--template-cross-references-must-resolve-in-the-adopter-not-the-vault)
  - [L067 — Ship-gating verification must exercise the NEW behavior itself](#l067--ship-gating-verification-must-exercise-the-new-behavior-itself)
  - [L066 — A liveness signal must come from the monitored layer's own traffic, on the monitor's own clock](#l066--a-liveness-signal-must-come-from-the-monitored-layers-own-traffic-on-the-monitors-own-clock)
@@ -143,6 +144,51 @@ where it lives now (which standards file, which section).>
 ---
 
 ## 3. The lessons (newest first)
+
+### L069 — The engine-owned lessons archive invites appends; adopter lessons need a visible channel and an intake gate
+
+**Date:** 2026-08-27
+**Project:** 780-Automation (adopter) → Standard DocSet (vault)
+**Phase / Task:** DHCP re-point QA (registry IP update) — sync dry-run divergence investigation
+
+#### Incident
+
+A routine `sync` dry-run after re-pointing 780-Automation's DHCP IP found 2 of 11 suite files
+diverged. Their `archive/LESSONS.md` — replace-mode, engine-owned — carried NINE well-formed
+project-originated lessons (their L069–L077, appended across their own PLAN-001..008 work, even
+continuing the canonical numbering after 68). Their `docs/STANDARDS_LOG.md` held zero E0NN
+entries, so `harvest` had reported "no open log entries" throughout — the misdirection was
+silent. A `sync --write` would have destroyed all nine lessons. The divergence surfaced only
+because a dry-run diffs actual file content.
+
+#### Diagnosis
+
+Three stacked causes. (1) **The delivered contract itself teaches lesson-appending** — "rules
+are added when something breaks" plus dozens of L0NN citations — so a disciplined agent session
+in the adopter did the vault-appropriate thing in the wrong repo. (2) **The ownership boundary
+is invisible at the point of use:** nothing inside the adopter's archive file marks it
+engine-owned/replace-mode or redirects to the E0NN channel. (3) **The log-recording discipline
+had no forcing function** at the moment a session writes a lesson — it existed as an operator
+decision (PLAN-011 § 12 draft requirements) not yet embedded in the delivered text (the L044
+principle: forcing-function granularity must match failure granularity).
+
+#### Codification
+
+Vault-side: **Rule 16** — operator confirmation gate on every intake (complete list + per-item
+explanation + per-item recommendation, explicit operator confirmation BEFORE any integration
+edit; rejected items marked in the source log, never silently dropped). `docs/SESSION_OPENER.md`
+§ 3.2 row added. Template-side hardening (an ownership banner in the adopter-facing LESSONS file
+redirecting contributions to STANDARDS_LOG; binding E0NN wording in the closer's wrap-up step)
+queued as Set-bump candidates to ride the intake of the rescued lessons.
+
+#### Cross-references
+
+- `CLAUDE.md` § 3 Rule 16 (the gate)
+- `docs/SESSION_OPENER.md` § 3.2 row 1 (the failure-mode row)
+- 780-Automation `archive/LESSONS.md` v1.1–v1.2 (the source appends; preserved in that repo's git history)
+- L044 (forcing-function cadence), L068 (adopter/vault perspective-mismatch class)
+
+---
 
 ### L068 — Template cross-references must resolve in the adopter, not the vault
 

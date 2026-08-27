@@ -1,8 +1,9 @@
-<!-- VERSION: 1.12 -->
+<!-- VERSION: 1.13 -->
 <!-- Last Updated: 2026-08-27 -->
 <!-- Source: docs/standards/SESSION_OPENER.md (template) v1.4. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.13 — 2026-08-27 — § 3.2 row 1 added (Rule 16: no integration of externally-authored content without the operator list-and-confirm gate — the nine-orphaned-lessons incident, L069).
 v1.12 — 2026-08-27 — 780-Automation DHCP IP change (§ 2 registry row: 172.16.10.61 → 172.16.11.60; the documented DHCP caveat fired — verified same repo + clean tree + v2.2 before re-pointing).
 v1.11 — 2026-08-27 — Third target registered: 780-VPN (§ 2 registry row — ssh transport to a second team Mac, LAN IP + key auth; bootstrapped Set v2.2 self-service; remote path Dropbox-synced on their side; remote clock +9d skew noted).
 v1.10 — 2026-08-19 — Second target registered: 780-Automation (§ 2 registry row — ssh transport to the team Mac, LAN IP + key auth; bootstrapped Set v2.1 via the portable kit; git-transport migration planned at the org-GitHub settle).
@@ -142,7 +143,7 @@ Each row links to the memory/lesson that codifies it. Recall the linked memory w
 <!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 | # | Pattern | Trigger | Memory / lesson |
 |---|---|---|---|
-| _(empty — append as needed)_ | | | |
+| 1 | Externally-authored content (harvested entries, rescued lessons, target-project rules) integrated into the suite without the operator list-and-confirm gate | every `integrate` run + any intake, incl. manual rescues | `CLAUDE.md` **Rule 16 (binding)** + `archive/LESSONS.md` L069 |
 <!-- PROJECT-OWNED:END -->
 
 ---

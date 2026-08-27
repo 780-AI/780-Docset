@@ -2,6 +2,28 @@
 
 Newest entries at the top.
 
+## [2026-08-27] — NEW Rule 16: operator confirmation gate on harvested content (the nine-orphaned-lessons incident)
+
+- **Type:** Operating-contract rule addition (Critical File root `CLAUDE.md`; operator-decreed,
+  firm; project-specific — curator workflow only, template untouched, no Set bump).
+- **What:** After every `harvest` — and any other intake of externally-authored content,
+  including manual rescues — the gathered candidate lessons/rules MUST be presented to the
+  operator as a complete list with per-item plain-language explanations and recommendations, and
+  NO integration edit lands until the operator explicitly confirms (per-intake; no standing
+  authorization; rejected items marked in the source log, never silently dropped). No permitted
+  abbreviation; drift is a Major defect. Motivated by today's discovery of nine adopter-authored
+  lessons in 780-Automation's replace-mode `archive/LESSONS.md` (their log empty, harvest blind,
+  content one `--write` from destruction) — the intake boundary had no operator gate at the
+  granularity the risk fires. Incident codified as vault L069 (with the three-cause diagnosis:
+  the contract teaches lesson-appending; ownership invisible at point of use; discipline had no
+  forcing function). SESSION_OPENER § 3.2 row 1 added; matching memory files written same-commit
+  (Rule 9 maintenance).
+- **QA scenarios:** exempt per Rule 11 (governance-doc edit, no engine/runtime behavior change).
+  The rule's first live exercise is the imminent L069–L077 intake — its list-and-confirm
+  exchange in the session chat serves as the feature-ON evidence.
+- **Versions:** root CLAUDE.md 1.7→1.8, project SESSION_OPENER 1.12→1.13, manifest 2.28→2.29.
+  Impact: process rule only — no engine behavior change.
+
 ## [2026-08-27] — 780-Automation DHCP IP change: registry re-pointed 172.16.10.61 → 172.16.11.60
 
 - **Type:** Registration data update (Critical File `config/projects.toml`; no engine change).
