@@ -31,9 +31,11 @@ Newest entries at the top.
     other item changed. (780-Automation unreachable at run time — host asleep; it is write-HELD
     regardless pending the CLAUDE.md portability decision, and `sync --project` scoping keeps it
     excluded from the write.)
-  - QA-G3 ⏸ — post-commit: `sync --write --project EverOn.Capital-Signal --project 780-VPN`,
-    then idempotence re-run (expect up-to-date 11/11 both) and target-side spot-greps (a rescued
-    lesson present in each target's archive; banner present; SVA v2.3 row).
+  - QA-G3 ✅ 2026-08-27 (post-commit, same session) — scoped `sync --write` delivered 3 files to
+    each unheld target (write + flush confirmed); idempotence re-run = up-to-date 11/11 both;
+    spot-greps verified on both targets (L078 present in each archive TOC + body, ownership
+    banner present, SVA reads v2.3); fleet `status` = Capital-Signal v2.3/v2.3 current + 780-VPN
+    v2.3/v2.3 current (780-Automation asleep at run time — held regardless).
 - **Held:** 780-Automation write stays blocked until the template environment-portability gap is
   settled (planned v2.4) — its rescued originals are safe in its git history meanwhile.
 - **Versions:** LESSONS template 1.0→1.1, SESSION_CLOSER template 1.6→1.7, STANDARDS_INDEX
