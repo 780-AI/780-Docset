@@ -1,8 +1,9 @@
-<!-- VERSION: 1.5 -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 1.6 -->
+<!-- Last Updated: 2026-08-27 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). TEMPLATE — adopters copy to repo root and fill <placeholders>. -->
 <!--
 CHANGE LOG
+v1.6 — 2026-08-27 — Standard Set Version v2.4 (environment portability): Rule 2 gains the binding Runner note (command examples are generic — substitute the project's Python runner / CI flavor at run time, never edit suite-owned text to localize); Rule 5 sentence + § 8.6 YAML one-liner neutralized (CI-flavor-agnostic). Motivated by a live adopter whose runner/CI adaptations in suite-owned text were reverted on every sync.
 v1.5 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008): § 14 marker comment — stub-keep wording: deleting the block would break sync's ordinal block matching; aligns with SETUP step 4's stub guidance.
 v1.4 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010 upstream intake): Rule 14 upgraded in place to full project-data locality (memory + session transcripts at .claude/project-data/, managed by scripts/claude_project_data.sh, verified at session open AND close); NEW Rule 15 (post-implementation verification of the NEW behavior is mandatory); § 3 heading + § 13 bullet corrected 13 → 15 standing rules (stale two rule-additions — the L063 class); § 8.4 Rule 15 checklist row added.
 v1.3 — 2026-08-16 — Standard Set Version v1.4: § 15.2 ALLOWLIST promotion-rows requirement (L054) + § 15.3 Phase-3 reconcile-first duty (L056). No rule added or removed.
@@ -60,6 +61,13 @@ python scripts/check_test_coverage_drift.py --ci
 
 Both must exit `0`. CI runs them too — catching failures locally saves pipeline round-trips.
 
+> **Runner note (applies to every command example in this contract):** `python` stands for the
+> project's actual Python invocation — `python3`, `uv run python`, a venv path, etc. — and CI
+> file references stand for the project's CI flavor (`.gitlab-ci.yml` / `.github/workflows/`).
+> **Substitute at run time; do not edit this contract's suite-owned text to localize it** — sync
+> would revert the edit. Project-specific tooling facts belong in the § 1 context block
+> (PROJECT-OWNED).
+
 If either fails: fix the gap, or add a justified entry to `scripts/doc_coverage_allowlist.toml` with metadata (rule, reason, author, date, expires). Do not push with failing governance checks.
 
 ### Rule 3 — Fix-forward via letter suffix
@@ -92,7 +100,7 @@ EOF
 
 ### Rule 5 — Local governance does NOT validate CI schema
 
-Local checks (YAML parse via `python -c "import yaml; yaml.safe_load(...)"`, `check_doc_coverage.py`, `check_test_coverage_drift.py`) validate Python syntax and YAML syntax — **not** GitLab/GitHub-specific semantics like `needs:`, `stage:`, `rules:`, `dependencies:`, or stage-graph correctness.
+Local checks (a YAML-parse one-liner — `python -c "import yaml; yaml.safe_load(...)"` with your runner — plus `check_doc_coverage.py` and `check_test_coverage_drift.py`) validate Python syntax and YAML syntax — **not** GitLab/GitHub-specific semantics like `needs:`, `stage:`, `rules:`, `dependencies:`, or stage-graph correctness.
 
 For any change to `.gitlab-ci.yml` (or `.github/workflows/`) that touches those keys, the **dispositive validation is a real pipeline run**.
 
@@ -478,13 +486,14 @@ python scripts/check_doc_coverage.py
 python scripts/check_test_coverage_drift.py --ci
 ```
 
-Both must exit `0`. For `.yml` CI changes, also:
+Both must exit `0`. For `.yml` CI changes (`.gitlab-ci.yml` or `.github/workflows/*.yml`), also:
 
 ```bash
-python -c "import yaml; yaml.safe_load(open('.gitlab-ci.yml')); print('YAML valid')"
+python -c "import yaml,sys; [yaml.safe_load(open(p)) for p in sys.argv[1:]]; print('YAML valid')" <your CI file(s)>
 ```
 
-(YAML parse validates parseability only — not CI schema, per Rule 5.)
+(YAML parse validates parseability only — not CI schema, per Rule 5. Runner note in Rule 2
+applies.)
 
 ### 7. Self-check questions
 - Would another developer understand **why** this change is safe from the changelog + doc diff?

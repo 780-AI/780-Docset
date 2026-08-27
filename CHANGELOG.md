@@ -2,6 +2,38 @@
 
 Newest entries at the top.
 
+## [2026-08-27] — Standard Set Version v2.4: environment portability (the Runner note) — 780-Automation hold lifts
+
+- **Type:** Standards-suite release (Critical File `docs/standards/` — doc-only, no engine
+  change; Major workflow without a § 15 plan per the § 15.6 doc-only carve-out; executed under
+  the operator's batch authorization "get everything done as recommended").
+- **What:** The second half of the 780-Automation divergence (the v2.3 entry rescued the first):
+  the template contract hard-coded one environment's invocations (`python`, `.gitlab-ci.yml`) in
+  suite-owned text, so an adopter on `python3`/`uv`/GitHub Actions had its adaptations reverted
+  by every sync. Design chosen: **neutralize, not PROJECT-OWNED-wrap** (no fleet-wide hand-wrap;
+  solves the class). Template CLAUDE.md → 1.6: Rule 2 gains the binding **Runner note** (command
+  examples are generic — substitute the project's Python runner / CI flavor at run time; NEVER
+  edit suite-owned text to localize; tooling facts belong in the § 1 PROJECT-OWNED block); the
+  Rule 5 sentence and § 8.6 YAML one-liner are now CI-flavor-neutral. Counts unchanged; no rule
+  added.
+- **QA scenarios (Rule 11 — pre-commit, outputs verbatim in the session chat):**
+  - QA-P1 ✅ 2026-08-27 — grep gate: exactly one `python3|uv run` hit in the template — line 65,
+    the Runner note naming the variants (the mechanism); zero localized commands remain.
+  - QA-P2 ✅ 2026-08-27 — engine-as-oracle merge of the new template against 780-Automation's
+    LIVE CLAUDE.md: every remaining delta is the neutralization itself (their env-specific lines
+    converge to the generic text + Runner note); PROJECT-OWNED customizations (§ 4/§ 13 Critical
+    File registration) untouched. After this one-time convergence, sync stops fighting their
+    environment — the hold's remaining reason is resolved.
+  - QA-P3 ✅ 2026-08-27 — fleet dry-run: CS + 780-VPN show exactly the predicted 2-item delta
+    (CLAUDE.md merge + SVA record); 780-Automation shows the predicted 4-item catch-up
+    (CLAUDE.md + LESSONS + SESSION_CLOSER + SVA — v2.3 + v2.4 together).
+  - QA-P4 ⏸ — post-commit: full-fleet `sync --write` (**hold lifted** — both reasons resolved:
+    lessons rescued at v2.3, portability fixed here), idempotence re-run, 780-side spot-greps.
+- **Versions:** template CLAUDE.md 1.5→1.6, STANDARDS_INDEX 2.3→2.4, SET_VERSION_ADOPTED
+  1.11→1.12, manifest 2.30→2.31. Impact: standards content release — no engine behavior change;
+  root CLAUDE.md untouched (its env-specific wording is a legitimate instance state under the
+  note).
+
 ## [2026-08-27] — Standard Set Version v2.3: first adopter-originated lesson intake (L069–L078), under the Rule 16 gate
 
 - **Type:** Standards-suite release (Critical File `docs/standards/` — doc-only, no engine

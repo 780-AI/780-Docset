@@ -1,8 +1,9 @@
-<!-- VERSION: 2.3 -->
+<!-- VERSION: 2.4 -->
 <!-- Last Updated: 2026-08-27 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v2.4 — 2026-08-27 — Standard Set Version v2.4 (environment portability): template CLAUDE.md → 1.6 (Rule 2 Runner note — command examples are generic, substitute runner/CI flavor at run time, never localize suite-owned text; Rule 5 + § 8.6 neutralized). § 1 block → v2.4; § 3 cells (CLAUDE 1.6, STANDARDS_INDEX 2.4); § 6 history entry. Counts unchanged (78 lessons / 15 rules).
 v2.3 — 2026-08-27 — Standard Set Version v2.3 (first adopter-originated lesson intake, under the new operator gate): lessons L069–L078 added to LESSONS.md (L069 the intake-gate incident; L070–L078 the nine rescued adopter lessons, genericized) + LESSONS ownership banner + SESSION_CLOSER § 1.7 binding where-codification-lands rule. § 1 block → v2.3 (counts → 78 lessons); § 2 row 9 → 78; § 3 caption → v2.3 + cells (LESSONS 1.1, SESSION_CLOSER 1.7, README 1.3, STANDARDS_INDEX 2.3) + lesson total → 78; § 6 history entry added. No rule change (the intake gate is a vault-side curator rule — Rule 16 in the vault's own contract; template rules stay 15).
 v2.2 — 2026-08-19 — Standard Set Version v2.2 (domain-neutral scrub): 4 example paths carrying a real username (survived the v1.0 genericization; found by the v2.1 gate grep) scrubbed to `/Users/you/...` — MEMORY_PROTOCOL (3) + PROJECT_INSTRUCTIONS_TEMPLATE (1), both → 1.1. § 1 block → v2.2 (counts unchanged — 68 lessons / 15 rules); § 3 caption → v2.2 + cells (MEMORY_PROTOCOL 1.1, PROJECT_INSTRUCTIONS_TEMPLATE 1.1, STANDARDS_INDEX 2.2); § 6 history entry added. No rule or lesson content change.
 v2.1 — 2026-08-18 — Standard Set Version v2.1 (first harvest → integrate cycle — adopter entry E001): SESSION_CLOSER § 1.2 Set-Version reference retargeted to docs/SET_VERSION_ADOPTED.md (adopters don't carry the INDEX) + lesson L068 (template cross-references must resolve in the adopter) + README stale LESSONS count fixed 48 → 68 (drifted since v1.4; L060-class sweep). § 1 block → v2.1 (lesson count → 68; files unchanged); § 2 row 9 → 68; § 3 caption → v2.1 + cells (SESSION_CLOSER 1.6, README 1.2, STANDARDS_INDEX 2.1; LESSONS cell unchanged per the no-per-lesson-bump practice) + lesson total → 68; § 6 history entry added. No rule change.
@@ -43,9 +44,9 @@ Version** tracks the suite as a whole — files added, structure changed, patter
 ## 1. Standard Set Version (current)
 
 ```
-Standard Set Version: v2.3
+Standard Set Version: v2.4
 Released:             2026-08-27
-Baseline:             v2.2 (domain-neutral scrub, atop the v2.x skill-delivery line) + first adopter-originated lesson intake: L069–L078 (the intake-gate incident + nine rescued adopter lessons) + LESSONS ownership banner + SESSION_CLOSER binding E0NN codification rule.
+Baseline:             v2.3 (first adopter-originated lesson intake L069–L078 + ownership banner + closer E0NN rule) + environment portability: the contract's command examples are generic (Runner note) — adopters substitute their Python runner / CI flavor at run time instead of editing suite-owned text.
 Adopter contract:     11 binding files + 3 meta files (+ STANDARDS_LOG.md); 78 lessons (L001–L078); 15 standing rules in CLAUDE.md
 ```
 
@@ -97,7 +98,7 @@ Current state as of Set Version v2.2 (2026-08-19). Files unchanged since v1.0 ke
 
 | File | Tier | Version | Last Updated |
 |---|---|---|---|
-| `CLAUDE.md` | Binding | 1.5 | 2026-08-16 |
+| `CLAUDE.md` | Binding | 1.6 | 2026-08-27 |
 | `PROJECT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `PROMPT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `PROJECT_INSTRUCTIONS_TEMPLATE.md` | Binding | 1.1 | 2026-08-19 |
@@ -109,7 +110,7 @@ Current state as of Set Version v2.2 (2026-08-19). Files unchanged since v1.0 ke
 | `SESSION_OPENER.md` | Binding | 1.7 | 2026-08-17 |
 | `SESSION_CLOSER.md` | Binding | 1.7 | 2026-08-27 |
 | `README.md` | Meta | 1.3 | 2026-08-27 |
-| `STANDARDS_INDEX.md` | Meta | 2.3 | 2026-08-27 |
+| `STANDARDS_INDEX.md` | Meta | 2.4 | 2026-08-27 |
 | `HOW_TO_USE.md` | Meta | 1.1 | 2026-08-17 |
 | `STANDARDS_LOG.md` | Meta | 1.1 | 2026-08-17 |
 
@@ -172,6 +173,21 @@ coordinated multi-file pattern is a Set-Version Minor; a structural change is a 
 ## 6. Standard Set Version history
 
 Newest first. Append-only.
+
+### v2.4 — 2026-08-27 — Environment portability (the Runner note)
+
+Additive Minor. A live team adopter — whose stack runs `python3`/`uv` and GitHub Actions —
+adapted the contract's command examples in suite-owned text; every sync would have reverted the
+adaptations (found by the same dry-run that surfaced the v2.3 intake). Root cause: the template
+hard-coded one environment's invocations (`python`, `.gitlab-ci.yml`) in text adopters may not
+edit. Fix: the contract's command examples are now declared **generic** — Rule 2 carries the
+binding Runner note (substitute the project's Python runner / CI flavor at run time; NEVER
+localize suite-owned text — project tooling facts belong in the § 1 PROJECT-OWNED context
+block); the Rule 5 sentence and § 8.6 YAML one-liner are CI-flavor-neutral. Template CLAUDE.md →
+1.6. No rule added or removed; counts unchanged (78 lessons / 15 standing rules). Sync note:
+adopters receive a 2-item delta (CLAUDE.md merge + SET_VERSION_ADOPTED record); any existing
+runner localizations in suite-owned text converge to the neutral wording — re-apply nothing,
+just run commands with your own runner from now on.
 
 ### v2.3 — 2026-08-27 — First adopter-originated lesson intake (under the operator gate)
 
