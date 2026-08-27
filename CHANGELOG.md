@@ -2,6 +2,26 @@
 
 Newest entries at the top.
 
+## [2026-09-05] — PLAN-012 drafted: sync handoff report (every engine write leaves an explanation in the target)
+
+- **Type:** § 15 plan draft (design commit only; no behavior change yet).
+- **What:** Operator directive after a 780-VPN session opened to four engine-written uncommitted
+  files it did not make: *"after any change there should be a hands-off report so claude code in
+  other projects will not face unknown changes to the files."* PLAN-012 designs the fix at the
+  L044 granularity — every `sync --write` will leave `docs/SYNC_HANDOFF.md` in the written
+  target (what was written, at which Set Version, plus the five residual steps: review diffs,
+  manifest cells, CHANGELOG entry, landing commit, delete-the-handoff), flushed by every
+  transport in the same pass; the SESSION_OPENER template gains a § 1.1 engine-handoff check
+  (rides as Set v2.5, together with the canonical LESSONS date-line corrections from the
+  clock-skew finding). Code developed + tool-proven in a scratch overlay FIRST (proven-code-first
+  pattern): ruff clean, mypy delta zero, pytest 111 passed (+1 new end-to-end test). Rule 13 pass
+  RUN and recorded in the plan (extraction byte-verified against the overlay; all FIND anchors
+  grep-verified unique in live source). Awaiting Phase 2 **"APPROVE PLAN-012"**; Phase 3 runs in
+  a fresh session per § 15.3.
+- **QA scenarios:** defined in the plan § 8 (QA-H1..H5, incl. the Rule 15 feature-ON v2.5
+  rollout and the target-side loop-closure observation); statuses live in PLAN-012_tracker.md.
+- **Versions:** manifest 2.33→2.34 (new rows 80–81). Impact: none at runtime (design only).
+
 ## [2026-09-05] — Record correction: the clock skew was OURS — the vault machine ran ~9 days slow
 
 - **Type:** Record correction (no content release, no engine change).
