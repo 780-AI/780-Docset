@@ -2,6 +2,27 @@
 
 Newest entries at the top.
 
+## [2026-09-05] — Record correction: the clock skew was OURS — the vault machine ran ~9 days slow
+
+- **Type:** Record correction (no content release, no engine change).
+- **What:** A 780-VPN session (GitHub setup work) found GitHub's server time matching that Mac to
+  the second — and independent verification from this machine confirms it: gitlab.com and
+  apple.com both report **2026-09-05** while this vault machine reads 2026-08-27. Every earlier
+  conclusion pointing the other way ("both team Macs run fast clocks") was wrong — the team
+  Macs were accurate; the VAULT machine is ~9 days slow. Corrected in: `config/projects.toml`
+  (780-VPN comment), SESSION_OPENER § 2 row (1.14→1.15), the vault archive L070–L078 provenance
+  entry, the local register, and the dynamic-IPs memory. **Consequences:** all vault stamps
+  dated 2026-08-27 (the v2.3 + v2.4 releases, Rule 16, the registrations) were really written
+  2026-09-05 — in adopters this produces change logs where a sync line predates the bootstrap
+  line (observed at 780-VPN). Per the idempotent-engine reality, published stamps stay as
+  delivered; the canonical LESSONS date-line corrections ride the next Set bump (v2.5, planned).
+  **Operator action:** fix this machine's clock (System Settings → General → Date & Time → set
+  automatically). Discovered by the adopter's session — the outbox/handoff loop working as
+  intended even before it's formalized (PLAN-012, drafted next).
+- **QA scenarios:** exempt per Rule 11 (record correction). Verification evidence (server Date
+  headers) verbatim in the session chat.
+- **Versions:** project SESSION_OPENER 1.14→1.15, manifest 2.32→2.33. Impact: none at runtime.
+
 ## [2026-08-27] — Bookkeeping: v2.4 QA-P4 verified + stale instance Source refs cleared
 
 - **Type:** Bookkeeping + deferred-minor sweep (bundled as one commit — single coherent

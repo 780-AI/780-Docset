@@ -1,7 +1,11 @@
-<!-- VERSION: 2.32 -->
-<!-- Last Updated: 2026-08-27 -->
+<!-- VERSION: 2.33 -->
+<!-- Last Updated: 2026-09-05 -->
 <!--
 CHANGE LOG
+v2.33 — 2026-09-05 — Clock-skew record correction: bumped cell 8 (project SESSION_OPENER
+1.14→1.15 — § 2 row corrected: the VAULT machine was ~9 days slow, the team Macs were accurate;
+verified vs gitlab.com + apple.com). Entries above dated 2026-08-27 were written under the slow
+clock (real date 2026-09-05). Self-row 2.32 → 2.33 (grep-verified against the header per L063).
 v2.32 — 2026-08-27 — Bookkeeping + deferred-minor sweep: QA-P4 flipped ✅ in the v2.4 CHANGELOG
 entry (full-fleet write verified); stale header Source refs fixed in both session instances —
 bumped cells 8 (project SESSION_OPENER 1.13→1.14, ref v1.4→v1.7) + 9 (project SESSION_CLOSER
@@ -218,10 +222,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.32 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.33 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.11 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.14 | Governance | `docs/SESSION_OPENER.md` |
+| 8 | Session Opener (project-local, binding) | 1.15 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.6 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.12 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.6 | Standards | `docs/standards/CLAUDE.md` |

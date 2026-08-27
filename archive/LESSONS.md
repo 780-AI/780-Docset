@@ -148,8 +148,9 @@ where it lives now (which standards file, which section).>
 
 ### L070–L078 — First adopter-originated intake batch (rescued from 780-Automation)
 
-**Date:** 2026-08-27 (intake; source incidents days earlier — the source Mac's clock ran fast,
-so its stamps read 2026-08-26..2026-09-01)
+**Date:** 2026-08-27 as stamped — CORRECTED 2026-09-05: the real intake date is 2026-09-05; the
+VAULT machine's clock was ~9 days slow (the source project's stamps 2026-08-26..2026-09-01 were
+accurate; verified against gitlab.com + apple.com server time)
 **Project:** 780-Automation → Standard DocSet (vault)
 **Phase / Task:** the L069 rescue — Rule 16 gate exchange in the operator-visible chat (all nine
 confirmed by the operator, "all nine", 2026-08-27), integrated at Standard Set Version v2.3

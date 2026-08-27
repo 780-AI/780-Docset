@@ -1,8 +1,9 @@
-<!-- VERSION: 1.14 -->
-<!-- Last Updated: 2026-08-27 -->
+<!-- VERSION: 1.15 -->
+<!-- Last Updated: 2026-09-05 -->
 <!-- Source: docs/standards/SESSION_OPENER.md (template) v1.7. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.15 — 2026-09-05 — Clock-skew record CORRECTED (§ 2 780-VPN row): the vault machine was ~9 days slow (verified vs gitlab.com + apple.com server time); the team Macs' stamps were accurate. Earlier entries dated 2026-08-27 were written under the slow clock (real date 2026-09-05). Also: 780-VPN folder is SHARED Dropbox (also local at ~/).
 v1.14 — 2026-08-27 — Deferred-minor sweep: stale header Source ref template v1.4 → v1.7 (the template moved at Set v2.0; surgical omission since — cleared from the register).
 v1.13 — 2026-08-27 — § 3.2 row 1 added (Rule 16: no integration of externally-authored content without the operator list-and-confirm gate — the nine-orphaned-lessons incident, L069).
 v1.12 — 2026-08-27 — 780-Automation DHCP IP change (§ 2 registry row: 172.16.10.61 → 172.16.11.60; the documented DHCP caveat fired — verified same repo + clean tree + v2.2 before re-pointing).
@@ -99,7 +100,7 @@ ls -1 .claude/project-data/memory/*.md 2>/dev/null | wc -l
 | **Canonical source suite** | `docs/standards/` (this repo) | The vault IS the source — the authoritative set the tool propagates FROM (also its own adopted suite). |
 | **Target repo(s)** | `EverOn.Capital-Signal` — `~/Library/CloudStorage/Dropbox/Projects/EverOn.Capital-Signal` (Dropbox-synced; moved 2026-08-18) | Registered in `config/projects.toml` (local transport, `~` path — resolves per machine, so any machine syncing the folder can run reads/writes; ONE machine at a time, let Dropbox settle). Set v2.0 adopter, 2026-08-17 (PLAN-009 pilot). |
 | | `780-Automation` — `ssh:a780@172.16.11.60:/Users/a780/Projects/780-Automation` (team Mac, LAN) | Registered 2026-08-19 (ssh transport; key auth; LAN IP is DHCP — changed 10.61→11.60, registry updated 2026-08-27). Bootstrapped Set v2.1 same day via the portable kit (self-service). Migration to git transport planned when the project lands on the organization GitHub (re-opens DD-6b before any git write-back). |
-| | `780-VPN` — `ssh:parsaazad@172.16.11.17:/Users/parsaazad/Library/CloudStorage/Dropbox/Projects/780-VPN` (team Mac, LAN) | Registered 2026-08-27 (ssh transport; key auth; LAN IP is DHCP — update the registry if it changes). Bootstrapped Set v2.2 on the team member's Mac (vault `3f5590a`). Remote path is Dropbox-synced on their side (one machine at a time). That Mac's clock ran +9d fast at bootstrap — target stamps future-dated (2026-09-02). |
+| | `780-VPN` — `ssh:parsaazad@172.16.11.17:/Users/parsaazad/Library/CloudStorage/Dropbox/Projects/780-VPN` (team Mac, LAN) | Registered 2026-08-27 (ssh transport; key auth; LAN IP is DHCP — update the registry if it changes). Bootstrapped Set v2.2 on the team member's Mac (vault `3f5590a`). Remote path is SHARED Dropbox — also at `~/` on the curator machine (discovered 2026-09-05; `~/` re-point candidate). Clock note CORRECTED 2026-09-05: the VAULT machine was ~9d slow; this target's stamps were accurate. |
 <!-- PROJECT-OWNED:END -->
 
 **Cross-checks before writing to any target:**
