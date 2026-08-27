@@ -45,3 +45,14 @@ ssh_host = "a780@172.16.10.61"     # team Mac, LAN IP (DHCP — update here if i
 ssh_path = "/Users/a780/Projects/780-Automation"
 # Planned migration: -> git transport once the project lands on the organization GitHub
 # (operator decision 2026-08-19; re-opens DD-6b write-back etiquette before any git --write).
+
+[[project]]                        # team project; bootstrapped on the team member's Mac (Set v2.2, vault 3f5590a)
+name = "780-VPN"
+transport = "ssh"
+ssh_host = "parsaazad@172.16.11.17"   # team Mac, LAN IP (DHCP — update here if it changes); key auth installed 2026-08-27
+ssh_path = "/Users/parsaazad/Library/CloudStorage/Dropbox/Projects/780-VPN"
+# NOTE: the remote path lives inside that machine's Dropbox folder — same one-machine-at-a-time
+# caution as the vault applies on THEIR side (let Dropbox settle before touching the repo from
+# another machine syncing the same account).
+# NOTE: that Mac's clock ran +9 days fast at bootstrap (target stamps read 2026-09-02; real date
+# ~2026-08-24) — clock fix flagged to the operator at registration.

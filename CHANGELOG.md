@@ -2,6 +2,40 @@
 
 Newest entries at the top.
 
+## [2026-08-27] — Third target registered: 780-VPN (ssh transport) — QA-D1b closed on the live bootstrap SVA
+
+- **Type:** Registration (Critical File `config/projects.toml`; no engine change).
+- **What:** 780-VPN — bootstrapped on a second team Mac to Standard Set v2.2 (vault `3f5590a`;
+  single bootstrap commit `be4d6d3`, clean tree) — registered as the third sync target:
+  `ssh_host = parsaazad@172.16.11.17` (LAN IP, DHCP — noted in the registry), `ssh_path =
+  /Users/parsaazad/Library/CloudStorage/Dropbox/Projects/780-VPN`. Key auth installed same day
+  (curator machine's ed25519; first `ssh-copy-id` ran from the wrong account — the team member's —
+  and was redone from the curator account). Pre-registration cross-checks over ssh: repo root
+  resolves, single bootstrap commit, clean tree, SVA v0.1 present WITH the CHANGE LOG block (the
+  W-D1 spec repair proven in a live bootstrap), rsync available. Registry entry carries two new
+  caveats: the remote path is Dropbox-synced on the team member's side (one-machine-at-a-time
+  applies there too), and that Mac's clock ran +9 days fast at bootstrap (target stamps read
+  2026-09-02; real date ~2026-08-24 — clock fix flagged). Project SESSION_OPENER § 2 registry row
+  added (1.10→1.11).
+- **QA scenarios (Rule 11 / Rule 15 feature-ON — all run pre-commit against the edited registry,
+  outputs verbatim in the session chat):**
+  - QA-S1 ✅ 2026-08-27 — `status` resolves 780-VPN over ssh: ADOPTED v2.2 / VAULT v2.2 /
+    current / open-log 0 (fleet table now three targets; 780-Automation `unknown` — host down at
+    run time, non-fatal warn+skip as designed).
+  - QA-S2 ✅ 2026-08-27 — `sync` dry-run over ssh: up-to-date across all 11 SYNC_MAP items over
+    rsync (a fresh v2.2 bootstrap is a sync no-op — "converge once, sync forever" holds).
+  - QA-S3 ✅ 2026-08-27 — `harvest` covers the reachable fleet: no open entries (780-Automation
+    skipped loudly: "Host is down").
+  - QA-D1b ✅ 2026-08-27 — **the pending W-D1 follow-up scenario closes**: the live bootstrap's
+    SVA fetched over ssh and run through the engine's `record_adoption` with a version-DELTA
+    fixture (v9.9): parses (no SyncError at `split_header` — the W-D1 failure point), header
+    bumps 0.1→0.2, sync log line prepends, adopted bullet updates, backport row inserts. The
+    next real Set bump will apply cleanly to this target.
+- **Versions:** manifest 2.26→2.27, project SESSION_OPENER 1.10→1.11. Impact: registry data +
+  bookkeeping only — no engine behavior change; the vault now maintains three registered targets
+  (two ssh). Machine-health follow-ups recorded in OPEN_TASKS: remote clock +9d skew; broken
+  Intel CLT on that arm64 Mac (working git at `/usr/local/bin/git`).
+
 ## [2026-08-19] — W-D1 fix-forward: sync-ready SVA shape in both skill mode specs gains the CHANGE LOG block
 
 - **Type:** Delivery-skill spec fix (fix-forward per Rule 3; vault machinery — not part of the
