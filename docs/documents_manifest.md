@@ -1,7 +1,11 @@
-<!-- VERSION: 2.27 -->
+<!-- VERSION: 2.28 -->
 <!-- Last Updated: 2026-08-27 -->
 <!--
 CHANGE LOG
+v2.28 — 2026-08-27 — 780-Automation DHCP IP change: bumped entry 8 (project SESSION_OPENER)
+1.11→1.12 (§ 2 registry row re-pointed 172.16.10.61 → 172.16.11.60). config/projects.toml carries
+no VERSION header (not manifest-tracked, per the standing note). Self-row 2.27 → 2.28
+(grep-verified against the header per L063).
 v2.27 — 2026-08-27 — Third target registration (780-VPN, ssh transport): bumped entry 8 (project
 SESSION_OPENER) 1.10→1.11 (§ 2 registry row added). config/projects.toml carries no VERSION
 header (not manifest-tracked, per the standing note). Self-row 2.26 → 2.27 (grep-verified against
@@ -194,10 +198,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.27 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.28 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.11 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.11 | Governance | `docs/SESSION_OPENER.md` |
+| 8 | Session Opener (project-local, binding) | 1.12 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.5 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.10 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.5 | Standards | `docs/standards/CLAUDE.md` |

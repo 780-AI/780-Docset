@@ -2,6 +2,37 @@
 
 Newest entries at the top.
 
+## [2026-08-27] — 780-Automation DHCP IP change: registry re-pointed 172.16.10.61 → 172.16.11.60
+
+- **Type:** Registration data update (Critical File `config/projects.toml`; no engine change).
+- **What:** The documented DHCP caveat fired — 780-Automation's team Mac came up on a new LAN IP.
+  Before re-pointing, identity verified over ssh at the new address: same account (`a780`),
+  passwordless key auth intact (survives IP changes by design), bootstrap commit `cb62527` in
+  history, clean tree, SVA v0.2 / Set v2.2. Bonus finding: the team member completed the entire
+  780-side follow-up from 2026-08-19 — the engine-written v2.2 sync files are committed AND the
+  manifest cells reconciled (SVA v0.2, MEMORY_PROTOCOL v1.1) — cleared from the local register.
+  Registry `ssh_host` + SESSION_OPENER § 2 row (1.11→1.12) re-pointed.
+- **QA scenarios (Rule 11 — run pre-commit against the edited registry, outputs verbatim in the
+  session chat):**
+  - QA-IP1 ✅ 2026-08-27 — `status` resolves 780-Automation at the new IP: ADOPTED v2.2 / VAULT
+    v2.2 / current / open-log 0 (full three-target fleet current — first time all three resolve
+    in one run).
+  - QA-IP2 ✅ 2026-08-27 — `sync` dry-run over ssh at the new IP resolves and plans correctly
+    (transport path proven — the scenario's purpose). Substantive finding: NOT up-to-date — 2 of
+    11 changed on the target since 2026-08-19. (1) `archive/LESSONS.md` (replace-mode): the team
+    member appended NINE project-originated lessons L069–L077 directly — content that belongs in
+    STANDARDS_LOG E0NN entries (their log is empty; harvest sees nothing) and that a future
+    `sync --write` would DESTROY. (2) `CLAUDE.md` (merge-mode): engine-as-oracle merge shows a
+    write would revert their environment adaptations in suite-owned text (`python3`/`uv run`
+    invocations, GitHub-Actions refs vs the template's `python`/GitLab wording); their § 4/§ 13
+    Critical-File registration sits in PROJECT-OWNED blocks and survives. **`sync --write` for
+    780-Automation is HELD pending operator decision** (lessons intake path + template
+    environment-portability gap — recorded in OPEN_TASKS).
+  - QA-IP3 ✅ 2026-08-27 — `harvest`: no open entries across the full fleet (which is exactly the
+    problem — the nine lessons bypassed the log).
+- **Versions:** manifest 2.27→2.28, project SESSION_OPENER 1.11→1.12. Impact: registry data +
+  bookkeeping only — no engine behavior change.
+
 ## [2026-08-27] — Third target registered: 780-VPN (ssh transport) — QA-D1b closed on the live bootstrap SVA
 
 - **Type:** Registration (Critical File `config/projects.toml`; no engine change).

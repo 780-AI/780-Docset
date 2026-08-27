@@ -1,8 +1,9 @@
-<!-- VERSION: 1.11 -->
+<!-- VERSION: 1.12 -->
 <!-- Last Updated: 2026-08-27 -->
 <!-- Source: docs/standards/SESSION_OPENER.md (template) v1.4. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.12 — 2026-08-27 — 780-Automation DHCP IP change (§ 2 registry row: 172.16.10.61 → 172.16.11.60; the documented DHCP caveat fired — verified same repo + clean tree + v2.2 before re-pointing).
 v1.11 — 2026-08-27 — Third target registered: 780-VPN (§ 2 registry row — ssh transport to a second team Mac, LAN IP + key auth; bootstrapped Set v2.2 self-service; remote path Dropbox-synced on their side; remote clock +9d skew noted).
 v1.10 — 2026-08-19 — Second target registered: 780-Automation (§ 2 registry row — ssh transport to the team Mac, LAN IP + key auth; bootstrapped Set v2.1 via the portable kit; git-transport migration planned at the org-GitHub settle).
 v1.9 — 2026-08-18 — Capital-Signal moved into the Dropbox folder: § 2 target row re-pointed to the ~-based path (the registry expands ~ per machine — machine-affinity resolved for this target; writes still one machine at a time, let Dropbox settle).
@@ -95,7 +96,7 @@ ls -1 .claude/project-data/memory/*.md 2>/dev/null | wc -l
 | **This repo (the tool + vault)** | `~/Library/CloudStorage/Dropbox/Projects/Standard DocSet/` | Dropbox-synced across machines (`$HOME` differs per machine); the CLI tool itself. |
 | **Canonical source suite** | `docs/standards/` (this repo) | The vault IS the source — the authoritative set the tool propagates FROM (also its own adopted suite). |
 | **Target repo(s)** | `EverOn.Capital-Signal` — `~/Library/CloudStorage/Dropbox/Projects/EverOn.Capital-Signal` (Dropbox-synced; moved 2026-08-18) | Registered in `config/projects.toml` (local transport, `~` path — resolves per machine, so any machine syncing the folder can run reads/writes; ONE machine at a time, let Dropbox settle). Set v2.0 adopter, 2026-08-17 (PLAN-009 pilot). |
-| | `780-Automation` — `ssh:a780@172.16.10.61:/Users/a780/Projects/780-Automation` (team Mac, LAN) | Registered 2026-08-19 (ssh transport; key auth; LAN IP is DHCP — update the registry if it changes). Bootstrapped Set v2.1 same day via the portable kit (self-service). Migration to git transport planned when the project lands on the organization GitHub (re-opens DD-6b before any git write-back). |
+| | `780-Automation` — `ssh:a780@172.16.11.60:/Users/a780/Projects/780-Automation` (team Mac, LAN) | Registered 2026-08-19 (ssh transport; key auth; LAN IP is DHCP — changed 10.61→11.60, registry updated 2026-08-27). Bootstrapped Set v2.1 same day via the portable kit (self-service). Migration to git transport planned when the project lands on the organization GitHub (re-opens DD-6b before any git write-back). |
 | | `780-VPN` — `ssh:parsaazad@172.16.11.17:/Users/parsaazad/Library/CloudStorage/Dropbox/Projects/780-VPN` (team Mac, LAN) | Registered 2026-08-27 (ssh transport; key auth; LAN IP is DHCP — update the registry if it changes). Bootstrapped Set v2.2 on the team member's Mac (vault `3f5590a`). Remote path is Dropbox-synced on their side (one machine at a time). That Mac's clock ran +9d fast at bootstrap — target stamps future-dated (2026-09-02). |
 <!-- PROJECT-OWNED:END -->
 
