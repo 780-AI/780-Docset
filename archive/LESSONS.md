@@ -22,6 +22,7 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L070–L078 — First adopter-originated intake batch (rescued from 780-Automation)](#l070l078--first-adopter-originated-intake-batch-rescued-from-780-automation)
  - [L069 — The engine-owned lessons archive invites appends; adopter lessons need a visible channel and an intake gate](#l069--the-engine-owned-lessons-archive-invites-appends-adopter-lessons-need-a-visible-channel-and-an-intake-gate)
  - [L068 — Template cross-references must resolve in the adopter, not the vault](#l068--template-cross-references-must-resolve-in-the-adopter-not-the-vault)
  - [L067 — Ship-gating verification must exercise the NEW behavior itself](#l067--ship-gating-verification-must-exercise-the-new-behavior-itself)
@@ -144,6 +145,35 @@ where it lives now (which standards file, which section).>
 ---
 
 ## 3. The lessons (newest first)
+
+### L070–L078 — First adopter-originated intake batch (rescued from 780-Automation)
+
+**Date:** 2026-08-27 (intake; source incidents days earlier — the source Mac's clock ran fast,
+so its stamps read 2026-08-26..2026-09-01)
+**Project:** 780-Automation → Standard DocSet (vault)
+**Phase / Task:** the L069 rescue — Rule 16 gate exchange in the operator-visible chat (all nine
+confirmed by the operator, "all nine", 2026-08-27), integrated at Standard Set Version v2.3
+
+**Provenance record** (this is the project-voice entry; the full genericized lessons live in the
+canonical `docs/standards/LESSONS.md` — dual-voice practice per L068):
+
+| Vault # | Their # | Title (canonical) | Their origin |
+|---|---|---|---|
+| L070 | their L069 | Uniqueness key encoding an intent vs a cancelled attempt | their PLAN-003 C11 (scheduled triggers) |
+| L071 | their L070 | Documented override never exercised is not known to work | their PLAN-003 C10 (compose env seam) |
+| L072 | their L071 | Fan-out topic payload guarantees at that hop | their PLAN-003 D3.9 (Rule 13 re-run catch) |
+| L073 | their L072 | Structured-log extra keys vs reserved logging attributes | their PLAN-002 (event layer, 3 sites) |
+| L074 | their L073 | Side effect surviving an exception needs its own transaction | their PLAN-001 (auth failure auditing) |
+| L075 | their L074 | Gitignore pattern silently swallowing a shipped file | their PLAN-001 C1 (bootstrap foundation) |
+| L076 | their L075 | Scope-question plan gaps surfaced as options with a recommendation | their PLAN-003 T3.8 decision D11 |
+| L077 | their L076 | Pooled workers need per-child installation | their PLAN-004 Q4.6 fix-forward C10 |
+| L078 | their L077 | Date-relative fixtures vs worst-case window bounds | their PLAN-004 C1 baseline run |
+
+Their original full-text entries remain in 780-Automation's git history (their archive v1.1 +
+v1.2). Genericization dropped their project/file/spec names per the domain-neutral rule; content
+otherwise preserved. Discovered via the L069 incident; integrated under the first Rule 16 gate.
+
+---
 
 ### L069 — The engine-owned lessons archive invites appends; adopter lessons need a visible channel and an intake gate
 

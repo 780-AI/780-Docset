@@ -1,7 +1,8 @@
-<!-- VERSION: 1.10 -->
-<!-- Last Updated: 2026-08-19 -->
+<!-- VERSION: 1.11 -->
+<!-- Last Updated: 2026-08-27 -->
 <!--
 CHANGE LOG
+v1.11 — 2026-08-27 — Adopt Standard Set Version v2.3 (first adopter-originated lesson intake under the Rule 16 operator gate: L069–L078 + LESSONS ownership banner + SESSION_CLOSER binding E0NN rule). Counts → 78 lessons; own-instance state now 16 rules (project Rule 16 atop the Set's 15); added the v2.3 backport row.
 v1.10 — 2026-08-19 — Adopt Standard Set Version v2.2 (domain-neutral scrub: residual real-username example paths in MEMORY_PROTOCOL + PROJECT_INSTRUCTIONS_TEMPLATE → /Users/you/...). Counts unchanged (68 lessons / 15 rules); added the v2.2 backport row. Own adopter instances carry no operative change (neither scrubbed file is instantiated per-project).
 v1.9 — 2026-08-18 — Adopt Standard Set Version v2.1 (first harvest → integrate cycle, adopter entry E001: SESSION_CLOSER template § 1.2 → SET_VERSION_ADOPTED reference + lesson L068). Counts → 68 lessons; added the v2.1 backport row. Own-instance reconcile: `docs/SESSION_CLOSER.md` § 1.2 already reads the adoption record (customized at bootstrap) — no operative change; `archive/LESSONS.md` gains the project-specific L068 same-commit.
 v1.8 — 2026-08-17 — Adopt Standard Set Version v2.0 (PLAN-009 skill delivery: SETUP/NEW_PROJECT_BOOTSTRAP/MEMORY_DURABILITY_ROLLOUT_PROMPT retired; delivery = the vault-side live-reference standard-docset skill). Machinery retirement only — no operative-footprint change; counts unchanged (15 rules / 67 lessons); suite-contents bullet → 11 binding + 3 meta (+ STANDARDS_LOG); added the v2.0 backport row.
@@ -18,7 +19,10 @@ v1.0 — 2026-06-07 — Records adoption of Standard Set Version v1.0 (this repo
 
 This project adopts the standards suite at:
 
-- **Standard Set Version:** v2.2 (domain-neutral scrub — residual real-username example paths
+- **Standard Set Version:** v2.3 (first adopter-originated lesson intake, under the operator
+  gate: lessons L069–L078 — the intake-gate incident + nine rescued adopter lessons — plus the
+  LESSONS ownership banner and the SESSION_CLOSER § 1.7 binding E0NN codification rule.
+  Atop v2.2: domain-neutral scrub — residual real-username example paths
   genericized in MEMORY_PROTOCOL + PROJECT_INSTRUCTIONS_TEMPLATE, the identifier-token class.
   Atop v2.1: adopter-reference fix — SESSION_CLOSER § 1.2 reads the Set
   Version from the adoption record `docs/SET_VERSION_ADOPTED.md`; + lesson L068. The first Set
@@ -30,14 +34,16 @@ This project adopts the standards suite at:
   process-hardening L052–L056 + the L051 final-indentation recurrence, v1.3 Rule 13
   linter-enforcement L051, v1.2 durable-memory Rule 14, and v1.1 experiences-log template +
   `PROJECT-OWNED` markers)
-- **Adopted on:** 2026-08-19 (v2.1 adopted 2026-08-18; v2.0 adopted 2026-08-17; v1.6 adopted 2026-08-16; v1.5 adopted 2026-08-16; v1.4 adopted 2026-08-16; v1.3 adopted 2026-06-20; v1.2 adopted 2026-06-17; v1.1 adopted 2026-06-13; v1.0 baseline 2026-06-07)
+- **Adopted on:** 2026-08-27 (v2.2 adopted 2026-08-19; v2.1 adopted 2026-08-18; v2.0 adopted 2026-08-17; v1.6 adopted 2026-08-16; v1.5 adopted 2026-08-16; v1.4 adopted 2026-08-16; v1.3 adopted 2026-06-20; v1.2 adopted 2026-06-17; v1.1 adopted 2026-06-13; v1.0 baseline 2026-06-07)
 - **Source:** this repository's own `docs/standards/` — `Standard DocSet` both **authors** the
   canonical domain-neutral suite and **adopts** it to govern its own development.
 
 The adopted state:
 
-- **15 standing rules** in `CLAUDE.md` § 3 (Rules 1–15).
-- **68 lessons** (L001–L068) in `archive/LESSONS.md`.
+- **16 standing rules** in `CLAUDE.md` § 3 (Rules 1–15 from the Set + project-specific Rule 16,
+  the operator intake gate — vault-only; the template stays at 15).
+- **78 lessons** (L001–L078) in `archive/LESSONS.md` (L070–L078 recorded there as the
+  provenance-table intake entry; full genericized texts in the canonical file).
 - The suite per `docs/standards/STANDARDS_INDEX.md` (11 binding files + 3 meta files + the
   `STANDARDS_LOG.md` template).
 
@@ -50,6 +56,7 @@ the new adopted version below.
 
 | Set Version | Adopted on | Notes |
 |---|---|---|
+| v2.3 | 2026-08-27 | First adopter-originated lesson intake (nine lessons rescued from a team adopter's engine-owned archive — the L069 incident — genericized and integrated as L070–L078 under the new Rule 16 operator gate, all nine operator-confirmed) + L069 itself + LESSONS ownership banner (→ 1.1) + SESSION_CLOSER § 1.7 binding E0NN rule (→ 1.7). Own-instance reconcile same-commit: `archive/LESSONS.md` gains L070–L078 as the provenance-table entry (dual-voice); root `CLAUDE.md` already carries Rule 16 (added 2026-08-27, pre-release); own SESSION_CLOSER instance § 1.7 wording — vault codifies directly by design, no operative change. Counts → 78 lessons. |
 | v2.2 | 2026-08-19 | Domain-neutral scrub (identifier-token class, found by the v2.1 release-gate grep): 4 example paths `/Users/parsaazad/...` → `/Users/you/...` — MEMORY_PROTOCOL (3 sites, → 1.1) + PROJECT_INSTRUCTIONS_TEMPLATE (1 site, → 1.1). Counts unchanged (68/15). Own adopter instances: no operative change (neither file is instantiated per-project; MEMORY_PROTOCOL is replace-class in the SYNC_MAP — registered targets receive it at their next `sync`). |
 | v2.1 | 2026-08-18 | Adopter-reference fix (first harvest → integrate cycle, adopter entry E001): SESSION_CLOSER template § 1.2 retargeted `docs/standards/STANDARDS_INDEX.md` → `docs/SET_VERSION_ADOPTED.md` (adopters don't carry the INDEX; the adoption record exists on both sides) + lesson L068 (template cross-references must resolve in the adopter). Own-instance reconcile: `docs/SESSION_CLOSER.md` § 1.2 already reads the adoption record (customized at bootstrap v1.0) — no operative change; `archive/LESSONS.md` gains the project-specific L068 same-commit. Counts → 68 lessons. Also swept: stale standards README lesson count 48 → 68 (drifted since v1.4, L060-class). |
 | v2.0 | 2026-08-17 | Skill delivery (PLAN-009): `SETUP.md` + `NEW_PROJECT_BOOTSTRAP.md` + `MEMORY_DURABILITY_ROLLOUT_PROMPT.md` retired from the set; delivery is now the vault-side **live-reference standard-docset skill** (`skill/` + `scripts/bootstrap_skill.sh`; bootstrap + adopt modes; concierge default / self-service clone; step-0 self-pull). Machinery retirement — no adopter footprint change, `sync` unaffected; counts stay 15 rules / 67 lessons. Vault self-adoption same-commit per DD-H: delivery pointers swept in HOW_TO_USE (1.1) / README (1.1) / STANDARDS_LOG (1.1) / session templates (1.7 / 1.5); this repo's own adopter instances carry no operative change. |

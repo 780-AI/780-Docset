@@ -1,8 +1,12 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-08-27 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-08-27 — Standard Set Version v2.3: ownership/contribution banner added (adopter
+copies are engine-owned; contribute via STANDARDS_LOG E0NN — the L069 incident); lessons
+L069–L078 added (L069 the intake-gate incident itself; L070–L078 the first adopter-originated
+intake batch, genericized). Counts 68 → 78.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
@@ -13,6 +17,14 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 
 **Append-only.** Old lessons are never deleted, even if the underlying rule is later removed or revised — the historical context is what makes the current standards defensible. New lessons add at the **top** (newest first), matching the CHANGELOG convention.
 
+> **⚠️ OWNERSHIP — read before adding a lesson here.** In an **adopter project** this file is
+> **engine-owned**: the sync engine replaces it wholesale with the vault's canonical archive on
+> every sync, and anything appended directly here is **destroyed by the next `sync --write`**.
+> Project lessons are contributed as `E0NN` entries in `docs/STANDARDS_LOG.md` (Status: open) —
+> they reach the vault via harvest → integrate and return here, genericized, on a later sync.
+> Only the vault codifies directly into this archive. (See L069 for the incident behind this
+> banner.)
+
 **Why this file exists:** Standards documents capture *what* the rules are. This file captures *why* they exist. When a future contributor (or future-you in 18 months) wonders "why do we use fix-forward instead of amend?", the answer is here, with the specific incident attached as evidence. Without this archive, every rule eventually gets re-litigated by someone who didn't experience the original failure.
 
 ---
@@ -22,6 +34,16 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L078 — A date-relative fixture must respect the worst-case bound of the window it depends on](#l078--a-date-relative-fixture-must-respect-the-worst-case-bound-of-the-window-it-depends-on)
+ - [L077 — A pool that forks children needs per-child installation, not per-process](#l077--a-pool-that-forks-children-needs-per-child-installation-not-per-process)
+ - [L076 — A plan gap that is a scope question is surfaced as options, never resolved silently](#l076--a-plan-gap-that-is-a-scope-question-is-surfaced-as-options-never-resolved-silently)
+ - [L075 — A gitignore pattern can silently swallow a file the commit claims to ship](#l075--a-gitignore-pattern-can-silently-swallow-a-file-the-commit-claims-to-ship)
+ - [L074 — A side effect that must survive an exception needs its own transaction](#l074--a-side-effect-that-must-survive-an-exception-needs-its-own-transaction)
+ - [L073 — Structured-log extra keys must not collide with reserved logging attributes](#l073--structured-log-extra-keys-must-not-collide-with-reserved-logging-attributes)
+ - [L072 — Before subscribing to a fan-out topic, state what the payload guarantees at that hop](#l072--before-subscribing-to-a-fan-out-topic-state-what-the-payload-guarantees-at-that-hop)
+ - [L071 — A documented override that has never been exercised is not known to work](#l071--a-documented-override-that-has-never-been-exercised-is-not-known-to-work)
+ - [L070 — A uniqueness key that encodes an intent must not be consumed by a cancelled attempt](#l070--a-uniqueness-key-that-encodes-an-intent-must-not-be-consumed-by-a-cancelled-attempt)
+ - [L069 — The engine-owned lessons archive invites appends; adopter lessons need a visible channel and an intake gate](#l069--the-engine-owned-lessons-archive-invites-appends-adopter-lessons-need-a-visible-channel-and-an-intake-gate)
  - [L068 — Template cross-references must resolve in the adopter, not the vault](#l068--template-cross-references-must-resolve-in-the-adopter-not-the-vault)
  - [L067 — Ship-gating verification must exercise the NEW behavior itself](#l067--ship-gating-verification-must-exercise-the-new-behavior-itself)
  - [L066 — A liveness signal must come from the monitored layer's own traffic, on the monitor's own clock](#l066--a-liveness-signal-must-come-from-the-monitored-layers-own-traffic-on-the-monitors-own-clock)
@@ -143,6 +165,389 @@ where it lives now (which standards file, which section).>
 ---
 
 ## 3. The lessons (newest first)
+
+### L078 — A date-relative fixture must respect the worst-case bound of the window it depends on
+
+**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Project:** an adopter project (team) → vault intake
+**Phase / Task:** surfaced by a routine baseline test run after a calendar month roll-over
+
+#### Incident
+
+A database test inserted a record dated `now() − 100 days` into a month-partitioned table, with a
+comment confidently claiming the offset was "still inside the retained partitions". The retention
+window was now −3..+3 months — and three calendar months are **89 days at minimum** — so the
+fixture was legal on every day it had ever run and exploded on the first month roll-over after it
+was written ("no partition found for row"). The suite went red on a change that had nothing to do
+with it.
+
+#### Diagnosis
+
+The fixture was validated against the calendar of the day it was written, not against the
+worst-case geometry of the window it depended on. Date-relative test data ages: any
+`now()`-relative offset interacts with partition horizons, retention windows, and month lengths,
+and the failure appears only when the calendar shifts — long after the commit that planted it. A
+comment asserting safety without the arithmetic is how such landmines get trusted.
+
+#### Codification
+
+Any test fixture computed relative to `now()` must stay within the **worst-case** bound of the
+window it depends on (partition horizon, retention, cadence), and the bound's arithmetic belongs
+in the comment next to the offset — "still inside" claims without arithmetic are a review flag.
+When a suite fails on the first run of a new day/month, suspect calendar geometry before
+suspecting the diff.
+
+#### Cross-references
+
+- L037 (the midnight/wrap-window pitfall — the runtime sibling of this fixture-side lesson)
+- L051-family: a claim in a comment is not evidence; execute the arithmetic
+
+---
+
+### L077 — A pool that forks children needs per-child installation, not per-process
+
+**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Project:** an adopter project (team) → vault intake
+**Phase / Task:** feature-ON verification run (Rule 15) on a pooled background worker
+
+#### Incident
+
+Runtime wiring (service ports/handlers) was installed "once per process" — the API at app
+creation, the worker on its ready signal, a poller in `main()` — a rule previously codified after
+an earlier incident. A feature-ON run then showed the worker path behaving as if nothing had been
+installed, while the identical scenario through a single-process path behaved exactly as
+designed. The worker's **prefork children** — the processes that actually execute tasks — fork
+BEFORE the ready signal fires on the master, so every install done there was invisible to them.
+The gap had been latent for weeks: all prior evidence had exercised only single-process paths.
+
+#### Diagnosis
+
+"Every long-running process entry point installs" was the right rule at the wrong granularity. A
+pooled worker is not one process: the master that runs lifecycle signals and the children that
+run work are different address spaces, and mutable module state set after the fork point never
+reaches the children. Single-process evidence paths cannot surface this — only work executed in a
+real pool child can. Automated tests install their own wiring, so they are structurally blind to
+it.
+
+#### Codification
+
+Installation hooks must fire **in the process that executes the work** (for prefork pools: the
+per-child init signal, keeping the master-ready hook only for pool modes that run work in the
+master). When writing a "per process" checklist item, ask whether any listed process forks
+workers — if it does, the item is per-child there. Feature-ON verification of anything
+port-mediated must include at least one path through a real pool child.
+
+#### Cross-references
+
+- L067 / Rule 15 (the feature-ON discipline that caught it — this is the same shape one level deeper)
+
+---
+
+### L076 — A plan gap that is a scope question is surfaced as options, never resolved silently
+
+**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Project:** an adopter project (team) → vault intake
+**Phase / Task:** Phase 3 implementation — mid-task plan gap
+
+#### Incident
+
+A plan specified everything about a scheduled trigger except who it applies to when it fires. The
+implementer hit the gap mid-task. Filling it silently would have invented product behavior; a
+bare "the plan doesn't say" would have stalled the task with no way forward. Instead the gap was
+presented as three numbered options — build the minimal missing piece now, ship the machinery
+behind a hook that raises, or block the task — each with its stated consequence and one marked as
+the recommendation. The operator answered in a single line and the task shipped the same session,
+with the gap documented rather than papered over.
+
+#### Diagnosis
+
+The contract's § 10 ("never assume missing logic") says what **not** to do, and § 15.3 says a
+plan gap is a plan defect to surface — but neither says what good surfacing looks like. An
+under-specified surfacing ("what do you want here?") transfers the whole design problem back to
+the operator, who must reconstruct context the implementer already holds. The agent has the
+cheapest access to the option space; the operator has the only authority to choose within it.
+
+#### Codification
+
+A plan gap that is a **scope** question is surfaced as numbered options, each with its
+consequence stated, and one marked as the agent's recommendation — never resolved silently, and
+never returned as an open-ended question with no recommendation. The chosen option is recorded as
+a plan decision with the operator's reply quoted verbatim, so the reasoning survives the session.
+Where the chosen option leaves a known gap, it is documented as known-gap-by-design with the task
+that closes it named.
+
+#### Cross-references
+
+- `CLAUDE.md` § 10 (never assume) + § 15.3 (plan defects are surfaced, not filled)
+- L049 / Rule 13 (the pass that finds these gaps before the implementer does)
+
+---
+
+### L075 — A gitignore pattern can silently swallow a file the commit claims to ship
+
+**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Project:** an adopter project (team) → vault intake
+**Phase / Task:** project bootstrap foundation commit
+
+#### Incident
+
+A bootstrap `.gitignore` carried the rule `.env.*`, which also matched `.env.example` — a file
+the commit was meant to ship and which its CHANGELOG entry named in the `Files:` list.
+`git status` never showed the file, `git add -A` never staged it, and the Rule 6 reconcile ("does
+`git status` match the ALLOWLIST?") passed — because an ignored file is absent from `git status`
+by design. The gap surfaced two commits later, only because the CHANGELOG's `Files:` list was
+re-read against `git status` by hand.
+
+#### Diagnosis
+
+The Rule 6 check compares the ALLOWLIST against what `git status` reports, and `git status`
+cannot report a file it has been told to ignore. The check is therefore blind to exactly one
+failure class: a file that should be tracked but is ignored. Every other missing ALLOWLIST member
+would show up as a discrepancy; this one shows up as nothing at all.
+
+#### Codification
+
+Every path a commit claims to ship must be confirmed **tracked**, not merely absent from the diff
+— `git ls-files --error-unmatch <path>` fails loudly where `git status` stays silent. A negation
+rule (`!<file>`) belongs in `.gitignore` beside any broad pattern that could capture a
+deliberately-shipped file. A mechanical check ("every path in the newest CHANGELOG `Files:` field
+is tracked") is the right home for a failure that human review structurally cannot see.
+
+#### Cross-references
+
+- `CLAUDE.md` Rule 6 (verify agent claims via filesystem — and its blind spot)
+- L008 (manifest completeness — the same "claimed but not present" failure at the doc layer)
+
+---
+
+### L074 — A side effect that must survive an exception needs its own transaction
+
+**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Project:** an adopter project (team) → vault intake
+**Phase / Task:** authentication failure auditing
+
+#### Incident
+
+A failed login wrote an audit row and then raised, both inside the same database transaction. The
+raise rolled the transaction back, taking the audit row with it — the record of the failure was
+destroyed by the failure it was meant to record. Unit tests passed: they mocked the session, so
+rollback semantics never ran. The real-database test tier caught it.
+
+#### Diagnosis
+
+A transaction is an all-or-nothing boundary, and an audit row is precisely the thing that must
+**not** be nothing when the rest rolls back. The code read correctly line by line — write the
+row, then raise — and was wrong only in its transaction scope, which is invisible unless the
+reader is thinking about rollback. Any test double that stands in for the session erases the very
+semantics under test.
+
+#### Codification
+
+A side effect whose whole purpose is to outlive a failure — audit rows, failure counters,
+dead-letter writes, alert markers — must not share the failing transaction. It gets its own
+committed transaction, opened and closed before the raise. Corollary for validation: assertions
+about audit and side-effect durability belong in the real-database tier, never in a tier that
+mocks the session, because the guarantee under test is the database's, not the code's.
+
+#### Cross-references
+
+- `VALIDATION_STANDARDS.md` (tier selection — what belongs in the real-database tier)
+- L064 (validate on a version-matched runtime with real dependencies; fakes hide real semantics)
+
+---
+
+### L073 — Structured-log extra keys must not collide with reserved logging attributes
+
+**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Project:** an adopter project (team) → vault intake
+**Phase / Task:** event-layer implementation — three separate call sites in one session
+
+#### Incident
+
+Python's logging module reserves a set of `LogRecord` attribute names (`created`, `name`, `args`,
+`msg`, `module`, `levelname`, and others) and raises at runtime when a log call's `extra` dict
+shadows one (`KeyError: "Attempt to overwrite 'created' in LogRecord"`). The collision hit three
+separate sites in a single session, each found at runtime one at a time — the exception fires
+when the line **executes**, not when the module imports.
+
+#### Diagnosis
+
+The failure has no static signal — the call is well-typed, the key is an ordinary string, and a
+reviewer would have to carry the reserved-name list in their head. It also hides behind log-level
+and branch coverage: a key used only on an error path fails only on that error path, in
+production. Three recurrences in one session established that review is not a reliable gate for
+it.
+
+#### Codification
+
+Reserved logging attribute names are forbidden as `extra` keys, enforced **mechanically** rather
+than by review: a guard test greps the source for `extra={...}` literals and fails on any
+reserved key, catching every call site including the ones no test exercises. The general
+principle: when a failure mode is invisible to review and invisible until a specific line runs,
+the gate belongs in the test suite, not the checklist.
+
+#### Cross-references
+
+- `VALIDATION_STANDARDS.md` (guard tests as mechanical gates)
+- L072 / L075-family: mechanical checks for what review structurally cannot see
+
+---
+
+### L072 — Before subscribing to a fan-out topic, state what the payload guarantees at that hop
+
+**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Project:** an adopter project (team) → vault intake
+**Phase / Task:** event-pipeline design — caught by the Rule 13 senior-review pass
+
+#### Incident
+
+A design subscribed a new consumer to the fan-out topic every event-layer consumer already
+listened on. It would have raced a sibling consumer: at that hop the payload carries the raw
+event, and the identifier the new consumer needed is assigned **by** that sibling, downstream.
+The consumer would have seen events with the field missing — intermittently, depending on which
+consumer won. The Rule 13 pass caught it at design time; the fix was a second, downstream topic
+emitted inside the sibling's own transaction.
+
+#### Diagnosis
+
+A fan-out topic looks like an ordered pipeline stage from the subscriber's side — events arrive
+in order, so it is easy to assume everything that happens to an event has already happened. It
+has not. A topic guarantees only what its **producer** wrote into the payload at that point; a
+sibling consumer's effect is not part of the contract and is not ordered relative to yours.
+
+#### Codification
+
+Before subscribing a consumer to a fan-out topic, write down explicitly what the payload
+guarantees **at that hop** — which fields exist, and which are populated by downstream consumers.
+If the consumer needs another consumer's effect, it needs a **downstream topic** emitted inside
+that consumer's transaction, not a subscription to the shared one. Ordering between siblings on a
+fan-out topic is never a guarantee, and a race that depends on consumer scheduling is invisible
+in every single-consumer test.
+
+#### Cross-references
+
+- L049 / Rule 13 (the pass that caught this before any code was written)
+
+---
+
+### L071 — A documented override that has never been exercised is not known to work
+
+**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Project:** an adopter project (team) → vault intake
+**Phase / Task:** first task that genuinely needed a configured value to reach a container
+
+#### Incident
+
+An example env file instructed operators to create an override file at the repo root, and every
+`${VAR}` in a compose file was written to read from it. The tool interpolated `${VAR}` from the
+**compose file's** directory — not the repo root — so every documented override silently fell
+back to its in-file default. The defect shipped with the compose file and lived undetected until
+the first time a value genuinely **had** to reach a container (a secret). Fixed by passing the
+env file explicitly on every invocation.
+
+#### Diagnosis
+
+Nothing failed while the override was unnecessary, because falling back to the default produced a
+working stack. The documentation asserted a mechanism; the mechanism was never exercised; and the
+gap between assertion and behavior stayed invisible for as long as nobody depended on it. This is
+Rule 15's failure mode one layer down: Rule 15 catches a shipped **feature** never run; this is a
+shipped **configuration path** never run.
+
+#### Codification
+
+A documented configuration override is a claim, not a fact, until one run proves a non-default
+value actually reaches its consumer. Where the override path is cheap to exercise — and for
+env-var plumbing it always is — exercise it in the same commit that documents it: set one value
+to something distinguishable and read it back from inside the consumer. Config plumbing carries
+no tests by default, so the only evidence available is a run.
+
+#### Cross-references
+
+- `CLAUDE.md` Rule 15 (the same principle for behavior)
+- L067 (the incident behind Rule 15)
+
+---
+
+### L070 — A uniqueness key that encodes an intent must not be consumed by a cancelled attempt
+
+**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Project:** an adopter project (team) → vault intake
+**Phase / Task:** scheduled-trigger implementation — pause/re-activate lifecycle
+
+#### Incident
+
+Arming a scheduled action inserts one row under a unique key of (subject, version, fire instant)
+with `ON CONFLICT DO NOTHING` — the standard guard against double-arming. Pausing the subject
+**cancelled** that row rather than deleting it. Re-activating then tried to arm the same
+occurrence, hit the cancelled row's key, did nothing — and the subject came back armed with no
+schedule. Permanently silent, no error anywhere. Caught by a test asserting the whole
+pause/re-activate lifecycle, not by review of the insert.
+
+#### Diagnosis
+
+The key encodes an **intent** — "this should fire at this instant" — but the conflict action was
+written as though it encoded an **attempt**. A cancelled attempt still occupies the intent's key,
+so the key is consumed forever by an attempt that explicitly did not happen. `DO NOTHING` reads
+as obviously safe at the insert site; its wrongness is only visible from the row's whole
+lifecycle, which no single call site shows.
+
+#### Codification
+
+When a uniqueness key encodes an intent rather than an attempt, the conflict action must be
+decided **per terminal state**, explicitly: a cancelled or failed row is revivable
+(`DO UPDATE ... WHERE status = 'cancelled'`), a completed one is not (reviving it would
+double-fire). `DO NOTHING` is correct only where the key encodes the attempt itself. The test
+that proves it is a lifecycle test — arm, cancel, re-arm, assert the row is live again — because
+no single-step test can see a key being permanently consumed.
+
+#### Cross-references
+
+- L074 (transaction-scope sibling: correctness invisible at the single call site)
+
+---
+
+### L069 — The engine-owned lessons archive invites appends; adopter lessons need a visible channel and an intake gate
+
+**Date:** 2026-08-27
+**Project:** an adopter project (team) → vault
+**Phase / Task:** routine sync dry-run after a registry update — divergence investigation
+
+#### Incident
+
+A routine `sync` dry-run found an adopter's `archive/LESSONS.md` — replace-mode, engine-owned —
+carrying NINE well-formed project-originated lessons appended directly by the project's sessions,
+even continuing the canonical numbering. The project's `docs/STANDARDS_LOG.md` held zero E0NN
+entries, so `harvest` had reported "no open log entries" throughout — the misdirection was
+silent. A `sync --write` would have destroyed all nine lessons. The divergence surfaced only
+because a dry-run diffs actual file content.
+
+#### Diagnosis
+
+Three stacked causes. (1) **The delivered contract itself teaches lesson-appending** — "rules are
+added when something breaks" plus dozens of L0NN citations — so a disciplined agent session in
+the adopter did the vault-appropriate thing in the wrong repo. (2) **The ownership boundary was
+invisible at the point of use:** nothing inside the adopter's archive file marked it
+engine-owned/replace-mode or redirected to the E0NN channel. (3) **The log-recording discipline
+had no forcing function** at the moment a session writes a lesson (the L044 principle:
+forcing-function granularity must match failure granularity).
+
+#### Codification
+
+Three fixes at three layers. The ownership banner at the top of this file (visible at exactly the
+point of temptation); binding E0NN wording in the session-closer's lessons-learned step (the
+moment candidates are codified); and a vault-side operator gate on every intake — the complete
+candidate list, per-item plain-language explanations, and per-item recommendations presented in
+chat, with NO integration edit landing before explicit operator confirmation (per-intake, no
+standing authorization; rejected items marked in the source log, never silently dropped).
+
+#### Cross-references
+
+- The ownership banner at the top of this file
+- `SESSION_CLOSER.md` § 1.7 (the binding E0NN wording)
+- L044 (forcing-function cadence), L068 (adopter/vault perspective-mismatch class)
+- L070–L078 (the nine rescued lessons of this incident's intake batch)
+
+---
 
 ### L068 — Template cross-references must resolve in the adopter, not the vault
 

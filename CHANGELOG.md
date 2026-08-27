@@ -2,6 +2,45 @@
 
 Newest entries at the top.
 
+## [2026-08-27] — Standard Set Version v2.3: first adopter-originated lesson intake (L069–L078), under the Rule 16 gate
+
+- **Type:** Standards-suite release (Critical File `docs/standards/` — doc-only, no engine
+  change; Major workflow without a § 15 plan per the § 15.6 doc-only carve-out, operator-directed
+  — the E001/v2.1 precedent).
+- **What:** The nine lessons found in 780-Automation's engine-owned `archive/LESSONS.md` (the
+  L069 incident) are rescued: genericized (project/file/spec names dropped per the domain-neutral
+  rule) and integrated into the canonical LESSONS as **L070–L078** — uniqueness-key intent vs
+  attempt, unexercised config overrides, fan-out payload guarantees, reserved logging attributes,
+  side-effect transaction isolation, gitignore swallowing shipped files, scope-gaps-as-options,
+  per-child pool installation, date-relative fixture bounds. **L069** (the incident + three-layer
+  fix) added dual-voice (canonical genericized + vault archive project-specific, committed
+  earlier today at `8938bee`); the vault archive gains the L070–L078 provenance-table entry
+  (vault #, their #, origin — full texts live canonical-side). Prevention fixes ride the bump:
+  the LESSONS **ownership banner** (engine-owned in adopters; contribute via STANDARDS_LOG E0NN)
+  and the SESSION_CLOSER § 1.7 **binding where-codification-lands rule**. Counts 68 → 78
+  everywhere (INDEX § 1/§ 2/§ 3, README, SVA — L060-class sweep). Template rules stay 15
+  (Rule 16 is the vault's curator rule). **This intake ran under the first live Rule 16 gate:**
+  all nine listed + explained in chat (twice — once in plain words at operator request), operator
+  confirmed "all nine" 2026-08-27.
+- **QA scenarios (Rule 11 — pre-commit, outputs verbatim in the session chat):**
+  - QA-G1 ✅ 2026-08-27 — domain-neutral gate: `grep -rnic` for all fleet project identifiers
+    across `docs/standards/` = zero hits (the nine genericized entries leak no source names).
+  - QA-G2 ✅ 2026-08-27 — engine-as-oracle `sync` dry-run against the edited vault: BOTH
+    reachable targets show EXACTLY the intended 3-item delta — `archive/LESSONS.md` replace +
+    `docs/SESSION_CLOSER.md` merge + `docs/SET_VERSION_ADOPTED.md` record v2.2→v2.3 — and no
+    other item changed. (780-Automation unreachable at run time — host asleep; it is write-HELD
+    regardless pending the CLAUDE.md portability decision, and `sync --project` scoping keeps it
+    excluded from the write.)
+  - QA-G3 ⏸ — post-commit: `sync --write --project EverOn.Capital-Signal --project 780-VPN`,
+    then idempotence re-run (expect up-to-date 11/11 both) and target-side spot-greps (a rescued
+    lesson present in each target's archive; banner present; SVA v2.3 row).
+- **Held:** 780-Automation write stays blocked until the template environment-portability gap is
+  settled (planned v2.4) — its rescued originals are safe in its git history meanwhile.
+- **Versions:** LESSONS template 1.0→1.1, SESSION_CLOSER template 1.6→1.7, STANDARDS_INDEX
+  2.2→2.3, standards README 1.2→1.3, SET_VERSION_ADOPTED 1.10→1.11, manifest 2.29→2.30. Impact:
+  standards content release — no engine behavior change; adopters receive it as a normal 3-file
+  sync.
+
 ## [2026-08-27] — NEW Rule 16: operator confirmation gate on harvested content (the nine-orphaned-lessons incident)
 
 - **Type:** Operating-contract rule addition (Critical File root `CLAUDE.md`; operator-decreed,

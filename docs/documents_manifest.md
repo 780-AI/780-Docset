@@ -1,7 +1,14 @@
-<!-- VERSION: 2.29 -->
+<!-- VERSION: 2.30 -->
 <!-- Last Updated: 2026-08-27 -->
 <!--
 CHANGE LOG
+v2.30 — 2026-08-27 — Standard Set Version v2.3 (first adopter-originated lesson intake): bumped
+cells 10 (SET_VERSION_ADOPTED 1.10→1.11, v2.3 backport row), 12 (LESSONS template 1.0→1.1 —
+ownership banner + L069–L078; first header bump since baseline, banner is structural not
+per-lesson), 21 (SESSION_CLOSER template 1.6→1.7, § 1.7 binding E0NN rule), 22 (standards README
+1.2→1.3, count 68→78), 23 (STANDARDS_INDEX 2.2→2.3). Row 30 (adopter-copy archive) unchanged per
+the no-per-lesson-bump practice. Self-row 2.29 → 2.30 (grep-verified against the header per
+L063).
 v2.29 — 2026-08-27 — Rule 16 codification (operator intake gate): bumped cells 1 (root CLAUDE.md
 1.7→1.8, new Rule 16 + heading/bullet counts 15→16) + 8 (project SESSION_OPENER 1.12→1.13, § 3.2
 row 1). archive/LESSONS.md L069 added (archive excluded from the manifest per Rule 8; no
@@ -203,14 +210,14 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.29 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.30 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.11 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.13 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.5 | Governance | `docs/SESSION_CLOSER.md` |
-| 10 | Set Version Adopted | 1.10 | Governance | `docs/SET_VERSION_ADOPTED.md` |
+| 10 | Set Version Adopted | 1.11 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.5 | Standards | `docs/standards/CLAUDE.md` |
-| 12 | Lessons Archive (template) | 1.0 | Standards | `docs/standards/LESSONS.md` |
+| 12 | Lessons Archive (template) | 1.1 | Standards | `docs/standards/LESSONS.md` |
 | 13 | Project Standards | 1.0 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
 | 14 | Prompt Standards | 1.0 | Standards | `docs/standards/PROMPT_STANDARDS.md` |
 | 15 | Project Instructions Template | 1.1 | Standards | `docs/standards/PROJECT_INSTRUCTIONS_TEMPLATE.md` |
@@ -219,9 +226,9 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 18 | Validation Standards | 1.0 | Standards | `docs/standards/VALIDATION_STANDARDS.md` |
 | 19 | CI/CD Standards | 1.0 | Standards | `docs/standards/CICD_STANDARDS.md` |
 | 20 | Session Opener (template) | 1.7 | Standards | `docs/standards/SESSION_OPENER.md` |
-| 21 | Session Closer (template) | 1.6 | Standards | `docs/standards/SESSION_CLOSER.md` |
-| 22 | Standards README (meta) | 1.2 | Standards | `docs/standards/README.md` |
-| 23 | Standards Index (meta) | 2.2 | Standards | `docs/standards/STANDARDS_INDEX.md` |
+| 21 | Session Closer (template) | 1.7 | Standards | `docs/standards/SESSION_CLOSER.md` |
+| 22 | Standards README (meta) | 1.3 | Standards | `docs/standards/README.md` |
+| 23 | Standards Index (meta) | 2.3 | Standards | `docs/standards/STANDARDS_INDEX.md` |
 | 25 | How To Use (meta) | 1.1 | Standards | `docs/standards/HOW_TO_USE.md` |
 | 27 | Standards Log — experiences-log template (meta) | 1.1 | Standards | `docs/standards/STANDARDS_LOG.md` |
 | 28 | Doc Coverage Check | 0.1 | Governance script | `scripts/check_doc_coverage.py` |

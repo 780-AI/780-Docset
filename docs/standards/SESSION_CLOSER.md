@@ -1,8 +1,9 @@
-<!-- VERSION: 1.6 -->
-<!-- Last Updated: 2026-08-18 -->
+<!-- VERSION: 1.7 -->
+<!-- Last Updated: 2026-08-27 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.7 — 2026-08-27 — Standard Set Version v2.3: § 1.7 gains the BINDING where-codification-lands rule — in an adopter, confirmed lesson/rule candidates are recorded ONLY as STANDARDS_LOG E0NN entries, never appended to the engine-owned archive/LESSONS.md or own suite files (the L069 incident: nine adopter lessons nearly destroyed by sync).
 v1.6 — 2026-08-18 — Standard Set Version v2.1 (first harvest → integrate cycle, adopter entry E001): § 1.2 Set-Version reference retargeted docs/standards/STANDARDS_INDEX.md → docs/SET_VERSION_ADOPTED.md — adopters don't carry the INDEX (vault-side file); the adoption record exists on both sides (lesson L068).
 v1.5 — 2026-08-17 — Standard Set Version v2.0 (PLAN-009): End-of-file bootstrap pointer retargeted — the delivery skill instantiates the project-local copy during bootstrap (was: walk the retired NEW_PROJECT_BOOTSTRAP.md).
 v1.4 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008 sync-enablement): TEMPLATE-ONLY banner block + PROJECT-OWNED instance-heading block, so section-merge sync never propagates template banners and preserves the adopter's heading.
@@ -119,6 +120,14 @@ Review the session transcript for candidate codifications. Output goes into both
 - **Codify now** (same wrap-up commit) — if confidence is high and operator confirms
 - **Add to `OPEN_TASKS.md` "Lesson candidates"** — if needs confirmation, more proof, or pattern hasn't been proven across multiple instances yet
 - **Discard** — if not significant enough to codify (operator decides)
+
+**Where codification lands (BINDING — see canonical LESSONS L069):** in an **adopter project**, a
+confirmed lesson/rule candidate is recorded ONLY as a new `E0NN` entry in `docs/STANDARDS_LOG.md`
+(Status: open, full entry schema). It is NEVER appended to `archive/LESSONS.md` — that file is
+engine-owned and replaced wholesale on sync, so direct appends are destroyed by the next
+`sync --write` — and never written into the project's own suite files. The entry flows to the
+vault via harvest → integrate, and the integrated lesson returns on a later sync. Only the vault
+codifies directly into the canonical archive.
 
 Surface all candidates in the § 4 output block with recommendation per candidate (codify / queue / discard).
 
