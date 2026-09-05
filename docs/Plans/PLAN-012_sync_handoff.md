@@ -1,8 +1,9 @@
-<!-- VERSION: 0.2 -->
+<!-- VERSION: 0.3 -->
 <!-- Last Updated: 2026-09-05 -->
-<!-- Status: DRAFT (awaiting Phase 2 operator approval) -->
+<!-- Status: APPROVED (Phase 2 landed 2026-09-05 — operator: "approve plan 012"; Phase 3 runs in a fresh session) -->
 <!--
 CHANGE LOG
+v0.3 — 2026-09-05 — Phase 2 operator approval recorded ("approve plan 012"). Status DRAFT → APPROVED. No content change.
 v0.2 — 2026-09-05 — Operator-directed re-review ("double check the plan… consistency check with
 the whole code base"): full-codebase write-path sweep found the gap — `integrate --write`
 write-back ALSO writes into targets (STANDARDS_LOG status flips) with no explanation left.
@@ -69,7 +70,7 @@ smaller scale (an unexplained modified STANDARDS_LOG).
 
 - Phase 0 — Audit: ✅ 2026-09-05 (extended by the v0.2 full-write-path sweep)
 - Phase 1 — Design + Rule 13 pass: ✅ 2026-09-05 (v0.1); re-run ✅ 2026-09-05 (v0.2)
-- Phase 2 — Operator approval: ⏸ awaiting "APPROVE PLAN-012"
+- Phase 2 — Operator approval: ✅ 2026-09-05 — "approve plan 012" (on the v0.2 draft)
 - Phase 3 — Implement (fresh session, single commit): ⏸
 - Phase 4 — Validate (QA-H1..H6): ⏸
 - Phase 5 — Operator gate (push + tag set-v2.5): ⏸

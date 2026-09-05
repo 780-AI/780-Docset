@@ -2,6 +2,14 @@
 
 Newest entries at the top.
 
+## [2026-09-05] — PLAN-012 APPROVED (Phase 2): "approve plan 012"
+
+- **Type:** Plan bookkeeping (approval record; no behavior change).
+- **What:** Operator approval landed on the v0.2 draft; plan + tracker → 0.3 / APPROVED. Phase 3
+  (implement, single commit, 12-file ALLOWLIST, ships Set v2.5) runs in a FRESH session per
+  § 15.3 — handoff via the committed plan + the local register.
+- **Versions:** PLAN-012 + tracker 0.2→0.3, manifest 2.35→2.36. Impact: none at runtime.
+
 ## [2026-09-05] — PLAN-012 hardened to v0.2: the handoff now covers BOTH engine write paths
 
 - **Type:** Plan revision (design only; no behavior change).

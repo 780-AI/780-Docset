@@ -1,8 +1,9 @@
-<!-- VERSION: 0.2 -->
+<!-- VERSION: 0.3 -->
 <!-- Last Updated: 2026-09-05 -->
-<!-- Status: DRAFT (tracks PLAN-012; promoted to 1.0/CLOSED with the plan) -->
+<!-- Status: APPROVED (tracks PLAN-012; promoted to 1.0/CLOSED with the plan) -->
 <!--
 CHANGE LOG
+v0.3 — 2026-09-05 — Phase 2 approval recorded ("approve plan 012").
 v0.2 — 2026-09-05 — Plan hardened to v0.2 (operator-directed re-review): scope extended to the
 integrate write-back (the second engine write path, found by the full-codebase sweep); handoff
 gains operation line + manifest-exemption step; QA-H6 added (write-back feature-ON at the E001
@@ -38,7 +39,7 @@ QA-H1..H5).
 
 ## Phase 2 — Operator approval
 
-- ⏸ awaiting **"APPROVE PLAN-012"** (on the v0.2 draft).
+- ✅ 2026-09-05 — operator: **"approve plan 012"** (on the v0.2 draft; recorded at plan v0.3).
 
 ## Phase 3 — Implement (fresh session; single commit; ALLOWLIST-bounded)
 
