@@ -1,8 +1,10 @@
 # ==============================================================
-# VERSION: 0.5
+# VERSION: 0.6
 # End-to-end tests for the CLI (status / drift / harvest / integrate / sync).
 #
 # CHANGE LOG
+# v0.6 — 2026-09-05 — PLAN-012: handoff coverage — `sync --write` leaves docs/SYNC_HANDOFF.md
+#         (content + not-a-SYNC_MAP-item idempotence) and the integrate write-back leaves it too.
 # v0.5 — 2026-08-16 — PLAN-008: five sync tests — empty registry; dry-run writes nothing;
 #         --write applies + idempotent second run; unknown --project errors; per-target
 #         failure isolation (exit 1, healthy targets still synced).
@@ -157,6 +159,9 @@ def test_integrate_apply_write_local_writes(
     assert main(["--vault", str(root), "integrate", "--apply", str(decisions), "--write"]) == 0
     assert "wrote" in capsys.readouterr().out
     assert "rejected — n/a" in log.read_text(encoding="utf-8")
+    handoff = (proj / "docs" / "SYNC_HANDOFF.md").read_text(encoding="utf-8")
+    assert "- **Operation:** integrate write-back" in handoff
+    assert "`docs/STANDARDS_LOG.md` (write-back)" in handoff
 
 
 def test_status_git_target_row_computed(
@@ -233,6 +238,24 @@ def test_sync_write_applies_and_second_run_is_up_to_date(
     sva = (target / "docs" / "SET_VERSION_ADOPTED.md").read_text(encoding="utf-8")
     assert "- **Standard Set Version:** v1.5 (synced from the vault by the engine" in sva
     assert main(["--vault", str(vault), "sync", "--write"]) == 0
+    assert "up-to-date" in capsys.readouterr().out
+
+
+def test_sync_write_leaves_handoff_and_dry_run_stays_up_to_date(
+    make_suite_pair: MakePair, write_registry: Make, capsys: pytest.CaptureFixture[str]
+) -> None:
+    vault, target = make_suite_pair()
+    write_registry(vault, [("acme", target)])
+    assert main(["--vault", str(vault), "sync", "--write"]) == 0
+    assert "(incl. the handoff)" in capsys.readouterr().out
+    handoff = (target / "docs" / "SYNC_HANDOFF.md").read_text(encoding="utf-8")
+    assert "SYNC HANDOFF" in handoff
+    assert "- **Operation:** sync --write" in handoff
+    assert "- **Vault Standard Set Version:** v1.5" in handoff
+    assert "`CLAUDE.md` (merge)" in handoff
+    assert "delete this handoff" in handoff
+    # the handoff is not a SYNC_MAP item: a converged target stays up-to-date
+    assert main(["--vault", str(vault), "sync"]) == 0
     assert "up-to-date" in capsys.readouterr().out
 
 

@@ -1,8 +1,11 @@
 # ==============================================================
-# VERSION: 0.1
+# VERSION: 0.2
 # Section-aware suite propagation (`sync`): replace | merge | record per file.
 #
 # CHANGE LOG
+# v0.2 — 2026-09-05 — PLAN-012: HANDOFF_REL + render_handoff — EVERY engine write into a target
+#         (sync --write AND integrate write-back) leaves a handoff report so the target's next
+#         session finds engine-landed changes explained.
 # v0.1 — 2026-08-16 — Initial: SYNC_MAP, marker-block parsing (PROJECT-OWNED /
 #         TEMPLATE-ONLY), header split + minor-bump, merge_file, record_adoption,
 #         plan_target / apply_actions / render_plan (PLAN-008).
@@ -298,4 +301,58 @@ def render_plan(project_name: str, actions: list[FileAction], *, show_diff: bool
             )
             lines.append("")
             lines.append("".join(diff).rstrip("\n"))
+    return "\n".join(lines)
+
+
+HANDOFF_REL = Path("docs/SYNC_HANDOFF.md")
+
+
+def render_handoff(
+    project_name: str, operation: str, set_version: str, today: str, files: list[tuple[str, str]]
+) -> str:
+    """The handoff report every engine write leaves in the target (PLAN-012).
+
+    Written on every write — `sync --write` and the integrate write-back — so
+    the target's NEXT session finds engine-landed changes explained: what was
+    written, by which operation and vault release, and the residual bookkeeping
+    the engine deliberately leaves to the target (manifest cells, CHANGELOG
+    entry, the landing commit). The target session deletes the file in the
+    commit that lands the changes; the next engine write recreates it.
+    """
+    lines = [
+        "# SYNC HANDOFF — engine-written changes landed in this repository",
+        "",
+        "> **READ ME FIRST.** The Standard DocSet engine wrote the files below directly",
+        "> into this working tree. They are NOT unexplained local edits. Land them per § 2,",
+        "> then DELETE this file in that same commit.",
+        "",
+        "## 1. What the engine did",
+        "",
+        f"- **Project:** {project_name}",
+        f"- **Operation:** {operation}",
+        f"- **Vault Standard Set Version:** {set_version}",
+        f"- **Run date:** {today} (stamped by the curator machine's clock — if stamp ordering",
+        "  looks wrong against local history, trust an external time authority)",
+        "- **Files written (suite-owned sections updated; PROJECT-OWNED blocks preserved):**",
+    ]
+    for rel, mode in files:
+        lines.append(f"  - `{rel}` ({mode})")
+    lines += [
+        "",
+        "## 2. What this project's next session must do (the engine does NOT do these)",
+        "",
+        "1. Review the diffs (`git diff`) against the file list above.",
+        "2. Reconcile `docs/documents_manifest.md` version cells for the files above (skip any",
+        "   whose header version did not move).",
+        "3. Add a CHANGELOG entry recording the engine write (operation + file list).",
+        "4. Commit the engine-written files + bookkeeping together — and **delete this handoff",
+        "   file in that commit** (done = deleted).",
+        "5. Do NOT add this file to the project's manifest — it is engine-transient (Rule 8",
+        "   exempt by design); it must never survive a landing commit.",
+        "6. New lessons/observations still land ONLY as `E0NN` entries in",
+        "   `docs/STANDARDS_LOG.md` — never in engine-owned files.",
+        "",
+        "*Engine-generated on every engine write; the next write rewrites it.*",
+        "",
+    ]
     return "\n".join(lines)

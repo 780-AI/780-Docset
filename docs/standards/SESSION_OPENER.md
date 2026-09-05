@@ -1,8 +1,9 @@
-<!-- VERSION: 1.7 -->
-<!-- Last Updated: 2026-08-17 -->
+<!-- VERSION: 1.8 -->
+<!-- Last Updated: 2026-09-05 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.8 — 2026-09-05 — Standard Set Version v2.5 (PLAN-012): § 1.1 engine-handoff check — if docs/SYNC_HANDOFF.md exists (or git status shows engine-modified suite files), read it FIRST and land it per its § 2 before any other work.
 v1.7 — 2026-08-17 — Standard Set Version v2.0 (PLAN-009): End-of-file bootstrap pointer retargeted — the delivery skill instantiates the project-local copy during bootstrap (was: walk the retired NEW_PROJECT_BOOTSTRAP.md Step <N>).
 v1.6 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008 sync-enablement): TEMPLATE-ONLY banner block + PROJECT-OWNED instance-heading block, so section-merge sync never propagates template banners and preserves the adopter's heading.
 v1.5 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): § 1.5 rewritten memory-link → project-data locality (claude_project_data.sh status; fix verbs link/adopt); § 1.3 read-the-register-WHOLE note; § 4 output line Memory link → Project data; § 3.1 row 14 upgraded (all project data) + new rows 16 (Rule 15 feature-ON verification) + 17 (L063 stamp-vs-log).
@@ -45,6 +46,8 @@ git status --short # working-tree dirt
 Replace `<main-branch>` with `main` / `master` per project convention.
 
 If a local register (`OPEN_TASKS.md`) or a tracker records a push-state ("unpushed" / "push held"), reconcile it against the **real** remote (`git ls-remote origin <main-branch>`) — not the local remote-tracking cache — before trusting it (per `LESSONS.md` L055). Committed trackers stay frozen at their commit; only the live register is reconciled.
+
+**Engine-handoff check:** if `docs/SYNC_HANDOFF.md` exists — or `git status` shows modified suite files this project's sessions did not change — the Standard DocSet engine landed changes here. Read the handoff FIRST and land it per its § 2 steps (review diffs → manifest cells → CHANGELOG entry → one commit that also deletes the handoff) BEFORE any other work. Engine-written changes are explained changes, never unknown edits.
 
 ### 1.2 Live system state (read-only — skip if task is purely local)
 - **Staging deploy SHA**: `ssh <staging-user>@<staging-host> "cat <staging-deploy-marker> 2>/dev/null"`

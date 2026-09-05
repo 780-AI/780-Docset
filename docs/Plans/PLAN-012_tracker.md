@@ -1,8 +1,11 @@
-<!-- VERSION: 0.3 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-09-05 -->
-<!-- Status: APPROVED (tracks PLAN-012; promoted to 1.0/CLOSED with the plan) -->
+<!-- Status: CLOSED (Phase 3 shipped 2026-09-05; QA-H1..H4 ✅; H5/H6 open at their defined triggers; Phase 5 push pending) -->
 <!--
 CHANGE LOG
+v1.0 — 2026-09-05 — Phase 3 + QA-H1..H4 recorded (fresh implementer session): reconcile pass
+clean, § 5 applied byte-for-byte, spec map walked; fleet write delivered the handoff to the two
+reachable targets (780-Automation down — catch-up pending). Promoted with the plan per § 15.5.
 v0.3 — 2026-09-05 — Phase 2 approval recorded ("approve plan 012").
 v0.2 — 2026-09-05 — Plan hardened to v0.2 (operator-directed re-review): scope extended to the
 integrate write-back (the second engine write path, found by the full-codebase sweep); handoff
@@ -43,17 +46,26 @@ QA-H1..H5).
 
 ## Phase 3 — Implement (fresh session; single commit; ALLOWLIST-bounded)
 
-- ⏸ reconcile pass (plan § 5 anchors vs live source; any mismatch = named plan defect D1…).
-- ⏸ apply § 5a–5h byte-for-byte; § 6 spec map (architecture § 7 paragraph, INDEX v2.5, SVA,
-  manifest, CHANGELOG); promote plan + tracker to 1.0/CLOSED.
+- ✅ 2026-09-05 — reconcile pass clean: every § 5 FIND anchor byte-matched live source (engine
+  hooks, test anchors, template L055 paragraph, LESSONS 9+1 date anchors); no plan defect.
+- ✅ 2026-09-05 — § 5a–5h applied byte-for-byte; § 6 spec map walked (architecture § 7 handoff
+  paragraph 0.11→0.12, INDEX v2.5 incl. the stuck-at-v2.2 § 3 caption unstuck (L063), SVA
+  1.13 + v2.5 row, manifest 2.37, CHANGELOG v2.5 release entry); plan + tracker → 1.0/CLOSED.
 
 ## Phase 4 — Validate
 
-- ⏸ QA-H1 — ruff / mypy-delta / pytest 111 (re-run at ship; incl. integrate handoff asserts).
-- ⏸ QA-H2 — pre-release fleet dry-run oracle: exactly the 3-item v2.5 delta per target.
-- ⏸ QA-H3 — feature-ON (sync half): v2.5 `sync --write` delivers `docs/SYNC_HANDOFF.md` to all
-  three targets (spot-grep each).
-- ⏸ QA-H4 — idempotence: dry-run re-run up-to-date 11/11 everywhere.
+- ✅ QA-H1 — 2026-09-05 — ruff clean; mypy delta zero (src 25↔25; full config 42↔42 vs HEAD
+  baseline); pytest 111 passed (sync handoff test + integrate write-back asserts included).
+- ✅ QA-H2 — 2026-09-05 — dry-run oracle exact on both reachable targets (CS + 780-VPN: the
+  3-item delta — LESSONS replace + SESSION_OPENER merge + SVA record — and nothing else).
+  780-Automation UNREACHABLE (ssh timeout, host down; warn+skip as designed).
+- ✅ QA-H3 — 2026-09-05 — feature-ON (sync half, Rule 15): `sync --write` delivered
+  `docs/SYNC_HANDOFF.md` to CS + 780-VPN ("wrote + flushed 4 file(s) (incl. the handoff)");
+  content read back on BOTH targets — correct project, operation `sync --write`, v2.5,
+  clock-caveated run date, exact 3-file (rel, mode) list. Evidence verdict: matches design.
+  780-Automation pending host-up (catch-up write; spot-grep then).
+- ✅ QA-H4 — 2026-09-05 — immediate dry-run re-run: up-to-date 11/11 on both written targets
+  (handoff presence does not perturb the plan).
 - ⏸ QA-H5 — loop closure: a target session lands a sync per the handoff + deletes it
   (operator-observed; first observation closes).
 - ⏸ QA-H6 — feature-ON (write-back half): fires at the pending E001 intake (780-VPN's open

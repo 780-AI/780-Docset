@@ -1,7 +1,15 @@
-<!-- VERSION: 2.36 -->
+<!-- VERSION: 2.37 -->
 <!-- Last Updated: 2026-09-05 -->
 <!--
 CHANGE LOG
+v2.37 — 2026-09-05 — PLAN-012 Phase 3 implemented (Standard Set Version v2.5 — sync handoff):
+bumped cells 7 (architecture 0.11→0.12, § 7 handoff paragraph), 10 (SET_VERSION_ADOPTED
+1.12→1.13, v2.5 backport row), 12 (LESSONS template 1.1→1.2, L069–L078 date-line corrections),
+20 (template SESSION_OPENER 1.7→1.8, § 1.1 engine-handoff check), 23 (STANDARDS_INDEX 2.4→2.5),
+46 (cli 0.5→0.6, both write paths leave the handoff), 51 (test_cli 0.5→0.6, handoff coverage),
+72 (sync 0.1→0.2, HANDOFF_REL + render_handoff); promoted PLAN-012 + tracker (80–81) 0.3/APPROVED
+→ 1.0/CLOSED. docs/SYNC_HANDOFF.md is engine-transient in TARGETS — never manifest-listed on
+either side by design. Self-row 2.36 → 2.37 (grep-verified against the header per L063).
 v2.36 — 2026-09-05 — PLAN-012 Phase 2 approval recorded ("approve plan 012"): rows 80–81 → 0.3
 (DRAFT → APPROVED). Phase 3 runs in a fresh session per § 15.3. Self-row 2.35 → 2.36
 (grep-verified against the header per L063).
@@ -233,14 +241,14 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.36 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.37 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
-| 7 | Architecture (system-design record) | 0.11 | Docs | `docs/architecture.md` |
+| 7 | Architecture (system-design record) | 0.12 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.15 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.6 | Governance | `docs/SESSION_CLOSER.md` |
-| 10 | Set Version Adopted | 1.12 | Governance | `docs/SET_VERSION_ADOPTED.md` |
+| 10 | Set Version Adopted | 1.13 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.6 | Standards | `docs/standards/CLAUDE.md` |
-| 12 | Lessons Archive (template) | 1.1 | Standards | `docs/standards/LESSONS.md` |
+| 12 | Lessons Archive (template) | 1.2 | Standards | `docs/standards/LESSONS.md` |
 | 13 | Project Standards | 1.0 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
 | 14 | Prompt Standards | 1.0 | Standards | `docs/standards/PROMPT_STANDARDS.md` |
 | 15 | Project Instructions Template | 1.1 | Standards | `docs/standards/PROJECT_INSTRUCTIONS_TEMPLATE.md` |
@@ -248,10 +256,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 17 | Engineering Standards | 1.0 | Standards | `docs/standards/ENGINEERING_STANDARDS.md` |
 | 18 | Validation Standards | 1.0 | Standards | `docs/standards/VALIDATION_STANDARDS.md` |
 | 19 | CI/CD Standards | 1.0 | Standards | `docs/standards/CICD_STANDARDS.md` |
-| 20 | Session Opener (template) | 1.7 | Standards | `docs/standards/SESSION_OPENER.md` |
+| 20 | Session Opener (template) | 1.8 | Standards | `docs/standards/SESSION_OPENER.md` |
 | 21 | Session Closer (template) | 1.7 | Standards | `docs/standards/SESSION_CLOSER.md` |
 | 22 | Standards README (meta) | 1.3 | Standards | `docs/standards/README.md` |
-| 23 | Standards Index (meta) | 2.4 | Standards | `docs/standards/STANDARDS_INDEX.md` |
+| 23 | Standards Index (meta) | 2.5 | Standards | `docs/standards/STANDARDS_INDEX.md` |
 | 25 | How To Use (meta) | 1.1 | Standards | `docs/standards/HOW_TO_USE.md` |
 | 27 | Standards Log — experiences-log template (meta) | 1.1 | Standards | `docs/standards/STANDARDS_LOG.md` |
 | 28 | Doc Coverage Check | 0.1 | Governance script | `scripts/check_doc_coverage.py` |
@@ -272,12 +280,12 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 43 | Engine — registry loader | 0.2 | Engine | `src/standard_document_updater/registry.py` |
 | 44 | Engine — Set-Version / open-log parsers | 0.2 | Engine | `src/standard_document_updater/setversion.py` |
 | 45 | Engine — comparison report | 0.2 | Engine | `src/standard_document_updater/report.py` |
-| 46 | Engine — CLI (status / drift / harvest / integrate / sync) | 0.5 | Engine | `src/standard_document_updater/cli.py` |
+| 46 | Engine — CLI (status / drift / harvest / integrate / sync) | 0.6 | Engine | `src/standard_document_updater/cli.py` |
 | 47 | Engine test — shared fixtures | 0.2 | Engine test | `tests/conftest.py` |
 | 48 | Engine test — setversion | 0.2 | Engine test | `tests/test_setversion.py` |
 | 49 | Engine test — registry | 0.2 | Engine test | `tests/test_registry.py` |
 | 50 | Engine test — report | 0.2 | Engine test | `tests/test_report.py` |
-| 51 | Engine test — cli | 0.5 | Engine test | `tests/test_cli.py` |
+| 51 | Engine test — cli | 0.6 | Engine test | `tests/test_cli.py` |
 | 52 | Engine — experiences-log entry parser | 0.1 | Engine | `src/standard_document_updater/logentry.py` |
 | 53 | Engine — harvest report (open-entry consolidation) | 0.1 | Engine | `src/standard_document_updater/harvest.py` |
 | 54 | Engine test — logentry | 0.1 | Engine test | `tests/test_logentry.py` |
@@ -297,7 +305,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 69 | PLAN-010 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-010_tracker.md` |
 | 70 | PLAN-008 — Slice 5: sync (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-008_sync.md` |
 | 71 | PLAN-008 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-008_tracker.md` |
-| 72 | Engine — section-aware suite propagation (sync) | 0.1 | Engine | `src/standard_document_updater/sync.py` |
+| 72 | Engine — section-aware suite propagation (sync) | 0.2 | Engine | `src/standard_document_updater/sync.py` |
 | 73 | Engine test — sync | 0.1 | Engine test | `tests/test_sync.py` |
 | 74 | PLAN-009 — skill-based delivery (Set v2.0) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-009_skill_delivery.md` |
 | 75 | PLAN-009 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-009_tracker.md` |
@@ -305,8 +313,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 77 | Delivery skill — bootstrap mode | 0.2 | Delivery | `skill/modes/bootstrap.md` |
 | 78 | Delivery skill — adopt mode | 0.2 | Delivery | `skill/modes/adopt.md` |
 | 79 | Delivery-skill installer (per-machine symlink) | 0.1 | Delivery | `scripts/bootstrap_skill.sh` |
-| 80 | PLAN-012 — sync handoff report (APPROVED) | 0.3 | Plan | `docs/Plans/PLAN-012_sync_handoff.md` |
-| 81 | PLAN-012 tracker (APPROVED) | 0.3 | Plan | `docs/Plans/PLAN-012_tracker.md` |
+| 80 | PLAN-012 — sync handoff report (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-012_sync_handoff.md` |
+| 81 | PLAN-012 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-012_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not

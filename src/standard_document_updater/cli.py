@@ -1,8 +1,11 @@
 # ==============================================================
-# VERSION: 0.5
+# VERSION: 0.6
 # Command-line interface: `python -m standard_document_updater <command>`.
 #
 # CHANGE LOG
+# v0.6 — 2026-09-05 — PLAN-012: every engine write leaves docs/SYNC_HANDOFF.md in the target —
+#                     `sync --write` (per written target, listing the changed files) AND the
+#                     integrate write-back (per flushed target); write-notes updated.
 # v0.5 — 2026-08-16 — PLAN-008 (Slice 5): add the `sync` subcommand (dry-run report by default;
 #                     --write applies + flushes per target; --project filter; --diff). Per-target
 #                     failure is isolated (continue others, exit 1 at the end).
@@ -119,10 +122,24 @@ def _cmd_integrate(args: argparse.Namespace) -> int:
         log_path_for = {name: root / "docs" / "STANDARDS_LOG.md" for name, root in roots.items()}
         report_lines = integrate.apply_writeback(dispositions, log_path_for, write=args.write)
         if args.write:
+            set_version = "v" + ".".join(str(n) for n in setversion.parse_vault_version(index))
+            today = date.today().isoformat()
             count = len(dispositions)
             message = f"Standard DocSet: integrate write-back ({count} status update(s))"
             for name in sorted(named & set(targets)):
-                targets[name].flush(roots[name], [Path("docs/STANDARDS_LOG.md")], message)
+                (roots[name] / sync.HANDOFF_REL).write_text(
+                    sync.render_handoff(
+                        name,
+                        "integrate write-back",
+                        set_version,
+                        today,
+                        [("docs/STANDARDS_LOG.md", "write-back")],
+                    ),
+                    encoding="utf-8",
+                )
+                targets[name].flush(
+                    roots[name], [Path("docs/STANDARDS_LOG.md"), sync.HANDOFF_REL], message
+                )
     print("\n".join(report_lines))
     return 0
 
@@ -160,12 +177,23 @@ def _cmd_sync(args: argparse.Namespace) -> int:
                 changed = [a for a in actions if a.changed]
                 if args.write and changed:
                     written = sync.apply_actions(root, changed)
+                    (root / sync.HANDOFF_REL).write_text(
+                        sync.render_handoff(
+                            project.name,
+                            "sync --write",
+                            set_version,
+                            today,
+                            [(a.target_rel, a.mode) for a in changed],
+                        ),
+                        encoding="utf-8",
+                    )
+                    written.append(sync.HANDOFF_REL)
                     message = f"Standard DocSet: sync to Standard Set Version {set_version}"
                     target.flush(root, written, message)
-                    print(f"  -> wrote + flushed {len(written)} file(s)")
+                    print(f"  -> wrote + flushed {len(written)} file(s) (incl. the handoff)")
                     print(
                         "  note: sync does not edit the target's documents_manifest — "
-                        "reconcile its cells at that project's next session"
+                        "docs/SYNC_HANDOFF.md tells the target's next session what remains"
                     )
         except StandardDocSetError as exc:  # incl. TransportError / SyncError: isolate the target
             print(f"error: {project.name}: {exc}", file=sys.stderr)

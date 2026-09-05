@@ -2,6 +2,43 @@
 
 Newest entries at the top.
 
+## [2026-09-05] — Standard Set Version v2.5 RELEASED: sync handoff — every engine write explains itself (PLAN-012 Phase 3)
+
+- **Type:** Engine behavior change + Set Version release (Major per § 4 — Critical Files
+  touched; § 15 plan Phase 3, single commit).
+- **What:** Every engine write into a target now leaves **`docs/SYNC_HANDOFF.md`** in that
+  target and flushes it with the changed files — BOTH write paths: `sync --write` (per written
+  target, listing the changed `(file, mode)` set) and the `integrate --write` write-back (per
+  flushed target). The handoff states project, operation, vault Set Version, run date (with a
+  clock-trust caveat pending E001's trusted-clock intake), and the six residual-bookkeeping
+  steps (review diffs → manifest cells → CHANGELOG entry → one landing commit that also deletes
+  the handoff; never manifest-listed — engine-transient, Rule 8 exempt by design; new lessons
+  still land only as STANDARDS_LOG E0NN entries). NOT a SYNC_MAP item — converged targets still
+  report up-to-date with a handoff present. Template side (Set v2.5): SESSION_OPENER → 1.8
+  (§ 1.1 engine-handoff check — read the handoff FIRST, land per its § 2, before any other
+  work); riding the release: LESSONS → 1.2 (L069–L078 date lines corrected — the vault clock
+  ran ~9d slow at intake; no content change). Architecture § 7 gains the handoff paragraph
+  (0.11→0.12, § 4 drift rule). En passant: STANDARDS_INDEX § 3 caption unstuck from v2.2 (L063
+  drift). Engine: sync.py 0.1→0.2 (`HANDOFF_REL` + `render_handoff`), cli.py 0.5→0.6 (both
+  hooks + write-notes), test_cli.py 0.5→0.6 (+1 end-to-end sync-handoff test, +2 write-back
+  assertions).
+- **QA scenarios (Rule 11/15 — statuses live in PLAN-012_tracker.md):**
+  - QA-H1 ✅ 2026-09-05 — ruff clean; mypy delta zero (src 25↔25; full config 42↔42 vs HEAD);
+    pytest 111 passed at ship indentation.
+  - QA-H2 ✅ 2026-09-05 — dry-run oracle exact on both reachable targets (CS + 780-VPN: the
+    3-item delta and nothing else); 780-Automation host DOWN (warn+skip as designed).
+  - QA-H3 ✅ 2026-09-05 — feature-ON sync half (Rule 15): handoff delivered to CS + 780-VPN,
+    content read back and verified against design; 780-Automation catch-up pending host-up.
+  - QA-H4 ✅ 2026-09-05 — idempotence: dry-run re-run up-to-date 11/11 on both written targets.
+  - QA-H5 ⏸ — loop closure: a target session lands + deletes the handoff (operator-observed).
+  - QA-H6 ⏸ — feature-ON write-back half: fires at the pending E001 intake (named trigger;
+    engine behavior already test-covered under QA-H1).
+- **Versions:** sync 0.1→0.2, cli 0.5→0.6, test_cli 0.5→0.6, template SESSION_OPENER 1.7→1.8,
+  template LESSONS 1.1→1.2, STANDARDS_INDEX 2.4→2.5, SET_VERSION_ADOPTED 1.12→1.13,
+  architecture 0.11→0.12, manifest 2.36→2.37, PLAN-012 + tracker 0.3→1.0/CLOSED.
+- **Impact:** yes — every engine write now also writes one extra file (the handoff) into the
+  target and includes it in the flush. Dry-run, worksheet, and read-only commands unchanged.
+
 ## [2026-09-05] — PLAN-012 APPROVED (Phase 2): "approve plan 012"
 
 - **Type:** Plan bookkeeping (approval record; no behavior change).

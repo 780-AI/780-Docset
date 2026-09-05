@@ -1,8 +1,11 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-08-27 -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-09-05 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.2 — 2026-09-05 — Standard Set Version v2.5 (PLAN-012, riding the release): L069–L078 date
+lines corrected — the vault machine's clock ran ~9 days slow at intake (real date 2026-09-05,
+stamped 2026-08-27). Date-line corrections only; no lesson content change.
 v1.1 — 2026-08-27 — Standard Set Version v2.3: ownership/contribution banner added (adopter
 copies are engine-owned; contribute via STANDARDS_LOG E0NN — the L069 incident); lessons
 L069–L078 added (L069 the intake-gate incident itself; L070–L078 the first adopter-originated
@@ -168,7 +171,7 @@ where it lives now (which standards file, which section).>
 
 ### L078 — A date-relative fixture must respect the worst-case bound of the window it depends on
 
-**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Date:** 2026-09-05 (vault intake — originally stamped 2026-08-27 by the vault machine's slow clock; the source project's own stamps were accurate)
 **Project:** an adopter project (team) → vault intake
 **Phase / Task:** surfaced by a routine baseline test run after a calendar month roll-over
 
@@ -206,7 +209,7 @@ suspecting the diff.
 
 ### L077 — A pool that forks children needs per-child installation, not per-process
 
-**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Date:** 2026-09-05 (vault intake — originally stamped 2026-08-27 by the vault machine's slow clock; the source project's own stamps were accurate)
 **Project:** an adopter project (team) → vault intake
 **Phase / Task:** feature-ON verification run (Rule 15) on a pooled background worker
 
@@ -245,7 +248,7 @@ port-mediated must include at least one path through a real pool child.
 
 ### L076 — A plan gap that is a scope question is surfaced as options, never resolved silently
 
-**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Date:** 2026-09-05 (vault intake — originally stamped 2026-08-27 by the vault machine's slow clock; the source project's own stamps were accurate)
 **Project:** an adopter project (team) → vault intake
 **Phase / Task:** Phase 3 implementation — mid-task plan gap
 
@@ -285,7 +288,7 @@ that closes it named.
 
 ### L075 — A gitignore pattern can silently swallow a file the commit claims to ship
 
-**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Date:** 2026-09-05 (vault intake — originally stamped 2026-08-27 by the vault machine's slow clock; the source project's own stamps were accurate)
 **Project:** an adopter project (team) → vault intake
 **Phase / Task:** project bootstrap foundation commit
 
@@ -322,7 +325,7 @@ is tracked") is the right home for a failure that human review structurally cann
 
 ### L074 — A side effect that must survive an exception needs its own transaction
 
-**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Date:** 2026-09-05 (vault intake — originally stamped 2026-08-27 by the vault machine's slow clock; the source project's own stamps were accurate)
 **Project:** an adopter project (team) → vault intake
 **Phase / Task:** authentication failure auditing
 
@@ -358,7 +361,7 @@ mocks the session, because the guarantee under test is the database's, not the c
 
 ### L073 — Structured-log extra keys must not collide with reserved logging attributes
 
-**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Date:** 2026-09-05 (vault intake — originally stamped 2026-08-27 by the vault machine's slow clock; the source project's own stamps were accurate)
 **Project:** an adopter project (team) → vault intake
 **Phase / Task:** event-layer implementation — three separate call sites in one session
 
@@ -395,7 +398,7 @@ the gate belongs in the test suite, not the checklist.
 
 ### L072 — Before subscribing to a fan-out topic, state what the payload guarantees at that hop
 
-**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Date:** 2026-09-05 (vault intake — originally stamped 2026-08-27 by the vault machine's slow clock; the source project's own stamps were accurate)
 **Project:** an adopter project (team) → vault intake
 **Phase / Task:** event-pipeline design — caught by the Rule 13 senior-review pass
 
@@ -432,7 +435,7 @@ in every single-consumer test.
 
 ### L071 — A documented override that has never been exercised is not known to work
 
-**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Date:** 2026-09-05 (vault intake — originally stamped 2026-08-27 by the vault machine's slow clock; the source project's own stamps were accurate)
 **Project:** an adopter project (team) → vault intake
 **Phase / Task:** first task that genuinely needed a configured value to reach a container
 
@@ -470,7 +473,7 @@ no tests by default, so the only evidence available is a run.
 
 ### L070 — A uniqueness key that encodes an intent must not be consumed by a cancelled attempt
 
-**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)
+**Date:** 2026-09-05 (vault intake — originally stamped 2026-08-27 by the vault machine's slow clock; the source project's own stamps were accurate)
 **Project:** an adopter project (team) → vault intake
 **Phase / Task:** scheduled-trigger implementation — pause/re-activate lifecycle
 
@@ -508,7 +511,7 @@ no single-step test can see a key being permanently consumed.
 
 ### L069 — The engine-owned lessons archive invites appends; adopter lessons need a visible channel and an intake gate
 
-**Date:** 2026-08-27
+**Date:** 2026-09-05 (originally stamped 2026-08-27 — the vault machine's clock ran ~9 days slow)
 **Project:** an adopter project (team) → vault
 **Phase / Task:** routine sync dry-run after a registry update — divergence investigation
 

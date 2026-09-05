@@ -1,8 +1,15 @@
-<!-- VERSION: 0.3 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-09-05 -->
-<!-- Status: APPROVED (Phase 2 landed 2026-09-05 — operator: "approve plan 012"; Phase 3 runs in a fresh session) -->
+<!-- Status: CLOSED (Phase 3 shipped 2026-09-05 as Standard Set Version v2.5; QA-H1..H4 verified; H5/H6 close later per their defined triggers; Phase 5 push + tag at the operator gate) -->
 <!--
 CHANGE LOG
+v1.0 — 2026-09-05 — Phase 3 implemented in a fresh session (single commit, 12-file ALLOWLIST):
+reconcile pass clean (no plan defects); § 5a–5h applied byte-for-byte; § 6 spec map walked
+(architecture § 7 paragraph, INDEX v2.5, SVA v2.5 row, manifest, CHANGELOG). QA-H1 ✅ (ruff
+clean, mypy delta zero src 25↔25 + full 42↔42, pytest 111). QA-H2 ✅ + QA-H3 ✅ + QA-H4 ✅ on the
+two reachable targets (CS + 780-VPN — exact 3-item delta, handoff delivered + content verified,
+re-run up-to-date 11/11); 780-Automation host DOWN at QA time (warn+skip as designed — catch-up
+write when it returns). Promoted to 1.0/CLOSED per § 15.5.
 v0.3 — 2026-09-05 — Phase 2 operator approval recorded ("approve plan 012"). Status DRAFT → APPROVED. No content change.
 v0.2 — 2026-09-05 — Operator-directed re-review ("double check the plan… consistency check with
 the whole code base"): full-codebase write-path sweep found the gap — `integrate --write`
@@ -71,8 +78,10 @@ smaller scale (an unexplained modified STANDARDS_LOG).
 - Phase 0 — Audit: ✅ 2026-09-05 (extended by the v0.2 full-write-path sweep)
 - Phase 1 — Design + Rule 13 pass: ✅ 2026-09-05 (v0.1); re-run ✅ 2026-09-05 (v0.2)
 - Phase 2 — Operator approval: ✅ 2026-09-05 — "approve plan 012" (on the v0.2 draft)
-- Phase 3 — Implement (fresh session, single commit): ⏸
-- Phase 4 — Validate (QA-H1..H6): ⏸
+- Phase 3 — Implement (fresh session, single commit): ✅ 2026-09-05
+- Phase 4 — Validate (QA-H1..H6): 🔄 H1–H4 ✅ 2026-09-05 (H3 on the 2 reachable targets;
+  780-Automation down — catch-up pending); H5 (target loop closure) + H6 (E001 intake) close at
+  their defined later triggers
 - Phase 5 — Operator gate (push + tag set-v2.5): ⏸
 
 ## 5. Verbatim transformation rules (code proven in overlay; Phase 3 copies byte-for-byte)

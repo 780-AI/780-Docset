@@ -1,7 +1,8 @@
-<!-- VERSION: 0.11 -->
-<!-- Last Updated: 2026-08-17 -->
+<!-- VERSION: 0.12 -->
+<!-- Last Updated: 2026-09-05 -->
 <!--
 CHANGE LOG
+v0.12 — 2026-09-05 — PLAN-012 (sync handoff, Standard Set Version v2.5) landed. § 7 adds the sync-handoff paragraph: every engine write (sync --write AND integrate write-back) also writes + flushes the engine-owned transient docs/SYNC_HANDOFF.md into the target (render_handoff/HANDOFF_REL; project, operation, Set Version, run date with clock caveat, (file, mode) list, six residual steps ending delete-on-landing); not a SYNC_MAP item (idempotence); never manifest-listed (Rule 8 exempt by design); read by the SESSION_OPENER template § 1.1 engine-handoff check.
 v0.11 — 2026-08-17 — PLAN-009 (skill delivery, Standard Set Version v2.0) landed. § 3 machinery row → never enters the project (SETUP/NPB/MDRP retired from the suite at v2.0). § 4 rewritten: delivery = the vault-side live-reference standard-docset skill (symlink resolve + step-0 self-pull; copies from the live docs/standards/; stamps SET_VERSION_ADOPTED with Set Version + vault commit; no crate, no strip; bootstrap | adopt modes, adopt dry-run gated; concierge default / self-service clone). § 8 `setup` row → `skill` row. § 10 appends roadmap item 6 (delivery layer ✅). § 11 records the PLAN-009 decisions (D-1…D-5) as DECIDED.
 v0.10 — 2026-08-16 — PLAN-008 (Slice 5: `sync`) landed. § 7 adds the sync-enablement additions (TEMPLATE-ONLY marker convention; ordinal PROJECT-OWNED block matching with strict count check; § 14 stub-keep). § 8 marks sync implemented ✅ + behavior note (dry-run default; --write/--project/--diff; per-target isolation exit 1; target manifest deliberately not edited; mechanical SVA record update); transport paragraph += full-footprint sessions (DD-B: full=True materializes docs/ + archive/ + root CLAUDE.md). § 10 ticks Slice 5 ✅ — the harvest → integrate → sync loop is complete. § 11 records the PLAN-008 decisions (D1/D2 + DD-A…DD-I) as DECIDED. Ships with Standard Set Version v1.6 (sync-enablement markers) in the same commit.
 v0.9 — 2026-06-23 — PLAN-007 (remote-target transport) landed. § 1 adds the "Reach" note (local or remote git/ssh via a pluggable transport; no server). § 8 registry note → per-target `transport` + connection fields; new "Transport" paragraph (materialize → operate → flush; git fast-forward push; per-target failure non-fatal for reads). § 9 read-before-write extended to fetch-fresh materialization + per-target atomic write-back. § 10 marks PLAN-007 ✅ done. § 11 records the transport decisions (D1–D4 / DD-1…DD-6) as DECIDED. Engine behavior added; read-only on the vault (no docs/standards/ edit) → no Set Version change.
@@ -166,6 +167,18 @@ ordinal matching.
 **The enabling protocol:** per-file `VERSION` headers + the `Set Version` are what make drift
 machine-detectable ("is this project's copy behind the vault?"). The suite's own discipline *is* the
 protocol the engine runs on.
+
+**The sync handoff (PLAN-012, Set Version v2.5).** EVERY engine write into a target — `sync --write`
+AND the `integrate --write` write-back — also writes the engine-owned transient
+**`docs/SYNC_HANDOFF.md`** into that target (rendered by `sync.render_handoff`; path constant
+`sync.HANDOFF_REL`) and includes it in the flushed file set. The handoff explains the write to the
+target's NEXT session: project, operation, vault Set Version, run date (with a clock-trust caveat),
+the `(file, mode)` list, and the six residual-bookkeeping steps the engine deliberately leaves to the
+target (review diffs → manifest cells → CHANGELOG entry → one landing commit that also deletes the
+handoff). It is NOT a `SYNC_MAP` item — a converged target still reports up-to-date with a handoff
+present (idempotence) — and it is never manifest-listed on either side (engine-transient, Rule 8
+exempt by design; it must never survive a landing commit). The target-side reader is the
+SESSION_OPENER template's § 1.1 engine-handoff check.
 
 ## 8. The engine (command surface)
 

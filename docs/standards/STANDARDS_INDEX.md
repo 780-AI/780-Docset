@@ -1,8 +1,9 @@
-<!-- VERSION: 2.4 -->
-<!-- Last Updated: 2026-08-27 -->
+<!-- VERSION: 2.5 -->
+<!-- Last Updated: 2026-09-05 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v2.5 — 2026-09-05 — Standard Set Version v2.5 (PLAN-012 sync handoff): every engine write into a target (sync --write AND integrate write-back) now leaves the engine-transient docs/SYNC_HANDOFF.md explaining what landed + what remains; SESSION_OPENER → 1.8 (§ 1.1 engine-handoff check); LESSONS → 1.2 (L069–L078 date-line corrections — the vault clock ran ~9d slow at intake). § 1 block → v2.5; § 3 caption → v2.5 (caption had drifted, stuck at v2.2 — L063 class) + cells (SESSION_OPENER 1.8, LESSONS 1.2, STANDARDS_INDEX 2.5); § 6 history entry. Counts unchanged (78 lessons / 15 rules).
 v2.4 — 2026-08-27 — Standard Set Version v2.4 (environment portability): template CLAUDE.md → 1.6 (Rule 2 Runner note — command examples are generic, substitute runner/CI flavor at run time, never localize suite-owned text; Rule 5 + § 8.6 neutralized). § 1 block → v2.4; § 3 cells (CLAUDE 1.6, STANDARDS_INDEX 2.4); § 6 history entry. Counts unchanged (78 lessons / 15 rules).
 v2.3 — 2026-08-27 — Standard Set Version v2.3 (first adopter-originated lesson intake, under the new operator gate): lessons L069–L078 added to LESSONS.md (L069 the intake-gate incident; L070–L078 the nine rescued adopter lessons, genericized) + LESSONS ownership banner + SESSION_CLOSER § 1.7 binding where-codification-lands rule. § 1 block → v2.3 (counts → 78 lessons); § 2 row 9 → 78; § 3 caption → v2.3 + cells (LESSONS 1.1, SESSION_CLOSER 1.7, README 1.3, STANDARDS_INDEX 2.3) + lesson total → 78; § 6 history entry added. No rule change (the intake gate is a vault-side curator rule — Rule 16 in the vault's own contract; template rules stay 15).
 v2.2 — 2026-08-19 — Standard Set Version v2.2 (domain-neutral scrub): 4 example paths carrying a real username (survived the v1.0 genericization; found by the v2.1 gate grep) scrubbed to `/Users/you/...` — MEMORY_PROTOCOL (3) + PROJECT_INSTRUCTIONS_TEMPLATE (1), both → 1.1. § 1 block → v2.2 (counts unchanged — 68 lessons / 15 rules); § 3 caption → v2.2 + cells (MEMORY_PROTOCOL 1.1, PROJECT_INSTRUCTIONS_TEMPLATE 1.1, STANDARDS_INDEX 2.2); § 6 history entry added. No rule or lesson content change.
@@ -44,9 +45,9 @@ Version** tracks the suite as a whole — files added, structure changed, patter
 ## 1. Standard Set Version (current)
 
 ```
-Standard Set Version: v2.4
-Released:             2026-08-27
-Baseline:             v2.3 (first adopter-originated lesson intake L069–L078 + ownership banner + closer E0NN rule) + environment portability: the contract's command examples are generic (Runner note) — adopters substitute their Python runner / CI flavor at run time instead of editing suite-owned text.
+Standard Set Version: v2.5
+Released:             2026-09-05
+Baseline:             v2.4 (environment portability — the Runner note) + sync handoff: every engine write into a target (`sync --write` AND the integrate write-back) leaves `docs/SYNC_HANDOFF.md` explaining what landed and what bookkeeping remains; SESSION_OPENER § 1.1 gains the engine-handoff check; LESSONS L069–L078 date lines corrected (vault clock skew).
 Adopter contract:     11 binding files + 3 meta files (+ STANDARDS_LOG.md); 78 lessons (L001–L078); 15 standing rules in CLAUDE.md
 ```
 
@@ -94,7 +95,7 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 
 ## 3. Per-file version table
 
-Current state as of Set Version v2.2 (2026-08-19). Files unchanged since v1.0 keep their 2026-06-07 dates.
+Current state as of Set Version v2.5 (2026-09-05). Files unchanged since v1.0 keep their 2026-06-07 dates.
 
 | File | Tier | Version | Last Updated |
 |---|---|---|---|
@@ -106,11 +107,11 @@ Current state as of Set Version v2.2 (2026-08-19). Files unchanged since v1.0 ke
 | `ENGINEERING_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `VALIDATION_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `CICD_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
-| `LESSONS.md` | Binding | 1.1 | 2026-08-27 |
-| `SESSION_OPENER.md` | Binding | 1.7 | 2026-08-17 |
+| `LESSONS.md` | Binding | 1.2 | 2026-09-05 |
+| `SESSION_OPENER.md` | Binding | 1.8 | 2026-09-05 |
 | `SESSION_CLOSER.md` | Binding | 1.7 | 2026-08-27 |
 | `README.md` | Meta | 1.3 | 2026-08-27 |
-| `STANDARDS_INDEX.md` | Meta | 2.4 | 2026-08-27 |
+| `STANDARDS_INDEX.md` | Meta | 2.5 | 2026-09-05 |
 | `HOW_TO_USE.md` | Meta | 1.1 | 2026-08-17 |
 | `STANDARDS_LOG.md` | Meta | 1.1 | 2026-08-17 |
 
@@ -173,6 +174,26 @@ coordinated multi-file pattern is a Set-Version Minor; a structural change is a 
 ## 6. Standard Set Version history
 
 Newest first. Append-only.
+
+### v2.5 — 2026-09-05 — Sync handoff (every engine write explains itself)
+
+Additive Minor (PLAN-012). A target session opened to four engine-written uncommitted files it
+did not make and had to reverse-engineer their provenance. Fix at the engine-write boundary
+(L044's forcing-function-at-failure-granularity applied): **every engine write into a target** —
+`sync --write` AND the `integrate --write` write-back — now also writes the engine-owned
+transient **`docs/SYNC_HANDOFF.md`** into that target and flushes it with the changed files. The
+handoff states project, operation, vault Set Version, run date (with a clock-trust caveat), the
+`(file, mode)` list, and the six residual-bookkeeping steps (review diffs → manifest cells →
+CHANGELOG entry → one landing commit that also deletes the handoff; never manifest-listed —
+engine-transient, Rule 8 exempt by design; new lessons still land only as STANDARDS_LOG E0NN
+entries). It is NOT a SYNC_MAP item — a converged target still reports up-to-date with a handoff
+present. The reader side: SESSION_OPENER → 1.8 (§ 1.1 engine-handoff check — read the handoff
+FIRST, land per its § 2, before any other work). Riding the release: LESSONS → 1.2 (L069–L078
+date lines corrected — the vault machine's clock ran ~9 days slow at intake; real date
+2026-09-05, stamped 2026-08-27; no lesson content change). Counts unchanged (78 lessons / 15
+rules). Sync note: adopters receive a 3-item delta (SESSION_OPENER merge + LESSONS replace +
+SET_VERSION_ADOPTED record) — plus `docs/SYNC_HANDOFF.md` itself appears with the write: land it
+per its own § 2 and delete it in the landing commit.
 
 ### v2.4 — 2026-08-27 — Environment portability (the Runner note)
 
