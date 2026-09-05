@@ -1,8 +1,17 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-09-05 -->
 <!-- Status: DRAFT (awaiting Phase 2 operator approval) -->
 <!--
 CHANGE LOG
+v0.2 — 2026-09-05 — Operator-directed re-review ("double check the plan… consistency check with
+the whole code base"): full-codebase write-path sweep found the gap — `integrate --write`
+write-back ALSO writes into targets (STANDARDS_LOG status flips) with no explanation left.
+Design generalized: EVERY engine write leaves the handoff (render_handoff gains `operation` +
+`(rel, mode)` files; integrate flush hook added). Handoff § 2 gains the manifest-exemption step
+(protects git-transport targets' Rule 8 / doc-coverage gates from the engine-committed handoff).
+E001's trusted-clock suggestion explicitly routed to its own intake (§ 3). Overlay re-proven:
+ruff clean, mypy delta zero (25↔25), pytest 111 passed (sync + integrate handoff tests). Rule 13
+pass re-run + re-recorded.
 v0.1 — 2026-09-05 — Initial draft (Phase 0 audit + Phase 1 design). Code developed + tool-proven
 in a scratch overlay FIRST (proven-code-first pattern): ruff lint clean, mypy error-delta zero
 vs baseline (25 pre-existing both sides), pytest 111 passed (+1 new). Rule 13 pass recorded
@@ -13,48 +22,56 @@ below same-day.
 
 ## 1. Goal
 
-Every `sync --write` that changes a target leaves **`docs/SYNC_HANDOFF.md`** in that target: what
-the engine wrote, at which Standard Set Version, and the exact residual bookkeeping the target's
-next session must do (manifest cells, CHANGELOG entry, landing commit, delete-the-handoff). The
-SESSION_OPENER **template** gains a § 1.1 handoff check so any session opening an adopter reads
-the handoff FIRST instead of facing unexplained modified files. Ships as **Standard Set Version
-v2.5**, which also carries the canonical LESSONS date-line corrections from the 2026-09-05
-clock-skew finding.
+**Every engine write into a target** — `sync --write` AND the `integrate --write` write-back —
+leaves **`docs/SYNC_HANDOFF.md`** in that target: what the engine wrote, by which operation and
+vault Standard Set Version, and the exact residual bookkeeping the target's next session must do
+(review diffs, manifest cells, CHANGELOG entry, one landing commit that also deletes the
+handoff). The SESSION_OPENER **template** gains a § 1.1 handoff check so any session opening an
+adopter reads the handoff FIRST instead of facing unexplained modified files. Ships as **Standard
+Set Version v2.5**, which also carries the canonical LESSONS date-line corrections from the
+2026-09-05 clock-skew finding.
 
 **Origin (operator directive, 2026-09-05):** a 780-VPN session opened to four engine-written
 uncommitted files it did not make and had to reverse-engineer their provenance. Operator: *"after
 any change there should be a hands-off report so claude code in other projects will not face
-unknown changes to the files."* This is the L044 principle applied to the sync boundary: the
-forcing function (the handoff file) fires at exactly the granularity of the failure (every engine
-write into a repo someone else will open).
+unknown changes to the files."* This is the L044 principle applied to the engine-write boundary:
+the forcing function (the handoff file) fires at exactly the granularity of the failure (every
+engine write into a repo someone else will open). The v0.2 re-review confirmed "any change" must
+mean BOTH engine write paths — the write-back would otherwise reproduce the same incident on a
+smaller scale (an unexplained modified STANDARDS_LOG).
 
 ## 2. Operator constraints
 
-- The handoff must appear on **every** write, every transport (local / ssh / git) — no opt-out.
-- No behavior change to what the engine writes otherwise; dry-run untouched.
+- The handoff must appear on **every** engine write, every operation, every transport (local /
+  ssh / git) — no opt-out.
+- No other behavior change; dry-run and worksheet paths untouched.
 - The target-side ritual stays lightweight: read → land → delete (done = deleted).
 
 ## 3. Scope summary
 
-- **Engine:** `sync.py` gains `HANDOFF_REL` + `render_handoff(...)` (pure text). `cli.py`
-  `_cmd_sync` writes the handoff after `apply_actions` and appends it to the flushed set, so
-  every transport carries it in the same flush; console note updated.
-- **Tests:** one end-to-end test — write leaves the handoff with correct content; a converged
-  target still reports up-to-date (the handoff is not a SYNC_MAP item).
-- **Template (Set v2.5):** SESSION_OPENER § 1.1 handoff check.
+- **Engine (`sync.py`):** `HANDOFF_REL` + `render_handoff(project, operation, set_version,
+  today, files)` (pure text; files as `(rel, mode)` tuples so both call sites fit).
+- **Engine (`cli.py`):** `_cmd_sync` writes the handoff after `apply_actions` and appends it to
+  the flushed set; `_cmd_integrate`'s write branch writes it per flushed target and includes it
+  in the flush list. Console notes updated.
+- **Tests:** sync end-to-end handoff test (content + converged-target idempotence) + handoff
+  assertions added to the existing integrate write-back test.
+- **Template (Set v2.5):** SESSION_OPENER § 1.1 engine-handoff check.
 - **Riding the same release:** canonical LESSONS date-line corrections (L069–L078 stamped
-  2026-08-27 by the slow vault clock; real date 2026-09-05).
-- **Out of scope:** integrate's STANDARDS_LOG write-back (single-file, self-explanatory —
-  recorded as a § 11 risk/candidate); making the handoff a SYNC_MAP item (it must not be —
-  idempotence).
+  2026-08-27 by the then-slow vault clock; real date 2026-09-05).
+- **Out of scope (explicitly routed elsewhere):** the trusted-clock engine change suggested by
+  780-VPN's **E001** (derive "today" from a trusted source / newest-stamp floor + refuse when
+  behind) — that arrives via its own harvest → Rule 16 gate → integrate cycle and, being
+  behavior-affecting, its own plan. The handoff's run-date line carries a clock-trust caveat in
+  the meantime. Also out: making the handoff a SYNC_MAP item (it must not be — idempotence).
 
 ## 4. Phase tracker (high-level — granular sub-tasks in PLAN-012_tracker.md)
 
-- Phase 0 — Audit: ✅ 2026-09-05
-- Phase 1 — Design (this file) + Rule 13 pass: ✅ 2026-09-05
+- Phase 0 — Audit: ✅ 2026-09-05 (extended by the v0.2 full-write-path sweep)
+- Phase 1 — Design + Rule 13 pass: ✅ 2026-09-05 (v0.1); re-run ✅ 2026-09-05 (v0.2)
 - Phase 2 — Operator approval: ⏸ awaiting "APPROVE PLAN-012"
 - Phase 3 — Implement (fresh session, single commit): ⏸
-- Phase 4 — Validate (QA-H1..H5): ⏸
+- Phase 4 — Validate (QA-H1..H6): ⏸
 - Phase 5 — Operator gate (push + tag set-v2.5): ⏸
 
 ## 5. Verbatim transformation rules (code proven in overlay; Phase 3 copies byte-for-byte)
@@ -77,8 +94,9 @@ REPLACE:
 # Section-aware suite propagation (`sync`): replace | merge | record per file.
 #
 # CHANGE LOG
-# v0.2 — 2026-09-05 — PLAN-012: HANDOFF_REL + render_handoff — every `sync --write` leaves a
-#         handoff report in the target so its next session finds engine-landed changes explained.
+# v0.2 — 2026-09-05 — PLAN-012: HANDOFF_REL + render_handoff — EVERY engine write into a target
+#         (sync --write AND integrate write-back) leaves a handoff report so the target's next
+#         session finds engine-landed changes explained.
 ```
 
 ### 5b. `src/standard_document_updater/sync.py` — append at end of file (after `render_plan`)
@@ -90,52 +108,57 @@ HANDOFF_REL = Path("docs/SYNC_HANDOFF.md")
 
 
 def render_handoff(
-    project_name: str, set_version: str, today: str, written: list[FileAction]
+    project_name: str, operation: str, set_version: str, today: str, files: list[tuple[str, str]]
 ) -> str:
-    """The handoff report `sync --write` leaves in the target (PLAN-012).
+    """The handoff report every engine write leaves in the target (PLAN-012).
 
-    Written on every write so the target's NEXT session finds engine-landed
-    changes explained — what was written, by which release, and the residual
-    bookkeeping the engine deliberately leaves to the target (manifest cells,
-    CHANGELOG entry, the landing commit). The target session deletes the file
-    in the commit that lands the sync; the next write recreates it.
+    Written on every write — `sync --write` and the integrate write-back — so
+    the target's NEXT session finds engine-landed changes explained: what was
+    written, by which operation and vault release, and the residual bookkeeping
+    the engine deliberately leaves to the target (manifest cells, CHANGELOG
+    entry, the landing commit). The target session deletes the file in the
+    commit that lands the changes; the next engine write recreates it.
     """
     lines = [
         "# SYNC HANDOFF — engine-written changes landed in this repository",
         "",
-        "> **READ ME FIRST.** The Standard DocSet sync engine wrote the files below directly",
+        "> **READ ME FIRST.** The Standard DocSet engine wrote the files below directly",
         "> into this working tree. They are NOT unexplained local edits. Land them per § 2,",
         "> then DELETE this file in that same commit.",
         "",
         "## 1. What the engine did",
         "",
         f"- **Project:** {project_name}",
-        f"- **Standard Set Version applied:** {set_version}",
+        f"- **Operation:** {operation}",
+        f"- **Vault Standard Set Version:** {set_version}",
         f"- **Run date:** {today} (stamped by the curator machine's clock — if stamp ordering",
         "  looks wrong against local history, trust an external time authority)",
         "- **Files written (suite-owned sections updated; PROJECT-OWNED blocks preserved):**",
     ]
-    for action in written:
-        lines.append(f"  - `{action.target_rel}` ({action.mode})")
+    for rel, mode in files:
+        lines.append(f"  - `{rel}` ({mode})")
     lines += [
         "",
         "## 2. What this project's next session must do (the engine does NOT do these)",
         "",
         "1. Review the diffs (`git diff`) against the file list above.",
-        "2. Reconcile `docs/documents_manifest.md` version cells for the files above.",
-        "3. Add a CHANGELOG entry recording the sync (Set Version + file list).",
-        "4. Commit the sync files + bookkeeping together — and **delete this handoff file",
-        "   in that commit** (done = deleted).",
-        "5. New lessons/observations still land ONLY as `E0NN` entries in",
+        "2. Reconcile `docs/documents_manifest.md` version cells for the files above (skip any",
+        "   whose header version did not move).",
+        "3. Add a CHANGELOG entry recording the engine write (operation + file list).",
+        "4. Commit the engine-written files + bookkeeping together — and **delete this handoff",
+        "   file in that commit** (done = deleted).",
+        "5. Do NOT add this file to the project's manifest — it is engine-transient (Rule 8",
+        "   exempt by design); it must never survive a landing commit.",
+        "6. New lessons/observations still land ONLY as `E0NN` entries in",
         "   `docs/STANDARDS_LOG.md` — never in engine-owned files.",
         "",
-        "*Engine-generated on every `sync --write`; the next sync rewrites it.*",
+        "*Engine-generated on every engine write; the next write rewrites it.*",
         "",
     ]
     return "\n".join(lines)
 ```
 
-### 5c. `src/standard_document_updater/cli.py` — the write hook
+### 5c. `src/standard_document_updater/cli.py` — the sync write hook
 
 FIND:
 
@@ -157,7 +180,13 @@ REPLACE:
                 if args.write and changed:
                     written = sync.apply_actions(root, changed)
                     (root / sync.HANDOFF_REL).write_text(
-                        sync.render_handoff(project.name, set_version, today, changed),
+                        sync.render_handoff(
+                            project.name,
+                            "sync --write",
+                            set_version,
+                            today,
+                            [(a.target_rel, a.mode) for a in changed],
+                        ),
                         encoding="utf-8",
                     )
                     written.append(sync.HANDOFF_REL)
@@ -170,16 +199,54 @@ REPLACE:
                     )
 ```
 
+### 5d. `src/standard_document_updater/cli.py` — the integrate write-back hook
+
+FIND:
+
+```text
+        report_lines = integrate.apply_writeback(dispositions, log_path_for, write=args.write)
+        if args.write:
+            count = len(dispositions)
+            message = f"Standard DocSet: integrate write-back ({count} status update(s))"
+            for name in sorted(named & set(targets)):
+                targets[name].flush(roots[name], [Path("docs/STANDARDS_LOG.md")], message)
+```
+
+REPLACE:
+
+```text
+        report_lines = integrate.apply_writeback(dispositions, log_path_for, write=args.write)
+        if args.write:
+            set_version = "v" + ".".join(str(n) for n in setversion.parse_vault_version(index))
+            today = date.today().isoformat()
+            count = len(dispositions)
+            message = f"Standard DocSet: integrate write-back ({count} status update(s))"
+            for name in sorted(named & set(targets)):
+                (roots[name] / sync.HANDOFF_REL).write_text(
+                    sync.render_handoff(
+                        name,
+                        "integrate write-back",
+                        set_version,
+                        today,
+                        [("docs/STANDARDS_LOG.md", "write-back")],
+                    ),
+                    encoding="utf-8",
+                )
+                targets[name].flush(
+                    roots[name], [Path("docs/STANDARDS_LOG.md"), sync.HANDOFF_REL], message
+                )
+```
+
 Plus `cli.py` header: `# VERSION: 0.5` → `# VERSION: 0.6` and a CHANGE LOG line above the v0.5
 line:
 
 ```text
-# v0.6 — 2026-09-05 — PLAN-012: `sync --write` writes + flushes docs/SYNC_HANDOFF.md into each
-#                     written target (render_handoff) so the target's next session finds the
-#                     changes explained; write-note updated.
+# v0.6 — 2026-09-05 — PLAN-012: every engine write leaves docs/SYNC_HANDOFF.md in the target —
+#                     `sync --write` (per written target, listing the changed files) AND the
+#                     integrate write-back (per flushed target); write-notes updated.
 ```
 
-### 5d. `tests/test_cli.py` — new test inserted immediately BEFORE `def test_sync_unknown_project_filter_errors(`
+### 5e. `tests/test_cli.py` — new sync test inserted immediately BEFORE `def test_sync_unknown_project_filter_errors(`
 
 ```python
 def test_sync_write_leaves_handoff_and_dry_run_stays_up_to_date(
@@ -191,9 +258,10 @@ def test_sync_write_leaves_handoff_and_dry_run_stays_up_to_date(
     assert "(incl. the handoff)" in capsys.readouterr().out
     handoff = (target / "docs" / "SYNC_HANDOFF.md").read_text(encoding="utf-8")
     assert "SYNC HANDOFF" in handoff
-    assert "- **Standard Set Version applied:** v1.5" in handoff
+    assert "- **Operation:** sync --write" in handoff
+    assert "- **Vault Standard Set Version:** v1.5" in handoff
     assert "`CLAUDE.md` (merge)" in handoff
-    assert "delete this handoff file" in handoff
+    assert "delete this handoff" in handoff
     # the handoff is not a SYNC_MAP item: a converged target stays up-to-date
     assert main(["--vault", str(vault), "sync"]) == 0
     assert "up-to-date" in capsys.readouterr().out
@@ -201,14 +269,35 @@ def test_sync_write_leaves_handoff_and_dry_run_stays_up_to_date(
 
 ```
 
+### 5f. `tests/test_cli.py` — integrate write-back handoff assertions
+
+FIND:
+
+```text
+    assert main(["--vault", str(root), "integrate", "--apply", str(decisions), "--write"]) == 0
+    assert "wrote" in capsys.readouterr().out
+    assert "rejected — n/a" in log.read_text(encoding="utf-8")
+```
+
+REPLACE:
+
+```text
+    assert main(["--vault", str(root), "integrate", "--apply", str(decisions), "--write"]) == 0
+    assert "wrote" in capsys.readouterr().out
+    assert "rejected — n/a" in log.read_text(encoding="utf-8")
+    handoff = (proj / "docs" / "SYNC_HANDOFF.md").read_text(encoding="utf-8")
+    assert "- **Operation:** integrate write-back" in handoff
+    assert "`docs/STANDARDS_LOG.md` (write-back)" in handoff
+```
+
 Plus `tests/test_cli.py` header `# VERSION: 0.5` → `# VERSION: 0.6` and log line:
 
 ```text
-# v0.6 — 2026-09-05 — PLAN-012: handoff test — `sync --write` leaves docs/SYNC_HANDOFF.md in
-#         the target (content + not-a-SYNC_MAP-item idempotence).
+# v0.6 — 2026-09-05 — PLAN-012: handoff coverage — `sync --write` leaves docs/SYNC_HANDOFF.md
+#         (content + not-a-SYNC_MAP-item idempotence) and the integrate write-back leaves it too.
 ```
 
-### 5e. `docs/standards/SESSION_OPENER.md` (template, 1.7 → 1.8) — § 1.1 handoff check
+### 5g. `docs/standards/SESSION_OPENER.md` (template, 1.7 → 1.8) — § 1.1 handoff check
 
 FIND (the L055 paragraph, ends § 1.1):
 
@@ -221,12 +310,12 @@ REPLACE (same paragraph + the new check):
 ```text
 If a local register (`OPEN_TASKS.md`) or a tracker records a push-state ("unpushed" / "push held"), reconcile it against the **real** remote (`git ls-remote origin <main-branch>`) — not the local remote-tracking cache — before trusting it (per `LESSONS.md` L055). Committed trackers stay frozen at their commit; only the live register is reconciled.
 
-**Engine-handoff check:** if `docs/SYNC_HANDOFF.md` exists — or `git status` shows modified suite files this project's sessions did not change — the Standard DocSet sync engine landed changes here. Read the handoff FIRST and land it per its § 2 steps (review diffs → manifest cells → CHANGELOG entry → one commit that also deletes the handoff) BEFORE any other work. Engine-written changes are explained changes, never unknown edits.
+**Engine-handoff check:** if `docs/SYNC_HANDOFF.md` exists — or `git status` shows modified suite files this project's sessions did not change — the Standard DocSet engine landed changes here. Read the handoff FIRST and land it per its § 2 steps (review diffs → manifest cells → CHANGELOG entry → one commit that also deletes the handoff) BEFORE any other work. Engine-written changes are explained changes, never unknown edits.
 ```
 
 Header 1.7 → 1.8, Last Updated 2026-09-05, CHANGE LOG line naming PLAN-012.
 
-### 5f. `docs/standards/LESSONS.md` (1.1 → 1.2) — date-line corrections
+### 5h. `docs/standards/LESSONS.md` (1.1 → 1.2) — date-line corrections
 
 - Replace **all 9 occurrences** of:
   `**Date:** 2026-08-27 (vault intake; incident in the source project days earlier)`
@@ -242,8 +331,9 @@ Header 1.7 → 1.8, Last Updated 2026-09-05, CHANGE LOG line naming PLAN-012.
 ## 6. Spec update map (same commit as Phase 3)
 
 - `docs/architecture.md` (0.11 → 0.12): § 7 gains a closing paragraph documenting the handoff
-  (engine-owned transient `docs/SYNC_HANDOFF.md`, not a SYNC_MAP item, target deletes on
-  landing) — the § 4 drift rule demands this ride the engine change.
+  (engine-owned transient `docs/SYNC_HANDOFF.md`, written by BOTH engine write paths, not a
+  SYNC_MAP item, never manifest-listed, target deletes on landing) — the § 4 drift rule demands
+  this ride the engine change.
 - `docs/standards/STANDARDS_INDEX.md` → v2.5 (§ 1 block, § 3 cells: SESSION_OPENER 1.8,
   LESSONS 1.2, STANDARDS_INDEX 2.5; § 6 history entry with the sync note).
 - `docs/SET_VERSION_ADOPTED.md` → v2.5 row + header bump.
@@ -269,17 +359,21 @@ Header 1.7 → 1.8, Last Updated 2026-09-05, CHANGE LOG line naming PLAN-012.
 ## 8. Validation gate (Rule 11 scenarios — tracker holds status)
 
 - **QA-H1** — suite: `ruff check` clean; mypy error-delta zero vs baseline; `pytest` 111 passed
-  (the new end-to-end handoff test included). Proven in the overlay 2026-09-05; re-run at Phase 3.
+  (sync handoff test + integrate write-back handoff assertions included). Proven in the overlay
+  2026-09-05 (v0.1 and re-proven at v0.2); re-run at Phase 3.
 - **QA-H2** — pre-release oracle: fleet `sync` dry-run shows exactly the v2.5 delta per target
   (SESSION_OPENER merge + LESSONS replace + SVA record = 3 items) and nothing else.
-- **QA-H3** — feature-ON (Rule 15): the v2.5 `sync --write` itself delivers the handoff — spot
-  `docs/SYNC_HANDOFF.md` on all three targets (ssh grep for 780-Automation/780-VPN; local read
-  for CS), content shows v2.5 + the 3 files.
+- **QA-H3** — feature-ON, sync half (Rule 15): the v2.5 `sync --write` itself delivers the
+  handoff — spot `docs/SYNC_HANDOFF.md` on all three targets, content shows the operation, v2.5,
+  and the 3 files.
 - **QA-H4** — idempotence: immediate dry-run re-run = up-to-date 11/11 everywhere (handoff
   presence does not perturb the plan).
 - **QA-H5** — loop closure (operator-observed, target-side): the next session in any target
-  reads the handoff, lands the sync per its § 2, and deletes it. First observation closes the
-  scenario; recorded in this tracker.
+  reads the handoff, lands the changes per its § 2, and deletes it. First observation closes.
+- **QA-H6** — feature-ON, write-back half (Rule 15): the next real `integrate --write` — the
+  named trigger is the pending intake of 780-VPN's **E001** (already open in its log) — leaves
+  the write-back handoff in that target; spot-grep on that run. Not silently deferred: the
+  trigger is scheduled work, and the engine-level behavior is already test-covered (QA-H1).
 
 ## 9. Operator approval decision point
 
@@ -292,37 +386,48 @@ to targets are inert text — delete manually; no persistent state, no schema.
 
 ## 11. Known risks + mitigations
 
-- **Git-transport flush commits the handoff into target history.** Accepted for uniformity (no
-  per-transport special case); the target's landing commit deletes it. Revisit at DD-6b if the
-  MR flow wants the handoff in the MR body instead.
+- **Git-transport flush commits the handoff into target history** — and a committed, unlisted
+  `.md` could trip the target's Rule 8 / doc-coverage gate on its next CI run. Mitigated three
+  ways: the handoff's § 2 step 5 declares it manifest-exempt by design; the architecture § 7
+  paragraph codifies the exemption; and no git-transport target exists yet — revisit the
+  commit-vs-MR-body question at DD-6b before the first git `--write`.
 - **Target session ignores the handoff** → stale file. Mitigated by the § 1.1 opener check (the
-  reader is forced at session start) and by the next sync rewriting it.
-- **integrate write-back not covered** (out of scope): single-file STANDARDS_LOG status update,
-  self-explanatory in the log itself. Candidate follow-up if it ever confuses a session.
-- **Clock caveat**: run-date line carries the trust note; the real fix is the vault machine's
-  clock (flagged separately).
+  reader is forced at session start) and by the next engine write rewriting it.
+- **Clock caveat**: the run-date line carries the trust note; the real fix (trusted time source /
+  newest-stamp floor) is E001's suggestion and arrives via its own gated intake.
+- **Two call sites construct the files list differently** (FileActions vs a literal tuple) —
+  accepted: the tuple interface is the narrow waist; both sites are covered by tests.
 
 ## 12. Acceptance criteria
 
 1. Every `sync --write` that changes a target writes + flushes `docs/SYNC_HANDOFF.md` with
-   project, Set Version, run date, file list, and the five § 2 steps.
-2. Dry-run behavior unchanged; converged targets report up-to-date with a handoff present.
-3. Template SESSION_OPENER carries the § 1.1 engine-handoff check.
-4. Canonical LESSONS date lines corrected per § 5f.
-5. `ruff check` clean, mypy delta zero, 111 tests green.
-6. Set v2.5 released, fleet synced current, handoff observed on all three targets (QA-H3), and
-   at least one target session closes the loop (QA-H5).
+   project, operation, Set Version, run date, file list, and the six § 2 steps.
+2. Every `integrate --write` write-back leaves the same handoff (operation "integrate
+   write-back") in each flushed target.
+3. Dry-run and worksheet behavior unchanged; converged targets report up-to-date with a handoff
+   present.
+4. Template SESSION_OPENER carries the § 1.1 engine-handoff check.
+5. Canonical LESSONS date lines corrected per § 5h.
+6. `ruff check` clean, mypy delta zero, 111 tests green.
+7. Set v2.5 released, fleet synced current, handoff observed on all three targets (QA-H3), at
+   least one target session closes the loop (QA-H5), and the write-back half fires at the E001
+   intake (QA-H6).
 
 ---
 
-**Rule 13 senior-review-and-optimize pass — RUN 2026-09-05 (recorded per § 15.8):** the § 5 code
-was developed and tool-proven in a scratch overlay BEFORE embedding (proven-code-first): full
-`src`+`tests` overlay, edits applied, then `ruff check` (clean), `ruff format --check` (delta
-zero vs baseline — 3 pre-existing reformat flags on both sides), `mypy` (25 errors baseline, 25
-overlay — delta zero), `pytest` (111 passed, +1 new test) — all at the exact ship indentation.
-Cross-section consistency walked: § 5 blocks ↔ § 7 ALLOWLIST (12 = 12) ↔ § 8 scenarios ↔ § 12
-acceptance; § 5c count-line change is asserted by the § 5d test; § 5e FIND anchor grep-verified
-against the live template; § 5f anchors grep-verified (9 + 1 occurrences). Edge cases considered:
-zero-changed targets write no handoff (hook is inside `if changed`); git-transport commit
-inclusion (→ § 11 risk); handoff-not-in-SYNC_MAP idempotence (asserted by test). No unresolved
-design decision remains beyond Phase 2 approval itself.
+**Rule 13 senior-review-and-optimize pass — RUN 2026-09-05, RE-RUN same day at v0.2 (recorded
+per § 15.8):** the § 5 code was developed and tool-proven in a scratch overlay BEFORE embedding
+(proven-code-first): full `src`+`tests` overlay, edits applied, then `ruff check` (clean),
+`mypy` (25 errors baseline, 25 overlay — delta zero), `pytest` (111 passed; sync + integrate
+handoff coverage) — all at the exact ship indentation. The v0.2 re-review additionally swept
+EVERY write-into-target site in the codebase (`grep flush\|write_text` over `cli.py`; the two
+sites are `_cmd_sync` and `_cmd_integrate`'s write branch — both now covered; `harvest`/`status`
+are read-only; the skill runs in the target's own session) and every `date.today()` site (one:
+`cli.py:146`; the integrate hook adds the second deliberately). Cross-section consistency
+walked: § 5 blocks ↔ § 7 ALLOWLIST (12 = 12) ↔ § 8 scenarios ↔ § 12 acceptance; § 5c/5d
+REPLACE blocks and § 5e/5f test blocks byte-verified against the proven overlay; § 5g/5h FIND
+anchors grep-verified unique in live source. Edge cases: zero-changed sync targets write no
+handoff (hook inside `if changed`); write-back materializes `docs/` on every transport
+(`full=False` still fetches `docs/` — handoff path exists); git-transport committed-handoff →
+§ 11 risk with the doc-coverage consequence; handoff-not-in-SYNC_MAP idempotence asserted by
+test. No unresolved design decision remains beyond Phase 2 approval itself.

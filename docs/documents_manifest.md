@@ -1,7 +1,11 @@
-<!-- VERSION: 2.34 -->
+<!-- VERSION: 2.35 -->
 <!-- Last Updated: 2026-09-05 -->
 <!--
 CHANGE LOG
+v2.35 — 2026-09-05 — PLAN-012 hardened to v0.2 (operator-directed re-review): rows 80–81 →
+0.2 — scope extended to the integrate write-back path (the full-codebase sweep's finding) +
+manifest-exemption step + QA-H6. Self-row 2.34 → 2.35 (grep-verified against the header per
+L063).
 v2.34 — 2026-09-05 — Registered PLAN-012 (sync handoff report — every engine write leaves an
 explanation in the target; operator directive after the 780-VPN unknown-changes incident) DRAFT +
 tracker: new rows 80–81 (0.1). Design commit only; the Phase-3 implement commit lands separately
@@ -226,7 +230,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.34 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.35 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.11 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.15 | Governance | `docs/SESSION_OPENER.md` |
@@ -298,8 +302,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 77 | Delivery skill — bootstrap mode | 0.2 | Delivery | `skill/modes/bootstrap.md` |
 | 78 | Delivery skill — adopt mode | 0.2 | Delivery | `skill/modes/adopt.md` |
 | 79 | Delivery-skill installer (per-machine symlink) | 0.1 | Delivery | `scripts/bootstrap_skill.sh` |
-| 80 | PLAN-012 — sync handoff report (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-012_sync_handoff.md` |
-| 81 | PLAN-012 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-012_tracker.md` |
+| 80 | PLAN-012 — sync handoff report (DRAFT) | 0.2 | Plan | `docs/Plans/PLAN-012_sync_handoff.md` |
+| 81 | PLAN-012 tracker (DRAFT) | 0.2 | Plan | `docs/Plans/PLAN-012_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not

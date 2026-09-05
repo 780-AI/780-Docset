@@ -1,8 +1,13 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-09-05 -->
 <!-- Status: DRAFT (tracks PLAN-012; promoted to 1.0/CLOSED with the plan) -->
 <!--
 CHANGE LOG
+v0.2 — 2026-09-05 — Plan hardened to v0.2 (operator-directed re-review): scope extended to the
+integrate write-back (the second engine write path, found by the full-codebase sweep); handoff
+gains operation line + manifest-exemption step; QA-H6 added (write-back feature-ON at the E001
+intake). Overlay re-proven (ruff/mypy-delta-zero/111 tests); Rule 13 re-run + 12/12 mechanical
+extraction checks.
 v0.1 — 2026-09-05 — Created with the plan draft (tracker required: Phase 4 is multi-scenario,
 QA-H1..H5).
 -->
@@ -26,26 +31,32 @@ QA-H1..H5).
 - ✅ 2026-09-05 — plan drafted (§§ 1–12) with overlay-proven § 5 blocks.
 - ✅ 2026-09-05 — Rule 13 pass RUN + recorded in the plan CHANGE LOG (tools at ship
   indentation; anchors grep-verified; ALLOWLIST count 12 = 12).
+- ✅ 2026-09-05 — v0.2 re-review (operator-directed): full write-path + `date.today()` sweep;
+  integrate write-back hook added (§ 5d) + write-back test assertions (§ 5f) + manifest-exempt
+  step; overlay re-proven (ruff clean / mypy 25↔25 / pytest 111); 12/12 mechanical extraction
+  checks against the v0.2 plan.
 
 ## Phase 2 — Operator approval
 
-- ⏸ awaiting **"APPROVE PLAN-012"**.
+- ⏸ awaiting **"APPROVE PLAN-012"** (on the v0.2 draft).
 
 ## Phase 3 — Implement (fresh session; single commit; ALLOWLIST-bounded)
 
 - ⏸ reconcile pass (plan § 5 anchors vs live source; any mismatch = named plan defect D1…).
-- ⏸ apply § 5a–5f byte-for-byte; § 6 spec map (architecture § 7 paragraph, INDEX v2.5, SVA,
+- ⏸ apply § 5a–5h byte-for-byte; § 6 spec map (architecture § 7 paragraph, INDEX v2.5, SVA,
   manifest, CHANGELOG); promote plan + tracker to 1.0/CLOSED.
 
 ## Phase 4 — Validate
 
-- ⏸ QA-H1 — ruff / mypy-delta / pytest 111 (re-run at ship).
+- ⏸ QA-H1 — ruff / mypy-delta / pytest 111 (re-run at ship; incl. integrate handoff asserts).
 - ⏸ QA-H2 — pre-release fleet dry-run oracle: exactly the 3-item v2.5 delta per target.
-- ⏸ QA-H3 — feature-ON: v2.5 `sync --write` delivers `docs/SYNC_HANDOFF.md` to all three
-  targets (spot-grep each).
+- ⏸ QA-H3 — feature-ON (sync half): v2.5 `sync --write` delivers `docs/SYNC_HANDOFF.md` to all
+  three targets (spot-grep each).
 - ⏸ QA-H4 — idempotence: dry-run re-run up-to-date 11/11 everywhere.
 - ⏸ QA-H5 — loop closure: a target session lands a sync per the handoff + deletes it
   (operator-observed; first observation closes).
+- ⏸ QA-H6 — feature-ON (write-back half): fires at the pending E001 intake (780-VPN's open
+  entry) — spot the write-back handoff in that target on that run.
 
 ## Phase 5 — Operator gate
 

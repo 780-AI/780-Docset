@@ -2,6 +2,24 @@
 
 Newest entries at the top.
 
+## [2026-09-05] — PLAN-012 hardened to v0.2: the handoff now covers BOTH engine write paths
+
+- **Type:** Plan revision (design only; no behavior change).
+- **What:** Operator-directed re-review ("double check the plan… consistency check with the
+  whole code base"). The full write-path sweep found the gap the v0.1 draft had deferred with
+  thin justification: `integrate --write`'s write-back ALSO writes into targets (STANDARDS_LOG
+  status flips) and would have reproduced the unknown-changes incident in miniature. Design
+  generalized — `render_handoff` gains an operation line and a `(rel, mode)` files interface;
+  the integrate flush hook writes the handoff per flushed target; handoff § 2 gains the
+  manifest-exemption step (protects git-transport targets' Rule 8/doc-coverage gates from the
+  engine-committed handoff); QA-H6 added with a NAMED feature-ON trigger (the pending E001
+  intake from 780-VPN's log). E001's trusted-clock engine suggestion explicitly routed to its
+  own gated intake (plan § 3). Overlay re-proven: ruff clean, mypy delta zero, pytest 111
+  (sync + integrate handoff coverage); Rule 13 re-run; 12/12 mechanical extraction checks.
+  Clock fixed on this machine before this commit (stamps now real-dated).
+- **QA scenarios:** plan § 8 QA-H1..H6; statuses in PLAN-012_tracker.md.
+- **Versions:** PLAN-012 + tracker 0.1→0.2, manifest 2.34→2.35. Impact: none at runtime.
+
 ## [2026-09-05] — PLAN-012 drafted: sync handoff report (every engine write leaves an explanation in the target)
 
 - **Type:** § 15 plan draft (design commit only; no behavior change yet).
