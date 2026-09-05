@@ -1,8 +1,13 @@
-<!-- VERSION: 1.0 -->
+<!-- VERSION: 1.1 -->
 <!-- Last Updated: 2026-09-05 -->
-<!-- Status: CLOSED (Phase 3 shipped 2026-09-05; QA-H1..H4 ✅; H5/H6 open at their defined triggers; Phase 5 push pending) -->
+<!-- Status: CLOSED (Phase 3 shipped + Phase 5 pushed 2026-09-05, tag set-v2.5; QA-H1..H4 ✅ on ALL THREE targets; H5/H6 open at their defined triggers) -->
 <!--
 CHANGE LOG
+v1.1 — 2026-09-05 — Post-close QA annotation (PLAN-010 QA-I precedent): 780-Automation returned
+same day — catch-up write completed QA-H3's third-target half (5-item delta explained: the
+target had discarded the uncommitted v2.3+v2.4 engine writes — the PLAN-012 incident class
+observed a second time; nine own-line lessons verified already-rescued before the replace).
+Phase 5 recorded: pushed + tagged set-v2.5, ls-remote verified.
 v1.0 — 2026-09-05 — Phase 3 + QA-H1..H4 recorded (fresh implementer session): reconcile pass
 clean, § 5 applied byte-for-byte, spec map walked; fleet write delivered the handoff to the two
 reachable targets (780-Automation down — catch-up pending). Promoted with the plan per § 15.5.
@@ -63,7 +68,10 @@ QA-H1..H5).
   `docs/SYNC_HANDOFF.md` to CS + 780-VPN ("wrote + flushed 4 file(s) (incl. the handoff)");
   content read back on BOTH targets — correct project, operation `sync --write`, v2.5,
   clock-caveated run date, exact 3-file (rel, mode) list. Evidence verdict: matches design.
-  780-Automation pending host-up (catch-up write; spot-grep then).
+  780-Automation half completed same day on host return: catch-up write landed 6 files (5
+  changed + handoff — the wider delta traced to target-side discard of the uncommitted
+  v2.3+v2.4 engine writes, nine own-line lessons verified already-rescued pre-replace);
+  handoff spot-read correct; idempotence re-run up-to-date 11/11. ALL THREE targets verified.
 - ✅ QA-H4 — 2026-09-05 — immediate dry-run re-run: up-to-date 11/11 on both written targets
   (handoff presence does not perturb the plan).
 - ⏸ QA-H5 — loop closure: a target session lands a sync per the handoff + deletes it
@@ -73,4 +81,5 @@ QA-H1..H5).
 
 ## Phase 5 — Operator gate
 
-- ⏸ push + tag `set-v2.5`; `ls-remote` verify; register flips.
+- ✅ 2026-09-05 — operator: "push". Governance re-run (0/0); pushed; tag `set-v2.5` created +
+  pushed; `ls-remote` verified (remote master = `ad84e40` = tag). Register flipped same session.

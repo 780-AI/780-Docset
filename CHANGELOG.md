@@ -2,6 +2,32 @@
 
 Newest entries at the top.
 
+## [2026-09-05] — Bookkeeping: v2.5 catch-up write to 780-Automation — QA-H3 complete on ALL THREE targets; discarded-writes finding recorded
+
+- **Type:** Bookkeeping + fleet-state record (no vault behavior change).
+- **What:** 780-Automation came back online (same IP 172.16.11.60, operator-confirmed). The
+  pre-write dry-run found a **5-item delta, not 3** — investigation (dry-run `--diff` + ssh
+  spot-reads) showed the target's tree carries NONE of the v2.3/v2.4 engine writes: its
+  CLAUDE.md still had the pre-v2.4 runner localizations with no engine sync line, and its
+  archive was back on its own line with the nine locally-appended lessons (their L069–L077).
+  Tree clean → the engine's uncommitted v2.3+v2.4 writes were evidently **discarded
+  target-side** after the 2026-08-27-stamped write session — most plausibly a session
+  resetting "unexplained modified files": the EXACT incident class PLAN-012 exists to fix,
+  now observed a second time. Safety verified BEFORE writing: all nine own-line lessons
+  already rescued (vault L070–L078); STANDARDS_LOG empty of real entries (the one `## E0`
+  hit is the template's format example); PROJECT-OWNED blocks (their § 4/§ 13 critical-file
+  registrations) preserved by merge. Catch-up `sync --write` then landed 6 files (5 changed
+  + the handoff — which now explains the write, the mitigation for the very failure that
+  caused the discard); idempotence re-run up-to-date 11/11; handoff content spot-read and
+  verified. **Fleet now v2.5/v2.5 current on ALL THREE targets** (status probe pasted in
+  session). QA-H3's third-target half closes; tracker annotated (1.0→1.1).
+- **QA scenarios:** exempt per Rule 11 (bookkeeping/record; the behavior QA is PLAN-012's
+  QA-H3, which this completes). Lesson candidate logged in the register: targets can discard
+  uncommitted engine writes — surfaced at wrap-up for codification decision.
+- **Versions:** PLAN-012 tracker 1.0→1.1 (post-close QA annotation, the PLAN-010 QA-I
+  precedent), manifest 2.37→2.38. Impact: none at vault runtime; target 780-Automation
+  converged to v2.5.
+
 ## [2026-09-05] — Standard Set Version v2.5 RELEASED: sync handoff — every engine write explains itself (PLAN-012 Phase 3)
 
 - **Type:** Engine behavior change + Set Version release (Major per § 4 — Critical Files
@@ -28,7 +54,8 @@ Newest entries at the top.
   - QA-H2 ✅ 2026-09-05 — dry-run oracle exact on both reachable targets (CS + 780-VPN: the
     3-item delta and nothing else); 780-Automation host DOWN (warn+skip as designed).
   - QA-H3 ✅ 2026-09-05 — feature-ON sync half (Rule 15): handoff delivered to CS + 780-VPN,
-    content read back and verified against design; 780-Automation catch-up pending host-up.
+    content read back and verified against design; 780-Automation catch-up completed same day
+    when the host returned (see the bookkeeping entry above) — ALL THREE targets verified.
   - QA-H4 ✅ 2026-09-05 — idempotence: dry-run re-run up-to-date 11/11 on both written targets.
   - QA-H5 ⏸ — loop closure: a target session lands + deletes the handoff (operator-observed).
   - QA-H6 ⏸ — feature-ON write-back half: fires at the pending E001 intake (named trigger;

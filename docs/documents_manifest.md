@@ -1,7 +1,11 @@
-<!-- VERSION: 2.37 -->
+<!-- VERSION: 2.38 -->
 <!-- Last Updated: 2026-09-05 -->
 <!--
 CHANGE LOG
+v2.38 — 2026-09-05 — v2.5 catch-up bookkeeping: 780-Automation returned — catch-up write
+converged it to v2.5 (fleet current on all three targets); QA-H3 flipped complete in the v2.5
+CHANGELOG entry; PLAN-012 tracker 1.0→1.1 (row 81, post-close QA annotation + Phase 5 record).
+Self-row 2.37 → 2.38 (grep-verified against the header per L063).
 v2.37 — 2026-09-05 — PLAN-012 Phase 3 implemented (Standard Set Version v2.5 — sync handoff):
 bumped cells 7 (architecture 0.11→0.12, § 7 handoff paragraph), 10 (SET_VERSION_ADOPTED
 1.12→1.13, v2.5 backport row), 12 (LESSONS template 1.1→1.2, L069–L078 date-line corrections),
@@ -241,7 +245,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.37 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.38 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.12 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.15 | Governance | `docs/SESSION_OPENER.md` |
@@ -314,7 +318,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 78 | Delivery skill — adopt mode | 0.2 | Delivery | `skill/modes/adopt.md` |
 | 79 | Delivery-skill installer (per-machine symlink) | 0.1 | Delivery | `scripts/bootstrap_skill.sh` |
 | 80 | PLAN-012 — sync handoff report (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-012_sync_handoff.md` |
-| 81 | PLAN-012 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-012_tracker.md` |
+| 81 | PLAN-012 tracker (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-012_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
