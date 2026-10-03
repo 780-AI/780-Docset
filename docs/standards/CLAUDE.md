@@ -1,8 +1,9 @@
-<!-- VERSION: 1.6 -->
-<!-- Last Updated: 2026-08-27 -->
+<!-- VERSION: 1.7 -->
+<!-- Last Updated: 2026-10-03 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). TEMPLATE — adopters copy to repo root and fill <placeholders>. -->
 <!--
 CHANGE LOG
+v1.7 — 2026-10-03 — Standard Set Version v2.7 (fleet-convergence intake, operator-confirmed at the intake gate): NEW § 15.9 Feature intake (before Phase 0) — every new feature and every feature document enters through preserve → investigate → redesign → plan (L080), pointer added to the § 15.2 Phase 0 row; Rule 14 gains the cloud-synced-folder bullet — one machine at a time, sync settled before switching, folder pinned offline, `link` per machine, push when a batch completes, gitignored ≠ sync-ignored, git identity before a fresh clone's first commit (L081); Rule 12 step 6 retitled to match SESSION_CLOSER § 1.6 "`/tmp/` cleanup + locality confirm" (L063-class drift since v1.5). No rule added or renumbered (15).
 v1.6 — 2026-08-27 — Standard Set Version v2.4 (environment portability): Rule 2 gains the binding Runner note (command examples are generic — substitute the project's Python runner / CI flavor at run time, never edit suite-owned text to localize); Rule 5 sentence + § 8.6 YAML one-liner neutralized (CI-flavor-agnostic). Motivated by a live adopter whose runner/CI adaptations in suite-owned text were reverted on every sync.
 v1.5 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008): § 14 marker comment — stub-keep wording: deleting the block would break sync's ordinal block matching; aligns with SETUP step 4's stub guidance.
 v1.4 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010 upstream intake): Rule 14 upgraded in place to full project-data locality (memory + session transcripts at .claude/project-data/, managed by scripts/claude_project_data.sh, verified at session open AND close); NEW Rule 15 (post-implementation verification of the NEW behavior is mandatory); § 3 heading + § 13 bullet corrected 13 → 15 standing rules (stale two rule-additions — the L063 class); § 8.4 Rule 15 checklist row added.
@@ -205,7 +206,7 @@ This is binding because session-end detail loss is a real cost — across long s
 3. **Pending operator decisions** — DRAFT plans awaiting approval, blocked tasks, awaiting-approval scenarios
 4. **Outstanding `docs/Plans/OPEN_TASKS.md`** (if file present) — active items + lesson candidates
 5. **Memory updates** landed this session — list new/modified memory files
-6. **`/tmp/` cleanup** — commit-msg files, transcript files, scratch artifacts
+6. **`/tmp/` cleanup + locality confirm** — commit-msg files, transcript files, scratch artifacts; project-data locality intact (Rule 14), no new out-of-folder project state
 7. **Lessons-learned scan** — review session transcript for candidates: new rules added, new lessons (L0NN candidates), new memory entries, new SESSION_OPENER § 3.x rows, new conventions / patterns, scope expansions in existing plans. Surface as recommendations; if operator confirms, formally codify; otherwise add to OPEN_TASKS "Lesson candidates" section for next-session decision.
 8. **Next-up suggestion** for the next session
 9. **Confirm done** — operator can close
@@ -265,6 +266,17 @@ bash scripts/claude_project_data.sh link     # new machine, or after any folder 
 - **New out-of-folder state is forbidden by default.** Anything that genuinely cannot live in the
   folder is cataloged with migration steps in the project's machine-migration doc
   (e.g. `docs/MACHINE_MIGRATION.md`), same-commit.
+- **When the folder is cloud-synced** (a sync service carrying it between machines): work on **one
+  machine at a time** — the service does not merge, and a conflicted copy inside `.git/` is
+  repository corruption, not a merge conflict; let sync finish on BOTH machines before switching;
+  keep the whole folder downloaded (pinned offline) — online-only placeholders feed git and tools
+  dataless files; run `link` once on each machine; push when a commit batch completes (unpushed
+  commits exist only in the synced `.git/`). **Gitignored is not sync-ignored:** secrets and
+  credential-bearing memory in the folder reach the sync provider — accept that explicitly or keep
+  them out (selective sync, a keychain). **New machine or fresh clone:** set the git identity
+  (`user.name` / `user.email`) before the first commit — a repo-local identity travels with folder
+  copies but not with clones, and a machine with none silently commits under an auto-generated
+  `user@hostname` author.
 
 **Only permitted abbreviation:** none — the probe is one command.
 
@@ -273,7 +285,7 @@ store without surfacing it, or that leaves new project state outside the folder 
 rule violation. A genuinely new project with no data yet is not a violation.
 
 See `archive/LESSONS.md` L050 (+ its Set v1.5 generalization note) and PLAN-010 § 3 (the upstream
-L061 mapping).
+L061 mapping); L081 for the cloud-synced-folder operating rules.
 
 ### Rule 15 — Post-implementation verification of the NEW behavior is MANDATORY
 
@@ -750,7 +762,7 @@ If you're unsure, classify as vital. Cost of a written plan is ~30–60 minutes;
 
 | Phase | Owner | Deliverable |
 |---|---|---|
-| 0 — Audit | Plan author | All integration points cited by `file:line`; external dependencies verified to exist; existing behavior summarized. |
+| 0 — Audit | Plan author | All integration points cited by `file:line`; external dependencies verified to exist; existing behavior summarized. A new feature reaches Phase 0 only through the § 15.9 intake — its step-2 investigation is this audit. |
 | 1 — Design | Plan author | Plan committed to `docs/Plans/` per Rule 1. Contains: § 1 goal, § 2 operator constraints, § 3 scope summary, § 4 phase tracker, § 5 verbatim transformation rules per call-site (per Rule 7), § 6 spec update map, § 7 explicit ALLOWLIST (the bullet enumeration IS the count — see LESSONS L038 — and it MUST include the plan file + sibling tracker as same-commit promotion rows, per L054), § 8 validation gate including demo smoke test, § 9 explicit operator-approval decision point, § 10 rollback path, § 11 known risks with mitigation, § 12 acceptance criteria. **The final task of Phase 1 is the Rule 13 senior-review-and-optimize pass (§ 15.8) — run once on the complete plan + sibling tracker, immediately before Phase 2; the plan is not finalized until it has run.** |
 | 2 — Operator approval | Operator | Written response: "APPROVE D1.A" (or alternative). No code is touched until this approval lands. |
 | 3 — Implement | Fresh agent session | Single commit, ALLOWLIST-bounded. Prompted from the plan file as the authoritative spec. The new session does not need to read the conversation history that produced the plan. |
@@ -861,6 +873,46 @@ Per Rule 13, the **final task of every plan's development** — after all sectio
 **Relationship to other gates:** Rule 13 hardens the **plan** (the design + its embedded transformation code) at Phase 1; Rule 10 (code review before commit) hardens the **actual edits** at Phase 3 commit time. They are complementary, not duplicative.
 
 See `archive/LESSONS.md` L049 + § 3 Rule 13.
+
+### 15.9 Feature intake (before Phase 0)
+
+Every NEW feature — operator-proposed, document-accompanied, or agent-suggested — and every
+operator-supplied document describing a new feature enters through these four steps BEFORE any
+plan is drafted. Intake is a binding stage of the § 15 workflow, upstream of Phase 0.
+
+1. **Preserve the document and read it report-only.** An operator-supplied feature document is
+   copied into the repo unchanged (`docs/Plans/<slug>-brief.md`) and registered in the manifest no
+   later than the plan-draft commit (Rule 8). It is an **idea source, never a requirement — it
+   binds nothing**: the feature is redesigned from the project's CURRENT behavior plus the
+   investigation (step 2), and operator directives override the document wherever they differ.
+   Nothing in it is adopted silently — the plan's § 2 records adopt / deviate **per item**, each
+   deviation named and justified (repo conventions beat document defaults). A feature arriving
+   without a document skips the copy, never the discipline.
+2. **Investigate before designing.** Against the LIVE source: integration points cited by
+   `file:line`; what existing machinery already provides; overlap with deferred items and open or
+   queued plans — the design absorbs or supersedes them **explicitly**, never duplicates them; and,
+   where feasible, the design's core hypothesis is pre-tested (test harness, replay, stress inputs)
+   BEFORE approval — numbers, not plausibility. This investigation is the plan's Phase 0 audit.
+3. **Redesign from scratch per the repo's conventions.** The document's mechanism is re-derived,
+   not transcribed — e.g. opt-in switches with inert defaults and a rollback guarantee (OFF ≡ the
+   previous behavior); state that must survive a restart is persisted, not held only in memory;
+   every engage / release threshold pair has a release condition the triggering situation can
+   still reach (a brake whose exit the crisis cannot reach becomes a freeze).
+4. **Formalize as a § 15 plan** — next free PLAN-NNN, Rule-13-hardened (§ 15.8), tracker per
+   § 15.7 — then Phase 2 approval and implementation in a fresh session (§ 15.3).
+
+**Why this stage exists:** a plausible mechanism carried by a well-written document can ride
+straight into a plan and ship before any evidence tests it; post-implementation verification
+(Rule 15) then catches it only after the implementation cost is sunk. The cheapest refutation
+point is intake.
+
+**Only permitted abbreviation:** operator explicitly says "skip intake" for a specific feature —
+per-feature only.
+
+**Drift is a Major defect** — a feature plan drafted without the preserved document (when one
+exists), the investigation record, or the from-scratch redesign rationale.
+
+See `archive/LESSONS.md` L080.
 
 ---
 

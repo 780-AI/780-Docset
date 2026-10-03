@@ -1,8 +1,11 @@
-<!-- VERSION: 0.2 -->
+<!-- VERSION: 0.3 -->
 <!-- Last Updated: 2026-10-03 -->
-<!-- Status: APPROVED (tracks PLAN-011 — Phase 3a next, in a NEW session) -->
+<!-- Status: EXECUTING (tracks PLAN-011 — Phase 3a release committed; QA-F4 post-commit; Phase 3b next, in an Equinex session) -->
 <!--
 CHANGE LOG
+v0.3 — 2026-10-03 — Phase 3a executed: pre-checks, reconcile pass (zero defects), Rule 16 gate
+(operator "confirmed as recommended"), integration, QA-F1–F3 ✅; release commit. QA-F4 recorded
+in the follow-up commit after the post-commit `sync --write`.
 v0.2 — 2026-10-03 — Phase 2 approval recorded ("plan 011 is appvoved"); decisions + execution
 deltas in plan § 9.1; Phase 3a gains the un-landed-handoff pre-write hold.
 v0.1 — 2026-10-03 — Created with the plan draft (tracker required per § 15.7: Phase 3 spans three
@@ -37,14 +40,28 @@ QA-F1…F8).
 
 ## Phase 3a — Intake + release (vault session; commit § 7.2)
 
-- ⏸ Clock check vs external authority (R8) recorded.
-- ⏸ Pre-write hold check: list targets holding an un-landed `docs/SYNC_HANDOFF.md` (plan § 9.1) —
-  held unless PLAN-013's accumulation fix has shipped.
-- ⏸ Delta re-verified at Equinex tip (§ 5D.1).
-- ⏸ Rule 16 gate posted; operator confirmation quoted here (QA-F1).
-- ⏸ Integration per § 5D.0 (Rule 12 drift) + § 5D.2–5D.7 + § 5C adopt.md fix.
-- ⏸ QA-F2 grep gate; QA-F3 oracle dry-run (pre-commit).
-- ⏸ Review table → commit → `sync --write` → QA-F4.
+- ✅ 2026-10-03 — Clock check (R8): `date -u` 14:18:00 UTC vs gitlab.com `Date:` 14:18:01 GMT.
+- ✅ 2026-10-03 — Pre-write hold check: hold LIFTED (PLAN-013 accumulation shipped, `b65037c`).
+  Un-landed handoffs: Capital-Signal (accumulating format, 2 write records → this write appends
+  `### Write 3`); 780-VPN (pre-accumulation single-write v2.6 handoff → wrapped as record 1 +
+  `### Write 2`; its last own commit 2026-09-07 — no session mid-work). 780-Automation unreachable.
+- ✅ 2026-10-03 — Delta re-verified at Equinex tip (§ 5D.1): tip still `cf25e70`;
+  `git log cf25e70..HEAD -- CLAUDE.md archive/LESSONS.md docs/` empty; only the known untracked
+  brief → the list is exactly C1–C7.
+- ✅ 2026-10-03 — Reconcile pass (§ 15.3): zero plan defects — § 5C anchor `adopt.md:44`, § 5D.0
+  anchors template `:208` / root `:203` (1 match each); § 7.2 files at the expected versions;
+  lesson count 79 → next L080; QA-F2 baseline exit 1; manifest rows 82–83 at 0.2.
+- ✅ 2026-10-03 — Rule 16 gate posted (C1–C7, source + explanation + effect + recommendation per
+  item; plus the out-of-plan scope question). Operator: **"confirmed as recommended"** → C1–C4
+  integrate (genericized), C5–C7 keep local, scope (a): vault-authored lesson candidates ship
+  later as their own v2.8 (QA-F1).
+- ✅ 2026-10-03 — Integration: § 5D.0 (step-6 fix, template + root); C1 → L080 + § 15.9 + § 15.2
+  pointer (template + root); C2–C4 → L081 + Rule 14 bullet (template + root); vault archive
+  provenance entry; § 5D.6 counts → 81 (INDEX / README / SVA); § 5D.7 INDEX § 1 / § 3 / § 6 + SVA
+  backport row; § 5C adopt.md. § 7.2 ALLOWLIST unamended (no new template file).
+- ✅ 2026-10-03 — QA-F2 grep gate; QA-F3 oracle dry-run (pre-commit) — ledger below.
+- ✅ 2026-10-03 — Rule 10 review table → release commit (this commit).
+- ⏸ `sync --write` → QA-F4 (post-commit; recorded in the follow-up commit).
 
 ## Phase 3b — Equinex adoption (Equinex session; target commit § 7.3)
 
@@ -65,9 +82,9 @@ QA-F1…F8).
 
 | # | Scenario | Phase | Status | Date | Evidence |
 |---|---|---|---|---|---|
-| QA-F1 | Rule 16 gate record | 3a | ⏸ | | |
-| QA-F2 | Domain-neutral zero-hit grep | 3a | ⏸ | | |
-| QA-F3 ⚑ | Engine-as-oracle release dry-run | 3a | ⏸ | | |
+| QA-F1 | Rule 16 gate record | 3a | ✅ | 2026-10-03 | C1–C7 posted in chat with per-item explanation + recommendation; operator "confirmed as recommended"; kept-local C5–C7 in the v2.7 CHANGELOG intake notes |
+| QA-F2 | Domain-neutral zero-hit grep | 3a | ✅ | 2026-10-03 | plan grep over `docs/standards/` + `skill/` → no output (exit 1); intake names (dropbox, survival, backoffice, cloudzy, mt5, ea, monitor, telemetry, preset, trading, tester) absent from added lines (exit 1) |
+| QA-F3 ⚑ | Engine-as-oracle release dry-run | 3a | ✅ | 2026-10-03 | CS + 780-VPN each exactly CLAUDE.md merge + archive/LESSONS.md replace + SVA record (+ handoff note); `--diff` CLAUDE.md hunks = the 4 intended changes + engine header, identical on both; LESSONS +82 additive; no clock warning; 780-Automation unreachable (ssh timeout) |
 | QA-F4 ⚑ | Release delivered + idempotent | 3a | ⏸ | | |
 | QA-F5 ⚑ | Equinex adoption (diff == approved list, legacy byte-identical, runtime untouched) | 3b | ⏸ | | |
 | QA-F6 ⚑ | Registration: status current, sync no-op | 3c | ⏸ | | |

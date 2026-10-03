@@ -1,8 +1,16 @@
-<!-- VERSION: 0.2 -->
+<!-- VERSION: 0.3 -->
 <!-- Last Updated: 2026-10-03 -->
-<!-- Status: APPROVED (Phase 2 — operator "plan 011 is appvoved" 2026-10-03; Phase 3a runs in a NEW session per § 15.3) -->
+<!-- Status: EXECUTING (Phase 3a — Set v2.7 release committed 2026-10-03; QA-F4 delivery follows the commit; Phase 3b = an Equinex session) -->
 <!--
 CHANGE LOG
+v0.3 — 2026-10-03 — Phase 3a executed (fresh session): reconcile pass found zero plan defects
+(anchors § 5C / § 5D.0 byte-matched at the stated lines; § 7.2 versions as expected; count 79 →
+next L080; QA-F2 baseline clean). Delta at the Equinex tip empty (still `cf25e70`). Rule 16 gate
+C1–C7 — operator "confirmed as recommended": C1 → L080 + template § 15.9, C2–C4 → L081 + a
+Rule 14 cloud-synced-folder bullet (CLAUDE.md is already in § 7.2, so the ALLOWLIST is
+unamended), C5–C7 kept local; vault-authored lesson candidates deferred to a later v2.8 (scope a).
+Set v2.7 released; QA-F1–F3 ✅. § 9.1 pre-write hold lifted (PLAN-013 `b65037c` shipped
+accumulation). Status → EXECUTING.
 v0.2 — 2026-10-03 — Phase 2 operator approval recorded ("plan 011 is appvoved", on the request
 naming D-1 = Equinex only + D-2 = A). Decisions D-1…D-6 recorded in § 9 with two execution deltas
 from events after the draft: (a) E001 shipped first as Set v2.6 (L079), so this plan's release is
@@ -158,7 +166,7 @@ files), `.claude/` + OPEN_TASKS gitignored.
 - Phase 0 — Audit: ✅ 2026-10-03
 - Phase 1 — Design + Rule 13 pass: ✅ 2026-10-03
 - Phase 2 — Operator approval (D11.A + D-1…D-6): ✅ 2026-10-03 — "plan 011 is appvoved"
-- Phase 3a — Intake + release (vault session; commit § 7.2): ⏸
+- Phase 3a — Intake + release (vault session; commit § 7.2): 🔄 2026-10-03 — Set v2.7 release committed (QA-F1–F3 ✅); `sync --write` + QA-F4 follow the commit
 - Phase 3b — Equinex adoption (Equinex session; target commit § 7.3): ⏸
 - Phase 3c — Registration + discipline proof (vault session; commit § 7.4, closes the plan): ⏸
 - Phase 4 — Validate (QA-F1…F8, each recorded at its phase): ⏸

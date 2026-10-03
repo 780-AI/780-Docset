@@ -1,7 +1,8 @@
-<!-- VERSION: 0.2 -->
-<!-- Last Updated: 2026-08-19 -->
+<!-- VERSION: 0.3 -->
+<!-- Last Updated: 2026-10-03 -->
 <!--
 CHANGE LOG
+v0.3 — 2026-10-03 — PLAN-011 (S2): § 3 lessons-archive bullet made explicit — archive/LESSONS.md is a SYNC_MAP replace item, so a converging project's own archive is preserved verbatim as archive/LESSONS_LEGACY.md (frozen, carrying the numbering crosswalk) and every entry is classified; nothing dropped silently.
 v0.2 — 2026-08-19 — W-D1 fix: the sync-ready SVA shape gains the required CHANGE LOG comment block — the engine's record-update (sync.py _split_header) hard-requires it; the spec omitted it (the pilot adoption dodged the defect only because its session wrote the block unprompted).
 v0.1 — 2026-08-16 — Initial (PLAN-009, Set v2.0). Migration mode for EXISTING projects: dry-run
 gated, customization-preserving; absorbs the MEMORY_DURABILITY_ROLLOUT_PROMPT retrofit; performs
@@ -41,9 +42,19 @@ Walk the target and post one table: existing artifact → suite slot → planned
 - Root `CLAUDE.md` (or equivalent contract): its project-specific content (§ 1 context, § 4
   critical files, § 13 domain bullet, § 14 agency) maps INTO the suite template's PROJECT-OWNED
   blocks; local rules map to the matching vault rule number, or to project-specific rows/sections.
-- Any existing lessons archive: entries stay in the project; portable candidates become
-  `STANDARDS_LOG.md` `E0NN` entries (`Status: open`) for `harvest` — they are NOT merged into the
-  suite's `LESSONS.md` (that file arrives suite-owned from the vault).
+- Any existing lessons archive (`archive/LESSONS.md` or wherever the project keeps it): the suite's
+  `archive/LESSONS.md` is a SYNC_MAP **replace** item — it arrives suite-owned from the vault and
+  every later sync overwrites it — so the project's own archive can never survive in place.
+  (1) Classify EVERY entry in this table: already in the vault canonical LESSONS (cite the vault
+  L-number) | portable and not yet in the vault | project-specific. (2) Portable entries not yet
+  in the vault are intake items (§ 2) — they reach the vault BEFORE adoption, never by being
+  merged into the suite's `LESSONS.md` locally. (3) The archive itself is preserved verbatim:
+  `git mv` it to `archive/LESSONS_LEGACY.md` (history follows the file), then prepend a freeze
+  banner — frozen on the adoption date, read-only, NOT a SYNC_MAP item, new lessons go to
+  `docs/STANDARDS_LOG.md` as `E0NN` entries — plus a **numbering crosswalk** (own lesson and rule
+  numbers → suite numbers) whenever the project's numbering diverged; own-line numbers cited in
+  documents dated before adoption resolve through it. Register it in the project manifest.
+  Nothing is dropped silently.
 - Session opener/closer files (any form) → instantiated suite templates with the project's § 2
   registry + § 3.2 rows carried over; **the PROJECT-OWNED instance-heading wrap is applied** (the
   v1.6 requirement sync's ordinal matching needs).

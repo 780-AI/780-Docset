@@ -2,6 +2,71 @@
 
 Newest entries at the top.
 
+## [2026-10-03] — Standard Set Version v2.7: fleet-convergence intake from EverOn.Equinex — L080 feature intake + L081 cloud-synced folders (PLAN-011 Phase 3a)
+
+- **Type:** Standards-suite release (Critical Files `docs/standards/` + root `CLAUDE.md` + the
+  manifest, plus the delivery skill's `skill/modes/adopt.md` — doc-only, no engine change) under
+  § 15 plan PLAN-011 (Phase 3a, § 7.2 ALLOWLIST — 12 files, unamended: every confirmed item landed
+  in an ALLOWLIST file).
+- **Rule 16 gate record (QA-F1):** delta re-verified at Equinex's tip first (still `cf25e70`;
+  `git log cf25e70..HEAD` empty; only the known untracked brief) → the complete list was C1–C7,
+  presented in chat 2026-10-03 with source, plain-language explanation, exact integration effect
+  and recommendation per item. Operator: *"confirmed as recommended"* — C1–C4 integrated
+  (genericized), C5–C7 kept local, and the out-of-plan scope question answered (a).
+- **What:**
+  - **C1 → L080 + template CLAUDE.md § 15.9 Feature intake (before Phase 0)** (D-6 = A): every new
+    feature and every feature document enters through preserve (idea source, binds nothing,
+    adopt / deviate per item) → investigate the live source → redesign from scratch → § 15 plan;
+    pointer in the § 15.2 Phase 0 row. Source: Equinex `CLAUDE.md` Rule 16 (v3.12/v3.13) + their
+    L062. Step 3's domain specifics genericized (restart-surviving state persisted; reachable
+    release for every threshold pair; the deployment-variant check dropped).
+  - **C2 + C3 + C4 → L081 + a Rule 14 cloud-synced-folder bullet:** one machine at a time
+    (conflicted copy inside `.git/` = corruption), sync settled on both sides before switching,
+    folder pinned offline, `link` per machine, push when a batch completes, gitignored ≠
+    sync-ignored (accept or exclude), git identity before a fresh clone's first commit. Source:
+    Equinex `docs/MACHINE_MIGRATION.md` v0.3 § 6.1 / § 4 / § 6.2.
+  - **§ 5D.0 drift fix:** Rule 12 step 6 → "`/tmp/` cleanup + locality confirm" in template + root
+    (had lagged SESSION_CLOSER § 1.6 since v1.5 — L063 class).
+  - **§ 5C (S2):** `skill/modes/adopt.md` § 3 lessons-archive bullet made explicit — the suite's
+    `archive/LESSONS.md` is a replace item, so a converging project's own archive is classified
+    entry-by-entry and preserved verbatim as `archive/LESSONS_LEGACY.md` with a numbering
+    crosswalk (D-2 = A).
+  - **Own-instance reconcile:** root `CLAUDE.md` → 1.9 mirrors § 15.9, the Rule 14 bullet and the
+    step-6 fix (rule count stays 16 — the vault's Rule 16 harvest gate keeps its number); vault
+    `archive/LESSONS.md` gains the L080–L081 provenance entry (dual-voice, L068).
+  - **Counts** 79 → 81 (INDEX § 1 / § 2 / § 3, README, SVA — recomputed: `grep -c '^### L0'` = 81).
+- **Intake notes — kept local (operator-confirmed):** C5 delegated subsystem manifest tracking
+  (their Rule 8 bullet), C6 committed canonical config as the single QA base (their § 4), C7
+  optional orientation-graph aid (their SESSION_OPENER § 1.5) — Equinex customizations, carried
+  into PROJECT-OWNED blocks / the project annex at its adoption (Phase 3b); C5/C6 portable kernels
+  may return as Equinex `E0NN` entries. Non-log intake (Equinex has no STANDARDS_LOG yet) — no
+  write-back applies.
+- **Label note (R6):** vault Set **v2.7** ≠ Equinex's own-line "Set v2.7" (its STANDARDS_INDEX);
+  their L062 = vault L080. The full crosswalk lands in their `archive/LESSONS_LEGACY.md` at
+  adoption.
+- **Out of scope (operator, scope (a)):** the vault-authored lesson candidates queued for "v2.7"
+  (handoff accumulation; adopt-mode archive gap; the PLAN-013 D2 round-trip family) ship later as
+  their own small release (v2.8), keeping this release's delta exactly the plan's.
+- **QA scenarios (Rule 11 / Rule 15 — statuses live in `PLAN-011_tracker.md`):**
+  - ✅ QA-F1 — Rule 16 gate record (above).
+  - ✅ QA-F2 — plan grep over `docs/standards/` + `skill/` → no output (exit 1); intake-surfaced
+    names (dropbox, survival, backoffice, cloudzy, mt5, ea, monitor, telemetry, preset, trading,
+    tester) absent from every added line (exit 1).
+  - ✅ QA-F3 ⚑ — engine-as-oracle dry-run (pre-commit): Capital-Signal AND 780-VPN each show
+    EXACTLY `CLAUDE.md` merge + `archive/LESSONS.md` replace + `docs/SET_VERSION_ADOPTED.md`
+    record (+ the un-landed-handoff note), nothing else; `--diff`: the CLAUDE.md hunks are exactly
+    the step-6 fix, the Rule 14 bullet + see-line, the § 15.2 pointer and § 15.9 (plus the engine
+    header stamp), identical on both targets; LESSONS +82 lines, additive only; no clock warning.
+    780-Automation unreachable (ssh timeout) — catch-up when back.
+  - ⏸ QA-F4 ⚑ — post-commit: clock check, `sync --write` to Capital-Signal + 780-VPN (handoffs
+    accumulate: CS `### Write 3`, 780-VPN record 1 + `### Write 2`), handoff read-back, immediate
+    re-run up-to-date 11/11, fleet `status` current.
+- **Versions:** template CLAUDE.md 1.6→1.7, root CLAUDE.md 1.8→1.9, STANDARDS_INDEX 2.6→2.7,
+  standards README 1.4→1.5, SET_VERSION_ADOPTED 1.14→1.15, adopt.md 0.2→0.3, manifest 2.46→2.47,
+  PLAN-011 plan + tracker 0.2→0.3 (EXECUTING); both LESSONS files +L080/L081 (headers unchanged per
+  the no-per-lesson-bump practice). Impact: standards content release — no engine behavior change;
+  adopters receive a 3-item delta (CLAUDE.md merge + LESSONS replace + SVA record) plus the handoff.
+
 ## [2026-10-03] — PLAN-013 Phase 3: engine write safety — clock floor + accumulating handoffs
 
 - **Type:** Engine behavior change (Major per § 4 — Critical Files touched; § 15 plan Phase 3,

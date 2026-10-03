@@ -1,7 +1,14 @@
-<!-- VERSION: 2.46 -->
+<!-- VERSION: 2.47 -->
 <!-- Last Updated: 2026-10-03 -->
 <!--
 CHANGE LOG
+v2.47 — 2026-10-03 — Standard Set Version v2.7 (PLAN-011 Phase 3a — fleet-convergence intake from
+EverOn.Equinex: L080 feature intake + L081 cloud-synced folders): bumped cells 1 (root CLAUDE.md
+1.8→1.9), 10 (SET_VERSION_ADOPTED 1.14→1.15), 11 (template CLAUDE.md 1.6→1.7), 22 (standards
+README 1.4→1.5, count 81), 23 (STANDARDS_INDEX 2.6→2.7), 78 (adopt mode 0.2→0.3, § 5C archive
+bullet), 82–83 (PLAN-011 plan + tracker 0.2/APPROVED → 0.3/EXECUTING). Rows 12 + 30 (LESSONS
+template + adopter copy) unchanged per the no-per-lesson-bump practice (L080/L081 added to both).
+Self-row 2.46 → 2.47 (grep-verified against the header per L063).
 v2.46 — 2026-10-03 — PLAN-013 Phase 3 (engine write safety: clock floor + accumulating handoffs):
 bumped cells 7 (architecture 0.12→0.13, § 7 accumulation + clock-floor paragraph, § 9 invariant),
 46 (cli 0.6→0.7), 51 (test_cli 0.6→0.7), 72 (sync 0.2→0.3), 73 (test_sync 0.1→0.2), 80 (PLAN-012
@@ -272,17 +279,17 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 | # | Title | Version | Category | Path |
 |---|---|---|---|---|
-| 1 | Operating Contract (binding) | 1.8 | Governance | `CLAUDE.md` |
+| 1 | Operating Contract (binding) | 1.9 | Governance | `CLAUDE.md` |
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.46 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.47 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.13 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.16 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.6 | Governance | `docs/SESSION_CLOSER.md` |
-| 10 | Set Version Adopted | 1.14 | Governance | `docs/SET_VERSION_ADOPTED.md` |
-| 11 | CLAUDE.md (template) | 1.6 | Standards | `docs/standards/CLAUDE.md` |
+| 10 | Set Version Adopted | 1.15 | Governance | `docs/SET_VERSION_ADOPTED.md` |
+| 11 | CLAUDE.md (template) | 1.7 | Standards | `docs/standards/CLAUDE.md` |
 | 12 | Lessons Archive (template) | 1.2 | Standards | `docs/standards/LESSONS.md` |
 | 13 | Project Standards | 1.1 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
 | 14 | Prompt Standards | 1.0 | Standards | `docs/standards/PROMPT_STANDARDS.md` |
@@ -293,8 +300,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 19 | CI/CD Standards | 1.0 | Standards | `docs/standards/CICD_STANDARDS.md` |
 | 20 | Session Opener (template) | 1.8 | Standards | `docs/standards/SESSION_OPENER.md` |
 | 21 | Session Closer (template) | 1.7 | Standards | `docs/standards/SESSION_CLOSER.md` |
-| 22 | Standards README (meta) | 1.4 | Standards | `docs/standards/README.md` |
-| 23 | Standards Index (meta) | 2.6 | Standards | `docs/standards/STANDARDS_INDEX.md` |
+| 22 | Standards README (meta) | 1.5 | Standards | `docs/standards/README.md` |
+| 23 | Standards Index (meta) | 2.7 | Standards | `docs/standards/STANDARDS_INDEX.md` |
 | 25 | How To Use (meta) | 1.1 | Standards | `docs/standards/HOW_TO_USE.md` |
 | 27 | Standards Log — experiences-log template (meta) | 1.1 | Standards | `docs/standards/STANDARDS_LOG.md` |
 | 28 | Doc Coverage Check | 0.1 | Governance script | `scripts/check_doc_coverage.py` |
@@ -346,12 +353,12 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 75 | PLAN-009 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-009_tracker.md` |
 | 76 | Delivery skill — mode dispatch + step-0 vault resolve | 0.1 | Delivery | `skill/SKILL.md` |
 | 77 | Delivery skill — bootstrap mode | 0.2 | Delivery | `skill/modes/bootstrap.md` |
-| 78 | Delivery skill — adopt mode | 0.2 | Delivery | `skill/modes/adopt.md` |
+| 78 | Delivery skill — adopt mode | 0.3 | Delivery | `skill/modes/adopt.md` |
 | 79 | Delivery-skill installer (per-machine symlink) | 0.1 | Delivery | `scripts/bootstrap_skill.sh` |
 | 80 | PLAN-012 — sync handoff report (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-012_sync_handoff.md` |
 | 81 | PLAN-012 tracker (CLOSED) | 1.2 | Plan | `docs/Plans/PLAN-012_tracker.md` |
-| 82 | PLAN-011 — fleet convergence: Equinex intake + adoption (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-011_fleet_convergence.md` |
-| 83 | PLAN-011 tracker (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-011_tracker.md` |
+| 82 | PLAN-011 — fleet convergence: Equinex intake + adoption (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-011_fleet_convergence.md` |
+| 83 | PLAN-011 tracker (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-011_tracker.md` |
 | 84 | PLAN-013 — engine write safety: clock floor + accumulating handoffs (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-013_engine_write_safety.md` |
 | 85 | PLAN-013 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-013_tracker.md` |
 
@@ -362,6 +369,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-03
-- **Change**: PLAN-013 Phase 3 — engine write safety shipped; cells 7/46/51/72/73/80 bumped; plan + tracker (84–85) → 1.0/CLOSED.
-- **Previous change**: PLAN-013 Phase 2 APPROVED — plan + tracker (84–85) → 0.2.
+- **Change**: Standard Set Version v2.7 (PLAN-011 Phase 3a — L080 feature intake + L081 cloud-synced
+  folders): cells 1, 10, 11, 22, 23, 78; plan + tracker (82–83) → 0.3/EXECUTING.
+- **Previous change**: PLAN-013 Phase 3 — engine write safety shipped; cells 7/46/51/72/73/80 bumped; plan + tracker (84–85) → 1.0/CLOSED.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

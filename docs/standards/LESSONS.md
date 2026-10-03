@@ -37,6 +37,8 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L081 — A cloud-synced repository folder needs explicit operating rules; gitignored is not sync-ignored](#l081--a-cloud-synced-repository-folder-needs-explicit-operating-rules-gitignored-is-not-sync-ignored)
+ - [L080 — New features enter through intake: preserve the document, investigate, redesign from scratch, then plan](#l080--new-features-enter-through-intake-preserve-the-document-investigate-redesign-from-scratch-then-plan)
  - [L079 — The machine clock is an untrusted input: verify it against an external authority before stamping or recording skew](#l079--the-machine-clock-is-an-untrusted-input-verify-it-against-an-external-authority-before-stamping-or-recording-skew)
  - [L078 — A date-relative fixture must respect the worst-case bound of the window it depends on](#l078--a-date-relative-fixture-must-respect-the-worst-case-bound-of-the-window-it-depends-on)
  - [L077 — A pool that forks children needs per-child installation, not per-process](#l077--a-pool-that-forks-children-needs-per-child-installation-not-per-process)
@@ -169,6 +171,109 @@ where it lives now (which standards file, which section).>
 ---
 
 ## 3. The lessons (newest first)
+
+### L081 — A cloud-synced repository folder needs explicit operating rules; gitignored is not sync-ignored
+
+**Date:** 2026-10-03
+**Project:** an adopter project (operator) → vault
+**Phase / Task:** the adopter's machine-migration record (repository moved into a cloud-synced folder shared by two machines, to carry project data per Rule 14) → fleet-convergence intake under the operator gate → Standard Set Version v2.7
+
+#### Incident
+
+Rule 14 made folder sync the vehicle that carries project data between machines, and several
+projects moved their repositories into a cloud-synced folder shared by more than one machine. The
+move worked, but the rules for operating safely inside such a folder lived only in one adopter's
+machine-migration document and, elsewhere, as informal habit ("one machine at a time, let it
+settle"). That adopter learned them during its own move: the agent harness created a stray
+directory under the folder's new path key that had to be merged back by `link`; a machine with no
+git identity silently auto-authored a commit under a bogus `user@hostname` address (caught and
+amended before push); and the project had to decide explicitly whether its gitignored credential
+files — now inside the synced folder — could live on the sync provider's servers.
+
+#### Diagnosis
+
+A cloud-synced folder is a second, unsupervised history channel running next to git. The sync
+service does not merge: concurrent edits become "conflicted copy" files, and inside `.git/` that is
+repository corruption, not a merge conflict. Online-only placeholder files feed git and other tools
+dataless content. A commit made on one machine reaches the other through the folder without any
+pull, so unpushed commits exist only in the synced `.git/`. And `.gitignore` governs git, not the
+sync client — every ignored file (secrets, virtual environments, local agent memory) still travels.
+None of this is visible from inside a single session; each hazard surfaces only when two machines
+meet the same folder.
+
+#### Codification
+
+CLAUDE.md Rule 14 — the cloud-synced-folder bullet (Set v2.7):
+
+- **One machine at a time.** Never run agent sessions or git operations on two machines
+  concurrently; let sync finish on BOTH machines before switching.
+- **Keep the whole folder downloaded** (pinned offline) on every machine that works in it.
+- **Run `link` once per machine** — the harness-path symlink is machine-local and never synced.
+- **Push when a commit batch completes** — anything pushed is recoverable by re-clone if the
+  synced `.git/` is ever damaged.
+- **Gitignored is not sync-ignored** — secrets in the folder reach the sync provider; accept that
+  explicitly or keep them out (selective sync, a keychain).
+- **New machine or fresh clone:** set the git identity before the first commit — a repo-local
+  identity travels with folder copies but not with clones.
+
+#### Cross-references
+
+- L050 (project data must live inside the synced repo — Rule 14; this lesson adds how to operate
+  the synced folder safely)
+- L055 (push-state reconciled against the real remote)
+- L079 (machine-level inputs are untrusted until verified — the clock; here, the sync state)
+
+---
+
+### L080 — New features enter through intake: preserve the document, investigate, redesign from scratch, then plan
+
+**Date:** 2026-10-03
+**Project:** an adopter project (operator) → vault
+**Phase / Task:** two consecutive designs for one safety feature → the adopter's own lesson + standing rule → fleet-convergence intake under the operator gate → Standard Set Version v2.7
+
+#### Incident
+
+Two consecutive designs for the same safety feature took opposite paths through intake. The first
+handled the operator's feature document correctly — copied into the repo unchanged, read
+report-only, deviations named per item — but went from draft to shipped code on mechanism
+plausibility alone, with no evidence run. One day after it shipped, the operator's own handful of
+informal test runs refuted the design's premise: the mechanism engaged in exactly the runs that
+failed, because it removed the very component the system relied on to recover. The redesign ran
+the missing half: evidence analysis first, a from-scratch design that kept only the validated
+trigger machinery and replaced the effect, then a test matrix that mapped the safe and harmful
+configurations before any live value was chosen — closing clean, fully verified, in two days. At
+the next intake the operator added the second half of the rule: a feature document is an idea
+source only; it binds nothing, and operator directives override it.
+
+#### Diagnosis
+
+Feature intake had no forcing function. Document handling, integration audit, overlap checks and
+pre-ship evidence each existed as separate disciplines (plan-first, the senior-review pass,
+post-implementation verification), but nothing bound them into a sequence at the moment an idea
+starts becoming a design. A persuasive document could therefore ride straight into a plan and ship
+unrefuted, with post-implementation verification catching it only after the implementation cost
+was sunk. Treated as a specification, the document also lets its own defaults silently override
+the repository's conventions. The cheapest refutation point is before the design is approved.
+
+#### Codification
+
+CLAUDE.md § 15.9 Feature intake (before Phase 0) — Set v2.7. Every new feature, and every
+operator-supplied feature document, enters through four steps before any plan is drafted:
+(1) preserve the document in-repo unchanged and read it report-only — an idea source that binds
+nothing, adopt / deviate recorded per item; (2) investigate before designing — live integration
+audit by `file:line`, existing-machinery inventory, explicit absorb-or-supersede against open
+plans, the design hypothesis pre-tested where feasible; (3) redesign from scratch per the repo's
+conventions; (4) formalize as a § 15 plan. Pointer from the § 15.2 Phase 0 row.
+
+#### Cross-references
+
+- L042 (plan-first — § 15.9 sits upstream of it)
+- L049 (the senior-review pass hardens the plan; intake hardens the idea before the plan exists)
+- L067 (post-implementation verification of the NEW behavior — intake moves the refutation point
+  ahead of implementation)
+- L076 (scope questions surfaced as options — the per-item adopt / deviate record)
+
+---
 
 ### L079 — The machine clock is an untrusted input: verify it against an external authority before stamping or recording skew
 

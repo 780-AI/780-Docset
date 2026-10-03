@@ -22,6 +22,7 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L080–L081 — Fleet-convergence intake from EverOn.Equinex (PLAN-011)](#l080l081--fleet-convergence-intake-from-everonequinex-plan-011)
  - [L079 — The machine clock is an untrusted input: verify it against an external authority before stamping or recording skew](#l079--the-machine-clock-is-an-untrusted-input-verify-it-against-an-external-authority-before-stamping-or-recording-skew)
  - [L070–L078 — First adopter-originated intake batch (rescued from 780-Automation)](#l070l078--first-adopter-originated-intake-batch-rescued-from-780-automation)
  - [L069 — The engine-owned lessons archive invites appends; adopter lessons need a visible channel and an intake gate](#l069--the-engine-owned-lessons-archive-invites-appends-adopter-lessons-need-a-visible-channel-and-an-intake-gate)
@@ -146,6 +147,41 @@ where it lives now (which standards file, which section).>
 ---
 
 ## 3. The lessons (newest first)
+
+### L080–L081 — Fleet-convergence intake from EverOn.Equinex (PLAN-011)
+
+**Date:** 2026-10-03
+**Project:** EverOn.Equinex (operator's own project, divergent EverOn line) → Standard DocSet (vault)
+**Phase / Task:** PLAN-011 Phase 3a — Rule 16 gate exchange in the operator-visible chat (C1–C7
+presented with explanation + recommendation; operator: "confirmed as recommended", 2026-10-03),
+integrated at Standard Set Version v2.7
+
+**Provenance record** (project-voice entry; the full genericized lessons live in the canonical
+`docs/standards/LESSONS.md` — dual-voice practice per L068):
+
+| Vault # | Their source | Title (canonical) | Their origin |
+|---|---|---|---|
+| L080 | their L062 + their `CLAUDE.md` Rule 16 (v3.12 2026-08-19, sharpened v3.13 2026-08-20) — gate item C1 | New features enter through intake: preserve, investigate, redesign, plan | their PLAN-040 → PLAN-041 pair (survival-mode feature) |
+| L081 | their `docs/MACHINE_MIGRATION.md` v0.3 — § 6.1 rules 1–5, § 4 Git-identity row, § 6.2 — gate items C2 + C3 + C4 | Cloud-synced folder operating rules; gitignored ≠ sync-ignored | their Dropbox-move session 2026-08-16 |
+
+**Landed as:** L080 → template `CLAUDE.md` § 15.9 *Feature intake (before Phase 0)* + § 15.2
+Phase 0 pointer (D-6 = A — no rule renumbering; their own-line Rule 16 number collides with this
+vault's Rule 16, the harvest gate). L081 → the cloud-synced-folder bullet in template Rule 14.
+Both mirrored into this vault's root `CLAUDE.md` (own-instance reconcile). The vault itself runs in
+a Dropbox folder, so L081 binds here operationally — it corroborates the vault's own
+"one machine at a time, let Dropbox settle" practice (`config/projects.toml`) and its synced-`.venv`
+broken-interpreter incident (gitignored ≠ sync-ignored).
+
+**Kept local (gate items, operator-confirmed):** C5 delegated subsystem manifest tracking (their
+Rule 8 bullet), C6 committed canonical config as the single QA base (their § 4), C7 optional
+orientation-graph aid (their SESSION_OPENER § 1.5) — Equinex customizations; the portable kernels
+of C5/C6 may return as their first post-adoption `E0NN` entries.
+
+**Numbering note (R6):** vault Set **v2.7** ≠ Equinex's own-line "Set v2.7"; their L062 → vault L080
+here, and the full own-line → vault crosswalk lands in their `archive/LESSONS_LEGACY.md` at
+adoption (PLAN-011 § 5E.3). Their original texts stay in their git history and legacy archive.
+
+---
 
 ### L079 — The machine clock is an untrusted input: verify it against an external authority before stamping or recording skew
 

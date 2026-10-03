@@ -1,8 +1,9 @@
-<!-- VERSION: 1.4 -->
+<!-- VERSION: 1.5 -->
 <!-- Last Updated: 2026-10-03 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.5 — 2026-10-03 — Standard Set Version v2.7: LESSONS row count 79 → 81 (L001–L081; L080 feature intake, L081 cloud-synced folders).
 v1.4 — 2026-10-03 — Standard Set Version v2.6: LESSONS row count 78 → 79 (L001–L079; L079 clock trust).
 v1.3 — 2026-08-27 — Standard Set Version v2.3: LESSONS row count 68 → 78 (L001–L078; first adopter-originated intake batch).
 v1.2 — 2026-08-18 — Standard Set Version v2.1: stale LESSONS row count in the file table fixed 48 → 68 (L001–L068) — had drifted since Set v1.4 (L060-class count sweep).
@@ -147,7 +148,7 @@ The suite is organized as **10 binding files** (core operating contract + 7 focu
 | `ENGINEERING_STANDARDS.md` | AI agents + humans writing code | Architecture invariants (incl. live-data settlement windows + time-window parsing pitfalls + refactor blast-radius), coding standards, secrets, container discipline, healthchecks, operator-machine ops |
 | `VALIDATION_STANDARDS.md` | AI agents + humans writing tests | 7-tier test model, ownership map, deliberate-failure protocol, 24h soak, first-fire iteration expectations |
 | `CICD_STANDARDS.md` | AI agents + humans touching pipelines | 6-stage pipeline shape, registry-pull deploy, smoke gating, auto-rollback, 24h soak gate, staging-mirrors-prod, explicit PROD authorization, REST-API status probing |
-| `LESSONS.md` | Humans researching "why" | 79 lessons (L001–L079, append-only), each with incident + cost + codification |
+| `LESSONS.md` | Humans researching "why" | 81 lessons (L001–L081, append-only), each with incident + cost + codification |
 | `SESSION_OPENER.md` | AI agents (loaded automatically per CLAUDE.md Rule 9) | Session-start pre-flight forcing function: canonical environment mapping + project failure-mode catalog + first-response output template (L043) |
 
 **Meta files (about the suite, not part of the binding core):**
