@@ -2,6 +2,22 @@
 
 Newest entries at the top.
 
+## [2026-10-03] — PLAN-011 Phase 2 APPROVED ("plan 011 is appvoved")
+
+- **Type:** Plan approval record (no behavior change).
+- **What:** Operator approved PLAN-011 on the request naming D-1 = Equinex only and D-2 = A.
+  Decisions recorded in plan § 9.1: D-3 fleet grows later one by one; D-4 start immediately
+  (Equinex idle); D-5 E001 first — already shipped as v2.6, so this plan's release is v2.7 and
+  C1's lesson L080 (the R6 label clash with Equinex's own-line "v2.7" now exact — to be stated
+  explicitly at release + adoption); D-6 = A (§ 15.9). Execution delta from the 2026-10-03
+  handoff-overwrite finding: Phase 3a holds any target with an un-landed `docs/SYNC_HANDOFF.md`
+  unless PLAN-013 ships first. The operator's org-wide expansion (20+ non-AI-native GitHub-org
+  repos of one super-application — AI-enabled, delivered as reviewed PRs; cross-repo governance
+  leaning "each repo stands alone", decided after the scan) is routed to PLAN-013 → PLAN-014 →
+  PLAN-015. Phase 3a runs in a NEW session per § 15.3.
+- **QA scenarios:** exempt per Rule 11 (approval record).
+- **Versions:** PLAN-011 + tracker 0.1 → 0.2, manifest 2.42 → 2.43. Impact: none at runtime.
+
 ## [2026-10-03] — Standard Set Version v2.6: clock trust — 780-VPN E001 integrated as L079 (second harvested adopter entry)
 
 - **Type:** Standards-suite release (Critical File `docs/standards/` — doc-only, no engine change;

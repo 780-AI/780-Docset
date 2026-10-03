@@ -1,7 +1,10 @@
-<!-- VERSION: 2.42 -->
+<!-- VERSION: 2.43 -->
 <!-- Last Updated: 2026-10-03 -->
 <!--
 CHANGE LOG
+v2.43 — 2026-10-03 — PLAN-011 Phase 2 approval recorded ("plan 011 is appvoved"): rows 82–83 → 0.2
+(DRAFT → APPROVED). Phase 3 runs in a fresh session per § 15.3. Self-row 2.42 → 2.43
+(grep-verified against the header per L063).
 v2.42 — 2026-10-03 — Standard Set Version v2.6 (clock trust — 780-VPN E001 → L079): bumped cells 10
 (SET_VERSION_ADOPTED 1.13→1.14, v2.6 backport row), 13 (PROJECT_STANDARDS 1.0→1.1, § 5.6), 22 (standards
 README 1.3→1.4, count 79), 23 (STANDARDS_INDEX 2.5→2.6). Rows 12 + 30 (LESSONS template + adopter
@@ -261,7 +264,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.42 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.43 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.12 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.16 | Governance | `docs/SESSION_OPENER.md` |
@@ -335,8 +338,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 79 | Delivery-skill installer (per-machine symlink) | 0.1 | Delivery | `scripts/bootstrap_skill.sh` |
 | 80 | PLAN-012 — sync handoff report (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-012_sync_handoff.md` |
 | 81 | PLAN-012 tracker (CLOSED) | 1.2 | Plan | `docs/Plans/PLAN-012_tracker.md` |
-| 82 | PLAN-011 — fleet convergence: Equinex intake + adoption (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-011_fleet_convergence.md` |
-| 83 | PLAN-011 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-011_tracker.md` |
+| 82 | PLAN-011 — fleet convergence: Equinex intake + adoption (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-011_fleet_convergence.md` |
+| 83 | PLAN-011 tracker (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-011_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -345,7 +348,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-03
-- **Change**: Standard Set Version v2.6 (clock trust — L079 + PROJECT_STANDARDS § 5.6): cells 10,
-  13, 22, 23.
-- **Previous change**: PLAN-011 DRAFT registered — plan + tracker (82–83, 0.1).
+- **Change**: PLAN-011 Phase 2 APPROVED — plan + tracker (82–83) → 0.2.
+- **Previous change**: Standard Set Version v2.6 (clock trust — L079 + PROJECT_STANDARDS § 5.6):
+  cells 10, 13, 22, 23.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

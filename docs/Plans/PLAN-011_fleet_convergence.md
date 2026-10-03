@@ -1,8 +1,15 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-10-03 -->
-<!-- Status: DRAFT (Phase 1 — awaiting Phase 2 operator approval "APPROVE PLAN-011") -->
+<!-- Status: APPROVED (Phase 2 — operator "plan 011 is appvoved" 2026-10-03; Phase 3a runs in a NEW session per § 15.3) -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-03 — Phase 2 operator approval recorded ("plan 011 is appvoved", on the request
+naming D-1 = Equinex only + D-2 = A). Decisions D-1…D-6 recorded in § 9 with two execution deltas
+from events after the draft: (a) E001 shipped first as Set v2.6 (L079), so this plan's release is
+v2.7 and C1's lesson L080 — the R6 label clash with Equinex's own-line "v2.7" is now exact;
+(b) the 2026-10-03 handoff-overwrite finding adds a Phase 3a pre-write hold. § 1 wording clarified:
+this plan closes the operator's own-lineage convergence, not the org-wide program (D-1). No other
+content change.
 v0.1 — 2026-10-03 — Initial draft (Phase 0 audit + Phase 1 design). Scope set by the live fleet
 state: Capital-Signal, 780-Automation and 780-VPN are already converged + registered (fleet v2.5);
 EverOn.Equinex is the last known unconverged project. Phase 0 delta audit: Equinex holds ONE lesson
@@ -19,7 +26,8 @@ plus the Rule 10 read-through fix: QA-F2's grep made unambiguous (no `-c`; pass 
 ## 1. Goal
 
 Converge **EverOn.Equinex** — the last known project still running its own divergent copy of the
-suite — onto the vault, and with it close the fleet-adoption program. Per the lifecycle principle
+suite — onto the vault, and with it close the convergence of the operator's own project lineage (the
+org-wide rollout of the non-AI-native repos continues under PLAN-013–015, D-1). Per the lifecycle principle
 (*the skill converges a project once; the engine syncs it forever*), the per-project flow is:
 
 1. **Intake first** — every Equinex lesson / rule / suite-level novelty the vault does not hold is
@@ -149,7 +157,7 @@ files), `.claude/` + OPEN_TASKS gitignored.
 
 - Phase 0 — Audit: ✅ 2026-10-03
 - Phase 1 — Design + Rule 13 pass: ✅ 2026-10-03
-- Phase 2 — Operator approval (D11.A + D-1…D-6): ⏸
+- Phase 2 — Operator approval (D11.A + D-1…D-6): ✅ 2026-10-03 — "plan 011 is appvoved"
 - Phase 3a — Intake + release (vault session; commit § 7.2): ⏸
 - Phase 3b — Equinex adoption (Equinex session; target commit § 7.3): ⏸
 - Phase 3c — Registration + discipline proof (vault session; commit § 7.4, closes the plan): ⏸
@@ -456,6 +464,28 @@ waiver recorded in the tracker's waiver register.
   would have to renumber it, which the only-append rule forbids; (C) **template Rule 17**, leaving
   16 unused in the template — avoids renumbering but leaves adopters a numbering hole, and the
   next template rule collides again with any project-specific Rule 16.
+
+### 9.1 Decision record (Phase 2, 2026-10-03)
+
+- **D11.A — APPROVED:** operator *"plan 011 is appvoved"* (2026-10-03), answering the request
+  "APPROVE PLAN-011 with D-1 = Equinex only and D-2 = A".
+- **D-1 = as § 3 (Equinex only).** The operator's org-wide expansion (20+ non-AI-native GitHub-org
+  repos of one super-application, AI-enabled, delivered as reviewed PRs) is routed to PLAN-013
+  (engine write safety) → PLAN-014 (GitHub PR delivery, DD-6b) → PLAN-015 (org rollout framework).
+- **D-2 = A** — frozen `archive/LESSONS_LEGACY.md` + numbering crosswalk.
+- **D-3** — the fleet grows later, projects added one by one (no amendment to this plan).
+- **D-4** — Equinex is idle: Phase 3 may start immediately (new session).
+- **D-5 = E001 first** — ✅ shipped 2026-10-03 as Set v2.6 (`18b4b61`, L079). This plan's release
+  is therefore **v2.7** and C1's lesson **L080** (§ 5D.4 "next free" already covers it); R6 is now
+  exact — the release CHANGELOG + the Equinex adopt entry must state "vault Set v2.7 ≠ Equinex
+  own-line v2.7" explicitly.
+- **D-6 = A** — template `§ 15.9 Feature intake (before Phase 0)`.
+- **Execution delta — Phase 3a pre-write hold (2026-10-03 handoff-overwrite finding):** each engine
+  write rewrites `docs/SYNC_HANDOFF.md`, so a target still holding an un-landed handoff loses the
+  earlier explanation. Before the § 7.2 `sync --write`: any target with a `docs/SYNC_HANDOFF.md`
+  present is HELD (state: Capital-Signal held since v2.5; 780-VPN holds the v2.6 handoff until
+  its next session lands it) — unless PLAN-013's accumulation fix has shipped first. QA-F3's
+  oracle still runs on held targets (read-only); QA-F4 covers the written ones and lists the held.
 
 ## 10. Rollback path
 

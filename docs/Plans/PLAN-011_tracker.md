@@ -1,8 +1,10 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-10-03 -->
-<!-- Status: DRAFT (tracks PLAN-011 — awaiting Phase 2 approval) -->
+<!-- Status: APPROVED (tracks PLAN-011 — Phase 3a next, in a NEW session) -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-03 — Phase 2 approval recorded ("plan 011 is appvoved"); decisions + execution
+deltas in plan § 9.1; Phase 3a gains the un-landed-handoff pre-write hold.
 v0.1 — 2026-10-03 — Created with the plan draft (tracker required per § 15.7: Phase 3 spans three
 commits across three sessions — vault / Equinex / vault — and Phase 4 is multi-scenario,
 QA-F1…F8).
@@ -29,12 +31,15 @@ QA-F1…F8).
 
 ## Phase 2 — Operator approval
 
-- ⏸ D11.A ("APPROVE PLAN-011") + D-1 scope, D-2 archive home, D-3 fleet completeness, D-4 window,
-  D-5 release ordering, D-6 feature-intake landing.
+- ✅ 2026-10-03 — operator: **"plan 011 is appvoved"** — D-1 Equinex only; D-2 = A; D-3 fleet grows
+  later one by one; D-4 start immediately; D-5 E001 first (✅ v2.6 shipped `18b4b61` → this release
+  = v2.7, C1 = L080); D-6 = A (§ 15.9). Record: plan § 9.1.
 
 ## Phase 3a — Intake + release (vault session; commit § 7.2)
 
 - ⏸ Clock check vs external authority (R8) recorded.
+- ⏸ Pre-write hold check: list targets holding an un-landed `docs/SYNC_HANDOFF.md` (plan § 9.1) —
+  held unless PLAN-013's accumulation fix has shipped.
 - ⏸ Delta re-verified at Equinex tip (§ 5D.1).
 - ⏸ Rule 16 gate posted; operator confirmation quoted here (QA-F1).
 - ⏸ Integration per § 5D.0 (Rule 12 drift) + § 5D.2–5D.7 + § 5C adopt.md fix.
