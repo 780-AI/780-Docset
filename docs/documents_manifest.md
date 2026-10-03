@@ -1,7 +1,12 @@
-<!-- VERSION: 2.38 -->
-<!-- Last Updated: 2026-09-05 -->
+<!-- VERSION: 2.39 -->
+<!-- Last Updated: 2026-10-03 -->
 <!--
 CHANGE LOG
+v2.39 — 2026-10-03 — 780-VPN re-pointed ssh → local `~/` (shared Dropbox folder): bumped cell 8
+(project SESSION_OPENER 1.15→1.16, § 2 target row). config/projects.toml carries no VERSION
+header (not manifest-tracked, per the standing note). Last-updated block rotated — it had drifted
+since 2026-08-19 (v2.27–v2.38 skipped the rotation; disclosed, not back-filled). Self-row 2.38 →
+2.39 (grep-verified against the header per L063).
 v2.38 — 2026-09-05 — v2.5 catch-up bookkeeping: 780-Automation returned — catch-up write
 converged it to v2.5 (fleet current on all three targets); QA-H3 flipped complete in the v2.5
 CHANGELOG entry; PLAN-012 tracker 1.0→1.1 (row 81, post-close QA annotation + Phase 5 record).
@@ -245,10 +250,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.38 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.39 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.12 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.15 | Governance | `docs/SESSION_OPENER.md` |
+| 8 | Session Opener (project-local, binding) | 1.16 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.6 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.13 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.6 | Standards | `docs/standards/CLAUDE.md` |
@@ -326,12 +331,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 ## Last updated
 
-- **Date**: 2026-08-19
-- **Change**: W-D1 fix-forward — both skill mode specs (77 + 78 → 0.2): the sync-ready SVA shape
-  gains the CHANGE LOG comment block the engine's record-update hard-requires (found by the v2.2
-  oracle dry-run: the first live bootstrap had shipped an SVA that fails on its first version
-  delta).
-- **Previous change**: Standard Set Version v2.2 (domain-neutral scrub): residual real-username example
-  paths genericized — cells 15 + 16 → 1.1, STANDARDS_INDEX → 2.2 (23), SVA v2.2 backport row
-  (10 → 1.10). Payload for the first ssh `sync --write` (780-Automation).
+- **Date**: 2026-10-03
+- **Change**: 780-VPN re-pointed ssh → local `~/` (shared Dropbox folder) — project SESSION_OPENER
+  § 2 row (8 → 1.16); `config/projects.toml` entry (untracked by the manifest). 780-VPN's ssh host
+  had been unreachable since 2026-09-08.
+- **Previous change**: v2.5 catch-up bookkeeping (2026-09-05) — 780-Automation converged to v2.5;
+  PLAN-012 tracker → 1.1 (81). (Block rotation had lapsed 2026-08-19 → 2026-09-05; rotated here.)
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

@@ -2,6 +2,34 @@
 
 Newest entries at the top.
 
+## [2026-10-03] — 780-VPN re-pointed ssh → local `~/` (shared Dropbox folder)
+
+- **Type:** Registration update (Critical File `config/projects.toml`; no engine change).
+- **What:** Operator decision ("switch the 780-vpn to local folder"). Both team-Mac ssh hosts have
+  been unreachable on port 22 since 2026-09-08 (both refused then; 2026-10-03: 172.16.11.17
+  times out, 172.16.11.60 refuses), leaving 780-VPN `unknown` and its open E001 unharvestable. The repo lives in a Dropbox folder SHARED with the
+  team member's account, which also syncs to the curator machine at
+  `~/Library/CloudStorage/Dropbox/Projects/780-VPN` — the registry entry now uses that `~/` path
+  (local transport; the registry expands `~` per machine, the Capital-Signal pattern). Identity
+  verified BEFORE re-pointing: same origin `git@github.com:780-AI/780-VPN.git`, bootstrap
+  `be4d6d3` + both sync landings (`630f508`, `de1de37`) in history, SVA on Set v2.5, clean tree
+  at `e739ff9` = `origin/main`. Drops the DHCP-IP dependency; the one-machine-at-a-time caution
+  now spans BOTH Dropbox accounts (registry NOTE + § 2 row). Git transport (GitHub 780-AI)
+  stays a candidate once DD-6b settles. Project SESSION_OPENER § 2 row updated. Manifest
+  Last-updated block rotated (lapsed since 2026-08-19, v2.27–v2.38 — disclosed).
+- **QA scenarios (Rule 11; Rule 15 feature-ON):** all three ✅ 2026-10-03, run against the
+  re-pointed registry before commit:
+  - QA-VL1 `status` — 780-VPN resolves at the expanded path: ADOPTED v2.5 / VAULT v2.5 /
+    current / open-log 1 (was `?` / `unknown` / 0 over ssh).
+  - QA-VL2 `sync --project 780-VPN` dry-run — up-to-date, 11/11 SYNC_MAP items `ok` (the
+    transport swap perturbs nothing).
+  - QA-VL3 `harvest` — surfaces 780-VPN E001 ("Stamp sync output from a trusted clock…",
+    governance, general) — previously unreachable. Listing only; integration stays behind the
+    Rule 16 gate. Target tree verified untouched after the runs (clean, `e739ff9`).
+- **Versions:** manifest 2.38→2.39, project SESSION_OPENER 1.15→1.16. Impact: registry data +
+  bookkeeping only — no engine behavior change; reads/writes against 780-VPN now run locally
+  from any curator machine syncing the shared folder (writes one machine at a time).
+
 ## [2026-09-05] — Bookkeeping: v2.5 catch-up write to 780-Automation — QA-H3 complete on ALL THREE targets; discarded-writes finding recorded
 
 - **Type:** Bookkeeping + fleet-state record (no vault behavior change).
