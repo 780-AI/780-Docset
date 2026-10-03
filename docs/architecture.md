@@ -1,7 +1,8 @@
-<!-- VERSION: 0.12 -->
-<!-- Last Updated: 2026-09-05 -->
+<!-- VERSION: 0.13 -->
+<!-- Last Updated: 2026-10-03 -->
 <!--
 CHANGE LOG
+v0.13 — 2026-10-03 — PLAN-013 (engine write safety) landed. § 7 handoff paragraph: handoffs ACCUMULATE (an un-landed handoff's `### Write N` records are kept and the new write appended; a pre-accumulation handoff is wrapped as record 1; an unrecognized one is kept verbatim) + the clock floor (newest_stamp / check_clock refuse a write whose date precedes the target's newest stamp; the sync dry-run warns). § 9 gains the never-stamp-behind invariant. Engine-only — no Set Version change.
 v0.12 — 2026-09-05 — PLAN-012 (sync handoff, Standard Set Version v2.5) landed. § 7 adds the sync-handoff paragraph: every engine write (sync --write AND integrate write-back) also writes + flushes the engine-owned transient docs/SYNC_HANDOFF.md into the target (render_handoff/HANDOFF_REL; project, operation, Set Version, run date with clock caveat, (file, mode) list, six residual steps ending delete-on-landing); not a SYNC_MAP item (idempotence); never manifest-listed (Rule 8 exempt by design); read by the SESSION_OPENER template § 1.1 engine-handoff check.
 v0.11 — 2026-08-17 — PLAN-009 (skill delivery, Standard Set Version v2.0) landed. § 3 machinery row → never enters the project (SETUP/NPB/MDRP retired from the suite at v2.0). § 4 rewritten: delivery = the vault-side live-reference standard-docset skill (symlink resolve + step-0 self-pull; copies from the live docs/standards/; stamps SET_VERSION_ADOPTED with Set Version + vault commit; no crate, no strip; bootstrap | adopt modes, adopt dry-run gated; concierge default / self-service clone). § 8 `setup` row → `skill` row. § 10 appends roadmap item 6 (delivery layer ✅). § 11 records the PLAN-009 decisions (D-1…D-5) as DECIDED.
 v0.10 — 2026-08-16 — PLAN-008 (Slice 5: `sync`) landed. § 7 adds the sync-enablement additions (TEMPLATE-ONLY marker convention; ordinal PROJECT-OWNED block matching with strict count check; § 14 stub-keep). § 8 marks sync implemented ✅ + behavior note (dry-run default; --write/--project/--diff; per-target isolation exit 1; target manifest deliberately not edited; mechanical SVA record update); transport paragraph += full-footprint sessions (DD-B: full=True materializes docs/ + archive/ + root CLAUDE.md). § 10 ticks Slice 5 ✅ — the harvest → integrate → sync loop is complete. § 11 records the PLAN-008 decisions (D1/D2 + DD-A…DD-I) as DECIDED. Ships with Standard Set Version v1.6 (sync-enablement markers) in the same commit.
@@ -179,6 +180,14 @@ handoff). It is NOT a `SYNC_MAP` item — a converged target still reports up-to
 present (idempotence) — and it is never manifest-listed on either side (engine-transient, Rule 8
 exempt by design; it must never survive a landing commit). The target-side reader is the
 SESSION_OPENER template's § 1.1 engine-handoff check.
+**Accumulation + clock floor (PLAN-013).** When the target still holds an un-landed handoff, the
+engine keeps its write records verbatim and appends the new write as the next `### Write N`
+record (a pre-accumulation single-write handoff is wrapped as record 1; an unrecognized file is
+kept verbatim in a fence), so the target's next session sees every engine write since its last
+landing; the sync dry-run notes an un-landed handoff. Before stamping, both write paths take the
+target's newest stamp (`sync.newest_stamp` — `Last Updated` headers + `vX.Y — date — ` change-log
+lines across the SYNC_MAP files + `docs/STANDARDS_LOG.md`) and refuse (`sync.check_clock`) when
+the local clock reads earlier (L079); the sync dry-run warns instead of refusing.
 
 ## 8. The engine (command surface)
 
@@ -253,6 +262,8 @@ sessions were already full clones. Existing commands are unchanged (`full=False`
   `E0NN` ids; integration maps `E→L`).
 - **Every change to the suite** bumps per-file `VERSION` + the `Set Version`.
 - **Sync never clobbers** a `PROJECT-OWNED` block.
+- **The engine never stamps behind a target** (PLAN-013, L079): a write whose date precedes the
+  target's newest stamp is refused before any file is touched.
 - **Read before write**: the engine re-reads a target's on-disk files before acting (never a cached
   version) — per `CLAUDE.md` § 2. Across a transport (PLAN-007) this means a **fetch-fresh
   materialization** immediately before the run, and a **per-target atomic** write-back:

@@ -1,7 +1,13 @@
-<!-- VERSION: 2.45 -->
+<!-- VERSION: 2.46 -->
 <!-- Last Updated: 2026-10-03 -->
 <!--
 CHANGE LOG
+v2.46 — 2026-10-03 — PLAN-013 Phase 3 (engine write safety: clock floor + accumulating handoffs):
+bumped cells 7 (architecture 0.12→0.13, § 7 accumulation + clock-floor paragraph, § 9 invariant),
+46 (cli 0.6→0.7), 51 (test_cli 0.6→0.7), 72 (sync 0.2→0.3), 73 (test_sync 0.1→0.2), 80 (PLAN-012
+1.0→1.1, § 11 closed-risk annotation); promoted PLAN-013 + tracker (84–85) 0.2/APPROVED →
+1.0/CLOSED. No `docs/standards/` change — no Set Version bump. Self-row 2.45 → 2.46 (grep-verified
+against the header per L063).
 v2.45 — 2026-10-03 — PLAN-013 Phase 2 approval recorded ("approve plan 013"): rows 84–85 → 0.2
 (DRAFT → APPROVED). Phase 3 follows in this fresh session per § 15.3. Self-row 2.44 → 2.45
 (grep-verified against the header per L063).
@@ -270,9 +276,9 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.45 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.46 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
-| 7 | Architecture (system-design record) | 0.12 | Docs | `docs/architecture.md` |
+| 7 | Architecture (system-design record) | 0.13 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.16 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.6 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.14 | Governance | `docs/SET_VERSION_ADOPTED.md` |
@@ -309,12 +315,12 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 43 | Engine — registry loader | 0.2 | Engine | `src/standard_document_updater/registry.py` |
 | 44 | Engine — Set-Version / open-log parsers | 0.2 | Engine | `src/standard_document_updater/setversion.py` |
 | 45 | Engine — comparison report | 0.2 | Engine | `src/standard_document_updater/report.py` |
-| 46 | Engine — CLI (status / drift / harvest / integrate / sync) | 0.6 | Engine | `src/standard_document_updater/cli.py` |
+| 46 | Engine — CLI (status / drift / harvest / integrate / sync) | 0.7 | Engine | `src/standard_document_updater/cli.py` |
 | 47 | Engine test — shared fixtures | 0.2 | Engine test | `tests/conftest.py` |
 | 48 | Engine test — setversion | 0.2 | Engine test | `tests/test_setversion.py` |
 | 49 | Engine test — registry | 0.2 | Engine test | `tests/test_registry.py` |
 | 50 | Engine test — report | 0.2 | Engine test | `tests/test_report.py` |
-| 51 | Engine test — cli | 0.6 | Engine test | `tests/test_cli.py` |
+| 51 | Engine test — cli | 0.7 | Engine test | `tests/test_cli.py` |
 | 52 | Engine — experiences-log entry parser | 0.1 | Engine | `src/standard_document_updater/logentry.py` |
 | 53 | Engine — harvest report (open-entry consolidation) | 0.1 | Engine | `src/standard_document_updater/harvest.py` |
 | 54 | Engine test — logentry | 0.1 | Engine test | `tests/test_logentry.py` |
@@ -334,20 +340,20 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 69 | PLAN-010 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-010_tracker.md` |
 | 70 | PLAN-008 — Slice 5: sync (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-008_sync.md` |
 | 71 | PLAN-008 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-008_tracker.md` |
-| 72 | Engine — section-aware suite propagation (sync) | 0.2 | Engine | `src/standard_document_updater/sync.py` |
-| 73 | Engine test — sync | 0.1 | Engine test | `tests/test_sync.py` |
+| 72 | Engine — section-aware suite propagation (sync) | 0.3 | Engine | `src/standard_document_updater/sync.py` |
+| 73 | Engine test — sync | 0.2 | Engine test | `tests/test_sync.py` |
 | 74 | PLAN-009 — skill-based delivery (Set v2.0) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-009_skill_delivery.md` |
 | 75 | PLAN-009 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-009_tracker.md` |
 | 76 | Delivery skill — mode dispatch + step-0 vault resolve | 0.1 | Delivery | `skill/SKILL.md` |
 | 77 | Delivery skill — bootstrap mode | 0.2 | Delivery | `skill/modes/bootstrap.md` |
 | 78 | Delivery skill — adopt mode | 0.2 | Delivery | `skill/modes/adopt.md` |
 | 79 | Delivery-skill installer (per-machine symlink) | 0.1 | Delivery | `scripts/bootstrap_skill.sh` |
-| 80 | PLAN-012 — sync handoff report (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-012_sync_handoff.md` |
+| 80 | PLAN-012 — sync handoff report (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-012_sync_handoff.md` |
 | 81 | PLAN-012 tracker (CLOSED) | 1.2 | Plan | `docs/Plans/PLAN-012_tracker.md` |
 | 82 | PLAN-011 — fleet convergence: Equinex intake + adoption (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-011_fleet_convergence.md` |
 | 83 | PLAN-011 tracker (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-011_tracker.md` |
-| 84 | PLAN-013 — engine write safety: clock floor + accumulating handoffs (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-013_engine_write_safety.md` |
-| 85 | PLAN-013 tracker (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-013_tracker.md` |
+| 84 | PLAN-013 — engine write safety: clock floor + accumulating handoffs (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-013_engine_write_safety.md` |
+| 85 | PLAN-013 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-013_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -356,6 +362,6 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-03
-- **Change**: PLAN-013 Phase 2 APPROVED — plan + tracker (84–85) → 0.2.
-- **Previous change**: PLAN-013 DRAFT registered — plan + tracker (84–85, 0.1).
+- **Change**: PLAN-013 Phase 3 — engine write safety shipped; cells 7/46/51/72/73/80 bumped; plan + tracker (84–85) → 1.0/CLOSED.
+- **Previous change**: PLAN-013 Phase 2 APPROVED — plan + tracker (84–85) → 0.2.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

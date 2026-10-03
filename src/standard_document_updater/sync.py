@@ -1,8 +1,13 @@
 # ==============================================================
-# VERSION: 0.2
+# VERSION: 0.3
 # Section-aware suite propagation (`sync`): replace | merge | record per file.
 #
 # CHANGE LOG
+# v0.3 — 2026-10-03 — PLAN-013: handoffs ACCUMULATE (an un-landed handoff's write records are
+#         kept and the new write appended as the next record) + newest_stamp / check_clock —
+#         the floor guard that refuses an engine write when the local clock is behind the
+#         target's newest stamp (L079). Phase 3 D2 fix: the § 2 anchor is found from the
+#         end (rfind), so a fenced unrecognized handoff survives later writes intact.
 # v0.2 — 2026-09-05 — PLAN-012: HANDOFF_REL + render_handoff — EVERY engine write into a target
 #         (sync --write AND integrate write-back) leaves a handoff report so the target's next
 #         session finds engine-landed changes explained.
@@ -306,9 +311,41 @@ def render_plan(project_name: str, actions: list[FileAction], *, show_diff: bool
 
 HANDOFF_REL = Path("docs/SYNC_HANDOFF.md")
 
+_HANDOFF_S1 = "## 1. What the engine did\n"
+_HANDOFF_S2 = "## 2. What this project's next session must do"
+_WRITE_HEADING_RE = re.compile(r"^### Write \d+", re.MULTILINE)
+_PROJECT_LINE_RE = re.compile(r"^- \*\*Project:\*\*[^\n]*\n", re.MULTILINE)
+
+
+def _prior_records(existing: str) -> tuple[str, int]:
+    """Write records kept verbatim from an un-landed handoff, plus how many there are.
+
+    PLAN-013: a second engine write before the target lands the first must not
+    erase the first write's explanation. Three shapes: the accumulating format
+    (`### Write N` records), the single-write PLAN-012 format (wrapped as one
+    record), and anything else (kept verbatim in a fence — nothing is lost).
+    """
+    start = existing.find(_HANDOFF_S1)
+    end = existing.rfind(_HANDOFF_S2)  # the engine's own § 2 is always last
+    if start == -1 or end < start:
+        fenced = f"````text\n{existing.rstrip()}\n````"
+        return f"### Write 1 — earlier handoff (unrecognized format, kept verbatim)\n\n{fenced}", 1
+    body = _PROJECT_LINE_RE.sub("", existing[start + len(_HANDOFF_S1) : end], count=1).strip()
+    if not body:
+        return "", 0
+    count = len(_WRITE_HEADING_RE.findall(body))
+    if count:
+        return body, count
+    return f"### Write 1 — earlier engine write\n\n{body}", 1
+
 
 def render_handoff(
-    project_name: str, operation: str, set_version: str, today: str, files: list[tuple[str, str]]
+    project_name: str,
+    operation: str,
+    set_version: str,
+    today: str,
+    files: list[tuple[str, str]],
+    existing: str | None = None,
 ) -> str:
     """The handoff report every engine write leaves in the target (PLAN-012).
 
@@ -317,22 +354,34 @@ def render_handoff(
     written, by which operation and vault release, and the residual bookkeeping
     the engine deliberately leaves to the target (manifest cells, CHANGELOG
     entry, the landing commit). The target session deletes the file in the
-    commit that lands the changes; the next engine write recreates it.
+    commit that lands the changes. PLAN-013: when the target still holds an
+    un-landed handoff (`existing`), its write records are kept and this write is
+    appended as the next record — every write since the last landing stays listed.
     """
+    prior, count = _prior_records(existing) if existing is not None else ("", 0)
     lines = [
         "# SYNC HANDOFF — engine-written changes landed in this repository",
         "",
         "> **READ ME FIRST.** The Standard DocSet engine wrote the files below directly",
         "> into this working tree. They are NOT unexplained local edits. Land them per § 2,",
-        "> then DELETE this file in that same commit.",
+        "> then DELETE this file in that same commit. If several writes are listed, land them",
+        "> ALL in that one commit.",
         "",
         "## 1. What the engine did",
         "",
         f"- **Project:** {project_name}",
+        "",
+    ]
+    if prior:
+        lines += [prior, ""]
+    lines += [
+        f"### Write {count + 1}",
+        "",
         f"- **Operation:** {operation}",
         f"- **Vault Standard Set Version:** {set_version}",
-        f"- **Run date:** {today} (stamped by the curator machine's clock — if stamp ordering",
-        "  looks wrong against local history, trust an external time authority)",
+        f"- **Run date:** {today} (stamped by the curator machine's clock — the engine refuses",
+        "  to stamp behind this repository's newest stamp; if ordering still looks wrong",
+        "  against local history, trust an external time authority)",
         "- **Files written (suite-owned sections updated; PROJECT-OWNED blocks preserved):**",
     ]
     for rel, mode in files:
@@ -341,7 +390,9 @@ def render_handoff(
         "",
         "## 2. What this project's next session must do (the engine does NOT do these)",
         "",
-        "1. Review the diffs (`git diff`) against the file list above.",
+        "1. Review the diffs (`git diff`) against EVERY file list above. Suite files modified but",
+        "   listed in no record come from engine writes made before handoffs accumulated —",
+        "   review them against the vault and land them in the same commit.",
         "2. Reconcile `docs/documents_manifest.md` version cells for the files above (skip any",
         "   whose header version did not move).",
         "3. Add a CHANGELOG entry recording the engine write (operation + file list).",
@@ -352,7 +403,46 @@ def render_handoff(
         "6. New lessons/observations still land ONLY as `E0NN` entries in",
         "   `docs/STANDARDS_LOG.md` — never in engine-owned files.",
         "",
-        "*Engine-generated on every engine write; the next write rewrites it.*",
+        "*Engine-generated on every engine write; a later write before landing appends to it.*",
         "",
     ]
     return "\n".join(lines)
+
+
+_STAMP_RES = (
+    re.compile(r"<!-- Last Updated: (\d{4}-\d{2}-\d{2}) -->"),
+    re.compile(r"^v\d+\.\d+ — (\d{4}-\d{2}-\d{2}) — ", re.MULTILINE),
+)
+_STAMPED_RELS = (*(item.target_rel for item in SYNC_MAP), "docs/STANDARDS_LOG.md")
+
+
+def newest_stamp(target_root: Path) -> str | None:
+    """Newest header / CHANGE LOG date (ISO text) in the target's engine-touched files, or None.
+
+    PLAN-013 (L079): the floor the local clock must not be behind before any
+    engine write stamps dates into this target. Only stamp positions count
+    (`Last Updated` headers + `vX.Y — YYYY-MM-DD — ` change-log lines), never
+    dates quoted in prose.
+    """
+    newest: str | None = None
+    for rel in _STAMPED_RELS:
+        path = target_root / rel
+        if not path.is_file():
+            continue
+        text = path.read_text(encoding="utf-8")
+        for pattern in _STAMP_RES:
+            for match in pattern.finditer(text):
+                if newest is None or match.group(1) > newest:
+                    newest = match.group(1)
+    return newest
+
+
+def check_clock(project_name: str, today: str, floor: str | None) -> None:
+    """Refuse an engine write when the local clock is behind the target's newest stamp (L079)."""
+    if floor is not None and today < floor:
+        raise SyncError(
+            f"{project_name}: refusing to write — the local clock reads {today} but this target "
+            f"already carries a stamp dated {floor} (the clock is behind, L079). Verify the "
+            "clock against an external time authority and fix it; if the target's stamp is the "
+            "wrong one, correct it there (PROJECT_STANDARDS § 5.6) and re-run."
+        )

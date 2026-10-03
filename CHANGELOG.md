@@ -2,6 +2,51 @@
 
 Newest entries at the top.
 
+## [2026-10-03] — PLAN-013 Phase 3: engine write safety — clock floor + accumulating handoffs
+
+- **Type:** Engine behavior change (Major per § 4 — Critical Files touched; § 15 plan Phase 3,
+  single commit). Engine-only: no `docs/standards/` change → **no Set Version bump, no tag**.
+- **What:** Both engine write paths (`sync --write` and the `integrate --write` write-back) now
+  (1) **refuse when the local clock is behind the target's newest stamp** — `sync.newest_stamp`
+  reads stamp positions only (`Last Updated` headers + `vX.Y — date — ` change-log lines across
+  the SYNC_MAP files + `docs/STANDARDS_LOG.md`); `sync.check_clock` raises before any file is
+  touched (integrate checks EVERY target before the first write; sync isolates the refused
+  target, exit 1) — the engine half of 780-VPN E001 (L079); and (2) **append to an un-landed
+  `docs/SYNC_HANDOFF.md`** instead of overwriting it — earlier records kept verbatim, the new
+  write added as the next `### Write N` (a pre-accumulation handoff is wrapped as record 1; an
+  unrecognized file is kept in a fence). The sync dry-run gains two informational lines (clock
+  warning; un-landed-handoff note). Architecture § 7 + § 9 updated (§ 4 drift rule); PLAN-012
+  § 11 clock-caveat risk annotated CLOSED (§ 15.4). Engine: sync.py 0.2→0.3, cli.py 0.6→0.7,
+  test_sync.py 0.1→0.2 (+5 unit + 1 D2 regression), test_cli.py 0.6→0.7 (+3 end-to-end).
+- **Fleet effect:** Capital-Signal's v2.6 hold LIFTED — delivered as QA-K4 (handoff now lists
+  v2.5 + v2.6); fleet: CS v2.6 + 780-VPN v2.6 current, 780-Automation unreachable (v2.5 —
+  catch-up when back). PLAN-011 § 9.1 pre-write hold lifted (accumulation shipped).
+- **QA scenarios (Rule 11/15 — statuses live in `PLAN-013_tracker.md`):**
+  - ✅ QA-K1 — ruff clean; mypy error set identical (42 full / 25 `src`); pytest 120 passed
+    (119 planned + 1 D2 regression).
+  - ✅ QA-K2 ⚑ — fleet dry-run vs the HEAD engine: only the two new handoff notes differ; no
+    false clock warning; changed-item lists identical.
+  - ✅ QA-K3 ⚑ — scratch copy of Capital-Signal with a stamp moved to tomorrow: dry-run warns,
+    `--write` exits 1 "clock is behind", copy byte-unchanged (76 files); scratch removed.
+  - ✅ QA-K4 ⚑ — Capital-Signal v2.6 `sync --write` (operator "go k4"): exactly 4 files changed
+    (3 + handoff); handoff = `Write 1 — earlier engine write` (v2.5 verbatim) + `Write 2` (v2.6).
+  - ⏸ QA-K5 ⚑ — write-back half: fires at the E001 write-back (v2.6 QA-E4 = PLAN-012 QA-H6).
+  - ✅ QA-K6 — dry-run re-run up-to-date on CS + 780-VPN with the handoff present (K5 half later).
+- **Plan defect D2 (found at the Rule 10 review, operator D2 = A):** the approved § 5b code
+  located the handoff's § 2 anchor with `find`, so a later write truncated a fenced
+  unrecognized handoff containing its own § 2 heading (content silently lost — reproduced).
+  Fixed with `rfind` + a regression test that fails on the unfixed code; the one recorded
+  deviation from the approved § 5.
+- **Known cosmetic (plan § 11 R7):** a sync refusal prints the project name twice; message
+  content correct; shipped as approved (operator D1 = A).
+- **Versions:** sync 0.2→0.3, cli 0.6→0.7, test_sync 0.1→0.2, test_cli 0.6→0.7, architecture
+  0.12→0.13, PLAN-012 1.0→1.1, PLAN-013 + tracker 0.2→1.0/CLOSED, manifest 2.45→2.46.
+- **Impact:** YES — behavior changes: an engine write is refused (nothing written) when the
+  local clock is behind the target's newest stamp; a write into a target holding an un-landed
+  handoff appends to it instead of replacing it; the sync dry-run prints up to two new
+  informational lines. Dry-run planning, the integrate worksheet and read-only commands are
+  otherwise unchanged.
+
 ## [2026-10-03] — PLAN-013 APPROVED (Phase 2): "approve plan 013"
 
 - **Type:** Plan approval record (no behavior change).

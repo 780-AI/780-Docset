@@ -1,8 +1,20 @@
-<!-- VERSION: 0.2 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-10-03 -->
-<!-- Status: APPROVED (Phase 2 landed 2026-10-03 — operator: "approve plan 013"; Phase 3 runs in this fresh session) -->
+<!-- Status: CLOSED (Phase 3 shipped 2026-10-03; QA-K1…K4 + K6 ✅; K5 open at its named trigger; Phase 5 push pending) -->
 <!--
 CHANGE LOG
+v1.0 — 2026-10-03 — Phase 3 shipped (fresh implementer session, single commit): reconcile pass
+clean (17/17 FIND blocks matched live source once; no plan defect); clock verified externally
+(gitlab/apple/google, ≤8 s) → `<P3-DATE>` = 2026-10-03; § 5 + § 6 applied byte-for-byte. The Rule 10
+review then found plan defect **D2**: § 5b `_prior_records` located the § 2 anchor with `find`, so
+a later write cut short a fenced unrecognized handoff that itself contained a § 2 heading (the
+rest of it and the previous write's file list silently lost — reproduced). Operator D2 = A: fixed
+with `rfind` + a regression test (deliberate-failure confirmed against the unfixed code) — the
+one recorded deviation from § 5b; pytest 120. K2–K4 evidence unaffected (single-§ 2 handoffs
+only, where `find` = `rfind`). QA-K1…K4
++ K6 ✅ (K4 = Capital-Signal v2.6 catch-up — its hold lifted). § 11 gains R7 (cosmetic: the sync
+refusal prints the project name twice — found at QA-K3; operator D1 = A, code shipped as approved).
+Promoted to 1.0/CLOSED with the tracker per § 15.5.
 v0.2 — 2026-10-03 — Phase 2 operator approval recorded ("approve plan 013"); § 9.1 decision record
 added (D-1…D-5 at the recommended options). Status DRAFT → APPROVED. No design change.
 v0.1 — 2026-10-03 — Initial draft (Phase 0 audit + Phase 1 design). Code developed + tool-proven in a
@@ -79,8 +91,8 @@ PLAN-011 § 9.1 pre-write hold and the Capital-Signal v2.6 hold (D-5).
 - Phase 0 — Audit: ✅ 2026-10-03
 - Phase 1 — Design + Rule 13 pass: ✅ 2026-10-03
 - Phase 2 — Operator approval (D13.A + D-1…D-5): ✅ 2026-10-03 — "approve plan 013" (§ 9.1)
-- Phase 3 — Implement (fresh session, single commit): ⏸
-- Phase 4 — Validate (QA-K1…K6): ⏸
+- Phase 3 — Implement (fresh session, single commit): ✅ 2026-10-03
+- Phase 4 — Validate (QA-K1…K6): ✅ 2026-10-03 — K1–K4 + K6 ✅; K5 ⏸ at its named trigger (tracker)
 - Phase 5 — Operator gate (push): ⏸
 
 ## 5. Verbatim transformation rules (code proven in overlay; Phase 3 copies byte-for-byte)
@@ -922,6 +934,7 @@ them (the pre-PLAN-013 behavior). No persistent state, no schema.
 | R4 | An unrecognized handoff containing `### Write N` text inside its fence skews record numbering | Cosmetic only — content is preserved verbatim; the format only arises from manual edits |
 | R5 | Stamps in non-SYNC_MAP target files are not scanned, so the floor can sit below the true newest stamp | The guard can only be weaker, never falsely refuse; it covers exactly the files the engine stamps |
 | R6 | Git transport flushes commit the handoff, so `existing` may be a committed file | Accumulation still reads it correctly; PLAN-014 (PR delivery) revisits moving the handoff into the PR body |
+| R7 | Cosmetic (found at QA-K3): a sync refusal prints the project name twice — `_cmd_sync` prefixes it and `check_clock` includes it (the integrate path needs it there, since `main` prints no name) | Message content is correct and actionable; operator D1 = A (ship as approved). A later engine touch may drop one prefix |
 
 ## 12. Acceptance criteria
 
@@ -930,7 +943,8 @@ them (the pre-PLAN-013 behavior). No persistent state, no schema.
 2. A write into a target holding an un-landed handoff appends the next `### Write N` record and keeps
    every earlier record verbatim; a pre-accumulation handoff is wrapped as record 1; an unrecognized
    one is kept in a fence (QA-K4/K5; tests).
-3. Dry-run planning unchanged (QA-K2/K6); `ruff` clean, mypy error set identical, 119 tests (QA-K1).
+3. Dry-run planning unchanged (QA-K2/K6); `ruff` clean, mypy error set identical, 119 tests (QA-K1)
+   — 120 as shipped (+1 Phase 3 D2 regression test).
 4. architecture § 7 + § 9 and the PLAN-012 § 11 annotation land in the same commit.
 
 ---

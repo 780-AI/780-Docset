@@ -1,8 +1,12 @@
 # ==============================================================
-# VERSION: 0.6
+# VERSION: 0.7
 # Command-line interface: `python -m standard_document_updater <command>`.
 #
 # CHANGE LOG
+# v0.7 — 2026-10-03 — PLAN-013: both engine write paths (sync --write + integrate write-back)
+#                     refuse when the local clock is behind the target's newest stamp, and
+#                     append to an un-landed handoff instead of overwriting it; the sync
+#                     dry-run warns about a behind clock and notes an un-landed handoff.
 # v0.6 — 2026-09-05 — PLAN-012: every engine write leaves docs/SYNC_HANDOFF.md in the target —
 #                     `sync --write` (per written target, listing the changed files) AND the
 #                     integrate write-back (per flushed target); write-notes updated.
@@ -120,20 +124,26 @@ def _cmd_integrate(args: argparse.Namespace) -> int:
         targets = {p.name: make_target(p) for p in projects}
         roots = {name: stack.enter_context(t.session(writable=True)) for name, t in targets.items()}
         log_path_for = {name: root / "docs" / "STANDARDS_LOG.md" for name, root in roots.items()}
+        today = date.today().isoformat()
+        if args.write:  # clock floor (L079) checked for EVERY target before ANY write
+            for name, root in roots.items():
+                sync.check_clock(name, today, sync.newest_stamp(root))
         report_lines = integrate.apply_writeback(dispositions, log_path_for, write=args.write)
         if args.write:
             set_version = "v" + ".".join(str(n) for n in setversion.parse_vault_version(index))
-            today = date.today().isoformat()
             count = len(dispositions)
             message = f"Standard DocSet: integrate write-back ({count} status update(s))"
             for name in sorted(named & set(targets)):
-                (roots[name] / sync.HANDOFF_REL).write_text(
+                handoff = roots[name] / sync.HANDOFF_REL
+                existing = handoff.read_text(encoding="utf-8") if handoff.is_file() else None
+                handoff.write_text(
                     sync.render_handoff(
                         name,
                         "integrate write-back",
                         set_version,
                         today,
                         [("docs/STANDARDS_LOG.md", "write-back")],
+                        existing,
                     ),
                     encoding="utf-8",
                 )
@@ -174,16 +184,32 @@ def _cmd_sync(args: argparse.Namespace) -> int:
             with target.session(writable=args.write, full=True) as root:
                 actions = sync.plan_target(vault_root, root, set_version, today)
                 print(sync.render_plan(project.name, actions, show_diff=args.diff))
+                floor = sync.newest_stamp(root)
+                handoff = root / sync.HANDOFF_REL
+                existing = handoff.read_text(encoding="utf-8") if handoff.is_file() else None
+                if not args.write:
+                    if floor is not None and today < floor:
+                        print(
+                            f"  warning: the local clock ({today}) is behind this target's "
+                            f"newest stamp ({floor}) — a --write would refuse (L079)"
+                        )
+                    if existing is not None:
+                        print(
+                            "  note: this target holds an un-landed docs/SYNC_HANDOFF.md — "
+                            "a --write appends to it"
+                        )
                 changed = [a for a in actions if a.changed]
                 if args.write and changed:
+                    sync.check_clock(project.name, today, floor)
                     written = sync.apply_actions(root, changed)
-                    (root / sync.HANDOFF_REL).write_text(
+                    handoff.write_text(
                         sync.render_handoff(
                             project.name,
                             "sync --write",
                             set_version,
                             today,
                             [(a.target_rel, a.mode) for a in changed],
+                            existing,
                         ),
                         encoding="utf-8",
                     )
@@ -191,6 +217,11 @@ def _cmd_sync(args: argparse.Namespace) -> int:
                     message = f"Standard DocSet: sync to Standard Set Version {set_version}"
                     target.flush(root, written, message)
                     print(f"  -> wrote + flushed {len(written)} file(s) (incl. the handoff)")
+                    if existing is not None:
+                        print(
+                            "  note: appended to an un-landed handoff — earlier engine writes "
+                            "stay listed"
+                        )
                     print(
                         "  note: sync does not edit the target's documents_manifest — "
                         "docs/SYNC_HANDOFF.md tells the target's next session what remains"

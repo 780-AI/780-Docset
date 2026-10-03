@@ -1,8 +1,11 @@
 # ==============================================================
-# VERSION: 0.6
+# VERSION: 0.7
 # End-to-end tests for the CLI (status / drift / harvest / integrate / sync).
 #
 # CHANGE LOG
+# v0.7 — 2026-10-03 — PLAN-013: a second sync --write appends to the un-landed handoff (dry-run
+#         notes it); a behind clock makes the sync dry-run warn and --write refuse (exit 1,
+#         nothing written) and the integrate write-back refuse (exit 2, log untouched).
 # v0.6 — 2026-09-05 — PLAN-012: handoff coverage — `sync --write` leaves docs/SYNC_HANDOFF.md
 #         (content + not-a-SYNC_MAP-item idempotence) and the integrate write-back leaves it too.
 # v0.5 — 2026-08-16 — PLAN-008: five sync tests — empty registry; dry-run writes nothing;
@@ -19,11 +22,12 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from datetime import date
 from pathlib import Path
 
 import pytest
 
-from standard_document_updater import transport
+from standard_document_updater import cli, transport
 from standard_document_updater.cli import main
 
 Make = Callable[..., Path]
@@ -257,6 +261,79 @@ def test_sync_write_leaves_handoff_and_dry_run_stays_up_to_date(
     # the handoff is not a SYNC_MAP item: a converged target stays up-to-date
     assert main(["--vault", str(vault), "sync"]) == 0
     assert "up-to-date" in capsys.readouterr().out
+
+
+class _BehindDate(date):
+    """A local clock reading 2026-07-01 — behind the fixtures' 2026-08-01 stamps."""
+
+    @classmethod
+    def today(cls) -> _BehindDate:
+        return cls(2026, 7, 1)
+
+
+def test_sync_second_write_appends_to_unlanded_handoff(
+    make_suite_pair: MakePair, write_registry: Make, capsys: pytest.CaptureFixture[str]
+) -> None:
+    vault, target = make_suite_pair()
+    write_registry(vault, [("acme", target)])
+    assert main(["--vault", str(vault), "sync", "--write"]) == 0
+    std = vault / "docs" / "standards" / "PROJECT_STANDARDS.md"
+    std.write_text(std.read_text(encoding="utf-8") + "\nSuite text NEWER.\n", encoding="utf-8")
+    capsys.readouterr()
+    assert main(["--vault", str(vault), "sync"]) == 0
+    assert "holds an un-landed docs/SYNC_HANDOFF.md" in capsys.readouterr().out
+    assert main(["--vault", str(vault), "sync", "--write"]) == 0
+    assert "appended to an un-landed handoff" in capsys.readouterr().out
+    handoff = (target / "docs" / "SYNC_HANDOFF.md").read_text(encoding="utf-8")
+    assert "`CLAUDE.md` (merge)" in handoff  # the first write's list survives
+    second = handoff[handoff.index("### Write 2") : handoff.index("## 2.")]
+    assert "`docs/standards/PROJECT_STANDARDS.md` (replace)" in second
+    assert "CLAUDE.md" not in second
+
+
+def test_sync_refuses_when_clock_is_behind_target_stamp(
+    make_suite_pair: MakePair,
+    write_registry: Make,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    vault, target = make_suite_pair()
+    write_registry(vault, [("acme", target)])
+    monkeypatch.setattr(cli, "date", _BehindDate)
+    before = (target / "CLAUDE.md").read_text(encoding="utf-8")
+    assert main(["--vault", str(vault), "sync"]) == 0
+    assert "a --write would refuse (L079)" in capsys.readouterr().out
+    assert main(["--vault", str(vault), "sync", "--write"]) == 1
+    assert "clock is behind" in capsys.readouterr().err
+    assert (target / "CLAUDE.md").read_text(encoding="utf-8") == before
+    assert not (target / "docs" / "SYNC_HANDOFF.md").exists()
+
+
+def test_integrate_write_refuses_when_clock_is_behind(
+    make_vault: Make,
+    make_project: Make,
+    write_registry: Make,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    root = make_vault("1.1")
+    proj = make_project("alpha", open_entries=1)
+    log = proj / "docs" / "STANDARDS_LOG.md"
+    stamped = "<!-- Last Updated: 2026-08-01 -->\n" + log.read_text(encoding="utf-8")
+    log.write_text(stamped, encoding="utf-8")
+    write_registry(root, [("alpha", proj)])
+    before = log.read_text(encoding="utf-8")
+    decisions = tmp_path / "decisions.toml"
+    decisions.write_text(
+        '[[rejected]]\nproject = "alpha"\nentry = "E001"\nreason = "n/a"\n',
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(cli, "date", _BehindDate)
+    assert main(["--vault", str(root), "integrate", "--apply", str(decisions), "--write"]) == 2
+    assert "clock is behind" in capsys.readouterr().err
+    assert log.read_text(encoding="utf-8") == before
+    assert not (proj / "docs" / "SYNC_HANDOFF.md").exists()
 
 
 def test_sync_unknown_project_filter_errors(

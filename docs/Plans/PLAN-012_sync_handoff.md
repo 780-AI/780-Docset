@@ -1,8 +1,9 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-09-05 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-10-03 -->
 <!-- Status: CLOSED (Phase 3 shipped 2026-09-05 as Standard Set Version v2.5; QA-H1..H4 verified; H5/H6 close later per their defined triggers; Phase 5 push + tag at the operator gate) -->
 <!--
 CHANGE LOG
+v1.1 — 2026-10-03 — Closed-risk annotation (§ 15.4, PLAN-013 Phase 3): § 11 clock-caveat risk CLOSED (newest-stamp floor shipped); stale-handoff row notes the next write now appends.
 v1.0 — 2026-09-05 — Phase 3 implemented in a fresh session (single commit, 12-file ALLOWLIST):
 reconcile pass clean (no plan defects); § 5a–5h applied byte-for-byte; § 6 spec map walked
 (architecture § 7 paragraph, INDEX v2.5, SVA v2.5 row, manifest, CHANGELOG). QA-H1 ✅ (ruff
@@ -402,9 +403,12 @@ to targets are inert text — delete manually; no persistent state, no schema.
   paragraph codifies the exemption; and no git-transport target exists yet — revisit the
   commit-vs-MR-body question at DD-6b before the first git `--write`.
 - **Target session ignores the handoff** → stale file. Mitigated by the § 1.1 opener check (the
-  reader is forced at session start) and by the next engine write rewriting it.
+  reader is forced at session start) and by the next engine write rewriting it. *(PLAN-013,
+  2026-10-03: the next write now APPENDS to an un-landed handoff; the sync dry-run surfaces it.)*
 - **Clock caveat**: the run-date line carries the trust note; the real fix (trusted time source /
-  newest-stamp floor) is E001's suggestion and arrives via its own gated intake.
+  newest-stamp floor) is E001's suggestion and arrives via its own gated intake. **CLOSED
+  2026-10-03 by PLAN-013** — the engine refuses to stamp behind a target's newest stamp
+  (`sync.newest_stamp` / `check_clock`); E001's lesson half shipped as Set v2.6 (L079).
 - **Two call sites construct the files list differently** (FileActions vs a literal tuple) —
   accepted: the tuple interface is the narrow waist; both sites are covered by tests.
 
