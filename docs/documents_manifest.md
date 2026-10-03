@@ -1,7 +1,12 @@
-<!-- VERSION: 2.41 -->
+<!-- VERSION: 2.42 -->
 <!-- Last Updated: 2026-10-03 -->
 <!--
 CHANGE LOG
+v2.42 — 2026-10-03 — Standard Set Version v2.6 (clock trust — 780-VPN E001 → L079): bumped cells 10
+(SET_VERSION_ADOPTED 1.13→1.14, v2.6 backport row), 13 (PROJECT_STANDARDS 1.0→1.1, § 5.6), 22 (standards
+README 1.3→1.4, count 79), 23 (STANDARDS_INDEX 2.5→2.6). Rows 12 + 30 (LESSONS template + adopter
+copy) unchanged per the no-per-lesson-bump practice (L079 added to both). Self-row 2.41 → 2.42
+(grep-verified against the header per L063).
 v2.41 — 2026-10-03 — Registered PLAN-011 (fleet convergence: Equinex intake + adoption, EverOn
 line retirement) DRAFT + tracker: new rows 82–83 (0.1). Design commit only; Phase 3 runs after
 "APPROVE PLAN-011". Self-row 2.40 → 2.41 (grep-verified against the header per L063).
@@ -256,15 +261,15 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.41 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.42 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.12 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.16 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.6 | Governance | `docs/SESSION_CLOSER.md` |
-| 10 | Set Version Adopted | 1.13 | Governance | `docs/SET_VERSION_ADOPTED.md` |
+| 10 | Set Version Adopted | 1.14 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.6 | Standards | `docs/standards/CLAUDE.md` |
 | 12 | Lessons Archive (template) | 1.2 | Standards | `docs/standards/LESSONS.md` |
-| 13 | Project Standards | 1.0 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
+| 13 | Project Standards | 1.1 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
 | 14 | Prompt Standards | 1.0 | Standards | `docs/standards/PROMPT_STANDARDS.md` |
 | 15 | Project Instructions Template | 1.1 | Standards | `docs/standards/PROJECT_INSTRUCTIONS_TEMPLATE.md` |
 | 16 | Memory Protocol | 1.1 | Standards | `docs/standards/MEMORY_PROTOCOL.md` |
@@ -273,8 +278,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 19 | CI/CD Standards | 1.0 | Standards | `docs/standards/CICD_STANDARDS.md` |
 | 20 | Session Opener (template) | 1.8 | Standards | `docs/standards/SESSION_OPENER.md` |
 | 21 | Session Closer (template) | 1.7 | Standards | `docs/standards/SESSION_CLOSER.md` |
-| 22 | Standards README (meta) | 1.3 | Standards | `docs/standards/README.md` |
-| 23 | Standards Index (meta) | 2.5 | Standards | `docs/standards/STANDARDS_INDEX.md` |
+| 22 | Standards README (meta) | 1.4 | Standards | `docs/standards/README.md` |
+| 23 | Standards Index (meta) | 2.6 | Standards | `docs/standards/STANDARDS_INDEX.md` |
 | 25 | How To Use (meta) | 1.1 | Standards | `docs/standards/HOW_TO_USE.md` |
 | 27 | Standards Log — experiences-log template (meta) | 1.1 | Standards | `docs/standards/STANDARDS_LOG.md` |
 | 28 | Doc Coverage Check | 0.1 | Governance script | `scripts/check_doc_coverage.py` |
@@ -340,7 +345,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-03
-- **Change**: PLAN-011 DRAFT registered — plan + tracker (82–83, 0.1).
-- **Previous change**: PLAN-012 QA-H5 ✅ — loop closure observed in 780-VPN `de1de37`; tracker →
-  1.2 (81).
+- **Change**: Standard Set Version v2.6 (clock trust — L079 + PROJECT_STANDARDS § 5.6): cells 10,
+  13, 22, 23.
+- **Previous change**: PLAN-011 DRAFT registered — plan + tracker (82–83, 0.1).
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

@@ -1,8 +1,9 @@
-<!-- VERSION: 2.5 -->
-<!-- Last Updated: 2026-09-05 -->
+<!-- VERSION: 2.6 -->
+<!-- Last Updated: 2026-10-03 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v2.6 — 2026-10-03 — Standard Set Version v2.6 (clock trust — the second harvested adopter entry, under the Rule 16 gate): lesson L079 added (the machine clock is an untrusted input — verify against an external authority before stamping or recording skew); PROJECT_STANDARDS → 1.1 (§ 5.6 stamp-date check). § 1 block → v2.6 (counts → 79 lessons); § 2 row 9 → 79; § 3 caption → v2.6 + cells (PROJECT_STANDARDS 1.1, README 1.4, STANDARDS_INDEX 2.6) + lesson total → 79; § 6 history entry. No rule change (15).
 v2.5 — 2026-09-05 — Standard Set Version v2.5 (PLAN-012 sync handoff): every engine write into a target (sync --write AND integrate write-back) now leaves the engine-transient docs/SYNC_HANDOFF.md explaining what landed + what remains; SESSION_OPENER → 1.8 (§ 1.1 engine-handoff check); LESSONS → 1.2 (L069–L078 date-line corrections — the vault clock ran ~9d slow at intake). § 1 block → v2.5; § 3 caption → v2.5 (caption had drifted, stuck at v2.2 — L063 class) + cells (SESSION_OPENER 1.8, LESSONS 1.2, STANDARDS_INDEX 2.5); § 6 history entry. Counts unchanged (78 lessons / 15 rules).
 v2.4 — 2026-08-27 — Standard Set Version v2.4 (environment portability): template CLAUDE.md → 1.6 (Rule 2 Runner note — command examples are generic, substitute runner/CI flavor at run time, never localize suite-owned text; Rule 5 + § 8.6 neutralized). § 1 block → v2.4; § 3 cells (CLAUDE 1.6, STANDARDS_INDEX 2.4); § 6 history entry. Counts unchanged (78 lessons / 15 rules).
 v2.3 — 2026-08-27 — Standard Set Version v2.3 (first adopter-originated lesson intake, under the new operator gate): lessons L069–L078 added to LESSONS.md (L069 the intake-gate incident; L070–L078 the nine rescued adopter lessons, genericized) + LESSONS ownership banner + SESSION_CLOSER § 1.7 binding where-codification-lands rule. § 1 block → v2.3 (counts → 78 lessons); § 2 row 9 → 78; § 3 caption → v2.3 + cells (LESSONS 1.1, SESSION_CLOSER 1.7, README 1.3, STANDARDS_INDEX 2.3) + lesson total → 78; § 6 history entry added. No rule change (the intake gate is a vault-side curator rule — Rule 16 in the vault's own contract; template rules stay 15).
@@ -45,10 +46,10 @@ Version** tracks the suite as a whole — files added, structure changed, patter
 ## 1. Standard Set Version (current)
 
 ```
-Standard Set Version: v2.5
-Released:             2026-09-05
-Baseline:             v2.4 (environment portability — the Runner note) + sync handoff: every engine write into a target (`sync --write` AND the integrate write-back) leaves `docs/SYNC_HANDOFF.md` explaining what landed and what bookkeeping remains; SESSION_OPENER § 1.1 gains the engine-handoff check; LESSONS L069–L078 date lines corrected (vault clock skew).
-Adopter contract:     11 binding files + 3 meta files (+ STANDARDS_LOG.md); 78 lessons (L001–L078); 15 standing rules in CLAUDE.md
+Standard Set Version: v2.6
+Released:             2026-10-03
+Baseline:             v2.5 (sync handoff — every engine write leaves `docs/SYNC_HANDOFF.md`) + clock trust: lesson L079 (the machine clock is an untrusted input — verify against an external authority before stamping or recording skew) + PROJECT_STANDARDS § 5.6 stamp-date check.
+Adopter contract:     11 binding files + 3 meta files (+ STANDARDS_LOG.md); 79 lessons (L001–L079); 15 standing rules in CLAUDE.md
 ```
 
 When adopting this suite, record the Set Version in the new project's `CHANGELOG.md` or its own
@@ -74,7 +75,7 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 | 6 | `ENGINEERING_STANDARDS.md` | Engineering substrate — architecture invariants, coding standards, secrets, container discipline, ops |
 | 7 | `VALIDATION_STANDARDS.md` | Test framework — tiered model, ownership map, deliberate-failure protocol, soak, first-fire expectations |
 | 8 | `CICD_STANDARDS.md` | Pipeline architecture — staged shape, registry-pull deploy, smoke gating, auto-rollback, soak gate, explicit PROD authorization |
-| 9 | `LESSONS.md` | Incident-to-rule archive — 78 lessons (append-only), each with incident + cost + codification + cross-references |
+| 9 | `LESSONS.md` | Incident-to-rule archive — 79 lessons (append-only), each with incident + cost + codification + cross-references |
 | 10 | `SESSION_OPENER.md` | Session-start pre-flight (binding per Rule 9) — environment mapping + failure-mode catalog + first-response output template |
 | 11 | `SESSION_CLOSER.md` | Session-end wrap-up (binding per Rule 12) — wrap-up routine + failure-mode catalog + output template |
 
@@ -95,12 +96,12 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 
 ## 3. Per-file version table
 
-Current state as of Set Version v2.5 (2026-09-05). Files unchanged since v1.0 keep their 2026-06-07 dates.
+Current state as of Set Version v2.6 (2026-10-03). Files unchanged since v1.0 keep their 2026-06-07 dates.
 
 | File | Tier | Version | Last Updated |
 |---|---|---|---|
 | `CLAUDE.md` | Binding | 1.6 | 2026-08-27 |
-| `PROJECT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
+| `PROJECT_STANDARDS.md` | Binding | 1.1 | 2026-10-03 |
 | `PROMPT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
 | `PROJECT_INSTRUCTIONS_TEMPLATE.md` | Binding | 1.1 | 2026-08-19 |
 | `MEMORY_PROTOCOL.md` | Binding | 1.1 | 2026-08-19 |
@@ -110,13 +111,13 @@ Current state as of Set Version v2.5 (2026-09-05). Files unchanged since v1.0 ke
 | `LESSONS.md` | Binding | 1.2 | 2026-09-05 |
 | `SESSION_OPENER.md` | Binding | 1.8 | 2026-09-05 |
 | `SESSION_CLOSER.md` | Binding | 1.7 | 2026-08-27 |
-| `README.md` | Meta | 1.3 | 2026-08-27 |
-| `STANDARDS_INDEX.md` | Meta | 2.5 | 2026-09-05 |
+| `README.md` | Meta | 1.4 | 2026-10-03 |
+| `STANDARDS_INDEX.md` | Meta | 2.6 | 2026-10-03 |
 | `HOW_TO_USE.md` | Meta | 1.1 | 2026-08-17 |
 | `STANDARDS_LOG.md` | Meta | 1.1 | 2026-08-17 |
 
 **Total file count:** 15 (11 binding + 4 meta).
-**Total lesson count in `LESSONS.md`:** 78 (L001–L078).
+**Total lesson count in `LESSONS.md`:** 79 (L001–L079).
 
 ---
 
@@ -174,6 +175,21 @@ coordinated multi-file pattern is a Set-Version Minor; a structural change is a 
 ## 6. Standard Set Version history
 
 Newest first. Append-only.
+
+### v2.6 — 2026-10-03 — Clock trust (the second harvested adopter entry)
+
+Additive Minor — the second Set bump produced by the experiences-log loop, and the first from a
+team adopter's log. The curator machine's clock had drifted ~9 days slow; the engine stamped
+"today" from it, so a newly registered adopter's change logs read out of order, and the vault had
+recorded the skew direction backwards. The adopter logged an `E0NN` entry; harvest surfaced it;
+the operator confirmed it at the Rule 16 gate. Lesson **L079** (the machine clock is an untrusted
+input — verify against an external authority before stamping or recording skew; merged with the
+vault's own skew-record correction) + PROJECT_STANDARDS → 1.1 (**§ 5.6** — a new change-log line
+must not be dated earlier than the line below it; verify the clock externally before stamping into
+other repositories). README → 1.4 (count). Lesson count → 79; no rule change. The entry's engine
+half (a trusted "today" / newest-stamp floor) is behavior-affecting and routed to its own plan.
+Sync note: adopters receive a 3-item delta (PROJECT_STANDARDS replace + LESSONS replace +
+SET_VERSION_ADOPTED record) plus the handoff.
 
 ### v2.5 — 2026-09-05 — Sync handoff (every engine write explains itself)
 

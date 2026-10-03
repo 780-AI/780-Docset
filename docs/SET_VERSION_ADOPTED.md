@@ -1,7 +1,8 @@
-<!-- VERSION: 1.13 -->
-<!-- Last Updated: 2026-09-05 -->
+<!-- VERSION: 1.14 -->
+<!-- Last Updated: 2026-10-03 -->
 <!--
 CHANGE LOG
+v1.14 — 2026-10-03 — Adopt Standard Set Version v2.6 (clock trust: lesson L079 + PROJECT_STANDARDS § 5.6 stamp-date check — 780-VPN's E001 via harvest under the Rule 16 gate). Counts → 79 lessons / 16-own rules. Own-instance reconcile: the vault reads PROJECT_STANDARDS from docs/standards/ directly (no instance); `archive/LESSONS.md` gains the project-specific L079 same-commit; added the v2.6 backport row.
 v1.13 — 2026-09-05 — Adopt Standard Set Version v2.5 (PLAN-012 sync handoff: every engine write into a target leaves docs/SYNC_HANDOFF.md; SESSION_OPENER template → 1.8 with the § 1.1 engine-handoff check; LESSONS → 1.2 date-line corrections). Counts unchanged (78/16-own). Own-instance reconcile: no operative change (the engine never writes into the vault — the § 1.1 check is target-side; own instance wording deferred-minor); added the v2.5 backport row.
 v1.12 — 2026-08-27 — Adopt Standard Set Version v2.4 (environment portability: the Rule 2 Runner note — command examples generic, substitute runner/CI flavor at run time). Counts unchanged (78/16-own). Own root CLAUDE.md keeps its env-specific wording (a legitimate instance state under the new note — vault runs plain `python` + GitLab); added the v2.4 backport row.
 v1.11 — 2026-08-27 — Adopt Standard Set Version v2.3 (first adopter-originated lesson intake under the Rule 16 operator gate: L069–L078 + LESSONS ownership banner + SESSION_CLOSER binding E0NN rule). Counts → 78 lessons; own-instance state now 16 rules (project Rule 16 atop the Set's 15); added the v2.3 backport row.
@@ -21,7 +22,10 @@ v1.0 — 2026-06-07 — Records adoption of Standard Set Version v1.0 (this repo
 
 This project adopts the standards suite at:
 
-- **Standard Set Version:** v2.5 (sync handoff: every engine write into a target — `sync
+- **Standard Set Version:** v2.6 (clock trust: lesson L079 — the machine clock is an untrusted
+  input, verify against an external authority before stamping or recording skew — plus the
+  PROJECT_STANDARDS § 5.6 stamp-date check; from a team adopter's E001 via harvest.
+  Atop v2.5: sync handoff — every engine write into a target — `sync
   --write` AND the integrate write-back — leaves the engine-transient `docs/SYNC_HANDOFF.md`
   explaining what landed and what bookkeeping remains; SESSION_OPENER § 1.1 engine-handoff
   check; LESSONS L069–L078 date lines corrected for the vault clock skew.
@@ -43,7 +47,7 @@ This project adopts the standards suite at:
   process-hardening L052–L056 + the L051 final-indentation recurrence, v1.3 Rule 13
   linter-enforcement L051, v1.2 durable-memory Rule 14, and v1.1 experiences-log template +
   `PROJECT-OWNED` markers)
-- **Adopted on:** 2026-09-05 (v2.4 adopted 2026-08-27; v2.3 adopted 2026-08-27; v2.2 adopted 2026-08-19; v2.1 adopted 2026-08-18; v2.0 adopted 2026-08-17; v1.6 adopted 2026-08-16; v1.5 adopted 2026-08-16; v1.4 adopted 2026-08-16; v1.3 adopted 2026-06-20; v1.2 adopted 2026-06-17; v1.1 adopted 2026-06-13; v1.0 baseline 2026-06-07)
+- **Adopted on:** 2026-10-03 (v2.5 adopted 2026-09-05; v2.4 adopted 2026-08-27; v2.3 adopted 2026-08-27; v2.2 adopted 2026-08-19; v2.1 adopted 2026-08-18; v2.0 adopted 2026-08-17; v1.6 adopted 2026-08-16; v1.5 adopted 2026-08-16; v1.4 adopted 2026-08-16; v1.3 adopted 2026-06-20; v1.2 adopted 2026-06-17; v1.1 adopted 2026-06-13; v1.0 baseline 2026-06-07)
 - **Source:** this repository's own `docs/standards/` — `Standard DocSet` both **authors** the
   canonical domain-neutral suite and **adopts** it to govern its own development.
 
@@ -51,7 +55,7 @@ The adopted state:
 
 - **16 standing rules** in `CLAUDE.md` § 3 (Rules 1–15 from the Set + project-specific Rule 16,
   the operator intake gate — vault-only; the template stays at 15).
-- **78 lessons** (L001–L078) in `archive/LESSONS.md` (L070–L078 recorded there as the
+- **79 lessons** (L001–L079) in `archive/LESSONS.md` (L070–L078 recorded there as the
   provenance-table intake entry; full genericized texts in the canonical file).
 - The suite per `docs/standards/STANDARDS_INDEX.md` (11 binding files + 3 meta files + the
   `STANDARDS_LOG.md` template).
@@ -65,6 +69,7 @@ the new adopted version below.
 
 | Set Version | Adopted on | Notes |
 |---|---|---|
+| v2.6 | 2026-10-03 | Clock trust (the second harvested adopter entry — 780-VPN E001, operator-confirmed at the Rule 16 gate 2026-10-03): lesson L079 (machine clock = untrusted input; verify against an external authority before stamping or recording skew — merged with the vault's own skew-record correction) + PROJECT_STANDARDS → 1.1 (§ 5.6 stamp-date check) + README → 1.4 (count). Own-instance reconcile: PROJECT_STANDARDS has no vault instance (read directly from `docs/standards/`); `archive/LESSONS.md` gains the project-specific L079 same-commit. E001's engine half routed to its own plan. Counts → 79 lessons / 16-own rules. |
 | v2.5 | 2026-09-05 | Sync handoff (PLAN-012 — a target session opened to unexplained engine-written files): every engine write (`sync --write` + integrate write-back) now also writes + flushes `docs/SYNC_HANDOFF.md` (engine-transient, never manifest-listed, deleted by the target's landing commit); SESSION_OPENER → 1.8 (§ 1.1 engine-handoff check); LESSONS → 1.2 (L069–L078 date-line corrections — vault clock ran ~9d slow at intake). Own-instance reconcile: no operative change — the engine writes INTO targets, never into the vault, so the § 1.1 engine-handoff check has nothing to fire on here; own `docs/SESSION_OPENER.md` picks the wording up at its next instance reconcile (deferred-minor). Counts unchanged (78/16-own). |
 | v2.4 | 2026-08-27 | Environment portability (the Runner note — found via a live team adopter whose runner/CI adaptations in suite-owned contract text were reverted by sync): template CLAUDE.md → 1.6 (Rule 2 binding Runner note; Rule 5 + § 8.6 CI-flavor-neutral). Own-instance reconcile: root `CLAUDE.md` untouched — its env-specific wording (plain `python`, GitLab) is a legitimate instance state under the new note; no operative change. Counts unchanged. |
 | v2.3 | 2026-08-27 | First adopter-originated lesson intake (nine lessons rescued from a team adopter's engine-owned archive — the L069 incident — genericized and integrated as L070–L078 under the new Rule 16 operator gate, all nine operator-confirmed) + L069 itself + LESSONS ownership banner (→ 1.1) + SESSION_CLOSER § 1.7 binding E0NN rule (→ 1.7). Own-instance reconcile same-commit: `archive/LESSONS.md` gains L070–L078 as the provenance-table entry (dual-voice); root `CLAUDE.md` already carries Rule 16 (added 2026-08-27, pre-release); own SESSION_CLOSER instance § 1.7 wording — vault codifies directly by design, no operative change. Counts → 78 lessons. |

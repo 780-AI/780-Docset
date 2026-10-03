@@ -37,6 +37,7 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L079 — The machine clock is an untrusted input: verify it against an external authority before stamping or recording skew](#l079--the-machine-clock-is-an-untrusted-input-verify-it-against-an-external-authority-before-stamping-or-recording-skew)
  - [L078 — A date-relative fixture must respect the worst-case bound of the window it depends on](#l078--a-date-relative-fixture-must-respect-the-worst-case-bound-of-the-window-it-depends-on)
  - [L077 — A pool that forks children needs per-child installation, not per-process](#l077--a-pool-that-forks-children-needs-per-child-installation-not-per-process)
  - [L076 — A plan gap that is a scope question is surfaced as options, never resolved silently](#l076--a-plan-gap-that-is-a-scope-question-is-surfaced-as-options-never-resolved-silently)
@@ -168,6 +169,54 @@ where it lives now (which standards file, which section).>
 ---
 
 ## 3. The lessons (newest first)
+
+### L079 — The machine clock is an untrusted input: verify it against an external authority before stamping or recording skew
+
+**Date:** 2026-10-03
+**Project:** an adopter project (team) → vault (merged with the vault's own skew-record correction)
+**Phase / Task:** first syncs into a newly registered adopter → experiences-log entry → harvest → integrate (Standard Set Version v2.6)
+
+#### Incident
+
+The sync engine takes "today" from the wall clock of the machine it runs on. The curator
+machine's clock had drifted about nine days slow, so the first syncs into a newly registered
+adopter wrote header and change-log stamps dated *before* the adopter's own bootstrap lines —
+every touched file's history read out of order. The adopter's session caught it by comparing its
+own clock with a code-hosting server's time and logged it. Worse, the vault had already noticed
+the two machines disagreed and recorded the skew the wrong way round ("the adopter's clock runs
+fast"); the record stood for a week while the vault's own stamps from that window were wrong. A
+re-sync cannot repair such stamps: the engine is idempotent on converged content, so a wrong date
+written once stays written.
+
+#### Diagnosis
+
+Two failures, one root — the wall clock was treated as trustworthy. (1) Every stamping tool
+inherits its host's clock silently; nothing compared "today" with anything. (2) When two clocks
+disagreed, the direction was inferred rather than measured — the L032 anti-pattern applied to
+time. Dates are stamp-class data (L063): a wrong value is silent at write time and trusted by every
+later reader.
+
+#### Codification
+
+- **Before a session that stamps dates into shared artifacts** (sync runs, releases, a machine new
+  to the project), verify the local clock against an external authority — e.g. the `Date:` header
+  of a well-known HTTPS host (`curl -sI https://<host> | grep -i '^date:'` vs `date -u`).
+- **Review-time check** (PROJECT_STANDARDS § 5.6): a new change-log line dated earlier than the line
+  below it, or a `Last Updated` that moves backwards, means the clock is suspect — verify before
+  committing; never "fix" it by reordering history.
+- **When two machines disagree, measure both against the external authority before recording which
+  one is wrong.**
+- Tooling that stamps dates into other repositories should take "today" from a trusted source, or
+  refuse when the wall clock is earlier than the target's newest existing stamp.
+
+#### Cross-references
+
+- L063 (stamps drift silently — this lesson adds the date-ordering check to the stamp grep)
+- L032 (when an answer is questioned, measure the underlying source — don't infer)
+- L059 (evidence provenance — a timestamp is evidence only if its clock is trusted)
+- PROJECT_STANDARDS § 5.6 (the stamp-date rule)
+
+---
 
 ### L078 — A date-relative fixture must respect the worst-case bound of the window it depends on
 

@@ -22,6 +22,7 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L079 — The machine clock is an untrusted input: verify it against an external authority before stamping or recording skew](#l079--the-machine-clock-is-an-untrusted-input-verify-it-against-an-external-authority-before-stamping-or-recording-skew)
  - [L070–L078 — First adopter-originated intake batch (rescued from 780-Automation)](#l070l078--first-adopter-originated-intake-batch-rescued-from-780-automation)
  - [L069 — The engine-owned lessons archive invites appends; adopter lessons need a visible channel and an intake gate](#l069--the-engine-owned-lessons-archive-invites-appends-adopter-lessons-need-a-visible-channel-and-an-intake-gate)
  - [L068 — Template cross-references must resolve in the adopter, not the vault](#l068--template-cross-references-must-resolve-in-the-adopter-not-the-vault)
@@ -145,6 +146,46 @@ where it lives now (which standards file, which section).>
 ---
 
 ## 3. The lessons (newest first)
+
+### L079 — The machine clock is an untrusted input: verify it against an external authority before stamping or recording skew
+
+**Date:** 2026-10-03
+**Project:** 780-VPN (adopter, team) → Standard DocSet (vault); merged with the vault's own lesson candidate
+**Phase / Task:** 780-VPN `docs/STANDARDS_LOG.md` E001 (2026-09-05) → harvest after the 2026-10-03 local re-point (`fd41686`) → Rule 16 gate (operator: "E001 is approved") → Standard Set Version v2.6
+
+#### Incident
+
+The vault machine's clock ran ~9 days slow. The v2.3 / v2.4 syncs into 780-VPN (stamped
+2026-08-27 by the vault's clock; real date 2026-09-05) wrote four files dated before their own
+2026-09-02 bootstrap lines. At registration the vault had recorded the discrepancy backwards
+("780-VPN's clock runs +9d fast" in `config/projects.toml` and SESSION_OPENER § 2). A 780-VPN
+session matched its Mac to GitHub's server time and logged **E001**; the vault then verified
+against gitlab.com + apple.com (2026-09-05, `70cc725`) and corrected its record; Set v2.5 corrected
+the canonical L069–L078 date lines. The vault register's own candidate — "verify clock-skew
+direction against an external authority before recording it" — is merged here (operator-approved
+recommendation at the gate).
+
+#### Diagnosis
+
+Same root as the canonical text: the wall clock was trusted twice — silently by the engine's
+`date.today()` (`cli.py` `_cmd_sync` + the integrate write-back), and by the curator when two
+clocks disagreed and the direction was inferred instead of measured.
+
+#### Codification
+
+Canonical L079 + PROJECT_STANDARDS § 5.6 (Set v2.6). The vault's own practice since 2026-09-05 —
+`curl -sI https://gitlab.com | grep -i date:` against `date -u` before engine writes — is the rule.
+E001's engine half (a trusted "today" / newest-stamp floor + refuse when behind) is
+behavior-affecting in a Critical File and is routed to its own plan (PLAN-013 candidate). Write-back
+marks 780-VPN E001 `integrated → vault L079 (PROJECT_STANDARDS § 5.6, Set Version v2.6)`.
+
+#### Cross-references
+
+- 780-VPN `docs/STANDARDS_LOG.md` E001 (the source entry)
+- `70cc725` (the vault's skew-record correction); Set v2.5 (canonical date-line corrections)
+- L063, L032, L059
+
+---
 
 ### L070–L078 — First adopter-originated intake batch (rescued from 780-Automation)
 

@@ -2,6 +2,53 @@
 
 Newest entries at the top.
 
+## [2026-10-03] — Standard Set Version v2.6: clock trust — 780-VPN E001 integrated as L079 (second harvested adopter entry)
+
+- **Type:** Standards-suite release (Critical File `docs/standards/` — doc-only, no engine change;
+  Major workflow without a § 15 plan per the § 15.6 doc-only carve-out — the v2.1 / v2.3
+  precedent, operator-approved route).
+- **Rule 16 gate record:** harvest listed exactly ONE open entry — 780-VPN `docs/STANDARDS_LOG.md`
+  E001 "Stamp sync output from a trusted clock, not the curator machine's wall clock" (2026-09-05,
+  governance, general) — presented in chat 2026-10-03 with explanation, exact integration effect
+  and recommendation (genericize → integrate; merge the vault's own "verify skew direction
+  externally" candidate; engine half to its own plan). Operator: *"first the E001 is approved and
+  ship it first"*.
+- **What:** Lesson **L079** (the machine clock is an untrusted input — verify against an external
+  authority before stamping or recording skew) added genericized to the canonical LESSONS and
+  project-specific to the vault archive (dual-voice, the L068 precedent). PROJECT_STANDARDS →
+  1.1: new **§ 5.6** (a new change-log line must not be dated earlier than the line below it;
+  external clock check on a new machine or before stamping into other repositories; skew direction
+  measured, never inferred; wrong stamps corrected with an explicit annotation). Counts 78 → 79
+  (INDEX § 1 / § 2 / § 3, README, SVA — L060 sweep, live sites grep-clean). E001's engine half (a
+  trusted "today" / newest-stamp floor + refuse when behind) is behavior-affecting in a Critical
+  File → routed to its own plan (PLAN-013 candidate).
+- **Delivery held by design (new finding):** the PLAN-012 handoff is OVERWRITTEN by each engine
+  write — un-landed writes do not accumulate, so a second write hides the first's file list.
+  Observed live: Capital-Signal holds 7 engine-modified files (v2.1 → v2.5) while its handoff lists
+  only v2.5's 3. Therefore: (1) **Capital-Signal held** at v2.5 until a CS session lands its
+  backlog (another write would bury one more version); (2) the **E001 write-back is deferred**
+  until 780-VPN lands this v2.6 handoff (a write-back now would overwrite it) — PLAN-012 QA-H6
+  moves with it. The overwrite gap is an engine follow-up (pairs with E001's engine half).
+  780-Automation unreachable (ssh refused since 2026-09-08).
+- **QA scenarios (Rule 11 / Rule 15):**
+  - QA-E1 ✅ 2026-10-03 — domain-neutral gate: `grep -rniE` for every fleet identifier over
+    `docs/standards/` + `skill/` → no output (exit 1).
+  - QA-E2 ✅ 2026-10-03 — engine-as-oracle dry-run (pre-commit): 780-VPN AND Capital-Signal each
+    show EXACTLY `docs/standards/PROJECT_STANDARDS.md` replace + `archive/LESSONS.md` replace +
+    `docs/SET_VERSION_ADOPTED.md` record, nothing else.
+  - QA-E3 ✅ 2026-10-03 — feature-ON: clock verified (gitlab.com `Date:` = `date -u`, 1s);
+    `sync --project 780-VPN --write` wrote + flushed 4 files incl. the handoff (v2.6, run date
+    2026-10-03, the 3-file list — read back); spot-greps: L079 present, § 5.6 present, SVA reads
+    v2.6; immediate re-run up-to-date 11/11; `status` 780-VPN v2.6/v2.6 current (open-log 1 =
+    E001 awaiting the deferred write-back), CS behind (held), 780-Automation unknown.
+  - QA-E4 ⏸ — write-back: after 780-VPN lands the v2.6 handoff, `integrate --apply` E001 →
+    `integrated → vault L079 (PROJECT_STANDARDS § 5.6, Set Version v2.6)` + handoff spot-read
+    (= PLAN-012 QA-H6); then `harvest` = 0 open.
+- **Versions:** PROJECT_STANDARDS 1.0→1.1, STANDARDS_INDEX 2.5→2.6, standards README 1.3→1.4,
+  SET_VERSION_ADOPTED 1.13→1.14, manifest 2.41→2.42; both LESSONS files +L079 (headers unchanged
+  per the no-per-lesson-bump practice). Impact: standards content release — no engine behavior
+  change; 780-VPN received the 3-file delta + handoff.
+
 ## [2026-10-03] — PLAN-011 DRAFT: fleet convergence — Equinex intake + adoption (EverOn line retirement)
 
 - **Type:** Plan design commit (§ 15 Phase 0 + Phase 1; Rule 1). No behavior change.

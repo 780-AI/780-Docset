@@ -1,8 +1,10 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-10-03 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-10-03 — Standard Set Version v2.6: § 5.6 added — stamp dates are checked against the previous
+change-log line and the clock is verified against an external authority before stamping (L079).
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
@@ -424,6 +426,22 @@ Some docs are updated continuously and don't carry meaningful versioning. Tracke
 - Header still has VERSION (often `1.0` permanently)
 - "Last Updated" is the active marker — bumped on every meaningful edit
 - CHANGE LOG block can be omitted or used sparingly for structural changes only
+
+### 5.6 Stamp dates — the clock is an untrusted input
+
+Every `Last Updated` value and change-log date comes from some machine's clock, and a drifted clock
+writes wrong dates silently (L079). Two checks:
+
+- **At edit and review time:** a new change-log line must not be dated earlier than the line below
+  it, and `Last Updated` must not move backwards. If it would, the clock is suspect — verify it
+  against an external authority (e.g. `curl -sI https://<well-known-host> | grep -i '^date:'` vs
+  `date -u`) before committing. Never make the order look right by silently re-dating earlier lines.
+- **On a machine new to the project, or before stamping into other repositories** (sync runs,
+  bulk updates): run the same external check once at session start.
+
+When two machines' clocks disagree, measure both against the external authority before recording
+which one is wrong. Stamps already written wrong are corrected in place with an explicit
+"originally stamped …" annotation, never silently rewritten.
 
 ---
 
