@@ -1,7 +1,12 @@
-<!-- VERSION: 2.47 -->
+<!-- VERSION: 2.48 -->
 <!-- Last Updated: 2026-10-03 -->
 <!--
 CHANGE LOG
+v2.48 — 2026-10-03 — Set v2.7 delivered fleet-wide (PLAN-011 QA-F4) + 780-Automation re-pointed to
+its new DHCP IP: bumped cells 8 (SESSION_OPENER 1.16→1.17, § 2 row), 82–83 (PLAN-011 plan + tracker
+0.3→0.4, Phase 3a closed), 85 (PLAN-013 tracker 1.0→1.1, Phase 5 push recorded).
+`config/projects.toml` carries no VERSION header (not a manifest row). Self-row 2.47 → 2.48
+(grep-verified against the header per L063).
 v2.47 — 2026-10-03 — Standard Set Version v2.7 (PLAN-011 Phase 3a — fleet-convergence intake from
 EverOn.Equinex: L080 feature intake + L081 cloud-synced folders): bumped cells 1 (root CLAUDE.md
 1.8→1.9), 10 (SET_VERSION_ADOPTED 1.14→1.15), 11 (template CLAUDE.md 1.6→1.7), 22 (standards
@@ -283,10 +288,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.47 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.48 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.13 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.16 | Governance | `docs/SESSION_OPENER.md` |
+| 8 | Session Opener (project-local, binding) | 1.17 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.6 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.15 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.7 | Standards | `docs/standards/CLAUDE.md` |
@@ -357,10 +362,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 79 | Delivery-skill installer (per-machine symlink) | 0.1 | Delivery | `scripts/bootstrap_skill.sh` |
 | 80 | PLAN-012 — sync handoff report (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-012_sync_handoff.md` |
 | 81 | PLAN-012 tracker (CLOSED) | 1.2 | Plan | `docs/Plans/PLAN-012_tracker.md` |
-| 82 | PLAN-011 — fleet convergence: Equinex intake + adoption (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-011_fleet_convergence.md` |
-| 83 | PLAN-011 tracker (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-011_tracker.md` |
+| 82 | PLAN-011 — fleet convergence: Equinex intake + adoption (EXECUTING) | 0.4 | Plan | `docs/Plans/PLAN-011_fleet_convergence.md` |
+| 83 | PLAN-011 tracker (EXECUTING) | 0.4 | Plan | `docs/Plans/PLAN-011_tracker.md` |
 | 84 | PLAN-013 — engine write safety: clock floor + accumulating handoffs (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-013_engine_write_safety.md` |
-| 85 | PLAN-013 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-013_tracker.md` |
+| 85 | PLAN-013 tracker (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-013_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -369,7 +374,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-03
-- **Change**: Standard Set Version v2.7 (PLAN-011 Phase 3a — L080 feature intake + L081 cloud-synced
+- **Change**: Set v2.7 delivered fleet-wide (QA-F4) + 780-Automation re-pointed to 172.16.10.245:
+  cells 8, 82–83, 85.
+- **Previous change**: Standard Set Version v2.7 (PLAN-011 Phase 3a — L080 feature intake + L081 cloud-synced
   folders): cells 1, 10, 11, 22, 23, 78; plan + tracker (82–83) → 0.3/EXECUTING.
-- **Previous change**: PLAN-013 Phase 3 — engine write safety shipped; cells 7/46/51/72/73/80 bumped; plan + tracker (84–85) → 1.0/CLOSED.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

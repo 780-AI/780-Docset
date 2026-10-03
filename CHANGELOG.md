@@ -2,6 +2,43 @@
 
 Newest entries at the top.
 
+## [2026-10-03] — Set v2.7 delivered fleet-wide (PLAN-011 QA-F4) + 780-Automation re-pointed to 172.16.10.245
+
+- **Type:** Registry change (Critical File `config/projects.toml` — operator-supplied DHCP IP,
+  identity verified before re-pointing, the 2026-08-27 precedent) + plan bookkeeping. No engine
+  change, no Set Version change.
+- **780-Automation re-point:** the operator supplied the new address 172.16.10.245 (unreachable at
+  .11.60 since 2026-09-08). Before trusting it: its ED25519 / RSA / ECDSA host keys were compared
+  with the keys already trusted for .10.61 / .11.60 — all three identical — then added to
+  `known_hosts`; identity probe: same repo (`/Users/a780/Projects/780-Automation`, origin
+  `780-AI/780-Automation`, bootstrap `cb62527` in history), clean tree, Set v2.5, **no handoff** —
+  the v2.5 write had been landed and the handoff deleted target-side (a third QA-H5-pattern data
+  point). Registry `ssh_host` + SESSION_OPENER § 2 row (→ 1.17) updated.
+- **Delivery (`sync --write` of release `0e03e10`):** clock 14:46:51 UTC = gitlab.com 14:46:52;
+  no session mid-work in 780-VPN (no file changed in 3 h) or Capital-Signal. Capital-Signal 4 files
+  (handoff → `### Write 3`), 780-Automation 5 (catch-up v2.5 → v2.7: CLAUDE.md merge +
+  PROJECT_STANDARDS replace + LESSONS replace + SVA record + a new handoff), 780-VPN 4 (its
+  pre-accumulation handoff wrapped as Write 1 + `### Write 2`). 780-Automation's dry-run was
+  checked first per the discard-class rule: CLAUDE.md hunks identical to the reviewed v2.7 delta,
+  PROJECT_STANDARDS = the v2.6 § 5.6 addition, LESSONS additive (L079–L081).
+- **Finding (not acted on — Rule 16):** 780-Automation's `docs/STANDARDS_LOG.md` holds **12 open
+  entries (E001–E012)**, codified target-side 2026-09-05 (`c097780`) — the L069 log channel
+  working as designed. They await a `harvest` + the Rule 16 list-and-confirm gate; nothing
+  integrated.
+- **QA scenarios (Rule 11 / Rule 15):**
+  - ✅ QA-R1 (re-point) — host-key match + identity probe above; `status` resolves
+    `ssh:a780@172.16.10.245:…` and reports v2.7 / v2.7 current; a real write + read-back landed
+    over the new address.
+  - ✅ QA-F4 ⚑ (PLAN-011) — written files + handoffs read back on all three (§ 15.9, the Rule 14
+    bullet and L080–L081 present; § 5.6 + L079 on 780-Automation; PROJECT-OWNED 4/4 each);
+    immediate re-run up-to-date ×3; `status` v2.7 / v2.7 current ×3 (open-log: CS 0,
+    780-Automation 12, 780-VPN 1 = E001 awaiting its write-back).
+- **Versions:** SESSION_OPENER 1.16→1.17, PLAN-011 plan + tracker 0.3→0.4 (Phase 3a closed; § 5B
+  anchor shifted to 1.17→1.18), PLAN-013 tracker 1.0→1.1 (Phase 5 push recorded — `ls-remote`
+  verified `b65037c`), manifest 2.47→2.48. Impact: every engine command now reaches 780-Automation
+  at the new address; all three targets hold v2.7 as uncommitted engine writes + handoffs for
+  their next sessions to land.
+
 ## [2026-10-03] — Standard Set Version v2.7: fleet-convergence intake from EverOn.Equinex — L080 feature intake + L081 cloud-synced folders (PLAN-011 Phase 3a)
 
 - **Type:** Standards-suite release (Critical Files `docs/standards/` + root `CLAUDE.md` + the
@@ -58,9 +95,10 @@ Newest entries at the top.
     the step-6 fix, the Rule 14 bullet + see-line, the § 15.2 pointer and § 15.9 (plus the engine
     header stamp), identical on both targets; LESSONS +82 lines, additive only; no clock warning.
     780-Automation unreachable (ssh timeout) — catch-up when back.
-  - ⏸ QA-F4 ⚑ — post-commit: clock check, `sync --write` to Capital-Signal + 780-VPN (handoffs
-    accumulate: CS `### Write 3`, 780-VPN record 1 + `### Write 2`), handoff read-back, immediate
-    re-run up-to-date 11/11, fleet `status` current.
+  - ✅ QA-F4 ⚑ — 2026-10-03, post-commit (evidence in the fleet-delivery entry above): `sync
+    --write` to Capital-Signal (`### Write 3`), 780-VPN (record 1 + `### Write 2`) AND 780-Automation
+    (back at a new IP — catch-up v2.5 → v2.7); handoffs read back; re-run up-to-date ×3; `status`
+    current ×3.
 - **Versions:** template CLAUDE.md 1.6→1.7, root CLAUDE.md 1.8→1.9, STANDARDS_INDEX 2.6→2.7,
   standards README 1.4→1.5, SET_VERSION_ADOPTED 1.14→1.15, adopt.md 0.2→0.3, manifest 2.46→2.47,
   PLAN-011 plan + tracker 0.2→0.3 (EXECUTING); both LESSONS files +L080/L081 (headers unchanged per

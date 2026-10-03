@@ -1,8 +1,12 @@
-<!-- VERSION: 1.0 -->
+<!-- VERSION: 1.1 -->
 <!-- Last Updated: 2026-10-03 -->
-<!-- Status: CLOSED (Phase 3 shipped 2026-10-03; QA-K1…K4 + K6 ✅; K5 open at its named trigger; Phase 5 push pending) -->
+<!-- Status: CLOSED (Phase 3 shipped 2026-10-03; QA-K1…K4 + K6 ✅; K5 open at its named trigger; pushed 2026-10-03) -->
 <!--
 CHANGE LOG
+v1.1 — 2026-10-03 — Phase 5 push recorded (operator "push"; `ls-remote` verified remote master =
+`b65037c`; no tag — engine-only). Also observed: the Set v2.7 fleet write (vault `0e03e10`)
+appended `### Write 3` to Capital-Signal's handoff and wrapped 780-VPN's pre-accumulation handoff
+as Write 1 + `### Write 2` — the accumulation and legacy-wrap paths, live on two more targets.
 v1.0 — 2026-10-03 — Phase 3 + QA-K1…K4 + K6 recorded (fresh implementer session): reconcile pass
 clean, § 5/§ 6 applied byte-for-byte; feature-ON evidence analyzed (guard refusal on a real-data
 copy; first accumulating write into Capital-Signal). Rule 10 review found plan defect D2 (§ 2
@@ -62,4 +66,5 @@ Waiver register (Rule 15): _(empty)_
 
 ## Phase 5 — Operator gate
 
-- ⏸ Push (operator). No tag — engine-only, no Set Version change.
+- ✅ 2026-10-03 — Push (operator "push"; `ls-remote` verified remote master = `b65037c`). No tag —
+  engine-only, no Set Version change.

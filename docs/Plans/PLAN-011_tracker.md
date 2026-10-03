@@ -1,8 +1,11 @@
-<!-- VERSION: 0.3 -->
+<!-- VERSION: 0.4 -->
 <!-- Last Updated: 2026-10-03 -->
-<!-- Status: EXECUTING (tracks PLAN-011 — Phase 3a release committed; QA-F4 post-commit; Phase 3b next, in an Equinex session) -->
+<!-- Status: EXECUTING (tracks PLAN-011 — Phase 3a DONE; Phase 3b next, in an Equinex session) -->
 <!--
 CHANGE LOG
+v0.4 — 2026-10-03 — Phase 3a closed: post-commit `sync --write` + QA-F4 ✅ on all three targets
+(780-Automation reachable again at 172.16.10.245 — caught up v2.5 → v2.7); Phase 3c note for the
+§ 5B version shift (plan 0.4).
 v0.3 — 2026-10-03 — Phase 3a executed: pre-checks, reconcile pass (zero defects), Rule 16 gate
 (operator "confirmed as recommended"), integration, QA-F1–F3 ✅; release commit. QA-F4 recorded
 in the follow-up commit after the post-commit `sync --write`.
@@ -61,7 +64,13 @@ QA-F1…F8).
   backport row; § 5C adopt.md. § 7.2 ALLOWLIST unamended (no new template file).
 - ✅ 2026-10-03 — QA-F2 grep gate; QA-F3 oracle dry-run (pre-commit) — ledger below.
 - ✅ 2026-10-03 — Rule 10 review table → release commit (this commit).
-- ⏸ `sync --write` → QA-F4 (post-commit; recorded in the follow-up commit).
+- ✅ 2026-10-03 — 780-Automation re-pointed to the operator-supplied DHCP IP 172.16.10.245 (its
+  ED25519/RSA/ECDSA host keys identical to the ones trusted at .10.61/.11.60; same repo, origin
+  `780-AI/780-Automation`, bootstrap `cb62527`; clean tree, v2.5, v2.5 handoff already landed) —
+  its dry-run showed exactly the v2.6 + v2.7 catch-up (4 items; CLAUDE.md hunks identical to the
+  reviewed v2.7 delta; LESSONS additive L079–L081).
+- ✅ 2026-10-03 — `sync --write` (release `0e03e10`; clock 14:46:51 UTC = gitlab.com 14:46:52; no
+  session mid-work in 780-VPN or Capital-Signal) → QA-F4 (ledger below).
 
 ## Phase 3b — Equinex adoption (Equinex session; target commit § 7.3)
 
@@ -72,7 +81,8 @@ QA-F1…F8).
 
 ## Phase 3c — Registration + discipline proof (vault session; commit § 7.4)
 
-- ⏸ § 5A + § 5B applied; clock check (R8).
+- ⏸ § 5A + § 5B applied; clock check (R8). NOTE: § 5B now bumps SESSION_OPENER 1.17 → 1.18 (plan
+  0.4 — the 780-Automation re-point took 1.17).
 - ⏸ QA-F6 status / sync dry-run.
 - ⏸ QA-F7 harvest → integrate write-back → harvest clean.
 - ⏸ QA-F8 line-retirement checks.
@@ -85,7 +95,7 @@ QA-F1…F8).
 | QA-F1 | Rule 16 gate record | 3a | ✅ | 2026-10-03 | C1–C7 posted in chat with per-item explanation + recommendation; operator "confirmed as recommended"; kept-local C5–C7 in the v2.7 CHANGELOG intake notes |
 | QA-F2 | Domain-neutral zero-hit grep | 3a | ✅ | 2026-10-03 | plan grep over `docs/standards/` + `skill/` → no output (exit 1); intake names (dropbox, survival, backoffice, cloudzy, mt5, ea, monitor, telemetry, preset, trading, tester) absent from added lines (exit 1) |
 | QA-F3 ⚑ | Engine-as-oracle release dry-run | 3a | ✅ | 2026-10-03 | CS + 780-VPN each exactly CLAUDE.md merge + archive/LESSONS.md replace + SVA record (+ handoff note); `--diff` CLAUDE.md hunks = the 4 intended changes + engine header, identical on both; LESSONS +82 additive; no clock warning; 780-Automation unreachable (ssh timeout) |
-| QA-F4 ⚑ | Release delivered + idempotent | 3a | ⏸ | | |
+| QA-F4 ⚑ | Release delivered + idempotent | 3a | ✅ | 2026-10-03 | `sync --write`: CS 4 files (handoff → `### Write 3`, v2.5/v2.6/v2.7 records), 780-Automation 5 (4 + new handoff, catch-up v2.5 → v2.7), 780-VPN 4 (legacy handoff wrapped as Write 1 + `### Write 2`); spot-greps § 15.9 / Rule 14 bullet / L080–L081 (+ § 5.6 / L079 on 780-A) present, PROJECT-OWNED 4/4 on all three; re-run up-to-date ×3; `status` v2.7/v2.7 current ×3 |
 | QA-F5 ⚑ | Equinex adoption (diff == approved list, legacy byte-identical, runtime untouched) | 3b | ⏸ | | |
 | QA-F6 ⚑ | Registration: status current, sync no-op | 3c | ⏸ | | |
 | QA-F7 ⚑ | Log round-trip (harvest → write-back → clean) | 3c | ⏸ | | |

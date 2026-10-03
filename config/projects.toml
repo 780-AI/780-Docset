@@ -41,7 +41,7 @@ path = "~/Library/CloudStorage/Dropbox/Projects/EverOn.Capital-Signal"   # Dropb
 [[project]]                        # team project; bootstrapped 2026-08-19 via the portable kit (Set v2.1)
 name = "780-Automation"
 transport = "ssh"
-ssh_host = "a780@172.16.11.60"     # team Mac, LAN IP (DHCP — update here if it changes; changed 10.61 -> 11.60, updated 2026-08-27); key auth installed 2026-08-19
+ssh_host = "a780@172.16.10.245"    # team Mac, LAN IP (DHCP — update here if it changes; 10.61 -> 11.60 2026-08-27 -> 10.245 2026-10-03, host keys verified identical); key auth installed 2026-08-19
 ssh_path = "/Users/a780/Projects/780-Automation"
 # Planned migration: -> git transport once the project lands on the organization GitHub
 # (operator decision 2026-08-19; re-opens DD-6b write-back etiquette before any git --write).

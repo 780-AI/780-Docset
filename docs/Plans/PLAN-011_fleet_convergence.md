@@ -1,8 +1,12 @@
-<!-- VERSION: 0.3 -->
+<!-- VERSION: 0.4 -->
 <!-- Last Updated: 2026-10-03 -->
-<!-- Status: EXECUTING (Phase 3a — Set v2.7 release committed 2026-10-03; QA-F4 delivery follows the commit; Phase 3b = an Equinex session) -->
+<!-- Status: EXECUTING (Phase 3a DONE 2026-10-03 — Set v2.7 released `0e03e10` + delivered fleet-wide; Phase 3b next = an Equinex session) -->
 <!--
 CHANGE LOG
+v0.4 — 2026-10-03 — Phase 3a closed: `sync --write` delivered v2.7 to all three targets (780-Automation
+back at operator-supplied DHCP IP 172.16.10.245, host keys verified — caught up v2.5 → v2.7);
+QA-F4 ✅. § 5B shifted by one (SESSION_OPENER 1.17 → 1.18, change-log line v1.18): the
+780-Automation re-point took 1.17 in the same session — mechanical anchor update, no design change.
 v0.3 — 2026-10-03 — Phase 3a executed (fresh session): reconcile pass found zero plan defects
 (anchors § 5C / § 5D.0 byte-matched at the stated lines; § 7.2 versions as expected; count 79 →
 next L080; QA-F2 baseline clean). Delta at the Equinex tip empty (still `cf25e70`). Rule 16 gate
@@ -166,7 +170,7 @@ files), `.claude/` + OPEN_TASKS gitignored.
 - Phase 0 — Audit: ✅ 2026-10-03
 - Phase 1 — Design + Rule 13 pass: ✅ 2026-10-03
 - Phase 2 — Operator approval (D11.A + D-1…D-6): ✅ 2026-10-03 — "plan 011 is appvoved"
-- Phase 3a — Intake + release (vault session; commit § 7.2): 🔄 2026-10-03 — Set v2.7 release committed (QA-F1–F3 ✅); `sync --write` + QA-F4 follow the commit
+- Phase 3a — Intake + release (vault session; commit § 7.2): ✅ 2026-10-03 — Set v2.7 `0e03e10`; delivered to all three targets (QA-F1–F4 ✅)
 - Phase 3b — Equinex adoption (Equinex session; target commit § 7.3): ⏸
 - Phase 3c — Registration + discipline proof (vault session; commit § 7.4, closes the plan): ⏸
 - Phase 4 — Validate (QA-F1…F8, each recorded at its phase): ⏸
@@ -191,11 +195,12 @@ path = "~/Library/CloudStorage/Dropbox/Projects/EverOn.Equinex"   # Dropbox-sync
 
 ### 5B — `docs/SESSION_OPENER.md` (project instance; Phase 3c)
 
-Header: `<!-- VERSION: 1.16 -->` → `<!-- VERSION: 1.17 -->`; `Last Updated` → the Phase 3c date;
-CHANGE LOG line prepended above `v1.16`:
+Header: `<!-- VERSION: 1.17 -->` → `<!-- VERSION: 1.18 -->`; `Last Updated` → the Phase 3c date;
+CHANGE LOG line prepended above `v1.17` (shifted from 1.16 → 1.17 at plan 0.4 — the 2026-10-03
+780-Automation IP re-point took 1.17):
 
 ```text
-v1.17 — <Phase 3c date> — Fourth target registered: EverOn.Equinex (§ 2 registry row — local `~/` transport, Dropbox-synced; adopted <Phase 3b date> via the skill's adopt mode, EverOn own line retired — PLAN-011).
+v1.18 — <Phase 3c date> — Fourth target registered: EverOn.Equinex (§ 2 registry row — local `~/` transport, Dropbox-synced; adopted <Phase 3b date> via the skill's adopt mode, EverOn own line retired — PLAN-011).
 ```
 
 § 2 table — insert this row immediately AFTER the `780-VPN` row (inside the PROJECT-OWNED block):
