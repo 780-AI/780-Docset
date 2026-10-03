@@ -1,8 +1,9 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-10-03 -->
-<!-- Status: DRAFT (tracks PLAN-013 — awaiting Phase 2 approval) -->
+<!-- Status: APPROVED (tracks PLAN-013; promoted to 1.0/CLOSED with the plan) -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-03 — Phase 2 approval recorded ("approve plan 013"; D-1…D-5 = A, plan § 9.1).
 v0.1 — 2026-10-03 — Created with the plan draft (tracker required per § 15.7: Phase 4 is
 multi-scenario, QA-K1…K6, and K4/K5 fire at later triggers).
 -->
@@ -25,8 +26,9 @@ multi-scenario, QA-K1…K6, and K4/K5 fire at later triggers).
 
 ## Phase 2 — Operator approval
 
-- ⏸ D13.A ("APPROVE PLAN-013") + D-1 clock source, D-2 handoff policy, D-3 strictness, D-4
-  override, D-5 first feature-ON write.
+- ✅ 2026-10-03 — operator: **"approve plan 013"** — D13.A + D-1…D-5 at the recommended options
+  (offline floor guard / accumulate / strict / no override / CS v2.6 catch-up as QA-K4); recorded
+  at plan v0.2 § 9.1.
 
 ## Phase 3 — Implement (fresh session; single commit; ALLOWLIST-bounded)
 

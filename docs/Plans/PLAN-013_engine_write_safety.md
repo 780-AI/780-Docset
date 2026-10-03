@@ -1,8 +1,10 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-10-03 -->
-<!-- Status: DRAFT (Phase 1 — awaiting Phase 2 operator approval "APPROVE PLAN-013") -->
+<!-- Status: APPROVED (Phase 2 landed 2026-10-03 — operator: "approve plan 013"; Phase 3 runs in this fresh session) -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-03 — Phase 2 operator approval recorded ("approve plan 013"); § 9.1 decision record
+added (D-1…D-5 at the recommended options). Status DRAFT → APPROVED. No design change.
 v0.1 — 2026-10-03 — Initial draft (Phase 0 audit + Phase 1 design). Code developed + tool-proven in a
 scratch overlay FIRST (proven-code-first): ruff clean; mypy error SET identical to baseline (42 full
 / 25 src, line numbers stripped); pytest 119 passed (111 + 8 new). Feature behavior previewed
@@ -76,7 +78,7 @@ PLAN-011 § 9.1 pre-write hold and the Capital-Signal v2.6 hold (D-5).
 
 - Phase 0 — Audit: ✅ 2026-10-03
 - Phase 1 — Design + Rule 13 pass: ✅ 2026-10-03
-- Phase 2 — Operator approval (D13.A + D-1…D-5): ⏸
+- Phase 2 — Operator approval (D13.A + D-1…D-5): ✅ 2026-10-03 — "approve plan 013" (§ 9.1)
 - Phase 3 — Implement (fresh session, single commit): ⏸
 - Phase 4 — Validate (QA-K1…K6): ⏸
 - Phase 5 — Operator gate (push): ⏸
@@ -892,6 +894,17 @@ silent deferral; the write-back path is test-covered under K1).
   (RECOMMEND: it lifts the CS hold — the handoff will list v2.5 + v2.6, and the new § 2 step-1
   sentence covers its older unlisted v2.1–v2.4 files); alternative: keep CS held until a CS session
   lands its backlog, and use the next release for QA-K4.
+
+### 9.1 Decision record (Phase 2, 2026-10-03)
+
+- **D13.A — APPROVED:** operator *"approve plan 013"* (2026-10-03, opening the Phase 3 session:
+  "start new session and approve plan 013 then start implementation").
+- **D-1…D-4 = A** — offline floor guard; accumulate; strict; no override. These are the plan as
+  drafted (the § 5 code implements exactly these options). Not answered item by item: the agent's
+  read (approving the drafted plan = its recommended options) was stated in the session pre-flight
+  and confirmed by the operator at the approval-commit gate.
+- **D-5 = A** — Capital-Signal's v2.6 catch-up is QA-K4. The write itself still requires the
+  operator to name the target at QA time (SESSION_OPENER § 2: never write to an unnamed target).
 
 ## 10. Rollback path
 

@@ -2,6 +2,18 @@
 
 Newest entries at the top.
 
+## [2026-10-03] — PLAN-013 APPROVED (Phase 2): "approve plan 013"
+
+- **Type:** Plan approval record (no behavior change).
+- **What:** Operator approval landed on the v0.1 draft; plan + tracker → 0.2 / APPROVED. Decision
+  record in plan § 9.1: D-1…D-4 = A (offline floor guard, accumulate, strict, no override — the
+  options the § 5 code implements); D-5 = A (Capital-Signal's v2.6 catch-up is QA-K4, its write
+  gated on the operator naming the target at QA time). Phase 3 (single commit, 10-file ALLOWLIST,
+  engine-only — no Set Version bump) follows in this fresh session per § 15.3; its reconcile pass
+  already ran clean (17/17 FIND blocks match live source exactly once).
+- **QA scenarios:** exempt per Rule 11 (approval record); QA-K1…K6 stay in `PLAN-013_tracker.md`.
+- **Versions:** PLAN-013 + tracker 0.1→0.2, manifest 2.44→2.45. Impact: none at runtime.
+
 ## [2026-10-03] — PLAN-013 DRAFT: engine write safety — clock floor + accumulating handoffs
 
 - **Type:** Plan design commit (§ 15 Phase 0 + Phase 1; Rule 1). No behavior change.
