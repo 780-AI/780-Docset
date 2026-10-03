@@ -2,6 +2,22 @@
 
 Newest entries at the top.
 
+## [2026-10-03] — Bookkeeping: PLAN-012 QA-H5 ✅ — the handoff loop closed in a real target
+
+- **Type:** Bookkeeping (post-close QA annotation; no vault behavior change).
+- **What:** QA-H5 (loop closure — a target session reads the handoff, lands the changes per its
+  § 2, and deletes it; first observation closes) is observed in 780-VPN commit `de1de37`
+  (2026-09-05): the three engine-written v2.5 files + the adopter bookkeeping (manifest cells,
+  docs/README, CHANGELOG) landed in one commit BEFORE the session's feature work, and
+  `docs/SYNC_HANDOFF.md` was deleted in the same landing (untracked engine-transient — no git
+  trace; evidence = commit body + file absent on disk + clean tree). Found by the 2026-09-08
+  read-only probe; flip operator-authorized 2026-10-03. Contrast: Capital-Signal still holds its
+  engine writes + handoff uncommitted (v2.1→v2.5) — the open uncommitted-fragility lesson
+  candidate, not a QA-H5 concern. QA-H5 flipped in the v2.5 release entry below; tracker
+  annotated. QA-H6 remains open at its named trigger (the 780-VPN E001 intake).
+- **QA scenarios:** exempt per Rule 11 (bookkeeping/record; this entry IS the QA-H5 record).
+- **Versions:** PLAN-012 tracker 1.1→1.2, manifest 2.39→2.40. Impact: none at runtime.
+
 ## [2026-10-03] — 780-VPN re-pointed ssh → local `~/` (shared Dropbox folder)
 
 - **Type:** Registration update (Critical File `config/projects.toml`; no engine change).
@@ -85,7 +101,8 @@ Newest entries at the top.
     content read back and verified against design; 780-Automation catch-up completed same day
     when the host returned (see the bookkeeping entry above) — ALL THREE targets verified.
   - QA-H4 ✅ 2026-09-05 — idempotence: dry-run re-run up-to-date 11/11 on both written targets.
-  - QA-H5 ⏸ — loop closure: a target session lands + deletes the handoff (operator-observed).
+  - QA-H5 ✅ 2026-10-03 — loop closure observed in 780-VPN `de1de37` (landed per the handoff +
+    deleted it, before feature work; see the 2026-10-03 bookkeeping entry above).
   - QA-H6 ⏸ — feature-ON write-back half: fires at the pending E001 intake (named trigger;
     engine behavior already test-covered under QA-H1).
 - **Versions:** sync 0.1→0.2, cli 0.5→0.6, test_cli 0.5→0.6, template SESSION_OPENER 1.7→1.8,

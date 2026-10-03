@@ -1,8 +1,11 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-09-05 -->
-<!-- Status: CLOSED (Phase 3 shipped + Phase 5 pushed 2026-09-05, tag set-v2.5; QA-H1..H4 ✅ on ALL THREE targets; H5/H6 open at their defined triggers) -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-10-03 -->
+<!-- Status: CLOSED (Phase 3 shipped + Phase 5 pushed 2026-09-05, tag set-v2.5; QA-H1..H5 ✅ — H1..H4 on ALL THREE targets, H5 via 780-VPN de1de37; H6 open at the E001 intake) -->
 <!--
 CHANGE LOG
+v1.2 — 2026-10-03 — Post-close QA annotation (PLAN-010 QA-I precedent): QA-H5 ✅ — loop
+closure observed in 780-VPN commit `de1de37` (2026-09-05; found by the 2026-09-08 read-only
+probe, flip operator-authorized 2026-10-03). H6 still open at its named trigger.
 v1.1 — 2026-09-05 — Post-close QA annotation (PLAN-010 QA-I precedent): 780-Automation returned
 same day — catch-up write completed QA-H3's third-target half (5-item delta explained: the
 target had discarded the uncommitted v2.3+v2.4 engine writes — the PLAN-012 incident class
@@ -74,8 +77,14 @@ QA-H1..H5).
   handoff spot-read correct; idempotence re-run up-to-date 11/11. ALL THREE targets verified.
 - ✅ QA-H4 — 2026-09-05 — immediate dry-run re-run: up-to-date 11/11 on both written targets
   (handoff presence does not perturb the plan).
-- ⏸ QA-H5 — loop closure: a target session lands a sync per the handoff + deletes it
-  (operator-observed; first observation closes).
+- ✅ QA-H5 — 2026-10-03 — loop closure observed (first observation closes): 780-VPN commit
+  `de1de37` (2026-09-05, "land Standard Set v2.4 -> v2.5 (engine-written) + adopter
+  bookkeeping") landed the three engine-written files (LESSONS replace, SESSION_OPENER merge,
+  SVA record) + the adopter bookkeeping the engine never touches (manifest cells, docs/README,
+  CHANGELOG), BEFORE the session's feature work per the handoff's § 1.1 rule, and deleted
+  `docs/SYNC_HANDOFF.md` in the same landing (untracked engine-transient, so the deletion has
+  no git trace — evidence = the commit body + file absent on disk + clean tree). Verdict: matches
+  design. Found by the 2026-09-08 read-only probe; flip operator-authorized 2026-10-03.
 - ⏸ QA-H6 — feature-ON (write-back half): fires at the pending E001 intake (780-VPN's open
   entry) — spot the write-back handoff in that target on that run.
 
