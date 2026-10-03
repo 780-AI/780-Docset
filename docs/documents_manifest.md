@@ -1,7 +1,10 @@
-<!-- VERSION: 2.40 -->
+<!-- VERSION: 2.41 -->
 <!-- Last Updated: 2026-10-03 -->
 <!--
 CHANGE LOG
+v2.41 — 2026-10-03 — Registered PLAN-011 (fleet convergence: Equinex intake + adoption, EverOn
+line retirement) DRAFT + tracker: new rows 82–83 (0.1). Design commit only; Phase 3 runs after
+"APPROVE PLAN-011". Self-row 2.40 → 2.41 (grep-verified against the header per L063).
 v2.40 — 2026-10-03 — PLAN-012 QA-H5 ✅ (loop closure observed in 780-VPN `de1de37`): bumped cell
 81 (PLAN-012 tracker 1.1→1.2, post-close QA annotation). Self-row 2.39 → 2.40 (grep-verified
 against the header per L063).
@@ -253,7 +256,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.40 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.41 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.12 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.16 | Governance | `docs/SESSION_OPENER.md` |
@@ -327,6 +330,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 79 | Delivery-skill installer (per-machine symlink) | 0.1 | Delivery | `scripts/bootstrap_skill.sh` |
 | 80 | PLAN-012 — sync handoff report (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-012_sync_handoff.md` |
 | 81 | PLAN-012 tracker (CLOSED) | 1.2 | Plan | `docs/Plans/PLAN-012_tracker.md` |
+| 82 | PLAN-011 — fleet convergence: Equinex intake + adoption (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-011_fleet_convergence.md` |
+| 83 | PLAN-011 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-011_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -335,7 +340,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-03
-- **Change**: PLAN-012 QA-H5 ✅ — loop closure observed in 780-VPN `de1de37`; tracker → 1.2 (81).
-- **Previous change**: 780-VPN re-pointed ssh → local `~/` (shared Dropbox folder) — project
-  SESSION_OPENER § 2 row (8 → 1.16); `config/projects.toml` entry (untracked by the manifest).
+- **Change**: PLAN-011 DRAFT registered — plan + tracker (82–83, 0.1).
+- **Previous change**: PLAN-012 QA-H5 ✅ — loop closure observed in 780-VPN `de1de37`; tracker →
+  1.2 (81).
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

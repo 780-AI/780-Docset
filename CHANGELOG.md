@@ -2,6 +2,29 @@
 
 Newest entries at the top.
 
+## [2026-10-03] — PLAN-011 DRAFT: fleet convergence — Equinex intake + adoption (EverOn line retirement)
+
+- **Type:** Plan design commit (§ 15 Phase 0 + Phase 1; Rule 1). No behavior change.
+- **What:** Drafts PLAN-011 + sibling tracker. The live fleet already has Capital-Signal,
+  780-Automation and 780-VPN converged + registered (v2.5), so the plan converges the last known
+  project, EverOn.Equinex: intake first (Rule 16 gate) → one Set release synced to the fleet →
+  adopt in a dedicated Equinex session (dry-run gated) → register + prove the STANDARDS_LOG
+  round-trip. Phase 0 (read-only, Equinex tip `cf25e70`): Equinex holds ONE lesson + ONE rule the
+  vault lacks (its L062 / Rule 16 — feature-intake workflow) plus uncodified machine-migration
+  guidance (synced-folder rules, git-identity check); everything else maps per PLAN-010.
+  Adoption complications catalogued (rule R14↔R15 swap + Rule 16 collision, own L050–L062 ≠ vault
+  numbering with 221 plan citations, zero PROJECT-OWNED markers, header-less session files,
+  equal-stamp divergent locality script, clean-tree gate failing on one untracked brief). Two
+  vault-side defects found and scheduled into the release: the adopt-mode spec gap (adopt.md § 3
+  vs the `archive/LESSONS.md` replace item) and Rule 12 step-6 drift (template + root CLAUDE.md
+  vs SESSION_CLOSER § 1.6 since v1.5, L063 class). Rule 13 pass RUN (code blocks extracted and
+  executed through the engine; anchors byte-verified; 6 findings fixed in place). Decisions
+  D11.A + D-1…D-6 await the operator (new: D-2 archive home, D-6 feature-intake landing under the
+  only-append rule-numbering principle).
+- **QA scenarios:** exempt per Rule 11 (design-only commit); QA-F1…F8 are defined in the plan § 8
+  and tracked in `PLAN-011_tracker.md` (⏸).
+- **Versions:** PLAN-011 + tracker 0.1 (new), manifest 2.40→2.41. Impact: none at runtime.
+
 ## [2026-10-03] — Bookkeeping: PLAN-012 QA-H5 ✅ — the handoff loop closed in a real target
 
 - **Type:** Bookkeeping (post-close QA annotation; no vault behavior change).
