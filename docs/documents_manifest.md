@@ -1,7 +1,10 @@
-<!-- VERSION: 2.43 -->
+<!-- VERSION: 2.44 -->
 <!-- Last Updated: 2026-10-03 -->
 <!--
 CHANGE LOG
+v2.44 — 2026-10-03 — Registered PLAN-013 (engine write safety: clock floor + accumulating handoffs)
+DRAFT + tracker: new rows 84–85 (0.1). Design commit only; Phase 3 runs after "APPROVE PLAN-013".
+Self-row 2.43 → 2.44 (grep-verified against the header per L063).
 v2.43 — 2026-10-03 — PLAN-011 Phase 2 approval recorded ("plan 011 is appvoved"): rows 82–83 → 0.2
 (DRAFT → APPROVED). Phase 3 runs in a fresh session per § 15.3. Self-row 2.42 → 2.43
 (grep-verified against the header per L063).
@@ -264,7 +267,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.43 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.44 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.12 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.16 | Governance | `docs/SESSION_OPENER.md` |
@@ -340,6 +343,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 81 | PLAN-012 tracker (CLOSED) | 1.2 | Plan | `docs/Plans/PLAN-012_tracker.md` |
 | 82 | PLAN-011 — fleet convergence: Equinex intake + adoption (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-011_fleet_convergence.md` |
 | 83 | PLAN-011 tracker (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-011_tracker.md` |
+| 84 | PLAN-013 — engine write safety: clock floor + accumulating handoffs (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-013_engine_write_safety.md` |
+| 85 | PLAN-013 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-013_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -348,7 +353,6 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-03
-- **Change**: PLAN-011 Phase 2 APPROVED — plan + tracker (82–83) → 0.2.
-- **Previous change**: Standard Set Version v2.6 (clock trust — L079 + PROJECT_STANDARDS § 5.6):
-  cells 10, 13, 22, 23.
+- **Change**: PLAN-013 DRAFT registered — plan + tracker (84–85, 0.1).
+- **Previous change**: PLAN-011 Phase 2 APPROVED — plan + tracker (82–83) → 0.2.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

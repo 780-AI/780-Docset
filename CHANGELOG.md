@@ -2,6 +2,23 @@
 
 Newest entries at the top.
 
+## [2026-10-03] — PLAN-013 DRAFT: engine write safety — clock floor + accumulating handoffs
+
+- **Type:** Plan design commit (§ 15 Phase 0 + Phase 1; Rule 1). No behavior change.
+- **What:** Drafts PLAN-013 + sibling tracker for the two live engine write-path defects:
+  (1) the engine stamps "today" from an unchecked wall clock (780-VPN E001's engine half, L079)
+  → both write paths compute the target's newest stamp and refuse when the clock reads earlier;
+  the sync dry-run warns; (2) every write OVERWRITES `docs/SYNC_HANDOFF.md`, hiding earlier
+  un-landed writes (live: Capital-Signal 7 modified files vs a 3-file handoff) → un-landed
+  records are kept and the new write appended as `### Write N` (pre-accumulation handoffs
+  wrapped; unrecognized ones kept verbatim). Engine-only — no Set Version bump. Code proven
+  first in a scratch overlay (ruff clean; mypy error set identical; pytest 119 = 111 + 8 new)
+  and previewed read-only on real fleet data; Rule 13 pass re-extracted all 17 blocks from the
+  plan file and re-proved them. Decisions D13.A + D-1…D-5 await the operator.
+- **QA scenarios:** exempt per Rule 11 (design-only commit); QA-K1…K6 defined in plan § 8 and
+  tracked in `PLAN-013_tracker.md` (⏸).
+- **Versions:** PLAN-013 + tracker 0.1 (new), manifest 2.43→2.44. Impact: none at runtime.
+
 ## [2026-10-03] — PLAN-011 Phase 2 APPROVED ("plan 011 is appvoved")
 
 - **Type:** Plan approval record (no behavior change).
