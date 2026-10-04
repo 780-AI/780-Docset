@@ -1,8 +1,9 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-10-04 -->
-<!-- Status: DRAFT (tracks PLAN-016 — Phases 0–1 done; awaiting Phase 2 approval) -->
+<!-- Status: APPROVED (tracks PLAN-016 — Phases 0–2 done; Phase 3 after the PLAN-011 closure commit) -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-04 — Phase 2 approval recorded ("plan 016 is approved"; decisions in plan § 9.1).
 v0.1 — 2026-10-04 — Created with the plan draft (tracker required per CLAUDE.md § 15.7: Phase 4 is
 multi-scenario, QA-L1…L8).
 -->
@@ -29,9 +30,8 @@ multi-scenario, QA-L1…L8).
 
 ## Phase 2 — Operator approval
 
-- ⏸ "APPROVE PLAN-016" + D-1…D-5 (D-3 = the per-project values). Approval commit: plan + tracker
-  0.1 → 0.2 APPROVED (+ any D-3 correction applied to § 6a; any D-1/D-2/D-5 = B → plan revision +
-  Rule 13 re-run in that commit).
+- ✅ 2026-10-04 — "plan 016 is approved" — D-1 / D-2 / D-4 / D-5 = A; D-3: 780-VPN owner →
+  operator (§ 6a.4 updated + re-proven), the rest as proposed (plan § 9.1). Plan + tracker → 0.2.
 
 ## Phase 3 — Implement (fresh session; single commit; AFTER the PLAN-011 closure commit)
 

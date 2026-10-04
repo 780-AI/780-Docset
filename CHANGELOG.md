@@ -2,6 +2,20 @@
 
 Newest entries at the top.
 
+## [2026-10-04] — PLAN-016 Phase 2 APPROVED — "plan 016 is approved"
+
+- **Type:** Plan approval record (§ 15 Phase 2). No behavior change.
+- **Decisions (plan § 9.1):** D-1 / D-2 / D-4 / D-5 = A (status/drift regenerate the file; unknown
+  registry keys are an error; ssh fails fast; a missing file blocks a local push). D-3: 780-VPN
+  `owner` → `operator` (operator: the owner is Yaser Khosravi, the operator); Capital-Signal and
+  Equinex confirmed as `EverOn`, not 780 projects; every other value as proposed. The § 6a.4
+  registry block was updated and re-proven (85 blocks re-extracted from the plan file —
+  byte-identical; ruff clean, mypy 0, pytest 140).
+- **Next:** Phase 3 in a fresh session, after the PLAN-011 closure commit (both plans touch
+  `config/projects.toml` + `docs/SESSION_OPENER.md`).
+- **QA scenarios:** exempt per Rule 11 (approval record); QA-L1…L8 remain ⏸ in the tracker.
+- **Versions:** PLAN-016 + tracker 0.1 → 0.2, manifest 2.50 → 2.51. Impact: none at runtime.
+
 ## [2026-10-04] — PLAN-016 DRAFT: fleet view — `docs/fleet.csv`, generated and always current
 
 - **Type:** Plan design commit (§ 15.9 intake → Phase 0 + Phase 1; Rule 1). No behavior change.

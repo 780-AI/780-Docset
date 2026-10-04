@@ -1,8 +1,12 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-10-04 -->
-<!-- Status: DRAFT (Phase 1 design — awaiting Phase 2 approval: "APPROVE PLAN-016" + D-1…D-5) -->
+<!-- Status: APPROVED (Phase 2 landed 2026-10-04 — operator: "plan 016 is approved"; Phase 3 runs in a fresh session after the PLAN-011 closure commit) -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-04 — Phase 2 operator approval recorded ("plan 016 is approved"); § 9.1 decision
+record added: D-1 / D-2 / D-4 / D-5 = A (the recommended options the § 5 code implements); D-3 —
+780-VPN owner corrected team → operator (the § 6a.4 block updated; re-proven: 85 blocks re-extracted,
+byte-identical, ruff / mypy 0 / pytest 140), every other value as proposed. Status DRAFT → APPROVED.
 v0.1 — 2026-10-04 — Initial draft: § 15.9 intake (operator request, no document) → Phase 0 audit
 → Phase 1 design. Code developed + tool-proven in a scratch overlay FIRST (proven-code-first):
 ruff clean; mypy --strict 0 errors (baseline 0); pytest 140 passed (baseline 120 + 20 new). The
@@ -109,7 +113,7 @@ committing the CSV (decision 2).
 |---|---|
 | 0 — Audit | ✅ 2026-10-04 |
 | 1 — Design (+ Rule 13 pass) | ✅ 2026-10-04 |
-| 2 — Operator approval | ⏸ "APPROVE PLAN-016" + D-1…D-5 |
+| 2 — Operator approval | ✅ 2026-10-04 — "plan 016 is approved" (§ 9.1) |
 | 3 — Implement (fresh session, single commit, AFTER the PLAN-011 closure commit) | ⏸ |
 | 4 — Validate (QA-L1…L8) | ⏸ |
 | 5 — Operator gate (push; no tag — engine-only) | ⏸ |
@@ -1950,7 +1954,7 @@ REPLACE WITH:
 
 ```text
 path = "~/Library/CloudStorage/Dropbox/Projects/780-VPN"   # Dropbox-synced (re-pointed from ssh 2026-10-03); ~ resolves per machine
-owner = "team"
+owner = "operator"
 git_remote = "github.com/780-AI/780-VPN"
 part_of = "780-AI"
 work_machine = "operator's 2nd Mac (parsaazad)"
@@ -2549,6 +2553,24 @@ pass re-run in the approval commit, before Phase 3. D-4 = B needs no revision (t
 **Recorded, not a choice:** Phase 3 runs only after the PLAN-011 closure commit — `config/projects.toml`
 and `docs/SESSION_OPENER.md` carry that plan's uncommitted Phase 3c edits, and the § 6a / § 6f anchors
 assume the closed state.
+
+### 9.1 Decision record (Phase 2, 2026-10-04)
+
+- **D16.A — APPROVED:** operator *"plan 016 is approved"* (2026-10-04).
+- **D-1 / D-2 / D-4 / D-5 = A** — status/drift regenerate the file; unknown registry keys are an
+  error; ssh fails fast; a missing file blocks a local push. Not answered item by item: the agent's
+  read (approving the drafted plan = its recommended options, which the § 5 code implements) was
+  stated in chat and confirmed by the operator at the approval-commit gate.
+- **D-3 — per-project values:**
+  - **780-VPN `owner` → `operator`** — operator: "780-VPN owner is Yaser Khosravi" (Yaser Khosravi
+    is the operator; the field takes `operator` | `team`). § 6a.4 updated in this commit.
+  - **Grouping clarified** (operator): Capital-Signal and Equinex are NOT 780 projects — their
+    `part_of` stays `EverOn`; 780-Automation and 780-VPN keep `part_of = "780-AI"` (the 780
+    organization's GitHub name), confirmed at the approval-commit gate.
+  - Every other value as proposed in § 9 (incl. `work_machine = "either operator Mac (Dropbox)"`
+    for the two EverOn projects and 780-VPN `registered_on = 2026-09-05`) — confirmed at the gate.
+- **Re-proof after the § 6a.4 change:** the 85 blocks re-extracted from this file onto a fresh tree
+  are byte-identical to the proven overlay (updated identically); ruff clean, mypy 0, pytest 140.
 
 ## 10. Rollback path
 

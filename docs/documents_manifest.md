@@ -1,7 +1,10 @@
-<!-- VERSION: 2.50 -->
+<!-- VERSION: 2.51 -->
 <!-- Last Updated: 2026-10-04 -->
 <!--
 CHANGE LOG
+v2.51 — 2026-10-04 — PLAN-016 Phase 2 approval recorded ("plan 016 is approved"): rows 86–87 → 0.2
+(DRAFT → APPROVED). Phase 3 runs in a fresh session after the PLAN-011 closure commit. Self-row
+2.50 → 2.51 (grep-verified against the header per L063).
 v2.50 — 2026-10-04 — Registered PLAN-016 (fleet view: docs/fleet.csv, generated and always current)
 DRAFT + tracker: new rows 86–87 (0.1). Design commit only; Phase 3 runs after "APPROVE PLAN-016" and
 after the PLAN-011 closure commit. Self-row 2.49 → 2.50 (grep-verified against the header per L063).
@@ -294,7 +297,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.50 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.51 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.13 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.17 | Governance | `docs/SESSION_OPENER.md` |
@@ -372,8 +375,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 83 | PLAN-011 tracker (EXECUTING) | 0.4 | Plan | `docs/Plans/PLAN-011_tracker.md` |
 | 84 | PLAN-013 — engine write safety: clock floor + accumulating handoffs (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-013_engine_write_safety.md` |
 | 85 | PLAN-013 tracker (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-013_tracker.md` |
-| 86 | PLAN-016 — fleet view: docs/fleet.csv, generated and always current (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-016_fleet_view.md` |
-| 87 | PLAN-016 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-016_tracker.md` |
+| 86 | PLAN-016 — fleet view: docs/fleet.csv, generated and always current (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-016_fleet_view.md` |
+| 87 | PLAN-016 tracker (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-016_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -382,6 +385,6 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-04
-- **Change**: PLAN-016 DRAFT registered — plan + tracker (86–87, 0.1).
-- **Previous change**: Rule 14 catalog gap closed — NEW_MACHINE_SETUP § 3.1 ssh-target access: cell 58.
+- **Change**: PLAN-016 Phase 2 APPROVED — plan + tracker (86–87) → 0.2.
+- **Previous change**: PLAN-016 DRAFT registered — plan + tracker (86–87, 0.1).
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)
