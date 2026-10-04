@@ -1,8 +1,11 @@
-<!-- VERSION: 1.2 -->
-<!-- Last Updated: 2026-10-03 -->
-<!-- Status: CLOSED (Phase 3 shipped + Phase 5 pushed 2026-09-05, tag set-v2.5; QA-H1..H5 ✅ — H1..H4 on ALL THREE targets, H5 via 780-VPN de1de37; H6 open at the E001 intake) -->
+<!-- VERSION: 1.3 -->
+<!-- Last Updated: 2026-10-04 -->
+<!-- Status: CLOSED (Phase 3 shipped + Phase 5 pushed 2026-09-05, tag set-v2.5; QA-H1..H6 ✅ — H1..H4 on ALL THREE targets, H5 via 780-VPN de1de37, H6 at the 2026-10-04 E001 write-back) -->
 <!--
 CHANGE LOG
+v1.3 — 2026-10-04 — Post-close QA annotation (PLAN-010 QA-I precedent): QA-H6 ✅ — the 780-VPN E001
+write-back ran at its named trigger (the 2026-10-04 Rule 16 gate, operator "yes to all") and left
+the write-back record in that target's handoff. All six scenarios now ✅.
 v1.2 — 2026-10-03 — Post-close QA annotation (PLAN-010 QA-I precedent): QA-H5 ✅ — loop
 closure observed in 780-VPN commit `de1de37` (2026-09-05; found by the 2026-09-08 read-only
 probe, flip operator-authorized 2026-10-03). H6 still open at its named trigger.
@@ -85,8 +88,12 @@ QA-H1..H5).
   `docs/SYNC_HANDOFF.md` in the same landing (untracked engine-transient, so the deletion has
   no git trace — evidence = the commit body + file absent on disk + clean tree). Verdict: matches
   design. Found by the 2026-09-08 read-only probe; flip operator-authorized 2026-10-03.
-- ⏸ QA-H6 — feature-ON (write-back half): fires at the pending E001 intake (780-VPN's open
-  entry) — spot the write-back handoff in that target on that run.
+- ✅ QA-H6 — 2026-10-04 — feature-ON (write-back half): `integrate --apply --write` (Rule 16 gate,
+  operator "Q1. yes to all"; clock 16:14:30 UTC = gitlab.com 16:14:31) wrote 780-VPN E001
+  `integrated → vault L079 (PROJECT_STANDARDS § 5.6, Set Version v2.6)` — the log diff is that one
+  Status line — and spotted the write-back in its handoff: `### Write 3` — Operation: integrate
+  write-back, Vault Set v2.7, run date 2026-10-04, files: `docs/STANDARDS_LOG.md` (write-back).
+  Verdict: matches design. Same run: Equinex E001 (rejected) got a fresh handoff `### Write 1`.
 
 ## Phase 5 — Operator gate
 

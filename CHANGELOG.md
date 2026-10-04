@@ -2,6 +2,27 @@
 
 Newest entries at the top.
 
+## [2026-10-04] — QA bookkeeping: 780-VPN E001 write-back closes v2.6 QA-E4 = PLAN-012 QA-H6 = PLAN-013 QA-K5
+
+- **Type:** Plan/QA bookkeeping (post-close annotations, the PLAN-010 QA-I precedent). No behavior
+  change.
+- **What:** the 780-VPN E001 write-back ran in the 2026-10-04 `integrate --apply --write` (Rule 16
+  gate, operator "Q1. yes to all"; record in the PLAN-011 closure entry below). It is the named
+  trigger of one scenario carried under three ids:
+  - **v2.6 QA-E4** — Status written back: `integrated → vault L079 (PROJECT_STANDARDS § 5.6, Set
+    Version v2.6)` (the log diff is exactly that line); `harvest` shows no open 780-VPN entry.
+  - **PLAN-012 QA-H6** — feature-ON write-back half: the write-back left its record in the target's
+    handoff (`### Write 3` — integrate write-back, Set v2.7, 2026-10-04, `docs/STANDARDS_LOG.md`).
+  - **PLAN-013 QA-K5** — accumulation, write-back half: the path that ran was **append to an
+    accumulating handoff** (Writes 1–2 from 2026-10-03 preserved; the diff is a pure addition), not
+    the `### Write 2` path anticipated on 2026-10-03 — the v2.7 fleet write had taken Write 2
+    first. QA-K6's K5 half re-run: `sync --project 780-VPN` dry-run up-to-date 11/11.
+  The ⏸ lines in the v2.6, v2.5 (PLAN-012) and PLAN-013 entries below are flipped in place; the
+  trackers carry the evidence.
+- **QA scenarios:** exempt per Rule 11 (bookkeeping/record; this entry IS the QA record).
+- **Versions:** PLAN-012 tracker 1.2 → 1.3, PLAN-013 tracker 1.1 → 1.2, manifest 2.52 → 2.53.
+  Impact: none at runtime.
+
 ## [2026-10-04] — PLAN-011 CLOSED: EverOn.Equinex registered — fourth sync target; log round-trip proven
 
 - **Type:** Registry change (Critical File `config/projects.toml`) + plan closure under § 15 plan
@@ -224,8 +245,10 @@ Newest entries at the top.
     `--write` exits 1 "clock is behind", copy byte-unchanged (76 files); scratch removed.
   - ✅ QA-K4 ⚑ — Capital-Signal v2.6 `sync --write` (operator "go k4"): exactly 4 files changed
     (3 + handoff); handoff = `Write 1 — earlier engine write` (v2.5 verbatim) + `Write 2` (v2.6).
-  - ⏸ QA-K5 ⚑ — write-back half: fires at the E001 write-back (v2.6 QA-E4 = PLAN-012 QA-H6).
-  - ✅ QA-K6 — dry-run re-run up-to-date on CS + 780-VPN with the handoff present (K5 half later).
+  - ✅ QA-K5 ⚑ — write-back half (2026-10-04, at the E001 write-back = v2.6 QA-E4 = PLAN-012
+    QA-H6): appended `### Write 3` to 780-VPN's accumulating handoff (see the QA bookkeeping entry).
+  - ✅ QA-K6 — dry-run re-run up-to-date on CS + 780-VPN with the handoff present (K5 half
+    2026-10-04: 780-VPN up-to-date 11/11 after the write-back).
 - **Plan defect D2 (found at the Rule 10 review, operator D2 = A):** the approved § 5b code
   located the handoff's § 2 anchor with `find`, so a later write truncated a fenced
   unrecognized handoff containing its own § 2 heading (content silently lost — reproduced).
@@ -325,9 +348,10 @@ Newest entries at the top.
     2026-10-03, the 3-file list — read back); spot-greps: L079 present, § 5.6 present, SVA reads
     v2.6; immediate re-run up-to-date 11/11; `status` 780-VPN v2.6/v2.6 current (open-log 1 =
     E001 awaiting the deferred write-back), CS behind (held), 780-Automation unknown.
-  - QA-E4 ⏸ — write-back: after 780-VPN lands the v2.6 handoff, `integrate --apply` E001 →
+  - QA-E4 ✅ 2026-10-04 — write-back: `integrate --apply --write` E001 →
     `integrated → vault L079 (PROJECT_STANDARDS § 5.6, Set Version v2.6)` + handoff spot-read
-    (= PLAN-012 QA-H6); then `harvest` = 0 open.
+    (= PLAN-012 QA-H6); `harvest` = 0 open 780-VPN entries (see the 2026-10-04 QA bookkeeping
+    entry; ran once PLAN-013 accumulation lifted the overwrite hold — no landing needed first).
 - **Versions:** PROJECT_STANDARDS 1.0→1.1, STANDARDS_INDEX 2.5→2.6, standards README 1.3→1.4,
   SET_VERSION_ADOPTED 1.13→1.14, manifest 2.41→2.42; both LESSONS files +L079 (headers unchanged
   per the no-per-lesson-bump practice). Impact: standards content release — no engine behavior
@@ -457,8 +481,8 @@ Newest entries at the top.
   - QA-H4 ✅ 2026-09-05 — idempotence: dry-run re-run up-to-date 11/11 on both written targets.
   - QA-H5 ✅ 2026-10-03 — loop closure observed in 780-VPN `de1de37` (landed per the handoff +
     deleted it, before feature work; see the 2026-10-03 bookkeeping entry above).
-  - QA-H6 ⏸ — feature-ON write-back half: fires at the pending E001 intake (named trigger;
-    engine behavior already test-covered under QA-H1).
+  - QA-H6 ✅ 2026-10-04 — feature-ON write-back half: the 780-VPN E001 write-back left its
+    record in the target's handoff (see the 2026-10-04 QA bookkeeping entry above).
 - **Versions:** sync 0.1→0.2, cli 0.5→0.6, test_cli 0.5→0.6, template SESSION_OPENER 1.7→1.8,
   template LESSONS 1.1→1.2, STANDARDS_INDEX 2.4→2.5, SET_VERSION_ADOPTED 1.12→1.13,
   architecture 0.11→0.12, manifest 2.36→2.37, PLAN-012 + tracker 0.3→1.0/CLOSED.

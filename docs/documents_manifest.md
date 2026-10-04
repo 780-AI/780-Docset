@@ -1,7 +1,10 @@
-<!-- VERSION: 2.52 -->
+<!-- VERSION: 2.53 -->
 <!-- Last Updated: 2026-10-04 -->
 <!--
 CHANGE LOG
+v2.53 — 2026-10-04 — QA bookkeeping (780-VPN E001 write-back = v2.6 QA-E4 = PLAN-012 QA-H6 =
+PLAN-013 QA-K5): bumped cells 81 (PLAN-012 tracker 1.2→1.3) + 85 (PLAN-013 tracker 1.1→1.2),
+post-close QA annotations. Self-row 2.52 → 2.53 (grep-verified against the header per L063).
 v2.52 — 2026-10-04 — PLAN-011 CLOSED (Phase 3c — EverOn.Equinex registered; log round-trip proven):
 bumped cell 8 (SESSION_OPENER 1.17→1.18, § 2 Equinex row + 780-VPN machine correction); promoted
 PLAN-011 plan + tracker (82–83) 0.4/EXECUTING → 1.0/CLOSED. `config/projects.toml` carries no
@@ -301,7 +304,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.52 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.53 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.13 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.18 | Governance | `docs/SESSION_OPENER.md` |
@@ -374,11 +377,11 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 78 | Delivery skill — adopt mode | 0.3 | Delivery | `skill/modes/adopt.md` |
 | 79 | Delivery-skill installer (per-machine symlink) | 0.1 | Delivery | `scripts/bootstrap_skill.sh` |
 | 80 | PLAN-012 — sync handoff report (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-012_sync_handoff.md` |
-| 81 | PLAN-012 tracker (CLOSED) | 1.2 | Plan | `docs/Plans/PLAN-012_tracker.md` |
+| 81 | PLAN-012 tracker (CLOSED) | 1.3 | Plan | `docs/Plans/PLAN-012_tracker.md` |
 | 82 | PLAN-011 — fleet convergence: Equinex intake + adoption (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-011_fleet_convergence.md` |
 | 83 | PLAN-011 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-011_tracker.md` |
 | 84 | PLAN-013 — engine write safety: clock floor + accumulating handoffs (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-013_engine_write_safety.md` |
-| 85 | PLAN-013 tracker (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-013_tracker.md` |
+| 85 | PLAN-013 tracker (CLOSED) | 1.2 | Plan | `docs/Plans/PLAN-013_tracker.md` |
 | 86 | PLAN-016 — fleet view: docs/fleet.csv, generated and always current (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-016_fleet_view.md` |
 | 87 | PLAN-016 tracker (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-016_tracker.md` |
 
@@ -389,6 +392,6 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-04
-- **Change**: PLAN-011 CLOSED — EverOn.Equinex registered (SESSION_OPENER 8 → 1.18); plan + tracker (82–83) → 1.0.
-- **Previous change**: PLAN-016 Phase 2 APPROVED — plan + tracker (86–87) → 0.2.
+- **Change**: QA bookkeeping — PLAN-012 tracker (81) → 1.3, PLAN-013 tracker (85) → 1.2 (QA-H6 / QA-K5 ✅).
+- **Previous change**: PLAN-011 CLOSED — EverOn.Equinex registered (SESSION_OPENER 8 → 1.18); plan + tracker (82–83) → 1.0.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

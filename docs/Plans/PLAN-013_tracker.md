@@ -1,8 +1,12 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-10-03 -->
-<!-- Status: CLOSED (Phase 3 shipped 2026-10-03; QA-K1…K4 + K6 ✅; K5 open at its named trigger; pushed 2026-10-03) -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-10-04 -->
+<!-- Status: CLOSED (Phase 3 shipped 2026-10-03; QA-K1…K6 ✅ — K5 at the 2026-10-04 E001 write-back; pushed 2026-10-03) -->
 <!--
 CHANGE LOG
+v1.2 — 2026-10-04 — Post-close QA annotation (PLAN-010 QA-I precedent): QA-K5 ✅ — the E001
+write-back fired at its named trigger and APPENDED `### Write 3` to 780-VPN's accumulating handoff
+(not the anticipated `### Write 2`: the Set v2.7 fleet write had already wrapped the legacy handoff
+as Write 1 + `### Write 2` on 2026-10-03); QA-K6's K5 half re-run (up-to-date 11/11). All six ✅.
 v1.1 — 2026-10-03 — Phase 5 push recorded (operator "push"; `ls-remote` verified remote master =
 `b65037c`; no tag — engine-only). Also observed: the Set v2.7 fleet write (vault `0e03e10`)
 appended `### Write 3` to Capital-Signal's handoff and wrapped 780-VPN's pre-accumulation handoff
@@ -59,8 +63,8 @@ multi-scenario, QA-K1…K6, and K4/K5 fire at later triggers).
 | QA-K2 ⚑ | live dry-run: notes, no false warning, plans unchanged | ✅ | 2026-10-03 | Fleet `sync` dry-run, new engine vs HEAD engine (extracted to scratch): stdout differs ONLY by the un-landed-handoff note on CS + 780-VPN; no clock warning (clock verified); changed-item lists identical (CS 3 = the v2.6 delta; 780-VPN up-to-date). 780-Automation ssh refused (known; stderr differs only in temp-dir names) |
 | QA-K3 ⚑ | clock guard on a real-data scratch copy | ✅ | 2026-10-03 | Detached scratch vault worktree + registry → scratch copy of Capital-Signal (CLAUDE.md + docs/ + archive/; CS chosen — 780-VPN has no changed item, so the guard would never be reached); copy's SESSION_OPENER stamp → 2026-10-04 (floor 2026-09-05 → 2026-10-04). Dry-run: "warning: the local clock (2026-10-03) is behind this target's newest stamp (2026-10-04) — a --write would refuse (L079)". `--write`: exit 1, "refusing to write … (the clock is behind, L079)"; copy byte-unchanged (76 files shasum-identical, incl. its pre-existing handoff — no handoff written or appended). Cleanup: worktree removed + pruned, copy deleted. Finding: refusal prints the project name twice (plan § 11 R7, D1 = A) |
 | QA-K4 ⚑ | accumulation — sync half (CS v2.6 catch-up, D-5) | ✅ | 2026-10-03 | Operator "go k4". Pre-checks: git repo, SVA v2.5, fresh dry-run 3 changed + handoff note. `sync --project EverOn.Capital-Signal --write`: "wrote + flushed 4 file(s)" + "appended to an un-landed handoff"; shasum diff of the whole tree (1339 files, .venv/.git excluded) = exactly PROJECT_STANDARDS + LESSONS + SVA + SYNC_HANDOFF. Handoff read back: `### Write 1 — earlier engine write` (v2.5, 2026-09-05, its 3-file list verbatim) + `### Write 2` (v2.6, 2026-10-03, the 3 files); § 2 step 1 carries the unlisted-files sentence. Spot-greps: L079 in LESSONS, § 5.6 in PROJECT_STANDARDS, SVA v2.6 row. Verdict: matches design. CS hold LIFTED (status v2.6/v2.6 current) |
-| QA-K5 ⚑ | accumulation — write-back half (E001 write-back) | ⏸ | | Fires at its named trigger (plan § 8 Rule 15 note): the E001 write-back after 780-VPN's next session (v2.6 QA-E4 = PLAN-012 QA-H6). 780-VPN still holds its un-landed v2.6 handoff (2026-10-03) → expect the `### Write 2` path; record which ran |
-| QA-K6 | idempotence after K4/K5 | ✅ | 2026-10-03 | K4 half: immediate fleet dry-run — CS + 780-VPN "up-to-date — all suite files match the vault" with the handoff note (presence does not perturb planning); `status` CS v2.6/v2.6 current, 780-VPN v2.6/v2.6 current. K5 half re-runs at the K5 trigger |
+| QA-K5 ⚑ | accumulation — write-back half (E001 write-back) | ✅ | 2026-10-04 | Fired at its named trigger (v2.6 QA-E4 = PLAN-012 QA-H6): Rule 16 gate, operator "Q1. yes to all"; `integrate --apply --write` wrote 780-VPN E001's Status (one-line log diff). Path that ran: **append to an accumulating handoff** — 780-VPN's handoff (Write 1 = v2.6 `sync --write`, wrapped legacy; Write 2 = v2.7 `sync --write`, both 2026-10-03, un-landed) gained `### Write 3` (integrate write-back, v2.7, 2026-10-04, `docs/STANDARDS_LOG.md`); the earlier records were preserved (diff = pure addition). Not the `### Write 2` path anticipated on 2026-10-03 — the v2.7 fleet write had taken Write 2 first. Same run, fresh-handoff path: Equinex got `### Write 1`. Verdict: matches design |
+| QA-K6 | idempotence after K4/K5 | ✅ | 2026-10-03 | K4 half: immediate fleet dry-run — CS + 780-VPN "up-to-date — all suite files match the vault" with the handoff note (presence does not perturb planning); `status` CS v2.6/v2.6 current, 780-VPN v2.6/v2.6 current. K5 half (2026-10-04, after the write-back): `sync --project 780-VPN` dry-run up-to-date 11/11 + the un-landed-handoff note; `harvest` shows no open 780-VPN entry |
 
 Waiver register (Rule 15): _(empty)_
 
