@@ -1,8 +1,12 @@
-<!-- VERSION: 0.4 -->
-<!-- Last Updated: 2026-10-03 -->
-<!-- Status: EXECUTING (tracks PLAN-011 — Phase 3a DONE; Phase 3b next, in an Equinex session) -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-10-04 -->
+<!-- Status: CLOSED (tracks PLAN-011 — Phases 0–4 done, QA-F1…F8 ✅; Phase 5 closure push with the operator) -->
 <!--
 CHANGE LOG
+v1.0 — 2026-10-04 — CLOSED with the plan (§ 7.4 commit): Phase 3b evidence recorded (QA-F5 ✅,
+from the Equinex adopt commit + its CHANGELOG, vault-verified by file reads); Phase 3c done (QA-F6 /
+F7 / F8 ✅); D1 plan-defect note (§ 5E.1 sha gate → content identity); Phase 5 release push + tag
+recorded (2026-10-03).
 v0.4 — 2026-10-03 — Phase 3a closed: post-commit `sync --write` + QA-F4 ✅ on all three targets
 (780-Automation reachable again at 172.16.10.245 — caught up v2.5 → v2.7); Phase 3c note for the
 § 5B version shift (plan 0.4).
@@ -74,19 +78,36 @@ QA-F1…F8).
 
 ## Phase 3b — Equinex adoption (Equinex session; target commit § 7.3)
 
-- ⏸ Pre-flight gates (§ 5E.1) incl. untracked brief resolved.
-- ⏸ Mapping table posted (§ 5E.2) incl. per-entry archive classification.
-- ⏸ § 4 dry-run list approved by the operator (quote here).
-- ⏸ Apply + validate (QA-F5) → review table → adopt commit (no push).
+- ✅ 2026-10-03 — Pre-flight gates (§ 5E.1): untracked brief resolved by the operator's choice (b)
+  "commit it now" → Equinex `fd07883`. **D1 (plan defect, operator D1 = A):** § 5E.1 said "Step 0
+  reports the sha; it must equal the release sha", but a post-release bookkeeping commit (`287582e`)
+  had moved vault HEAD while `docs/standards/` + `skill/` stayed byte-identical to the release
+  `0e03e10` — the gate was read as CONTENT identity of the suite + skill (the skill ran at
+  `287582e`; recorded in Equinex's SVA). Lesson candidate: gates check the content they protect,
+  not a commit id.
+- ✅ 2026-10-03 — Mapping / disposition table posted (§ 5E.2) in the Equinex session, incl. the
+  per-entry archive classification. Mapping deltas applied there: own Rule 14's verification method
+  → the binding annex `docs/project_rules.md`; the old § 3.1 "Rule 13 no-pass" row dropped
+  (duplicate of template row 15); STANDARDS_LOG E001 = the § 5F seed (no real entry routed).
+- ✅ 2026-10-03 — § 4 dry-run list operator-approved in the Equinex session (record: Equinex
+  CHANGELOG adopt entry — "the dry-run list was operator-approved"; the verbatim quote lives in that
+  session, not in the vault).
+- ✅ 2026-10-03 — Apply + validate (QA-F5) → review table → Equinex commits `b3be58d` (pure rename,
+  100% → `archive/LESSONS_LEGACY.md`) + `3f65388` (adopt commit, 27 paths: 15 modified, 4 added,
+  7 retired, 1 banner-prepended). No push (operator's call).
 
 ## Phase 3c — Registration + discipline proof (vault session; commit § 7.4)
 
-- ⏸ § 5A + § 5B applied; clock check (R8). NOTE: § 5B now bumps SESSION_OPENER 1.17 → 1.18 (plan
-  0.4 — the 780-Automation re-point took 1.17).
-- ⏸ QA-F6 status / sync dry-run.
-- ⏸ QA-F7 harvest → integrate write-back → harvest clean.
-- ⏸ QA-F8 line-retirement checks.
-- ⏸ Review table → closure commit (plan + tracker → 1.0/CLOSED).
+- ✅ 2026-10-03 — § 5A + § 5B applied (SESSION_OPENER 1.17 → 1.18; the same version also carries
+  the operator-confirmed 780-VPN correction — "the operator's own second Mac", not a team member's).
+  Clock (R8): 17:06:01 UTC vs gitlab.com 17:06:08.
+- ✅ 2026-10-03 — QA-F6 status / sync dry-run (re-confirmed 2026-10-04).
+- ✅ 2026-10-04 — QA-F7: `harvest` → Rule 16 gate (3 entries; 780-Automation unreachable — ssh
+  timeout, its E001–E012 not gathered) → operator "Q1. yes to all" + "no session is open" (Equinex
+  idle) → clock (R8) 16:14:30 UTC = gitlab.com 16:14:31 → `integrate --apply --write` → `harvest`
+  clean for Equinex.
+- ✅ 2026-10-04 — QA-F8 line-retirement checks (first run 2026-10-03; re-verified 2026-10-04).
+- ✅ 2026-10-04 — Review table → closure commit (plan + tracker → 1.0/CLOSED).
 
 ## Phase 4 — Validate (scenario ledger)
 
@@ -96,14 +117,17 @@ QA-F1…F8).
 | QA-F2 | Domain-neutral zero-hit grep | 3a | ✅ | 2026-10-03 | plan grep over `docs/standards/` + `skill/` → no output (exit 1); intake names (dropbox, survival, backoffice, cloudzy, mt5, ea, monitor, telemetry, preset, trading, tester) absent from added lines (exit 1) |
 | QA-F3 ⚑ | Engine-as-oracle release dry-run | 3a | ✅ | 2026-10-03 | CS + 780-VPN each exactly CLAUDE.md merge + archive/LESSONS.md replace + SVA record (+ handoff note); `--diff` CLAUDE.md hunks = the 4 intended changes + engine header, identical on both; LESSONS +82 additive; no clock warning; 780-Automation unreachable (ssh timeout) |
 | QA-F4 ⚑ | Release delivered + idempotent | 3a | ✅ | 2026-10-03 | `sync --write`: CS 4 files (handoff → `### Write 3`, v2.5/v2.6/v2.7 records), 780-Automation 5 (4 + new handoff, catch-up v2.5 → v2.7), 780-VPN 4 (legacy handoff wrapped as Write 1 + `### Write 2`); spot-greps § 15.9 / Rule 14 bullet / L080–L081 (+ § 5.6 / L079 on 780-A) present, PROJECT-OWNED 4/4 on all three; re-run up-to-date ×3; `status` v2.7/v2.7 current ×3 |
-| QA-F5 ⚑ | Equinex adoption (diff == approved list, legacy byte-identical, runtime untouched) | 3b | ⏸ | | |
-| QA-F6 ⚑ | Registration: status current, sync no-op | 3c | ⏸ | | |
-| QA-F7 ⚑ | Log round-trip (harvest → write-back → clean) | 3c | ⏸ | | |
-| QA-F8 | Own line retired | 3c | ⏸ | | |
+| QA-F5 ⚑ | Equinex adoption (diff == approved list, legacy byte-identical, runtime untouched) | 3b | ✅ | 2026-10-03 | Equinex session report, vault-verified by file reads 2026-10-03: `3f65388` = the approved 27 paths; engine `plan_target` 11/11 ok pre-commit; PROJECT-OWNED markers 4/3/2; `LESSONS_LEGACY.md` body byte-identical to `fd07883`'s `archive/LESSONS.md`; crosswalk present; canonical archive 81 lessons; governance exit 0/0; zero paths under the § 5E.6 runtime trees; manifest row 9 = canonical archive, `LESSONS_LEGACY` row 179 |
+| QA-F6 ⚑ | Registration: status current, sync no-op | 3c | ✅ | 2026-10-03 | `status` EverOn.Equinex v2.7 / v2.7 current (open-log 1 = the seed); `sync --project EverOn.Equinex` dry-run up-to-date 11/11 (no intervening release). Re-run 2026-10-04 after the write-back: still up-to-date 11/11 (+ the un-landed-handoff note) |
+| QA-F7 ⚑ | Log round-trip (harvest → write-back → clean) | 3c | ✅ | 2026-10-04 | `harvest` surfaced `[EverOn.Equinex] E001 — Prove the harvest path end-to-end after adoption (project-specific)`; Rule 16 gate → operator "Q1. yes to all"; `integrate --apply` dry-run = the 2 approved lines only, then `--write`: `wrote [EverOn.Equinex] E001: Status -> rejected — seeded verification entry (PLAN-011 QA-F7)`; read-back diff = exactly one line (`- Status:      rejected — seeded verification entry (PLAN-011 QA-F7)`) + a new `docs/SYNC_HANDOFF.md` (`### Write 1`, integrate write-back, v2.7, files: `docs/STANDARDS_LOG.md`); re-run `harvest` = 1 open entry, Capital-Signal E002 only (deferred to v2.8 at the gate) — no open Equinex entry. Landing of the write-back by the next Equinex session: observed after closure, not ship-gating |
+| QA-F8 | Own line retired | 3c | ✅ | 2026-10-04 | (first run 2026-10-03; re-verified 2026-10-04, file reads) none of the seven § 5E.4 files remain — `docs/standards/` = the six topical files; SVA = Set v2.7, vault `0e03e10` (skill at `287582e`, identical suite); legacy freeze banner + numbering crosswalk present; CLAUDE.md `### Rule` headings identical to the template (15, same order); § 15.9 present; Equinex tip still `3f65388` |
 
 Waiver register (Rule 15): _(empty — ⚑ scenarios may not be deferred without an explicit
 operator waiver recorded here)_
 
 ## Phase 5 — Operator gate
 
-- ⏸ Vault push + release tag (operator). Equinex push is the operator's own call.
+- ✅ 2026-10-03 — Release push + tag (operator "push"; governance exit 0/0): `ls-remote` verified
+  remote master = `287582e`, tag `set-v2.7` = `0e03e10`.
+- ⏸ Closure-commit push (rides the next push; operator).
+- ⏸ Equinex push (`fd07883`, `b3be58d`, `3f65388`) — the operator's own call.

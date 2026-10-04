@@ -1,8 +1,15 @@
-<!-- VERSION: 0.4 -->
-<!-- Last Updated: 2026-10-03 -->
-<!-- Status: EXECUTING (Phase 3a DONE 2026-10-03 — Set v2.7 released `0e03e10` + delivered fleet-wide; Phase 3b next = an Equinex session) -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-10-04 -->
+<!-- Status: CLOSED (2026-10-04 — Phase 3c registration + discipline proof; Equinex converged, registered and its log round-trip proven; QA-F1…F8 ✅) -->
 <!--
 CHANGE LOG
+v1.0 — 2026-10-04 — CLOSED (Phase 3c, § 7.4 commit): § 5A registry entry + § 5B SESSION_OPENER row
+(applied 2026-10-03; 1.18 also carries the operator-confirmed 780-VPN "operator's second Mac"
+correction); QA-F6 ✅ (re-confirmed 2026-10-04: up-to-date 11/11); QA-F7 ✅ — the Rule 16 gate
+(operator "Q1. yes to all") → `integrate --apply --write` rejected Equinex E001 (the § 5F seed) and
+wrote the Status back + its first handoff; `harvest` shows no open Equinex entry; QA-F8 ✅
+(re-verified 2026-10-04). Phase 3b evidence + the D1 plan-defect note recorded in the tracker.
+Status → CLOSED; § 4 phases updated.
 v0.4 — 2026-10-03 — Phase 3a closed: `sync --write` delivered v2.7 to all three targets (780-Automation
 back at operator-supplied DHCP IP 172.16.10.245, host keys verified — caught up v2.5 → v2.7);
 QA-F4 ✅. § 5B shifted by one (SESSION_OPENER 1.17 → 1.18, change-log line v1.18): the
@@ -171,10 +178,10 @@ files), `.claude/` + OPEN_TASKS gitignored.
 - Phase 1 — Design + Rule 13 pass: ✅ 2026-10-03
 - Phase 2 — Operator approval (D11.A + D-1…D-6): ✅ 2026-10-03 — "plan 011 is appvoved"
 - Phase 3a — Intake + release (vault session; commit § 7.2): ✅ 2026-10-03 — Set v2.7 `0e03e10`; delivered to all three targets (QA-F1–F4 ✅)
-- Phase 3b — Equinex adoption (Equinex session; target commit § 7.3): ⏸
-- Phase 3c — Registration + discipline proof (vault session; commit § 7.4, closes the plan): ⏸
-- Phase 4 — Validate (QA-F1…F8, each recorded at its phase): ⏸
-- Phase 5 — Operator gate (vault push + release tag; Equinex push is the operator's own call): ⏸
+- Phase 3b — Equinex adoption (Equinex session; target commit § 7.3): ✅ 2026-10-03 — `b3be58d` rename + `3f65388` adopt commit (QA-F5 ✅)
+- Phase 3c — Registration + discipline proof (vault session; commit § 7.4, closes the plan): ✅ 2026-10-04 — QA-F6/F7/F8 ✅
+- Phase 4 — Validate (QA-F1…F8, each recorded at its phase): ✅ 2026-10-04 — all eight ✅ (ledger in the tracker)
+- Phase 5 — Operator gate (vault push + release tag; Equinex push is the operator's own call): release push + tag `set-v2.7` ✅ 2026-10-03; the § 7.4 closure commit rides the next push (operator); Equinex push = the operator's call
 
 ## 5. Transformation rules (verbatim per Rule 7; gate-dependent steps as mechanical rules)
 

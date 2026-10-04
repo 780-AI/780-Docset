@@ -46,10 +46,18 @@ ssh_path = "/Users/a780/Projects/780-Automation"
 # Planned migration: -> git transport once the project lands on the organization GitHub
 # (operator decision 2026-08-19; re-opens DD-6b write-back etiquette before any git --write).
 
-[[project]]                        # team project; bootstrapped on the team member's Mac (Set v2.2, vault 3f5590a)
+[[project]]                        # team project; bootstrapped on the operator's second Mac (Set v2.2, vault 3f5590a)
 name = "780-VPN"
-path = "~/Library/CloudStorage/Dropbox/Projects/780-VPN"   # SHARED Dropbox folder (re-pointed from ssh 2026-10-03); ~ resolves per machine
-# NOTE: the folder is shared with the team member's Dropbox account — the one-machine-at-a-time
-# caution spans BOTH accounts: let Dropbox settle before writing, and never write while their
+path = "~/Library/CloudStorage/Dropbox/Projects/780-VPN"   # Dropbox-synced (re-pointed from ssh 2026-10-03); ~ resolves per machine
+# NOTE: 780-VPN is worked on from the operator's second Mac (macOS account `parsaazad` — the old ssh
+# host; corrected 2026-10-03, earlier notes called it a team member's machine) — one machine at a
+# time across the operator's two Macs: let Dropbox settle before writing, and never write while a
 # session is mid-work in the repo. Git transport (GitHub 780-AI) stays a candidate once DD-6b
 # settles the write-back etiquette.
+
+[[project]]                        # PLAN-011 convergence (EverOn line retired); adopted via the skill (adopt mode)
+name = "EverOn.Equinex"
+path = "~/Library/CloudStorage/Dropbox/Projects/EverOn.Equinex"   # Dropbox-synced; ~ resolves per machine
+# NOTE: high-stakes live project — every engine write lands in its working tree (local flush =
+# write-in-place); its next session lands per docs/SYNC_HANDOFF.md BEFORE any other work.
+# Write only between Equinex work sessions, one machine at a time.

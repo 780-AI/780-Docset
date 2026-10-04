@@ -2,6 +2,44 @@
 
 Newest entries at the top.
 
+## [2026-10-04] — PLAN-011 CLOSED: EverOn.Equinex registered — fourth sync target; log round-trip proven
+
+- **Type:** Registry change (Critical File `config/projects.toml`) + plan closure under § 15 plan
+  PLAN-011 (Phase 3c, § 7.4 ALLOWLIST — 6 files). No engine change, no Set Version change.
+- **What:** EverOn.Equinex (adopted onto Set v2.7 on 2026-10-03, Equinex `3f65388`; EverOn own line
+  retired) joins the registry as a local `~/` target (§ 5A) with its SESSION_OPENER § 2 row (§ 5B,
+  → 1.18). The same SESSION_OPENER version and the 780-VPN registry comment carry an
+  operator-confirmed correction: 780-VPN's old ssh host was the operator's own second Mac (account
+  `parsaazad`), not a team member's machine.
+- **Rule 16 gate (2026-10-04):** fleet `harvest` gathered 3 open entries (780-Automation unreachable
+  — ssh timeout; its E001–E012 were not gathered and await their own gate). Presented with source,
+  plain-language explanation, effect and recommendation per item; operator: *"Q1. yes to all"*
+  and *"no session is open"* (Equinex idle):
+  - 780-VPN E001 → write back `integrated → vault L079 (PROJECT_STANDARDS § 5.6, Set Version v2.6)`
+    (approved at the v2.6 gate; only the write-back had been held). Its QA flips (v2.6 QA-E4 =
+    PLAN-012 QA-H6 = PLAN-013 QA-K5) ride a separate bookkeeping commit.
+  - Capital-Signal E002 (locality script `link`/`adopt` abort on a harness-created `memory/`;
+    `status` names the wrong verb) → genericize-then-integrate at **v2.8**; Status stays `open`
+    until then. Vault-verified real (`scripts/claude_project_data.sh` :51, :62-72, :94-98); the
+    script is not a SYNC_MAP item, so v2.8 must also decide how the fix reaches existing adopters.
+  - EverOn.Equinex E001 (the § 5F seeded verification entry) → rejected.
+- **Write-back:** clock 16:14:30 UTC = gitlab.com 16:14:31; `integrate --apply` dry-run showed
+  exactly the two approved lines; `--write` changed one Status line in each log. 780-VPN's handoff
+  gained `### Write 3` (accumulated on Writes 1–2); Equinex received its first handoff
+  (`### Write 1`) — its next session lands it first.
+- **QA scenarios (Rule 11 / Rule 15 — statuses live in `PLAN-011_tracker.md`):**
+  - ✅ QA-F5 ⚑ — Equinex adoption (2026-10-03, Equinex session; evidence recorded in the tracker).
+  - ✅ QA-F6 ⚑ — `status` v2.7 / v2.7 current; `sync --project EverOn.Equinex` dry-run up-to-date
+    11/11 (re-run 2026-10-04 after the write-back: unchanged, plus the un-landed-handoff note).
+  - ✅ QA-F7 ⚑ — harvest surfaced Equinex E001 → write-back read back verbatim
+    (`- Status:      rejected — seeded verification entry (PLAN-011 QA-F7)`) → re-run `harvest`:
+    1 open entry (Capital-Signal E002), none for Equinex.
+  - ✅ QA-F8 — own line retired: the seven § 5E.4 files gone, SVA v2.7 / `0e03e10`, legacy freeze
+    banner + crosswalk, CLAUDE.md rule headings == template (15), § 15.9 present.
+- **Versions:** SESSION_OPENER 1.17 → 1.18, PLAN-011 plan + tracker 0.4 → 1.0/CLOSED, manifest
+  2.51 → 2.52. Impact: every engine command now includes EverOn.Equinex (fleet = 4 targets);
+  780-VPN and Equinex each hold an un-landed write-back handoff for their next sessions.
+
 ## [2026-10-04] — PLAN-016 Phase 2 APPROVED — "plan 016 is approved"
 
 - **Type:** Plan approval record (§ 15 Phase 2). No behavior change.

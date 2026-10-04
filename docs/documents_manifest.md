@@ -1,7 +1,11 @@
-<!-- VERSION: 2.51 -->
+<!-- VERSION: 2.52 -->
 <!-- Last Updated: 2026-10-04 -->
 <!--
 CHANGE LOG
+v2.52 — 2026-10-04 — PLAN-011 CLOSED (Phase 3c — EverOn.Equinex registered; log round-trip proven):
+bumped cell 8 (SESSION_OPENER 1.17→1.18, § 2 Equinex row + 780-VPN machine correction); promoted
+PLAN-011 plan + tracker (82–83) 0.4/EXECUTING → 1.0/CLOSED. `config/projects.toml` carries no
+VERSION header (not a manifest row). Self-row 2.51 → 2.52 (grep-verified against the header per L063).
 v2.51 — 2026-10-04 — PLAN-016 Phase 2 approval recorded ("plan 016 is approved"): rows 86–87 → 0.2
 (DRAFT → APPROVED). Phase 3 runs in a fresh session after the PLAN-011 closure commit. Self-row
 2.50 → 2.51 (grep-verified against the header per L063).
@@ -297,10 +301,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.51 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.52 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.13 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.17 | Governance | `docs/SESSION_OPENER.md` |
+| 8 | Session Opener (project-local, binding) | 1.18 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.6 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.15 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.7 | Standards | `docs/standards/CLAUDE.md` |
@@ -371,8 +375,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 79 | Delivery-skill installer (per-machine symlink) | 0.1 | Delivery | `scripts/bootstrap_skill.sh` |
 | 80 | PLAN-012 — sync handoff report (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-012_sync_handoff.md` |
 | 81 | PLAN-012 tracker (CLOSED) | 1.2 | Plan | `docs/Plans/PLAN-012_tracker.md` |
-| 82 | PLAN-011 — fleet convergence: Equinex intake + adoption (EXECUTING) | 0.4 | Plan | `docs/Plans/PLAN-011_fleet_convergence.md` |
-| 83 | PLAN-011 tracker (EXECUTING) | 0.4 | Plan | `docs/Plans/PLAN-011_tracker.md` |
+| 82 | PLAN-011 — fleet convergence: Equinex intake + adoption (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-011_fleet_convergence.md` |
+| 83 | PLAN-011 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-011_tracker.md` |
 | 84 | PLAN-013 — engine write safety: clock floor + accumulating handoffs (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-013_engine_write_safety.md` |
 | 85 | PLAN-013 tracker (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-013_tracker.md` |
 | 86 | PLAN-016 — fleet view: docs/fleet.csv, generated and always current (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-016_fleet_view.md` |
@@ -385,6 +389,6 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-04
-- **Change**: PLAN-016 Phase 2 APPROVED — plan + tracker (86–87) → 0.2.
-- **Previous change**: PLAN-016 DRAFT registered — plan + tracker (86–87, 0.1).
+- **Change**: PLAN-011 CLOSED — EverOn.Equinex registered (SESSION_OPENER 8 → 1.18); plan + tracker (82–83) → 1.0.
+- **Previous change**: PLAN-016 Phase 2 APPROVED — plan + tracker (86–87) → 0.2.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)
