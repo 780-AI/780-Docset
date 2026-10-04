@@ -1,7 +1,10 @@
-<!-- VERSION: 2.49 -->
+<!-- VERSION: 2.50 -->
 <!-- Last Updated: 2026-10-04 -->
 <!--
 CHANGE LOG
+v2.50 — 2026-10-04 — Registered PLAN-016 (fleet view: docs/fleet.csv, generated and always current)
+DRAFT + tracker: new rows 86–87 (0.1). Design commit only; Phase 3 runs after "APPROVE PLAN-016" and
+after the PLAN-011 closure commit. Self-row 2.49 → 2.50 (grep-verified against the header per L063).
 v2.49 — 2026-10-04 — Rule 14 catalog gap closed: bumped cell 58 (NEW_MACHINE_SETUP 1.2→1.3, § 3.1
 ssh-target access + trusted host-key fingerprints). Self-row 2.48 → 2.49 (grep-verified against the
 header per L063).
@@ -291,7 +294,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.49 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.50 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.13 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.17 | Governance | `docs/SESSION_OPENER.md` |
@@ -369,6 +372,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 83 | PLAN-011 tracker (EXECUTING) | 0.4 | Plan | `docs/Plans/PLAN-011_tracker.md` |
 | 84 | PLAN-013 — engine write safety: clock floor + accumulating handoffs (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-013_engine_write_safety.md` |
 | 85 | PLAN-013 tracker (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-013_tracker.md` |
+| 86 | PLAN-016 — fleet view: docs/fleet.csv, generated and always current (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-016_fleet_view.md` |
+| 87 | PLAN-016 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-016_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -377,7 +382,6 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-04
-- **Change**: Rule 14 catalog gap closed — NEW_MACHINE_SETUP § 3.1 ssh-target access: cell 58.
-- **Previous change**: Set v2.7 delivered fleet-wide (QA-F4) + 780-Automation re-pointed to 172.16.10.245:
-  cells 8, 82–83, 85.
+- **Change**: PLAN-016 DRAFT registered — plan + tracker (86–87, 0.1).
+- **Previous change**: Rule 14 catalog gap closed — NEW_MACHINE_SETUP § 3.1 ssh-target access: cell 58.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

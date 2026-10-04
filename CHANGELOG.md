@@ -2,6 +2,27 @@
 
 Newest entries at the top.
 
+## [2026-10-04] — PLAN-016 DRAFT: fleet view — `docs/fleet.csv`, generated and always current
+
+- **Type:** Plan design commit (§ 15.9 intake → Phase 0 + Phase 1; Rule 1). No behavior change.
+- **What:** Drafts PLAN-016 + sibling tracker for the operator's request (2026-10-04): one CSV with
+  all fleet information, always up to date. Operator decisions: the proposed columns (registry
+  facts / live state / run metadata), NOT committed (gitignored), engine-generated, at
+  `docs/fleet.csv`. Design: fixed facts become optional, validated fleet-information keys in
+  `config/projects.toml` (unknown keys rejected); one shared probe feeds `status` / `drift` / a new
+  `fleet` command, each regenerating the file, and every `sync --write` / integrate write-back
+  re-probes and regenerates it; an unreachable target keeps its last-known values; a local pre-push
+  gate in `check_doc_coverage.py` fails while the file is missing or disagrees with the registry
+  (skipped in CI); session opener/closer steps. D-4 proposes ssh fail-fast (`ConnectTimeout=10`,
+  `BatchMode=yes`). Code proven first in a scratch overlay (ruff clean; mypy --strict 0 errors;
+  pytest 140 = 120 + 20 new) and previewed read-only on the real fleet (75 s → 10.1 s with D-4);
+  Rule 13 pass re-extracted all 85 blocks from the plan file onto a fresh tree — byte-identical
+  and green for both D-4 variants. Decisions D16.A + D-1…D-5 await the operator; Phase 3 runs after
+  the PLAN-011 closure commit.
+- **QA scenarios:** exempt per Rule 11 (design-only commit); QA-L1…L8 defined in plan § 8 and
+  tracked in `PLAN-016_tracker.md` (⏸).
+- **Versions:** PLAN-016 + tracker 0.1 (new), manifest 2.49→2.50. Impact: none at runtime.
+
 ## [2026-10-04] — Rule 14 catalog gap closed: ssh-target access in NEW_MACHINE_SETUP
 
 - **Type:** Governance doc (Rule 14 machine-migration catalog). Minor — doc-only; no engine change,
