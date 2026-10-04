@@ -2,6 +2,24 @@
 
 Newest entries at the top.
 
+## [2026-10-04] — Rule 14 catalog gap closed: ssh-target access in NEW_MACHINE_SETUP
+
+- **Type:** Governance doc (Rule 14 machine-migration catalog). Minor — doc-only; no engine change,
+  no Set Version change, no Critical File touched.
+- **Gap:** since the first ssh registration (780-Automation, 2026-08-19) the engine has depended on
+  two pieces of machine-local state the catalog never named — this machine's key authorized on the
+  target (`ssh-copy-id`) and the target's host keys in `~/.ssh/known_hosts`. A new or re-homed
+  machine would hit an unreachable target with no recorded recovery path, and had no trust anchor
+  for the first host-key prompt. Rule 14 says out-of-folder state is cataloged "same-commit"; this
+  closes the lapse (flagged at the 2026-10-04 wrap-up as Major-defect class).
+- **Fix:** `docs/NEW_MACHINE_SETUP.md` 1.2 → 1.3 — new § 3.1 ssh-target access: keyscan → compare
+  fingerprints → `ssh-copy-id` → BatchMode probe → `status`; answer `yes` to a host-key prompt only
+  on a fingerprint match, otherwise stop. Records 780-Automation's trusted SHA256 fingerprints
+  (read from this machine's `known_hosts`; ED25519 matched at all three DHCP addresses it has held).
+  New ssh targets add their row same-commit. Catalog intro + opening paragraph name the entry.
+- **Versions:** NEW_MACHINE_SETUP 1.2 → 1.3, manifest 2.48 → 2.49 (cell 58 + Last-updated rotation).
+- **Impact:** no runtime impact. Rule 11 exempt (governance-doc edit, no behavior change).
+
 ## [2026-10-03] — Set v2.7 delivered fleet-wide (PLAN-011 QA-F4) + 780-Automation re-pointed to 172.16.10.245
 
 - **Type:** Registry change (Critical File `config/projects.toml` — operator-supplied DHCP IP,

@@ -1,7 +1,10 @@
-<!-- VERSION: 2.48 -->
-<!-- Last Updated: 2026-10-03 -->
+<!-- VERSION: 2.49 -->
+<!-- Last Updated: 2026-10-04 -->
 <!--
 CHANGE LOG
+v2.49 — 2026-10-04 — Rule 14 catalog gap closed: bumped cell 58 (NEW_MACHINE_SETUP 1.2→1.3, § 3.1
+ssh-target access + trusted host-key fingerprints). Self-row 2.48 → 2.49 (grep-verified against the
+header per L063).
 v2.48 — 2026-10-03 — Set v2.7 delivered fleet-wide (PLAN-011 QA-F4) + 780-Automation re-pointed to
 its new DHCP IP: bumped cells 8 (SESSION_OPENER 1.16→1.17, § 2 row), 82–83 (PLAN-011 plan + tracker
 0.3→0.4, Phase 3a closed), 85 (PLAN-013 tracker 1.0→1.1, Phase 5 push recorded).
@@ -288,7 +291,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.48 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.49 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.13 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.17 | Governance | `docs/SESSION_OPENER.md` |
@@ -338,7 +341,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 54 | Engine test — logentry | 0.1 | Engine test | `tests/test_logentry.py` |
 | 55 | Engine test — harvest | 0.1 | Engine test | `tests/test_harvest.py` |
 | 56 | Project-data locality script | 0.1 | Governance script | `scripts/claude_project_data.sh` |
-| 58 | New-Machine Setup (re-home checklist + Rule 14 migration catalog) | 1.2 | Docs | `docs/NEW_MACHINE_SETUP.md` |
+| 58 | New-Machine Setup (re-home checklist + Rule 14 migration catalog) | 1.3 | Docs | `docs/NEW_MACHINE_SETUP.md` |
 | 59 | PLAN-006 — Slice 4 (integrate) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-006_integrate.md` |
 | 60 | PLAN-006 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-006_tracker.md` |
 | 61 | Engine — integration worksheet + status write-back | 0.1 | Engine | `src/standard_document_updater/integrate.py` |
@@ -373,9 +376,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 ## Last updated
 
-- **Date**: 2026-10-03
-- **Change**: Set v2.7 delivered fleet-wide (QA-F4) + 780-Automation re-pointed to 172.16.10.245:
+- **Date**: 2026-10-04
+- **Change**: Rule 14 catalog gap closed — NEW_MACHINE_SETUP § 3.1 ssh-target access: cell 58.
+- **Previous change**: Set v2.7 delivered fleet-wide (QA-F4) + 780-Automation re-pointed to 172.16.10.245:
   cells 8, 82–83, 85.
-- **Previous change**: Standard Set Version v2.7 (PLAN-011 Phase 3a — L080 feature intake + L081 cloud-synced
-  folders): cells 1, 10, 11, 22, 23, 78; plan + tracker (82–83) → 0.3/EXECUTING.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

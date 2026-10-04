@@ -1,8 +1,9 @@
-<!-- VERSION: 1.2 -->
-<!-- Last Updated: 2026-08-17 -->
+<!-- VERSION: 1.3 -->
+<!-- Last Updated: 2026-10-04 -->
 <!-- Re-home checklist: bring this vault to full operation on a new machine. Project-local (not a suite file). -->
 <!--
 CHANGE LOG
+v1.3 — 2026-10-04 — Rule 14 catalog gap closed: added § 3.1 ssh-target access (the § 3 key authorized on each `transport = "ssh"` target + its trusted host keys in `~/.ssh/known_hosts` — machine-local state uncataloged since the first ssh registration 2026-08-19); trusted host-key fingerprints recorded as the new-machine trust anchor; catalog intro + opening paragraph name it.
 v1.2 — 2026-08-17 — PLAN-009 (Set v2.0): added § 5 delivery-skill symlink (machine-local ~/.claude/skills/standard-docset; restore via bash scripts/bootstrap_skill.sh, idempotent) + its entry in the Rule 14 catalog intro; Pre-flight renumbered § 5 → § 6.
 v1.1 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): this doc now doubles as the Rule 14 machine-migration catalog (§§ 2–3 ARE the out-of-folder state entries); § 4 retargeted memory symlink → project-data link (claude_project_data.sh status/adopt/link replaces bootstrap_memory.sh); § 1 intro mentions .claude/project-data/.
 v1.0 — 2026-06-17 — Initial. Derived from the 2026-06-17 re-home (L050).
@@ -12,14 +13,16 @@ v1.0 — 2026-06-17 — Initial. Derived from the 2026-06-17 re-home (L050).
 
 The repository folder is Dropbox-synced, so the **files** travel automatically (tracked + untracked,
 including `.claude/project-data/` — memory + session transcripts — and `.git`). What does **not** travel
-is everything machine-local: the Python toolchain, the harness project-data **symlink**, and SSH push
-credentials. Walk this once on a new machine (and after any folder move) to restore full operation.
+is everything machine-local: the Python toolchain, the harness project-data **symlink**, and SSH
+credentials (the push key + ssh-target access). Walk this once on a new machine (and after any folder
+move) to restore full operation.
 Derived from the 2026-06-17 re-home (see `archive/LESSONS.md` L050).
 
 > **This doc is also the Rule 14 machine-migration catalog** — the named register of project state that
 > genuinely cannot live in the project folder. Its entries are the sections below: the Python toolchain
-> (§ 2, rebuilt per machine), SSH push credentials (§ 3, per-machine keys), and the delivery-skill
-> symlink (§ 5, re-created by `bash scripts/bootstrap_skill.sh`). Anything new that must
+> (§ 2, rebuilt per machine), SSH credentials (§ 3, per-machine keys — the push key, plus § 3.1
+> ssh-target access: the key authorized on each ssh target and its trusted host keys), and the
+> delivery-skill symlink (§ 5, re-created by `bash scripts/bootstrap_skill.sh`). Anything new that must
 > live outside the folder is added here with its migration steps, same-commit (per `CLAUDE.md` Rule 14).
 
 ## 1. Repo
@@ -50,6 +53,30 @@ ssh-keygen -t ed25519 -C "<your-email>" -f ~/.ssh/id_ed25519
 pbcopy < ~/.ssh/id_ed25519.pub        # then add it at GitLab → Settings → SSH Keys
 ssh -T git@gitlab.com                 # expect: Welcome to GitLab, @<user>!
 ```
+
+### 3.1 ssh-target access (each `transport = "ssh"` target in `config/projects.toml`)
+
+The engine reaches an ssh target with plain `rsync <ssh_host>:…` (no `~/.ssh/config`), so it uses
+this machine's default key (the § 3 `~/.ssh/id_ed25519`) and this machine's `~/.ssh/known_hosts`.
+Neither travels with the folder. Per machine, for every ssh target:
+
+```bash
+ssh-keyscan <ip> 2>/dev/null | ssh-keygen -lf -   # 1. fingerprints offered at the address
+ssh-copy-id <ssh_host>                            # 2. authorize THIS machine's key (target password once)
+ssh -o BatchMode=yes <ssh_host> true && echo ok   # 3. expect: ok — key auth, no prompt
+.venv/bin/python -m standard_document_updater status   # 4. its row is not "unknown" (= reachable)
+```
+
+Answer `yes` to a host-key prompt — first contact on a machine, or a new DHCP address — only after
+step 1's fingerprints match the trusted ones below. A mismatch means a different machine at that
+address: stop and ask the operator. Run step 2 from the curator account (the one that runs the
+engine), not the target's.
+
+| Target | Host keys trusted since | Fingerprints (SHA256) |
+|---|---|---|
+| 780-Automation | 2026-08-19 (ED25519 matched at .10.61, .11.60 and .10.245; RSA + ECDSA at .10.61 and .10.245) | ED25519 `FUsmmMsjipLZuka+DDPE6sGHK+rv09f1FUQmT7H0FvA` · ECDSA `8bRJ2WOCGCusS2BjjPXgKxVSfvtFODNvl+2pU75pOjg` · RSA `oKO2gmPjltVWMEvO7lh9F2mtbipYm7MdeMFwa0bU+L0` |
+
+Registering a new ssh target adds its row here, same-commit (Rule 14).
 
 ## 4. Project-data link (per `CLAUDE.md` Rule 14)
 
