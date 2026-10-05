@@ -1,7 +1,10 @@
-<!-- VERSION: 2.56 -->
+<!-- VERSION: 2.57 -->
 <!-- Last Updated: 2026-10-05 -->
 <!--
 CHANGE LOG
+v2.57 — 2026-10-05 — PLAN-017 drafted (780-estimator catch-up + Windows-capable locality tool): new rows
+90 (PLAN-017 plan, 0.1 DRAFT) + 91 (PLAN-017 tracker, 0.1); self-row 5 → 2.57; quick-index Plans range +
+80–87 (the pre-existing gap, a recorded deferred minor on the same line) + 90–91.
 v2.56 — 2026-10-05 — PLAN-016 Phase 3 (fleet view: docs/fleet.csv, generated + gitignored): new rows
 88 (Engine — fleet view, `fleet.py` 0.1) + 89 (Engine test — fleet, `test_fleet.py` 0.1); bumped cells
 6 (folder_structure 0.14→0.15), 7 (architecture 0.13→0.14, § 8 fleet rows + registry keys + Fleet view
@@ -311,7 +314,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Canonical standards suite (Set v2.0) | 11–23, 25, 27 |
 | Governance scripts | 28–29, 56 |
 | Archive | 30 |
-| Plans | 31–39, 59–60, 63–64, 68–71, 74–75 |
+| Plans | 31–39, 59–60, 63–64, 68–71, 74–75, 80–87, 90–91 |
 | Engine (src + tests) | 40–55, 61–62, 65–66, 72–73, 88–89 |
 | Delivery skill (vault-side) | 76–79 |
 
@@ -323,7 +326,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.56 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.57 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.15 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.14 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.20 | Governance | `docs/SESSION_OPENER.md` |
@@ -405,6 +408,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 87 | PLAN-016 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-016_tracker.md` |
 | 88 | Engine — fleet view (docs/fleet.csv rows + freshness check) | 0.1 | Engine | `src/standard_document_updater/fleet.py` |
 | 89 | Engine test — fleet | 0.1 | Engine test | `tests/test_fleet.py` |
+| 90 | PLAN-017 — 780-estimator catch-up (first git target) + Windows-capable locality tool (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-017_estimator_catchup.md` |
+| 91 | PLAN-017 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-017_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -413,6 +418,6 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-05
-- **Change**: PLAN-016 Phase 3 — fleet view (`docs/fleet.csv`, generated + gitignored): new rows 88–89 (fleet.py, test_fleet.py); 15 cells bumped + self-row; PLAN-016 + tracker (86–87) → 1.0 CLOSED.
-- **Previous change**: Two push remotes in the session docs — SESSION_OPENER (8) → 1.19, SESSION_CLOSER (9) → 1.7, PLAN-016 (86) → 0.3 (anchor shift).
+- **Change**: PLAN-017 drafted — new rows 90–91 (plan + tracker, 0.1 DRAFT); self-row → 2.57; Plans quick-index + 80–87 + 90–91.
+- **Previous change**: PLAN-016 Phase 3 — fleet view (`docs/fleet.csv`, generated + gitignored): new rows 88–89 (fleet.py, test_fleet.py); 15 cells bumped + self-row; PLAN-016 + tracker (86–87) → 1.0 CLOSED.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

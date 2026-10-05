@@ -2,6 +2,31 @@
 
 Newest entries at the top.
 
+## [2026-10-05] — PLAN-017 drafted: 780-estimator catch-up (the first git target) + a Windows-capable locality tool
+
+- **Type:** Plan (Phase 1 design commit; § 15 plan — Critical Files ahead: `config/projects.toml`, plus
+  a target write). No code, suite or registry change in this commit.
+- **What:** 780-estimator — a team project (GitHub `780-AI/780-estimator`, owner Bahereh Hassanpour,
+  Windows PC) that bootstrapped Set v1.3 on 2026-06-21 — enters through the § 15.9 intake. Phase 0
+  found an old-SETUP adopter the engine cannot read yet (old SVA shape; opener / closer missing the
+  v1.6 heading wrap) and a Windows owner whose synced Rule 14 would call a Mac/Linux-only tool. The plan:
+  `scripts/claude_project_data.sh` 0.1 → 0.2 (Windows junctions + Capital-Signal E002), a one-time
+  prep commit in the estimator, a git-transport registry entry (the fleet's first) and the catch-up
+  `sync --write` (Delivery A, direct to `main`), the E002 write-back, then Windows verification on the
+  owner's PC. Operator choices recorded: git over ssh, Option A (tool fixed inside the plan).
+- **Rule 16 gate (2026-10-05):** 12 intake candidates from 780-estimator (+ Capital-Signal E002)
+  listed, explained, recommended; operator: "yes to all recommended" — #1 (Windows junction logic) +
+  #2 (E002) integrated by this plan; #4 / #5 / #8 queued for v2.8; #3 / #11 kept project-local; #6 / #7 /
+  #9 / #10 already covered (L038 / L063 / L056 / L055); #12 nothing to take. Full table in plan § 2.
+- **Proven before approval:** tool 0.2 + 11 tests (ruff clean, mypy 0, pytest 151; the tests go red on
+  0.1 in exactly the 6 new-behavior cases); the whole catch-up over the git transport against a local
+  bare remote (behind → 7 of 11 → one engine commit, 8 files → up-to-date → current). § 5's 33 blocks are
+  generated from the proven code and parse back byte-identical; Rule 13 pass recorded in the plan.
+- **Files:** `docs/Plans/PLAN-017_estimator_catchup.md` 0.1 + `PLAN-017_tracker.md` 0.1 (new);
+  `docs/documents_manifest.md` 2.56 → 2.57 (rows 90–91; Plans quick-index + the 80–87 gap).
+- **Impact:** none at runtime — no code, suite, registry or target change. Phase 2 approval next
+  (D17.A + D-1…D-5); Phase 3 in a fresh session.
+
 ## [2026-10-05] — PLAN-016 Phase 3: fleet view — `docs/fleet.csv`, generated and always current
 
 - **Type:** Engine feature (Major per § 4 — Critical Files touched: the engine + `config/projects.toml`;
