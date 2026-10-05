@@ -1,8 +1,18 @@
-<!-- VERSION: 0.2 -->
+<!-- VERSION: 0.3 -->
 <!-- Last Updated: 2026-10-05 -->
-<!-- Status: APPROVED (Phase 2 2026-10-05; Phase 3 next, in a fresh session) -->
+<!-- Status: EXECUTING (Phase 3 shipped 2026-10-05; QA-M8 / M9 open on the owner's Windows PC) -->
 <!--
 CHANGE LOG
+v0.3 — 2026-10-05 — Phase 3 executed in a fresh session. Reconcile pass: all 33 blocks re-extracted from
+this file, every FIND / pre-image / absence check passed on the live trees — zero block defects. § 5
+applied byte-for-byte with `<P3-DATE>` = 2026-10-05 (clock checked against gitlab.com / apple.com).
+Estimator: prep `b4cae64` + the engine's sync `fdb87b9` on their `main` (the fleet's first live git
+write); vault: tool 0.2 + tests, registry entry, opener row, skill, folder tree; Capital-Signal E002
+written back. QA-M1…M7 + M10 ✅ (evidence in the tracker). Plan defect D1 (wording; operator D1 = A):
+§ 8.1 listed the merge / record files only — the dry-run also removes 3 non-header lines from the
+replace-mode MEMORY_PROTOCOL, explained before the write (the target's replace-mode copies are
+byte-identical to `set-v1.3`; the lines are the v2.2 identifier scrub) — § 8.1 gains one sentence.
+Process note: QA-M7's idle re-check printed instead of gating (tracker). Status APPROVED → EXECUTING.
 v0.2 — 2026-10-05 — Phase 2 operator approval recorded ("Plan-017 is approved"); § 9.1 decision record
 added: D17.A approved; D-1…D-5 = A (the recommended options the § 5 code and the § 5n entry implement).
 No § 5 change — the 33 blocks re-extracted from this file stay byte-identical to the proven blocks.
@@ -163,8 +173,8 @@ is documented completely in the skill.
 | 0 | Audit (read-only) | ✅ 2026-10-05 |
 | 1 | Design + proven code + Rule 13 pass | ✅ 2026-10-05 |
 | 2 | Operator approval | ✅ 2026-10-05 |
-| 3 | Implement — fresh session: 3.0 pre-checks → 3.1 reconcile → 3.2 vault tool + skill blocks → 3.3 estimator prep commit + push → 3.4 registry + catch-up write → 3.5 CS E002 write-back → 3.6 vault commit | ⏸ |
-| 4 | Validate — QA-M1…M7 inside Phase 3; QA-M8 / M9 on the owner's PC | ⏸ |
+| 3 | Implement — fresh session: 3.0 pre-checks → 3.1 reconcile → 3.2 vault tool + skill blocks → 3.3 estimator prep commit + push → 3.4 registry + catch-up write → 3.5 CS E002 write-back → 3.6 vault commit | ✅ 2026-10-05 |
+| 4 | Validate — QA-M1…M7 inside Phase 3; QA-M8 / M9 on the owner's PC | 🔄 M1…M7 + M10 ✅ 2026-10-05; M8 / M9 ⏸ |
 | 5 | Operator gate — vault push (both remotes); closure commit after QA-M8 / M9 | ⏸ |
 
 ## 5. Verbatim transformation rules (code proven in scratch; Phase 3 copies byte-for-byte)
@@ -1483,6 +1493,11 @@ If the engine's run date differs from `<P3-DATE>` (a session crossing midnight),
 closer and SVA also loses its `Last Updated` line (+1 each) — nothing else may differ. Anything else in
 the removed set ⇒ STOP and investigate before writing (the 2026-09-05 discard finding: a delta wider
 than the oracle is a defect until explained).
+
+Replace-mode files (the six `docs/standards/` files and `archive/LESSONS.md`) sit outside this list: their
+removed lines are header lines plus canonical evolution PROVIDED each target copy is byte-identical to the
+vault's tag for the version it adopted — check that blob match (D1, Phase 3: the estimator's three changed
+replace-mode files matched `set-v1.3`; MEMORY_PROTOCOL's 3 non-header lines are the v2.2 identifier scrub).
 
 ## 9. Operator decision points (Phase 2 — answer with the approval)
 

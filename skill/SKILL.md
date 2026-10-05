@@ -2,10 +2,13 @@
 name: standard-docset
 description: Deliver the Standard DocSet governance suite to a project. Bootstrap mode sets up a NEW project from scratch; adopt mode migrates an EXISTING project onto the suite (dry-run gated, customization-preserving). Use when asked to bootstrap, standardize, adopt, or converge a project onto the standards suite.
 ---
-<!-- VERSION: 0.1 -->
-<!-- Last Updated: 2026-08-16 -->
+<!-- VERSION: 0.2 -->
+<!-- Last Updated: 2026-10-05 -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-05 — PLAN-017: the old-SETUP catch-up paragraph names the whole one-time prep
+(heading wrap, sync-ready SET_VERSION_ADOPTED, locality script) and an engine dry-run before
+registering — the gaps the first catch-up exposed.
 v0.1 — 2026-08-16 — Initial (PLAN-009, Standard Set Version v2.0). Live-reference delivery skill:
 two modes (bootstrap | adopt); replaces SETUP.md + NEW_PROJECT_BOOTSTRAP.md +
 MEMORY_DURABILITY_ROLLOUT_PROMPT.md.
@@ -56,6 +59,13 @@ Then read the matching file from this skill's directory and follow it exactly, i
 - adopt → `modes/adopt.md`
 
 If the operator says the project is an **old-SETUP adopter** (already carries the suite, just a
-stale Set Version), neither mode applies — tell them the path is: register the project in the
-vault's `config/projects.toml`, hand-apply the one-time v1.6 heading-wrap if it predates v1.6, and
-let `sync` catch it up. Do not run a delivery mode over an existing adopter.
+stale Set Version), neither mode applies — tell them the path is a one-time prep commit in the
+project, then registration, then `sync`. The prep commit supplies what the engine needs and an
+old-SETUP copy lacks: the v1.6 PROJECT-OWNED heading-wrap of the session opener + closer if it
+predates v1.6; `docs/SET_VERSION_ADOPTED.md` rewritten in the sync-ready shape `modes/adopt.md`
+§ 5 specifies, still recording the version the project really has (the engine refuses any other
+shape); and `scripts/claude_project_data.sh` copied verbatim from the vault if absent (sync never
+delivers scripts, yet the synced Rule 14 calls it). Before registering, prove it with an engine
+dry-run against the prepared copy: it must list only suite files. Then register the project in
+the vault's `config/projects.toml` and let `sync` catch it up. Do not run a delivery mode over an
+existing adopter.

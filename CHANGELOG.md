@@ -2,6 +2,53 @@
 
 Newest entries at the top.
 
+## [2026-10-05] — PLAN-017 Phase 3: 780-estimator caught up to v2.7 over git (the first git target) + locality tool 0.2
+
+- **Type:** Plan Phase 3 (Major — Critical Files: `config/projects.toml`, plus two target writes); fresh
+  implementer session from the committed plan. No engine source change; no `docs/standards/` change → **no
+  Set Version bump, no tag**.
+- **Locality tool `scripts/claude_project_data.sh` 0.1 → 0.2:** Windows (Git Bash) support — drive-form
+  path-key, directory junction (`mklink /J`) in place of the symlink, junctions removed with `rmdir`
+  (never `rm`), rename-to-backup + no-overwrite copy in place of `mv`, refusal while a transcript changed
+  in the last 2 minutes; Capital-Signal's E002 — the merge recurses into same-name dirs and drops the empty
+  ones Claude Code creates, `status` names `link` when in-repo data exists, `link` absorbs the pre-v1.5
+  layout too. POSIX behavior otherwise unchanged. New `tests/test_claude_project_data.py` 0.1 (11 cases,
+  the Windows branch through stand-in `uname` / `cygpath` / `cmd`); `[rules.locality]` in
+  `scripts/validation_ownership.toml`.
+- **780-estimator (GitHub `780-AI/780-estimator`):** prep commit `b4cae64` (curator; heading wraps,
+  sync-ready SVA, the tool copied in, manifest + tree + CHANGELOG with the owner's next-session steps) →
+  registry entry (git transport, Delivery A, `lifecycle = "onboarding"`) + SESSION_OPENER 1.21 § 2 row →
+  `sync --project 780-estimator --write` = engine commit `fdb87b9` (author "Standard DocSet", 8 files incl.
+  `docs/SYNC_HANDOFF.md`) pushed fast-forward to their `main`. The fleet's first live git read + write.
+- **Capital-Signal:** E002 written back — `integrated → vault scripts/claude_project_data.sh v0.2 (…)`;
+  its `docs/STANDARDS_LOG.md` + a new `docs/SYNC_HANDOFF.md` wait uncommitted for its next session.
+- **Also:** `skill/SKILL.md` 0.2 (the old-SETUP catch-up names the whole prep + an engine dry-run before
+  registering); `docs/folder_structure.md` 0.16; PLAN-007 tracker 1.1 (live git half of QA K–N closed);
+  PLAN-017 plan + tracker 0.3 EXECUTING; `docs/documents_manifest.md` 2.60 (row 92).
+- **Plan defect D1 (wording; operator D1 = A):** § 8.1 omitted the replace-mode files; MEMORY_PROTOCOL's 3
+  non-header removed lines were explained before the write (target copy byte-identical to `set-v1.3`; the
+  lines are the v2.2 identifier scrub) — § 8.1 gains a sentence.
+- **Impact:** the vault's own locality tool changes (POSIX path unchanged — QA-M3 on the live store); no
+  engine change. One target written by git (780-estimator, now v2.7 current), one by integrate
+  (Capital-Signal, Status line only). Fleet: 5 targets on all three transports.
+
+### QA scenarios (Rule 11; evidence in `docs/Plans/PLAN-017_tracker.md`)
+
+- ✅ QA-M1 — ruff clean / `mypy --strict` 0 in 25 files / pytest 151.
+- ✅ QA-M2 — the 11 new tests vs tool 0.1 → exactly the 6 new-behavior cases fail.
+- ✅ QA-M3 ⚑ — the vault's own `status` → `STATUS: OK (18 memory files)`, unchanged.
+- ✅ QA-M4 ⚑ — prep proof: their governance 0 / 0; engine oracle v1.3 / v2.7 behind, 7 of 11, removed
+  lines == § 8.1 (D1 explained).
+- ✅ QA-M5 ⚑ — first live git write: `fdb87b9` on `b4cae64`, § 7.3 files, re-run up-to-date 11/11,
+  `status` v2.7 current, fleet row == § 5d with `handoff_pending` 1.
+- ✅ QA-M6 ⚑ — post-sync integrity: markers 4 / 3 / 2, 15 rules, Rule 14 → the tool (present), local
+  blocks intact, SVA v2.7 + v1.3 rows.
+- ✅ QA-M7 ⚑ — E002 write-back: Status verbatim, CS handoff `### Write 1`, `harvest` → none open
+  (idle-gate process note in the tracker).
+- ⏸ QA-M8 ⚑ — Windows `adopt` on the owner's PC (ship-gating; operator-relayed evidence).
+- ⏸ QA-M9 ⚑ — the owner's handoff landing + `bootstrap_memory.sh` removal; then closure (§ 7.6).
+- ✅ QA-M10 — domain-neutral grep over `skill/`, `docs/standards/`, the tool and its test: no hits.
+
 ## [2026-10-05] — PLAN-017 Phase 2: APPROVED ("Plan-017 is approved")
 
 - **Type:** Plan (Phase 2 approval commit — the PLAN-016 `9f15f5a` precedent).

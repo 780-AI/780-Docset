@@ -1,8 +1,10 @@
-<!-- VERSION: 0.2 -->
+<!-- VERSION: 0.3 -->
 <!-- Last Updated: 2026-10-05 -->
-<!-- Status: APPROVED (Phase 2 2026-10-05; Phase 3 next, in a fresh session) -->
+<!-- Status: EXECUTING (Phase 3 shipped 2026-10-05; QA-M8 / M9 open on the owner's Windows PC) -->
 <!--
 CHANGE LOG
+v0.3 — 2026-10-05 — Phase 3 executed in a fresh session (3.0–3.6 ✅); QA-M1…M7 + M10 ✅ with evidence;
+plan defect D1 (§ 8.1 wording; operator D1 = A); QA-M7 idle-gate process note. QA-M8 / M9 ⏸ (owner's PC).
 v0.2 — 2026-10-05 — Phase 2 approval recorded ("Plan-017 is approved"; decisions in plan § 9.1).
 v0.1 — 2026-10-05 — Created with the plan draft (tracker required per CLAUDE.md § 15.7: Phase 3 lands
 as several commits across two repos; Phase 4 has a multi-scenario list, QA-M1…M10; the Windows half
@@ -40,34 +42,59 @@ spans sessions).
 
 ## Phase 3 — Implement (fresh session)
 
-- ⏸ 3.0 Pre-checks: vault tree clean at the approval commit; clock vs an external authority →
-  `<P3-DATE>`; vault Set Version still v2.7 (else R9); estimator `ls-remote` main (`45d7c75` or
-  reconcile); operator confirms Bahereh was told and is not mid-session.
-- ⏸ 3.1 Reconcile pass: re-extract all 33 blocks from the plan; every FIND / pre-image / absence check
-  passes on the live trees (vault working tree + a fresh writable estimator clone in the scratchpad).
-- ⏸ 3.2 Vault § 5a, 5b, 5c, 5f, 5g applied → QA-M1, QA-M2, QA-M3, QA-M10.
-- ⏸ 3.3 Estimator § 5h–5n applied on the clone → QA-M4 → Rule 10 review table → commit (§ 5o,
-  `-F`) → operator "go" → push to `main` → `ls-remote`.
-- ⏸ 3.4 Vault § 5d + 5e applied (registry entry + opener row) → `status` → dry-run → `--diff` ==
-  § 8.1 → `sync --project 780-estimator --write` → QA-M5, QA-M6.
-- ⏸ 3.5 CS E002 write-back (§ 5p) → QA-M7.
-- ⏸ 3.6 § 6c / 6d / 6e bookkeeping → governance (stdout pasted) → Rule 10 review table → vault commit
-  (§ 7.5; no push) → OPEN_TASKS (§ 6g). Operator relays the § 5n steps to Bahereh.
+- ✅ 2026-10-05 — 3.0 Pre-checks: vault tree clean at `b2f6aa3` (after the approval commit only PLAN-016
+  bookkeeping moved — CHANGELOG, manifest, PLAN-016 tracker; no block anchor among them); local clock ==
+  `gitlab.com` / `apple.com` `Date:` within 2 s → `<P3-DATE>` = 2026-10-05; vault Set Version v2.7 (R9
+  not triggered); estimator `ls-remote` main = `45d7c75` (R8 not triggered); operator: "Bahereh told +
+  idle".
+- ✅ 2026-10-05 — 3.1 Reconcile pass: all 33 blocks re-extracted from the plan by a parser and checked
+  sequentially per file on the live trees (vault working tree + a fresh writable estimator clone in the
+  session scratchpad) — every FIND matched once, both pre-image blobs matched (`c746047…`, `6ee9fc2…`),
+  both NEW files absent, the § 5k copy source present. **Zero block defects.** Checker positive control:
+  one FIND corrupted → exactly 1 FAIL.
+- ✅ 2026-10-05 — 3.2 Vault § 5a, 5b, 5c, 5f, 5g applied (`<P3-DATE>` substituted; script mode 100755
+  kept) → QA-M1, QA-M2, QA-M3, QA-M10 ✅.
+- ✅ 2026-10-05 — 3.3 Estimator § 5h–5n applied on the clone (7 files == § 7.2; § 5k `cmp` identical,
+  mode 755) → QA-M4 ✅ → Rule 10 review table posted → commit `b4cae64` (§ 5o message via `-F`, author
+  Yaser Khosravi, parent `45d7c75`) → operator "go D1 = A" → pushed `45d7c75..b4cae64` → `ls-remote` main
+  = `b4cae64`. Clones deleted after use.
+- ✅ 2026-10-05 — 3.4 Vault § 5d + 5e applied (after the prep was on their `main`) → `status` behind →
+  dry-run 7/11 → `--diff` identical to the QA-M4 oracle diff → operator "go" → `sync --project
+  780-estimator --write` → QA-M5, QA-M6 ✅.
+- ✅ 2026-10-05 — 3.5 Capital-Signal E002 write-back (§ 5p TOML extracted verbatim) → QA-M7 ✅ (process
+  note below).
+- ✅ 2026-10-05 — 3.6 § 6c / 6d / 6e bookkeeping → governance (stdout pasted in chat) → Rule 10 review
+  table → vault commit (§ 7.5; no push) → OPEN_TASKS (§ 6g).
+
+> **Plan defect D1 (wording; operator D1 = A, 2026-10-05).** § 8.1 listed removed lines for the merge /
+> record files only; the dry-run also removes 3 non-header lines from the replace-mode
+> `docs/standards/MEMORY_PROTOCOL.md`. Investigated before any write: the estimator's three changed
+> replace-mode files (PROJECT_STANDARDS, MEMORY_PROTOCOL, LESSONS) are byte-identical to the vault's
+> `set-v1.3` blobs (`cfbaff0`, `ac947df`, `b30f618`) — no local text; the 3 lines are the vault's v2.2
+> identifier scrub (`64a5752`). § 8.1 gains one sentence (plan v0.3).
+>
+> **Process note (QA-M7 idle gate).** The idle re-check ran in the same command as `integrate --write`, so
+> it printed instead of gating: it listed one Capital-Signal transcript changed in the last 10 minutes.
+> Investigation (plain reads, no git in that repo): a session on the operator's other Mac had posted its
+> completed wrap-up block at 21:26:42 local, ~7 minutes before the write (clean tree; its one commit
+> `08b638d` touched neither written file); `STANDARDS_LOG.md` held E001 + E002 only, header unchanged; no
+> conflicted copies; no handoff existed before. No collision — but a check that cannot stop the action is
+> not a gate; gating checks run as separate steps from here on (lesson candidate in OPEN_TASKS).
 
 ## Phase 4 — Validate
 
 | # | Scenario | Phase | Status | Date | Evidence |
 |---|---|---|---|---|---|
-| QA-M1 | Tools (ruff / mypy / pytest 151) | 3.2 | ⏸ | | |
-| QA-M2 | Tests go red on tool 0.1 (6 of 11) | 3.2 | ⏸ | | |
-| QA-M3 ⚑ | Vault's own locality `status` OK | 3.2 | ⏸ | | |
-| QA-M4 ⚑ | Prep proof (governance + engine oracle) | 3.3 | ⏸ | | |
-| QA-M5 ⚑ | First live git write | 3.4 | ⏸ | | |
-| QA-M6 ⚑ | Post-sync integrity | 3.4 | ⏸ | | |
-| QA-M7 ⚑ | CS E002 write-back | 3.5 | ⏸ | | |
+| QA-M1 | Tools (ruff / mypy / pytest 151) | 3.2 | ✅ | 2026-10-05 | `ruff check src tests` → All checks passed; `MYPYPATH=src mypy --cache-dir <fresh> src tests` (strict) → no issues in 25 source files; pytest → 151 passed |
+| QA-M2 | Tests go red on tool 0.1 (6 of 11) | 3.2 | ✅ | 2026-10-05 | the 11 tests vs a scratch copy of 0.1 → 6 failed (2 POSIX E002 + 4 Windows), 5 passed (the baseline cases) |
+| QA-M3 ⚑ | Vault's own locality `status` OK | 3.2 | ✅ | 2026-10-05 | before: `STATUS: OK (18 memory files)`; with 0.2: `symlink: -> …/.claude/project-data`, `STATUS: OK (18 memory files)`, exit 0 |
+| QA-M4 ⚑ | Prep proof (governance + engine oracle) | 3.3 | ✅ | 2026-10-05 | their `check_doc_coverage.py` / `check_test_coverage_drift.py --ci` exit 0 / 0; scratch vault (`git archive HEAD`, registry → the clone, local transport): `status` v1.3 / v2.7 behind; dry-run 7 of 11 (the § 3 seven); removed lines CLAUDE 28 / opener 19 / closer 6 / SVA 3 == § 8.1, line set matches its description; replace-mode removals explained (D1) |
+| QA-M5 ⚑ | First live git write | 3.4 | ✅ | 2026-10-05 | `status` (git read path) 780-estimator v1.3 / v2.7 behind; dry-run 7/11; live `--diff` identical to the QA-M4 oracle diff; `--write` → "wrote + flushed 8 file(s) (incl. the handoff)"; `ls-remote` main `b4cae64` → `fdb87b9`; `fdb87b9` parent = `b4cae64`, author `Standard DocSet <standard-docset@localhost>`; `git show --stat` = the 8 files of § 7.3; re-run up-to-date 11/11 (notes the un-landed handoff); `status` v2.7 / v2.7 current; `docs/fleet.csv` row: registry columns == § 5d (registered_on 2026-10-05), `reachable` yes, `handoff_pending` 1 |
+| QA-M6 ⚑ | Post-sync integrity | 3.4 | ✅ | 2026-10-05 | fresh clone of `main`: PROJECT-OWNED BEGIN/END CLAUDE 4/4, opener 3/3, closer 2/2; 15 `### Rule` headings; Rule 14 names `scripts/claude_project_data.sh` (4×), file present + executable; opener heading (l.14) + § 2 "Current state" note (l.92) + § 3.2 popup row intact; closer heading (l.13); SVA bullets v2.7 / 2026-10-05, rows v2.7 + v1.3 |
+| QA-M7 ⚑ | CS E002 write-back | 3.5 | ✅ | 2026-10-05 | operator "go" (no CS session); dry-run → `--write` → Status read back == § 5p's rendering verbatim; CS `docs/SYNC_HANDOFF.md` new, `### Write 1` = integrate write-back of `docs/STANDARDS_LOG.md`; `harvest` → "No open log entries across registered projects" (780-Automation skipped, unreachable). Idle-gate process note above |
 | QA-M8 ⚑ | Windows `adopt` on the owner's PC | post-3 | ⏸ | | |
 | QA-M9 ⚑ | Handoff landing observed | post-3 | ⏸ | | |
-| QA-M10 | Domain-neutral grep | 3.2 | ⏸ | | |
+| QA-M10 | Domain-neutral grep | 3.2 | ✅ | 2026-10-05 | `grep -rniE "780\|estimator\|everon\|equinex\|capital-signal\|bahereh\|parsaazad\|a780" skill/ docs/standards/ scripts/claude_project_data.sh tests/test_claude_project_data.py` → no output, exit 1; control: same pattern on `config/projects.toml` → 23 hits |
 
 **Waiver register (Rule 15):** _(none)_
 

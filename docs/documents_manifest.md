@@ -1,7 +1,15 @@
-<!-- VERSION: 2.59 -->
+<!-- VERSION: 2.60 -->
 <!-- Last Updated: 2026-10-05 -->
 <!--
 CHANGE LOG
+v2.60 — 2026-10-05 — PLAN-017 Phase 3 (780-estimator caught up over git + locality tool 0.2): new row 92
+(Governance script test, `tests/test_claude_project_data.py` 0.1); bumped cells 6 (folder_structure
+0.15→0.16), 8 (SESSION_OPENER 1.20→1.21, § 2 780-estimator row), 56 (claude_project_data.sh 0.1→0.2), 64
+(PLAN-007 tracker 1.0→1.1, post-close live-git annotation), 76 (skill/SKILL.md 0.1→0.2); PLAN-017 plan +
+tracker (90–91) 0.2/APPROVED → 0.3/EXECUTING; Governance-scripts quick-index + 92.
+`config/projects.toml` and `scripts/validation_ownership.toml` (also touched) carry no VERSION header →
+no row. No `docs/standards/` change — no Set Version bump. Self-row 2.59 → 2.60 (every touched cell
+grep-verified against its file header per L063).
 v2.59 — 2026-10-05 — PLAN-016 post-close QA bookkeeping: row 87 (PLAN-016 tracker) 1.0 → 1.1 (QA-L7 / L8 ✅ +
 Phase 5 push); self-row 5 → 2.59.
 v2.58 — 2026-10-05 — PLAN-017 Phase 2 APPROVED: rows 90 (plan) + 91 (tracker) 0.1 → 0.2, titles DRAFT →
@@ -316,7 +324,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 |---|---|
 | Operating contract + project docs | 1–10, 58, 67 |
 | Canonical standards suite (Set v2.0) | 11–23, 25, 27 |
-| Governance scripts | 28–29, 56 |
+| Governance scripts | 28–29, 56, 92 |
 | Archive | 30 |
 | Plans | 31–39, 59–60, 63–64, 68–71, 74–75, 80–87, 90–91 |
 | Engine (src + tests) | 40–55, 61–62, 65–66, 72–73, 88–89 |
@@ -330,10 +338,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.59 | Governance | `docs/documents_manifest.md` |
-| 6 | Folder Structure | 0.15 | Governance | `docs/folder_structure.md` |
+| 5 | Documents Manifest | 2.60 | Governance | `docs/documents_manifest.md` |
+| 6 | Folder Structure | 0.16 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.14 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.20 | Governance | `docs/SESSION_OPENER.md` |
+| 8 | Session Opener (project-local, binding) | 1.21 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.8 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.15 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.7 | Standards | `docs/standards/CLAUDE.md` |
@@ -379,14 +387,14 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 53 | Engine — harvest report (open-entry consolidation) | 0.1 | Engine | `src/standard_document_updater/harvest.py` |
 | 54 | Engine test — logentry | 0.1 | Engine test | `tests/test_logentry.py` |
 | 55 | Engine test — harvest | 0.1 | Engine test | `tests/test_harvest.py` |
-| 56 | Project-data locality script | 0.1 | Governance script | `scripts/claude_project_data.sh` |
+| 56 | Project-data locality script | 0.2 | Governance script | `scripts/claude_project_data.sh` |
 | 58 | New-Machine Setup (re-home checklist + Rule 14 migration catalog) | 1.4 | Docs | `docs/NEW_MACHINE_SETUP.md` |
 | 59 | PLAN-006 — Slice 4 (integrate) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-006_integrate.md` |
 | 60 | PLAN-006 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-006_tracker.md` |
 | 61 | Engine — integration worksheet + status write-back | 0.1 | Engine | `src/standard_document_updater/integrate.py` |
 | 62 | Engine test — integrate | 0.1 | Engine test | `tests/test_integrate.py` |
 | 63 | PLAN-007 — remote transport (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-007_remote_transport.md` |
-| 64 | PLAN-007 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-007_tracker.md` |
+| 64 | PLAN-007 tracker (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-007_tracker.md` |
 | 65 | Engine — pluggable target transports (local \| git \| ssh) | 0.3 | Engine | `src/standard_document_updater/transport.py` |
 | 66 | Engine test — transport | 0.3 | Engine test | `tests/test_transport.py` |
 | 67 | Standards Log — project experiences log | 1.0 | Governance | `docs/STANDARDS_LOG.md` |
@@ -398,7 +406,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 73 | Engine test — sync | 0.3 | Engine test | `tests/test_sync.py` |
 | 74 | PLAN-009 — skill-based delivery (Set v2.0) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-009_skill_delivery.md` |
 | 75 | PLAN-009 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-009_tracker.md` |
-| 76 | Delivery skill — mode dispatch + step-0 vault resolve | 0.1 | Delivery | `skill/SKILL.md` |
+| 76 | Delivery skill — mode dispatch + step-0 vault resolve | 0.2 | Delivery | `skill/SKILL.md` |
 | 77 | Delivery skill — bootstrap mode | 0.2 | Delivery | `skill/modes/bootstrap.md` |
 | 78 | Delivery skill — adopt mode | 0.3 | Delivery | `skill/modes/adopt.md` |
 | 79 | Delivery-skill installer (per-machine symlink) | 0.1 | Delivery | `scripts/bootstrap_skill.sh` |
@@ -412,8 +420,9 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 87 | PLAN-016 tracker (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-016_tracker.md` |
 | 88 | Engine — fleet view (docs/fleet.csv rows + freshness check) | 0.1 | Engine | `src/standard_document_updater/fleet.py` |
 | 89 | Engine test — fleet | 0.1 | Engine test | `tests/test_fleet.py` |
-| 90 | PLAN-017 — 780-estimator catch-up (first git target) + Windows-capable locality tool (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-017_estimator_catchup.md` |
-| 91 | PLAN-017 tracker (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-017_tracker.md` |
+| 90 | PLAN-017 — 780-estimator catch-up (first git target) + Windows-capable locality tool (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-017_estimator_catchup.md` |
+| 91 | PLAN-017 tracker (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-017_tracker.md` |
+| 92 | Project-data locality script test | 0.1 | Governance script test | `tests/test_claude_project_data.py` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -422,6 +431,6 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-05
-- **Change**: PLAN-016 post-close QA bookkeeping — row 87 → 1.1 (QA-L7 / L8 ✅ + push); self-row → 2.59.
-- **Previous change**: PLAN-017 Phase 2 APPROVED — rows 90–91 → 0.2 APPROVED; self-row → 2.58.
+- **Change**: PLAN-017 Phase 3 — new row 92; cells 6, 8, 56, 64, 76 + rows 90–91 → 0.3 EXECUTING; self-row → 2.60.
+- **Previous change**: PLAN-016 post-close QA bookkeeping — row 87 → 1.1 (QA-L7 / L8 ✅ + push); self-row → 2.59.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

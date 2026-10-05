@@ -121,3 +121,24 @@ caveats = "high-stakes live project: engine writes only between its sessions; Dr
 # NOTE: high-stakes live project — every engine write lands in its working tree (local flush =
 # write-in-place); its next session lands per docs/SYNC_HANDOFF.md BEFORE any other work.
 # Write only between Equinex work sessions, one machine at a time.
+
+[[project]]                        # team project; Set v1.3 old-SETUP adopter (2026-06-21), caught up via sync (PLAN-017)
+name = "780-estimator"
+transport = "git"
+git_url = "git@github.com:780-AI/780-estimator.git"
+git_branch = "main"
+owner = "team"
+git_remote = "github.com/780-AI/780-estimator"
+part_of = "780-AI"
+work_machine = "Bahereh Hassanpour's PC (Windows)"
+delivery = "direct+handoff"
+onboarding = "catch-up"
+onboarded_on = "2026-06-21"
+onboarded_set = "v1.3"
+registered_on = "2026-10-05"
+plan = "PLAN-017"
+lifecycle = "onboarding"
+caveats = "first git-transport target: engine writes are commits pushed to main; Windows PC (Git Bash, Rule 14 via junctions)"
+# NOTE: owner Bahereh Hassanpour. Delivery A (operator, 2026-10-05): the engine commits as
+# "Standard DocSet" and pushes straight to `main` — fast-forward only, so a concurrent push makes
+# the write fail, never overwrite; the owner's next session pulls and lands docs/SYNC_HANDOFF.md.

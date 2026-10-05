@@ -82,6 +82,14 @@ strictness   = "soft"
 require_docs = false
 reason       = "Fleet view — docs/fleet.csv rows + the pre-push freshness check (PLAN-016)."
 
+[rules.locality]
+source_paths = ["scripts/claude_project_data.sh"]
+test_paths   = ["tests/test_claude_project_data.py"]
+doc_paths    = ["docs/folder_structure.md"]
+strictness   = "soft"
+require_docs = false
+reason       = "Rule 14 locality tool — symlink / Windows junction; adopt + link merges (PLAN-017)."
+
 [monitored_paths]
 strict = []                               # populate as coverage matures
 soft   = ["src/standard_document_updater/"]

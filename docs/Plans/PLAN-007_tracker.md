@@ -1,8 +1,11 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-23 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-10-05 -->
 <!-- Status: CLOSED -->
 <!--
 CHANGE LOG
+v1.1 — 2026-10-05 — Post-close annotation (PLAN-013 v1.1 precedent): the live git-transport half of
+QA K–N is closed by PLAN-017 QA-M5 — the first live git read and write against a real remote (Phase 4
+checked K / L with the command runner monkeypatched).
 v1.0 — 2026-06-23 — Phase 3 implemented + Phase 4 validated in a fresh session; tracker CLOSED with the
 plan. Phases 2–4 ✅ (Phase 5 push is the operator gate). QA A–N all PASS. One mechanical plan-defect D1
 (§ 5C E501 inside the `with` block — the L051 recurrence class) reflowed output-preserving.
@@ -74,6 +77,12 @@ work it tracks. Markers: ⏸ pending · 🔄 in-progress · ✅ done · ❌ bloc
 - ✅ A ruff · B mypy --strict (0/20) · C pytest (88 = 57 prior + 31 new) · D governance (both exit 0)
 - ✅ E local back-compat · F/G/H registry parse+validation · I make_target dispatch · J local-in-place
 - ✅ K git read fetch · L git push · M ssh rsync · N unreachable non-fatal
+
+> Post-close (2026-10-05): K / L ran with `transport._run` monkeypatched (no real remote). The live git
+> half is closed by PLAN-017 QA-M5 against GitHub `780-AI/780-estimator`: `status` behind over the git
+> read path → dry-run 7 of 11 → `sync --write` = one engine commit `fdb87b9` (author "Standard DocSet",
+> parent = the prep commit `b4cae64`) pushed fast-forward to `main` → re-run up-to-date 11/11 → `status`
+> current. The live ssh half was proven 2026-08-19 at the 780-Automation registration (CHANGELOG record).
 
 ## Phase 5 — Operator gate ⏸
 
