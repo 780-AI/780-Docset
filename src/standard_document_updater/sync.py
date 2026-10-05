@@ -1,8 +1,10 @@
 # ==============================================================
-# VERSION: 0.3
+# VERSION: 0.4
 # Section-aware suite propagation (`sync`): replace | merge | record per file.
 #
 # CHANGE LOG
+# v0.4 — 2026-10-05 — PLAN-016: handoff_write_count — how many engine writes an un-landed
+#         handoff records (the fleet view's handoff_pending column); reuses _prior_records.
 # v0.3 — 2026-10-03 — PLAN-013: handoffs ACCUMULATE (an un-landed handoff's write records are
 #         kept and the new write appended as the next record) + newest_stamp / check_clock —
 #         the floor guard that refuses an engine write when the local clock is behind the
@@ -407,6 +409,16 @@ def render_handoff(
         "",
     ]
     return "\n".join(lines)
+
+
+def handoff_write_count(text: str) -> int:
+    """How many engine writes an un-landed handoff records (PLAN-016 fleet view).
+
+    Reuses the accumulation parser, so the count is the record number the next write
+    would append after: N for `### Write N` records, 1 for a pre-accumulation or an
+    unrecognized handoff, 0 for one whose § 1 is empty.
+    """
+    return _prior_records(text)[1]
 
 
 _STAMP_RES = (

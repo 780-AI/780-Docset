@@ -1,8 +1,9 @@
-<!-- VERSION: 1.19 -->
+<!-- VERSION: 1.20 -->
 <!-- Last Updated: 2026-10-05 -->
 <!-- Source: docs/standards/SESSION_OPENER.md (template) v1.7. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.20 — 2026-10-05 — PLAN-016: § 1.2 fleet-view bullet (run `status` — prints every target's state and regenerates `docs/fleet.csv`; call out unreachable / not-current / handoff-pending targets); § 4 "Registered target suites" line reads from that run.
 v1.19 — 2026-10-05 — Two push remotes (operator 2026-10-05): § 1.1 probes unpushed commits per remote (`origin` = GitLab, `github` = GitHub 780-AI/780-Docset) and reconciles a recorded push-state against BOTH real remotes (`git ls-remote` each) — a push counts as done only when both show the same tip; § 4 "unpushed commits" line reports both.
 v1.18 — 2026-10-03 — Fourth target registered: EverOn.Equinex (§ 2 registry row — local `~/` transport, Dropbox-synced; adopted 2026-10-03 via the skill's adopt mode, EverOn own line retired — PLAN-011). Also (operator-confirmed fact, PLAN-011 Phase 3c execution delta): the 780-VPN row's "team member's account / Mac" wording corrected — the old ssh host was the operator's own second Mac (account `parsaazad`).
 v1.17 — 2026-10-03 — 780-Automation DHCP IP change (§ 2 registry row: 172.16.11.60 → 172.16.10.245, operator-supplied; the host's ED25519/RSA/ECDSA keys verified identical to the ones trusted at .10.61/.11.60 before trusting the new address; same repo — origin 780-AI/780-Automation, bootstrap `cb62527` in history — clean tree, Set v2.5, no un-landed handoff).
@@ -57,6 +58,7 @@ This is a **local CLI tool** — there is no staging/production infrastructure t
 
 - **The tool's own state** — current version of the engine (`src/standard_document_updater/` `# VERSION:` headers once it lands) and the adopted Standards Set Version (`docs/SET_VERSION_ADOPTED.md`).
 - **Registered target suites** (once the registry exists) — which source suite + adopting repos the tool is configured to operate on (§ 2 below). Read-only: confirm the configured paths exist before any run that writes to them.
+- **Fleet view (PLAN-016)** — run `.venv/bin/python -m standard_document_updater status`: it prints every target's state and regenerates `docs/fleet.csv`. Call out any target that is unreachable, not `current`, or holds an un-landed handoff (`handoff_pending` > 0 in the file).
 
 If the operator's task is purely internal (editing this repo, no run against a target suite), § 1.2's registry portion may be light — but always confirm the tool/Set-Version state.
 
@@ -169,7 +171,7 @@ Each row links to the memory/lesson that codifies it. Recall the linked memory w
 **Tool + suite state**
 - Engine version: <version or "engine not yet implemented">
 - Adopted Standards Set Version: <vX.Y>
-- Registered target suites: <list or "none registered yet">
+- Registered target suites: <N from `status` (docs/fleet.csv refreshed); call out unreachable / not-current / handoff-pending>
 - Project data: <OK: N memory files | repaired (link/adopt run) | EMPTY — operator warned>
 
 **Tracker tip**

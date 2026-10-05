@@ -1,7 +1,8 @@
-<!-- VERSION: 0.14 -->
-<!-- Last Updated: 2026-08-17 -->
+<!-- VERSION: 0.15 -->
+<!-- Last Updated: 2026-10-05 -->
 <!--
 CHANGE LOG
+v0.15 — 2026-10-05 — PLAN-016 (fleet view): added docs/fleet.csv (generated, gitignored), src/standard_document_updater/fleet.py and tests/test_fleet.py to the tree; noted the fleet subcommand on cli.py, the fleet-info keys on registry.py + config/projects.toml, and the engine-tree comment ("PLAN-016: + fleet").
 v0.14 — 2026-08-17 — PLAN-009 (skill delivery, Standard Set Version v2.0): added the skill/ top-level dir (SKILL.md + modes/bootstrap.md + modes/adopt.md) and scripts/bootstrap_skill.sh to the tree; removed the retired SETUP.md + NEW_PROJECT_BOOTSTRAP.md lines from docs/standards/ (MDRP was never listed — pre-existing gap recorded in the plan); suite caption v1.6 → v2.0; STANDARDS_LOG template caption retargeted SETUP → the delivery skill; rider — root CLAUDE.md caption "13 standing rules" → "15 standing rules".
 v0.13 — 2026-08-16 — PLAN-008 (Slice 5: sync, Standard Set Version v1.6): added src/standard_document_updater/sync.py and tests/test_sync.py to the tree; noted the sync subcommand on cli.py and the engine-tree comment ("Slice 5: + sync"); suite caption v1.5 → v1.6.
 v0.12 — 2026-08-16 — PLAN-010 (Standard Set Version v1.5): scripts listing swap bootstrap_memory.sh → claude_project_data.sh; .claude/ tree memory/ → project-data/ (memory + session transcripts); suite caption v1.4 → v1.5; both LESSONS captions → L001–L067.
@@ -45,6 +46,7 @@ Standard DocSet/
 │   ├── SESSION_CLOSER.md          # binding session-end wrap-up (Rule 12)
 │   ├── SET_VERSION_ADOPTED.md     # adopted Standard Set Version (moved here so it survives the setup strip)
 │   ├── STANDARDS_LOG.md           # this project's experiences log (contribution channel; kept file)
+│   ├── fleet.csv                  # GENERATED fleet view — gitignored, never hand-edited (PLAN-016; `fleet` / `status` regenerate it)
 │   ├── standards/                 # canonical domain-neutral suite (Set Version v2.0)
 │   │   ├── CLAUDE.md             # operating-contract TEMPLATE (with placeholders)
 │   │   ├── LESSONS.md            # lessons archive (canonical template, L001–L067)
@@ -70,13 +72,13 @@ Standard DocSet/
 │       └── adopt.md               # EXISTING-project migration (dry-run gated)
 ├── pyproject.toml                 # packaging + tool config (setuptools / ruff / mypy / pytest)
 ├── config/
-│   └── projects.toml              # registry of managed projects (name + path; per architecture.md § 8)
+│   └── projects.toml              # registry of managed projects (name + transport + connection fields + optional fleet info; per architecture.md § 8)
 ├── src/
-│   └── standard_document_updater/  # the CLI engine (Slice 2: registry + status/drift; Slice 3: + harvest; Slice 4: + integrate; PLAN-007: + transport; Slice 5: + sync)
+│   └── standard_document_updater/  # the CLI engine (Slice 2: registry + status/drift; Slice 3: + harvest; Slice 4: + integrate; PLAN-007: + transport; Slice 5: + sync; PLAN-016: + fleet)
 │       ├── __init__.py            # package marker + released CLI version
 │       ├── __main__.py            # `python -m standard_document_updater` entry point
 │       ├── errors.py              # exception hierarchy
-│       ├── registry.py            # config/projects.toml loader (name + transport + connection fields)
+│       ├── registry.py            # config/projects.toml loader (name + transport + connection fields + fleet info)
 │       ├── setversion.py          # live parsers: vault/adopted Set Version + open-log count
 │       ├── logentry.py            # STANDARDS_LOG.md entry parser (LogEntry + parse_log)
 │       ├── harvest.py             # consolidate open log entries → stdout report (group-by-area + dup flag)
@@ -84,7 +86,8 @@ Standard DocSet/
 │       ├── transport.py           # pluggable target transports (local | git | ssh): materialize → operate → flush
 │       ├── sync.py                # section-aware suite propagation (replace | merge | record per file)
 │       ├── report.py              # state computation + table render + drift filter
-│       └── cli.py                 # argparse; status / drift / harvest / integrate / sync subcommands (transport-aware)
+│       ├── fleet.py               # docs/fleet.csv — fleet-view rows + the pre-push freshness check (PLAN-016)
+│       └── cli.py                 # argparse; status / drift / fleet / harvest / integrate / sync subcommands (transport-aware)
 ├── tests/                         # pytest suite
 │   ├── conftest.py                # synthetic vault/project fixtures
 │   ├── test_setversion.py
@@ -95,6 +98,7 @@ Standard DocSet/
 │   ├── test_integrate.py
 │   ├── test_transport.py
 │   ├── test_sync.py
+│   ├── test_fleet.py
 │   └── test_cli.py
 ├── .claude/                      # Claude Code workspace (untracked; Dropbox-synced)
 │   ├── project-data/             # Claude project data (memory + session transcripts) — harness symlinks here (Rule 14)

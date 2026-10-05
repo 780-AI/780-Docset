@@ -1,8 +1,9 @@
-<!-- VERSION: 1.7 -->
+<!-- VERSION: 1.8 -->
 <!-- Last Updated: 2026-10-05 -->
 <!-- Source: docs/standards/SESSION_CLOSER.md (template) v1.7. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.8 — 2026-10-05 — PLAN-016: § 1.2 fleet-view bullet (run `fleet` — regenerates `docs/fleet.csv`; report unreachable / not-current / handoff-pending rows); § 4 template gains the Fleet line.
 v1.7 — 2026-10-05 — Two push remotes (operator 2026-10-05): § 1.1 probes unpushed commits per remote and states the push rule (every push to BOTH `origin` = GitLab and `github` = GitHub 780-AI/780-Docset, + tags on a release; pushed = `git ls-remote` on both shows HEAD); § 1.4 push-state flip only after both; § 4 "Unpushed" line reports both.
 v1.6 — 2026-08-27 — Deferred-minor sweep: stale header Source ref template v1.3 → v1.7 (the template moved at Sets v2.0/v2.1/v2.3; surgical omission since — cleared from the register).
 v1.5 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008): heading block wrapped in PROJECT-OWNED — reconciles with the v1.6 template structure; owned-block count now 2 = template's 2.
@@ -45,6 +46,7 @@ as done only when `git ls-remote origin master` and `git ls-remote github master
 - Engine version — `src/standard_document_updater/` `# VERSION:` headers (once the engine lands).
 - Adopted **Standards Set Version** — `docs/SET_VERSION_ADOPTED.md`.
 - Any pending tag operations on this repo.
+- **Fleet view (PLAN-016)** — run `.venv/bin/python -m standard_document_updater fleet` (regenerates `docs/fleet.csv`); report rows with `reachable=no`, a `state` other than `current`, or `handoff_pending` > 0.
 
 ### 1.3 Pending operator decisions
 - DRAFT plans in `docs/Plans/*.md` (status DRAFT, awaiting `APPROVE D?.?`).
@@ -124,6 +126,7 @@ Operator may explicitly say "skip wrap-up". Operator-only authorization — neve
 **Tool + standards versions**
 - Engine version: <version or "not yet implemented">
 - Standards Set Version: <vX.Y>
+- Fleet: <N projects — docs/fleet.csv refreshed; attention: unreachable / not-current / handoff-pending, or "all current">
 
 **Pending operator decisions**
 - <DRAFT plan + APPROVE string awaited / Phase 4 verify pending / push authorization> (or "none")

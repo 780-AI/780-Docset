@@ -1,8 +1,11 @@
 # ==============================================================
-# VERSION: 0.2
+# VERSION: 0.3
 # Unit tests for the registry loader.
 #
 # CHANGE LOG
+# v0.3 — 2026-10-05 — PLAN-016: fleet-information keys (parsed + stripped, absent = empty
+#                     ProjectInfo) and their validation (unknown key, bad choice, bad date,
+#                     bad Set Version, non-string value).
 # v0.2 — 2026-06-20 — Add transport parse cases (git / ssh / bare-local default) + per-transport
 #                     validation (missing required field, unknown transport) — PLAN-007.
 # v0.1 — 2026-06-16 13:01 — Initial: load / empty / missing / malformed.
@@ -15,7 +18,7 @@ from pathlib import Path
 import pytest
 
 from standard_document_updater.errors import RegistryError
-from standard_document_updater.registry import load_registry
+from standard_document_updater.registry import ProjectInfo, load_registry
 
 
 def _write(path: Path, text: str) -> None:
@@ -122,4 +125,44 @@ def test_load_registry_unknown_transport_raises(tmp_path: Path) -> None:
     reg = tmp_path / "projects.toml"
     _write(reg, '[[project]]\nname = "x"\ntransport = "carrier-pigeon"\n')
     with pytest.raises(RegistryError, match="unknown transport"):
+        load_registry(reg)
+
+
+def test_load_registry_reads_fleet_info(tmp_path: Path) -> None:
+    reg = tmp_path / "projects.toml"
+    _write(
+        reg,
+        '[[project]]\nname = "alpha"\npath = "/tmp/alpha"\nowner = "team"\n'
+        'delivery = "direct+handoff"\nonboarding = "bootstrap"\nonboarded_on = "2026-08-19"\n'
+        'onboarded_set = "v2.1"\nlifecycle = "active"\ncaveats = "  DHCP IP  "\n',
+    )
+    info = load_registry(reg)[0].info
+    assert (info.owner, info.delivery, info.onboarding) == ("team", "direct+handoff", "bootstrap")
+    assert (info.onboarded_on, info.onboarded_set) == ("2026-08-19", "v2.1")
+    assert info.lifecycle == "active"
+    assert info.caveats == "DHCP IP"  # surrounding whitespace stripped
+    assert info.plan == ""  # an absent key reads as ""
+
+
+def test_load_registry_without_info_has_empty_info(tmp_path: Path) -> None:
+    reg = tmp_path / "projects.toml"
+    _write(reg, '[[project]]\nname = "alpha"\npath = "/tmp/alpha"\n')
+    assert load_registry(reg)[0].info == ProjectInfo()
+
+
+@pytest.mark.parametrize(
+    ("line", "message"),
+    [
+        ('ownr = "team"', "unknown key"),
+        ('owner = "someone"', "'owner' must be one of"),
+        ('lifecycle = "live"', "'lifecycle' must be one of"),
+        ('registered_on = "2026/10/04"', "YYYY-MM-DD"),
+        ('onboarded_set = "2.7"', "must look like v2.7"),
+        ("plan = 16", "'plan' must be a string"),
+    ],
+)
+def test_load_registry_rejects_bad_fleet_info(tmp_path: Path, line: str, message: str) -> None:
+    reg = tmp_path / "projects.toml"
+    _write(reg, f'[[project]]\nname = "alpha"\npath = "/tmp/alpha"\n{line}\n')
+    with pytest.raises(RegistryError, match=message):
         load_registry(reg)

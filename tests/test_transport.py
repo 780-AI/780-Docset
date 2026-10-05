@@ -1,8 +1,10 @@
 # ==============================================================
-# VERSION: 0.2
+# VERSION: 0.3
 # Unit tests for the pluggable target transports (local | git | ssh).
 #
 # CHANGE LOG
+# v0.3 — 2026-10-05 — PLAN-016 (D-4): ssh rsyncs carry the fail-fast remote shell
+#         (`-e "ssh -o ConnectTimeout=10 -o BatchMode=yes"`); operand indices shift by 2.
 # v0.2 — 2026-08-16 — PLAN-008: full=True sessions — git sparse set adds archive; ssh
 #         materializes archive/ + root CLAUDE.md alongside docs/.
 # v0.1 — 2026-06-20 — Initial: make_target dispatch + Local/Git/Ssh materialize/flush + _run errors.
@@ -113,11 +115,11 @@ def test_ssh_full_materializes_archive_and_root_claude(monkeypatch: pytest.Monke
         Project(name="c", transport="ssh", ssh_host="devbox", ssh_path="/home/me/repo/")
     )
     with t.session(full=True) as root:
-        assert cmds[0][2] == "devbox:/home/me/repo/docs/"
-        assert cmds[1][2] == "devbox:/home/me/repo/archive/"
-        assert cmds[1][3] == f"{root / 'archive'}/"
-        assert cmds[2][2] == "devbox:/home/me/repo/CLAUDE.md"
-        assert cmds[2][3] == f"{root / 'CLAUDE.md'}"
+        assert cmds[0][4] == "devbox:/home/me/repo/docs/"
+        assert cmds[1][4] == "devbox:/home/me/repo/archive/"
+        assert cmds[1][5] == f"{root / 'archive'}/"
+        assert cmds[2][4] == "devbox:/home/me/repo/CLAUDE.md"
+        assert cmds[2][5] == f"{root / 'CLAUDE.md'}"
 
 
 def test_git_write_materialize_is_full_clone(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -165,9 +167,9 @@ def test_ssh_materialize_rsyncs_docs_down(monkeypatch: pytest.MonkeyPatch) -> No
         Project(name="c", transport="ssh", ssh_host="devbox", ssh_path="/home/me/repo/")
     )
     with t.session() as root:
-        assert cmds[0][:2] == ["rsync", "-az"]
-        assert cmds[0][2] == "devbox:/home/me/repo/docs/"
-        assert cmds[0][3] == f"{root / 'docs'}/"
+        assert cmds[0][:4] == ["rsync", "-az", "-e", "ssh -o ConnectTimeout=10 -o BatchMode=yes"]
+        assert cmds[0][4] == "devbox:/home/me/repo/docs/"
+        assert cmds[0][5] == f"{root / 'docs'}/"
 
 
 def test_ssh_flush_rsyncs_each_changed_file_up(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -177,9 +179,9 @@ def test_ssh_flush_rsyncs_each_changed_file_up(monkeypatch: pytest.MonkeyPatch) 
         Project(name="c", transport="ssh", ssh_host="devbox", ssh_path="/home/me/repo")
     )
     t.flush(Path("/tmp/x"), [Path("docs/STANDARDS_LOG.md")], "msg")
-    assert cmds[0][:2] == ["rsync", "-az"]
-    assert cmds[0][2] == str(Path("/tmp/x") / "docs/STANDARDS_LOG.md")
-    assert cmds[0][3] == "devbox:/home/me/repo/docs/STANDARDS_LOG.md"
+    assert cmds[0][:4] == ["rsync", "-az", "-e", "ssh -o ConnectTimeout=10 -o BatchMode=yes"]
+    assert cmds[0][4] == str(Path("/tmp/x") / "docs/STANDARDS_LOG.md")
+    assert cmds[0][5] == "devbox:/home/me/repo/docs/STANDARDS_LOG.md"
 
 
 def test_ssh_missing_endpoint_raises() -> None:

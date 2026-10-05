@@ -1,8 +1,11 @@
 # ==============================================================
-# VERSION: 0.2
+# VERSION: 0.3
 # Pluggable target transports (local | git | ssh): materialize -> operate -> flush.
 #
 # CHANGE LOG
+# v0.3 — 2026-10-05 — PLAN-016 (D-4): ssh fails fast — every rsync runs ssh with
+#         ConnectTimeout=10 (a down host fails in ~10 s, not the ~75 s TCP default) and
+#         BatchMode=yes (never blocks on a password or an unverified host-key prompt).
 # v0.2 — 2026-08-16 — PLAN-008 (sync): sessions grow a `full` scope — full=True materializes the
 #         whole sync footprint (docs/ + archive/ + root CLAUDE.md); git read path adds `archive`
 #         to the sparse set (cone mode already includes root files); ssh adds two rsyncs.
@@ -37,6 +40,8 @@ _ARCHIVE = "archive"  # + root CLAUDE.md: the wider footprint `sync` needs (full
 _ROOT_FILE = "CLAUDE.md"
 _COMMIT_NAME = "Standard DocSet"
 _COMMIT_EMAIL = "standard-docset@localhost"
+# ssh fails fast (D-4): a down host errors in ~10 s; never waits on an interactive prompt.
+_RSYNC = ("rsync", "-az", "-e", "ssh -o ConnectTimeout=10 -o BatchMode=yes")
 
 
 class TransportError(StandardDocSetError):
@@ -147,17 +152,17 @@ class SshTarget(Target):
         host, base = self._endpoint()
         dest = Path(tempfile.mkdtemp(prefix="stddocset-ssh-"))
         (dest / _DOCS).mkdir(parents=True, exist_ok=True)
-        _run(["rsync", "-az", f"{host}:{base}/{_DOCS}/", f"{dest / _DOCS}/"])
+        _run([*_RSYNC, f"{host}:{base}/{_DOCS}/", f"{dest / _DOCS}/"])
         if full:  # the sync footprint reaches outside docs/ — hard-fail if absent
             (dest / _ARCHIVE).mkdir(parents=True, exist_ok=True)
-            _run(["rsync", "-az", f"{host}:{base}/{_ARCHIVE}/", f"{dest / _ARCHIVE}/"])
-            _run(["rsync", "-az", f"{host}:{base}/{_ROOT_FILE}", f"{dest / _ROOT_FILE}"])
+            _run([*_RSYNC, f"{host}:{base}/{_ARCHIVE}/", f"{dest / _ARCHIVE}/"])
+            _run([*_RSYNC, f"{host}:{base}/{_ROOT_FILE}", f"{dest / _ROOT_FILE}"])
         return dest
 
     def flush(self, root: Path, changed: list[Path], message: str) -> None:
         host, base = self._endpoint()
         for rel in changed:
-            _run(["rsync", "-az", str(root / rel), f"{host}:{base}/{rel.as_posix()}"])
+            _run([*_RSYNC, str(root / rel), f"{host}:{base}/{rel.as_posix()}"])
 
     def _endpoint(self) -> tuple[str, str]:
         host = self.project.ssh_host

@@ -1,8 +1,11 @@
 # ==============================================================
-# VERSION: 0.7
-# End-to-end tests for the CLI (status / drift / harvest / integrate / sync).
+# VERSION: 0.8
+# End-to-end tests for the CLI (status / drift / fleet / harvest / integrate / sync).
 #
 # CHANGE LOG
+# v0.8 — 2026-10-05 — PLAN-016: docs/fleet.csv — status refreshes it; `fleet` keeps an
+#         unreachable target's last-known row; sync --write and the integrate write-back
+#         refresh it after writing (handoff_pending counts the new handoff).
 # v0.7 — 2026-10-03 — PLAN-013: a second sync --write appends to the un-landed handoff (dry-run
 #         notes it); a behind clock makes the sync dry-run warn and --write refuse (exit 1,
 #         nothing written) and the integrate write-back refuse (exit 2, log untouched).
@@ -27,7 +30,7 @@ from pathlib import Path
 
 import pytest
 
-from standard_document_updater import cli, transport
+from standard_document_updater import cli, fleet, transport
 from standard_document_updater.cli import main
 
 Make = Callable[..., Path]
@@ -355,3 +358,79 @@ def test_sync_per_target_failure_is_isolated_exit_one(
     captured = capsys.readouterr()
     assert "ghost" in captured.err and "1 target(s) FAILED" in captured.err
     assert "[acme]" in captured.out and "wrote + flushed" in captured.out
+
+
+# --- fleet view (PLAN-016) ----------------------------------------------------------
+
+
+def _git_clone_with_sva(cmd: list[str]) -> None:
+    if cmd[1] == "clone":  # populate the materialization the read path would have fetched
+        dest = Path(cmd[-1])
+        (dest / "docs").mkdir(parents=True, exist_ok=True)
+        (dest / "docs" / "SET_VERSION_ADOPTED.md").write_text(
+            "- **Standard Set Version:** v1.0\n", encoding="utf-8"
+        )
+
+
+def test_status_refreshes_fleet_csv(
+    make_vault: Make, make_project: Make, write_registry: Make,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    root = make_vault("1.1")
+    proj = make_project("alpha", adopted="1.0", open_entries=2)
+    write_registry(root, [("alpha", proj)])
+    assert main(["--vault", str(root), "status"]) == 0
+    assert "docs/fleet.csv refreshed — 1 project(s), 1 reachable" in capsys.readouterr().out
+    row = fleet.read_rows(root / "docs" / "fleet.csv")["alpha"]
+    assert (row["adopted_set"], row["vault_set"], row["state"]) == ("v1.0", "v1.1", "behind")
+    assert (row["open_log"], row["handoff_pending"], row["reachable"]) == ("2", "0", "yes")
+
+
+def test_fleet_keeps_an_unreachable_targets_last_known_row(
+    make_vault: Make, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str],
+) -> None:
+    root = make_vault("1.1")
+    _write_git_registry(root)
+    monkeypatch.setattr(transport, "_run", _git_clone_with_sva)
+    assert main(["--vault", str(root), "fleet"]) == 0
+    first = fleet.read_rows(root / "docs" / "fleet.csv")["beta"]
+    assert (first["reachable"], first["adopted_set"], first["state"]) == ("yes", "v1.0", "behind")
+
+    def boom(cmd: list[str]) -> None:
+        raise transport.TransportError("host unreachable")
+
+    monkeypatch.setattr(transport, "_run", boom)
+    assert main(["--vault", str(root), "fleet"]) == 0
+    assert "1 project(s), 0 reachable" in capsys.readouterr().out
+    second = fleet.read_rows(root / "docs" / "fleet.csv")["beta"]
+    assert (second["reachable"], second["state"]) == ("no", "unknown")
+    assert second["adopted_set"] == "v1.0"
+    assert second["last_seen"] == first["last_seen"]
+
+
+def test_sync_write_refreshes_fleet_with_the_pending_handoff(
+    make_suite_pair: MakePair, write_registry: Make, capsys: pytest.CaptureFixture[str]
+) -> None:
+    vault, target = make_suite_pair()
+    write_registry(vault, [("acme", target)])
+    assert main(["--vault", str(vault), "sync", "--write"]) == 0
+    assert "docs/fleet.csv refreshed" in capsys.readouterr().out
+    row = fleet.read_rows(vault / "docs" / "fleet.csv")["acme"]
+    assert (row["state"], row["handoff_pending"]) == ("current", "1")
+
+
+def test_integrate_write_refreshes_fleet(
+    make_vault: Make, make_project: Make, write_registry: Make, tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    root = make_vault("1.1")
+    proj = make_project("alpha", open_entries=1)
+    write_registry(root, [("alpha", proj)])
+    decisions = tmp_path / "decisions.toml"
+    decisions.write_text(
+        '[[rejected]]\nproject = "alpha"\nentry = "E001"\nreason = "n/a"\n', encoding="utf-8"
+    )
+    assert main(["--vault", str(root), "integrate", "--apply", str(decisions), "--write"]) == 0
+    assert "docs/fleet.csv refreshed" in capsys.readouterr().out
+    row = fleet.read_rows(root / "docs" / "fleet.csv")["alpha"]
+    assert (row["open_log"], row["handoff_pending"]) == ("0", "1")

@@ -1,8 +1,13 @@
 # ==============================================================
-# VERSION: 0.7
+# VERSION: 0.8
 # Command-line interface: `python -m standard_document_updater <command>`.
 #
 # CHANGE LOG
+# v0.8 — 2026-10-05 — PLAN-016: the `fleet` command + docs/fleet.csv refreshes — one probe per
+#                     target (_probe_fleet: status row + un-landed handoff writes) feeds
+#                     status / drift / fleet, each of which regenerates the file; a
+#                     `sync --write` or integrate write-back re-probes and regenerates it
+#                     after writing (a refresh failure warns, never fails the write).
 # v0.7 — 2026-10-03 — PLAN-013: both engine write paths (sync --write + integrate write-back)
 #                     refuse when the local clock is behind the target's newest stamp, and
 #                     append to an un-landed handoff instead of overwriting it; the sync
@@ -26,11 +31,12 @@ from __future__ import annotations
 import argparse
 import sys
 from contextlib import ExitStack
-from datetime import date
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 from standard_document_updater import (
     __version__,
+    fleet,
     harvest,
     integrate,
     logentry,
@@ -52,37 +58,75 @@ def default_vault_root() -> Path:
     return Path(__file__).resolve().parents[2]
 
 
-def _build_statuses(vault_root: Path) -> list[report.ProjectStatus]:
+def _probe_fleet(vault_root: Path) -> list[fleet.Probe]:
+    """Read every registered target once: its status row + un-landed handoff writes."""
     index_path = vault_root / "docs" / "standards" / "STANDARDS_INDEX.md"
     registry_path = vault_root / "config" / "projects.toml"
     vault_version = setversion.parse_vault_version(index_path)
-    statuses: list[report.ProjectStatus] = []
+    probes: list[fleet.Probe] = []
     for project in load_registry(registry_path):
         try:
             with make_target(project).session() as root:
                 adopted_path = root / "docs" / "SET_VERSION_ADOPTED.md"
                 log_path = root / "docs" / "STANDARDS_LOG.md"
-                statuses.append(
-                    report.compute_status(project, vault_version, adopted_path, log_path)
+                status = report.compute_status(project, vault_version, adopted_path, log_path)
+                handoff = root / sync.HANDOFF_REL
+                writes = (
+                    sync.handoff_write_count(handoff.read_text(encoding="utf-8"))
+                    if handoff.is_file()
+                    else 0
                 )
+                probes.append(fleet.Probe(status, True, writes))
         except TransportError as exc:
-            statuses.append(report.unreachable_status(project, vault_version, str(exc)))
-    return statuses
+            status = report.unreachable_status(project, vault_version, str(exc))
+            probes.append(fleet.Probe(status, False, None))
+    return probes
+
+
+def _write_fleet(vault_root: Path, probes: list[fleet.Probe]) -> bool:
+    """Regenerate docs/fleet.csv from these probes; False (with a warning) on failure."""
+    as_of = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    try:
+        previous = fleet.read_rows(vault_root / fleet.FLEET_REL)
+        rows = fleet.build_rows(probes, previous, as_of, fleet.vault_sha(vault_root))
+        fleet.write_fleet(vault_root, rows)
+    except OSError as exc:
+        print(f"warning: could not refresh {fleet.FLEET_REL}: {exc}", file=sys.stderr)
+        return False
+    reachable = sum(probe.reachable for probe in probes)
+    print(f"\n{fleet.FLEET_REL} refreshed — {len(probes)} project(s), {reachable} reachable")
+    return True
+
+
+def _refresh_fleet_after_write(vault_root: Path) -> None:
+    """Re-probe + regenerate docs/fleet.csv after an engine write (never fails the write)."""
+    try:
+        _write_fleet(vault_root, _probe_fleet(vault_root))
+    except StandardDocSetError as exc:
+        print(f"warning: could not refresh {fleet.FLEET_REL}: {exc}", file=sys.stderr)
 
 
 def _cmd_status(args: argparse.Namespace) -> int:
-    print(report.render_table(_build_statuses(args.vault)))
+    probes = _probe_fleet(args.vault)
+    print(report.render_table([probe.status for probe in probes]))
+    _write_fleet(args.vault, probes)
     return 0
 
 
 def _cmd_drift(args: argparse.Namespace) -> int:
-    drifted = report.filter_drift(_build_statuses(args.vault))
-    if not drifted:
+    probes = _probe_fleet(args.vault)
+    drifted = report.filter_drift([probe.status for probe in probes])
+    if drifted:
+        print(report.render_table(drifted))
+        print(f"\n{len(drifted)} project(s) not on the vault Set Version.")
+    else:
         print("No drift: all registered projects are on the vault Set Version.")
-        return 0
-    print(report.render_table(drifted))
-    print(f"\n{len(drifted)} project(s) not on the vault Set Version.")
-    return 1
+    _write_fleet(args.vault, probes)
+    return 1 if drifted else 0
+
+
+def _cmd_fleet(args: argparse.Namespace) -> int:
+    return 0 if _write_fleet(args.vault, _probe_fleet(args.vault)) else 1
 
 
 def _build_open_items(vault_root: Path) -> list[harvest.OpenItem]:
@@ -151,6 +195,8 @@ def _cmd_integrate(args: argparse.Namespace) -> int:
                     roots[name], [Path("docs/STANDARDS_LOG.md"), sync.HANDOFF_REL], message
                 )
     print("\n".join(report_lines))
+    if args.write:
+        _refresh_fleet_after_write(vault_root)
     return 0
 
 
@@ -178,6 +224,7 @@ def _cmd_sync(args: argparse.Namespace) -> int:
     if not args.write:
         print(f"DRY-RUN — vault Standard Set Version {set_version}; no target is written.\n")
     failed: list[str] = []
+    wrote = False
     for project in projects:
         try:
             target = make_target(project)
@@ -216,6 +263,7 @@ def _cmd_sync(args: argparse.Namespace) -> int:
                     written.append(sync.HANDOFF_REL)
                     message = f"Standard DocSet: sync to Standard Set Version {set_version}"
                     target.flush(root, written, message)
+                    wrote = True
                     print(f"  -> wrote + flushed {len(written)} file(s) (incl. the handoff)")
                     if existing is not None:
                         print(
@@ -229,6 +277,8 @@ def _cmd_sync(args: argparse.Namespace) -> int:
         except StandardDocSetError as exc:  # incl. TransportError / SyncError: isolate the target
             print(f"error: {project.name}: {exc}", file=sys.stderr)
             failed.append(project.name)
+    if wrote:
+        _refresh_fleet_after_write(vault_root)
     if failed:
         print(f"\n{len(failed)} target(s) FAILED: {', '.join(failed)}", file=sys.stderr)
         return 1
@@ -250,8 +300,20 @@ def build_parser() -> argparse.ArgumentParser:
         help="path to the vault repo root (default: inferred from install location)",
     )
     sub = parser.add_subparsers(dest="command", required=True)
-    sub.add_parser("status", help="show every registered project's adopted vs vault Set Version")
-    sub.add_parser("drift", help="show only projects not on the vault Set Version (exit 1 if any)")
+    sub.add_parser(
+        "status",
+        help="show every registered project's adopted vs vault Set Version (refreshes "
+        "docs/fleet.csv)",
+    )
+    sub.add_parser(
+        "drift",
+        help="show only projects not on the vault Set Version (exit 1 if any; refreshes "
+        "docs/fleet.csv)",
+    )
+    sub.add_parser(
+        "fleet",
+        help="regenerate docs/fleet.csv — registry facts + live state of every project",
+    )
     sub.add_parser(
         "harvest",
         help="consolidate open experiences-log entries across all projects",
@@ -301,6 +363,7 @@ def main(argv: list[str] | None = None) -> int:
     handlers = {
         "status": _cmd_status,
         "drift": _cmd_drift,
+        "fleet": _cmd_fleet,
         "harvest": _cmd_harvest,
         "integrate": _cmd_integrate,
         "sync": _cmd_sync,

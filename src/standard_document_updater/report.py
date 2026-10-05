@@ -1,8 +1,10 @@
 # ==============================================================
-# VERSION: 0.2
+# VERSION: 0.3
 # Build + render the project Set-Version comparison report.
 #
 # CHANGE LOG
+# v0.3 — 2026-10-05 — PLAN-016: _fmt_version -> public fmt_version (the fleet view renders the
+#                     same version labels as the status table).
 # v0.2 — 2026-06-20 — Table column PATH -> LOCATION (transport-aware); add unreachable_status() for
 #                     targets a transport cannot reach (PLAN-007).
 # v0.1 — 2026-06-16 13:01 — Initial: state computation, table render, drift filter.
@@ -73,7 +75,8 @@ def filter_drift(statuses: list[ProjectStatus]) -> list[ProjectStatus]:
     return [s for s in statuses if s.state is not State.CURRENT]
 
 
-def _fmt_version(version: tuple[int, ...] | None) -> str:
+def fmt_version(version: tuple[int, ...] | None) -> str:
+    """Version label for display: (2, 7) -> "v2.7"; None (unreadable) -> "?"."""
     return "v" + ".".join(str(n) for n in version) if version else "?"
 
 
@@ -86,8 +89,8 @@ def render_table(statuses: list[ProjectStatus]) -> str:
         [
             s.project.name,
             s.project.location,           # was: str(s.project.path)
-            _fmt_version(s.adopted),
-            _fmt_version(s.vault),
+            fmt_version(s.adopted),
+            fmt_version(s.vault),
             s.state.value,
             str(s.open_entries),
         ]

@@ -1,8 +1,9 @@
 # ==============================================================
-# VERSION: 0.2
+# VERSION: 0.3
 # Unit tests for the section-aware sync engine (replace | merge | record).
 #
 # CHANGE LOG
+# v0.3 — 2026-10-05 — PLAN-016: handoff_write_count (fresh, accumulated, unrecognized handoff).
 # v0.2 — 2026-10-03 — PLAN-013: newest_stamp (stamp positions only), check_clock (refuses only
 #         when behind), render_handoff accumulation (first write, append, pre-accumulation
 #         format wrapped, unrecognized format kept verbatim) + the D2 regression (a wrapped
@@ -308,3 +309,13 @@ def test_render_handoff_keeps_a_wrapped_handoff_across_later_writes() -> None:
     third = sync.render_handoff("acme", "sync --write", _SET, _TODAY, [("b.md", "replace")], second)
     assert "notes B" in third and "`a.md` (replace)" in third
     assert "### Write 3" in third and "### Write 4" not in third
+
+
+def test_handoff_write_count_matches_the_records() -> None:
+    first = sync.render_handoff("acme", "sync --write", _SET, _TODAY, [("CLAUDE.md", "merge")])
+    assert sync.handoff_write_count(first) == 1
+    second = sync.render_handoff(
+        "acme", "sync --write", "v1.6", _TODAY, [("archive/LESSONS.md", "replace")], first
+    )
+    assert sync.handoff_write_count(second) == 2
+    assert sync.handoff_write_count("a hand-written note") == 1  # kept verbatim as one record

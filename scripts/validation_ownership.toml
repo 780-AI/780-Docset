@@ -74,6 +74,14 @@ strictness   = "soft"
 require_docs = false
 reason       = "Pluggable target transports (local | git | ssh) — materialize / operate / flush."
 
+[rules.fleet]
+source_paths = ["src/standard_document_updater/fleet.py"]
+test_paths   = ["tests/test_fleet.py"]
+doc_paths    = ["docs/architecture.md"]
+strictness   = "soft"
+require_docs = false
+reason       = "Fleet view — docs/fleet.csv rows + the pre-push freshness check (PLAN-016)."
+
 [monitored_paths]
 strict = []                               # populate as coverage matures
 soft   = ["src/standard_document_updater/"]

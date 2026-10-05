@@ -1,8 +1,18 @@
-<!-- VERSION: 0.3 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-10-05 -->
-<!-- Status: APPROVED (Phase 2 landed 2026-10-04 — operator: "plan 016 is approved"; Phase 3 runs in a fresh session after the PLAN-011 closure commit) -->
+<!-- Status: CLOSED (Phase 3 shipped 2026-10-05; QA-L1…L6 ✅; QA-L7 / QA-L8 at their named triggers; Phase 5 push pending) -->
 <!--
 CHANGE LOG
+v1.0 — 2026-10-05 — Phase 3 shipped (fresh implementer session, single commit). Pre-checks: PLAN-011
+closure `1477e33` landed; clock verified externally (gitlab.com + apple.com, ≤ 2 s) → `<P3-DATE>` =
+2026-10-05; `<P3C-DATE>` = 2026-10-04 (the closure commit's date — operator D1 = A at the reconcile
+pass; the alternative, 2026-10-03 = the day the entry took effect, matching SESSION_OPENER § 2's
+prose, was declined). Reconcile pass: all 85 blocks re-extracted from this file by a parser, every
+FIND matched the live tree exactly once — zero plan defects; applied sequentially to a scratch copy
+(ruff clean / mypy 0 / pytest 140), then to the real tree — byte-identical, 20/20 files; D-4 = A
+(no skips). § 6h / § 6i / § 6j applied by rule. Environment note: the in-repo `.mypy_cache` gave 2
+phantom `attr-defined` errors on the unchanged baseline (stale cache); a fresh `--cache-dir` gives 0.
+QA-L1…L6 ✅ (evidence in the tracker); QA-L7 / QA-L8 fire post-ship.
 v0.3 — 2026-10-05 — Mechanical anchor shift (no design change; the PLAN-011 0.4 precedent): the
 2026-10-05 two-remote commit took SESSION_OPENER 1.19 + SESSION_CLOSER 1.7 (operator-directed), so § 6f /
 § 6g move by one — their header / CHANGE LOG FINDs now anchor on 1.19 / 1.7 and the REPLACEs write 1.20 /
@@ -120,8 +130,8 @@ committing the CSV (decision 2).
 | 0 — Audit | ✅ 2026-10-04 |
 | 1 — Design (+ Rule 13 pass) | ✅ 2026-10-04 |
 | 2 — Operator approval | ✅ 2026-10-04 — "plan 016 is approved" (§ 9.1) |
-| 3 — Implement (fresh session, single commit, AFTER the PLAN-011 closure commit) | ⏸ |
-| 4 — Validate (QA-L1…L8) | ⏸ |
+| 3 — Implement (fresh session, single commit, AFTER the PLAN-011 closure commit) | ✅ 2026-10-05 — reconcile clean (85/85), zero plan defects |
+| 4 — Validate (QA-L1…L8) | ✅ 2026-10-05 — L1–L6 ✅; L7 / L8 ⏸ at their named triggers (tracker) |
 | 5 — Operator gate (push; no tag — engine-only) | ⏸ |
 
 ## 5. Verbatim transformation rules (code proven in overlay; Phase 3 copies byte-for-byte)

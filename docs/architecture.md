@@ -1,7 +1,8 @@
-<!-- VERSION: 0.13 -->
-<!-- Last Updated: 2026-10-03 -->
+<!-- VERSION: 0.14 -->
+<!-- Last Updated: 2026-10-05 -->
 <!--
 CHANGE LOG
+v0.14 — 2026-10-05 — PLAN-016 (fleet view) landed. § 8: `fleet` command row; `status` / `drift` now also regenerate `docs/fleet.csv`; the registry paragraph gains the optional fleet-information keys (an unknown key is an error); new Fleet view paragraph (columns, unreachable carry-over, refresh triggers, pre-push freshness gate); transport paragraph: ssh fails fast (D-4). § 9 gains the mirror-never-source invariant. Engine-only — no Set Version change.
 v0.13 — 2026-10-03 — PLAN-013 (engine write safety) landed. § 7 handoff paragraph: handoffs ACCUMULATE (an un-landed handoff's `### Write N` records are kept and the new write appended; a pre-accumulation handoff is wrapped as record 1; an unrecognized one is kept verbatim) + the clock floor (newest_stamp / check_clock refuse a write whose date precedes the target's newest stamp; the sync dry-run warns). § 9 gains the never-stamp-behind invariant. Engine-only — no Set Version change.
 v0.12 — 2026-09-05 — PLAN-012 (sync handoff, Standard Set Version v2.5) landed. § 7 adds the sync-handoff paragraph: every engine write (sync --write AND integrate write-back) also writes + flushes the engine-owned transient docs/SYNC_HANDOFF.md into the target (render_handoff/HANDOFF_REL; project, operation, Set Version, run date with clock caveat, (file, mode) list, six residual steps ending delete-on-landing); not a SYNC_MAP item (idempotence); never manifest-listed (Rule 8 exempt by design); read by the SESSION_OPENER template § 1.1 engine-handoff check.
 v0.11 — 2026-08-17 — PLAN-009 (skill delivery, Standard Set Version v2.0) landed. § 3 machinery row → never enters the project (SETUP/NPB/MDRP retired from the suite at v2.0). § 4 rewritten: delivery = the vault-side live-reference standard-docset skill (symlink resolve + step-0 self-pull; copies from the live docs/standards/; stamps SET_VERSION_ADOPTED with Set Version + vault commit; no crate, no strip; bootstrap | adopt modes, adopt dry-run gated; concierge default / self-service clone). § 8 `setup` row → `skill` row. § 10 appends roadmap item 6 (delivery layer ✅). § 11 records the PLAN-009 decisions (D-1…D-5) as DECIDED.
@@ -195,7 +196,8 @@ A Python CLI (per `CLAUDE.md` § 1). All write commands are operator-gated; read
 
 | Command | Reads | Writes | Gate |
 |---|---|---|---|
-| `status` / `drift` ✅ | vault + each project's Set Version + open log count | — | none (read-only) |
+| `status` / `drift` ✅ | vault + each project's Set Version + open log count + un-landed handoff | `docs/fleet.csv` (the vault-local fleet view, regenerated) | none (read-only on targets) |
+| `fleet` ✅ | the same probe as `status` | `docs/fleet.csv` (generated, gitignored — PLAN-016) | none (read-only on targets) |
 | `harvest` ✅ | every project's `STANDARDS_LOG.md` | a consolidated report (to stdout) | none (read-only) |
 | `integrate` ✅ | open log entries (worksheet) + the decisions TOML (write-back) | project logs (the matched `Status:` line, gated); the **vault** edits (LESSONS + topical + Set Version) are authored by Claude in-session, not by the tool | operator-approved (write-back is dry-run unless `--write`) |
 | `sync` ✅ | vault suite + Set Version | every project (honoring `PROJECT-OWNED` markers) | operator-approved (dry-run unless `--write`) |
@@ -206,7 +208,11 @@ A Python CLI (per `CLAUDE.md` § 1). All write commands are operator-gated; read
 needs (local: `path`; git: `git_url`/`git_branch`; ssh: `ssh_host`/`ssh_path`). A project's adopted Set
 Version is **read live** from the materialized `docs/SET_VERSION_ADOPTED.md` at report time (never cached
 in the registry — single source of truth, § 9). `status`/`harvest`/`sync` iterate it. *(Registry
-implemented Slice 2 — PLAN-003; per-target transport fields added PLAN-007.)*
+implemented Slice 2 — PLAN-003; per-target transport fields added PLAN-007.)* Each entry may also
+carry optional **fleet-information** keys — `owner`, `git_remote`, `part_of`, `work_machine`, `delivery`,
+`onboarding`, `onboarded_on`, `onboarded_set`, `registered_on`, `plan`, `lifecycle`, `caveats` (enumerated,
+dated and Set-Version values validated; an unknown key is an error) — descriptive only, never used to
+reach a target; they become the registry columns of the fleet view (PLAN-016).
 
 > `harvest` implemented Slice 3 — PLAN-004: parses every project's `STANDARDS_LOG.md`, collects the
 > `open` entries, prints a consolidated report grouped by area to stdout, and conservatively flags
@@ -246,13 +252,29 @@ the engine performs its existing Path-based I/O against that root. On the write 
 is **non-fatal for reads** (`status`/`drift` show the target `unknown`; `harvest`/`integrate` warn on
 stderr and skip); a write-path failure is fatal for that run, but every named target is materialized +
 validated before any push, so a fetch failure aborts before anything is written. No secrets are handled —
-git/ssh/rsync use the operator's existing SSH agent/keys.
+git/ssh/rsync use the operator's existing SSH agent/keys. Every ssh rsync runs
+`ssh -o ConnectTimeout=10 -o BatchMode=yes` (PLAN-016 D-4): a down host fails in ~10 s instead of the
+~75 s TCP default, and no run ever blocks on a password or an unverified host-key prompt (verify a new
+host key per `docs/NEW_MACHINE_SETUP.md` § 3.1 first).
 
 **Full-footprint sessions (PLAN-008, DD-B).** `sync`'s footprint includes `archive/LESSONS.md` and the
 root `CLAUDE.md`, which live outside `docs/` — `Target.session()` therefore takes `full: bool = False`.
 Full ssh sessions rsync `docs/` + `archive/` + `CLAUDE.md` (each required — hard-fail if absent); full
 git READ sessions add `archive` to the sparse set (cone mode already includes root files); git WRITE
 sessions were already full clones. Existing commands are unchanged (`full=False`).
+
+**Fleet view (PLAN-016).** `docs/fleet.csv` is the one-row-per-project view of the fleet — **generated,
+never hand-edited, never committed** (gitignored; it travels between the operator's machines with the
+folder sync). Columns: the **registry** facts, copied from `config/projects.toml` on every run (`location`
+renders a local path under `$HOME` as `~/…`, so the file reads the same on every machine); the **live**
+state from one probe per target — `adopted_set`, `vault_set`, `state`, `open_log`, `handoff_pending` (the
+un-landed engine writes recorded in the target's `docs/SYNC_HANDOFF.md`), `reachable`, `last_seen`; and the
+**run** — `as_of` (UTC) and `vault_sha`. While a target cannot be reached, its last-known live values are
+carried from the previous file (`reachable=no`, `last_seen` frozen). Regenerated by `status`, `drift` and
+`fleet`, and automatically after every `sync --write` and integrate write-back (a refresh failure warns;
+it never fails the write). Freshness gate: `scripts/check_doc_coverage.py` fails a local push while the
+file is missing or its registry columns disagree with the registry (skipped in CI, where the file never
+exists); the session opener runs `status`, the closer runs `fleet`.
 
 ## 9. Invariants
 
@@ -262,6 +284,9 @@ sessions were already full clones. Existing commands are unchanged (`full=False`
   `E0NN` ids; integration maps `E→L`).
 - **Every change to the suite** bumps per-file `VERSION` + the `Set Version`.
 - **Sync never clobbers** a `PROJECT-OWNED` block.
+- **The fleet view is a mirror, never a source** (PLAN-016): `docs/fleet.csv` is rebuilt from the
+  registry + live probes; the engine reads it back only to carry an unreachable target's last-known
+  live values, and the freshness gate only compares it.
 - **The engine never stamps behind a target** (PLAN-013, L079): a write whose date precedes the
   target's newest stamp is refused before any file is touched.
 - **Read before write**: the engine re-reads a target's on-disk files before acting (never a cached
