@@ -1,8 +1,11 @@
-<!-- VERSION: 1.0 -->
+<!-- VERSION: 1.1 -->
 <!-- Last Updated: 2026-10-05 -->
-<!-- Status: CLOSED (Phase 3 shipped 2026-10-05; QA-L1…L6 ✅; QA-L7 / QA-L8 at their named triggers; Phase 5 push pending) -->
+<!-- Status: CLOSED (Phase 3 shipped 2026-10-05; QA-L1…L8 ✅ — L7 / L8 post-ship; pushed 2026-10-05 to both remotes) -->
 <!--
 CHANGE LOG
+v1.1 — 2026-10-05 — Post-close annotations (PLAN-013 v1.1 / v1.2 precedent): Phase 5 push recorded (both
+remotes = `8b914db`, `ls-remote` verified; no tag); QA-L7 ✅ (operator opened the CSV: "QA-L7 is passed");
+QA-L8 ✅ (the next session's open `status` + close `fleet` both reported the fleet line). All eight ✅.
 v1.0 — 2026-10-05 — Phase 3 + QA-L1…L6 recorded (fresh implementer session): reconcile pass clean
 (85/85 FIND blocks matched the live tree once; zero plan defects); D1 (Equinex `registered_on`) = A →
 2026-10-04; applied byte-for-byte; ship-gating QA ✅ with evidence below. Promoted with the plan.
@@ -62,10 +65,10 @@ multi-scenario, QA-L1…L8).
 | QA-L4 ⚑ | Freshness gate a–e (scratch copy) | 3 | ✅ | 2026-10-05 | (a) "fleet view: OK" exit 0; (b) 780-Automation owner edited → "780-Automation: stale column(s): owner" + fix line, exit 1; (c) `ownr` → "unknown key(s): ownr", exit 1; (d) CSV deleted → "docs/fleet.csv missing" + fix line, exit 1; (e) `CI=true`, no CSV → "skipped in CI", exit 0 |
 | QA-L5 ⚑ | Write-path refresh (scratch target copy) | 3 | ✅ | 2026-10-05 | scratch vault + a copy of Capital-Signal's `docs/` + `archive/` + `CLAUDE.md` (its `archive/LESSONS.md` made stale): `sync --write` → "wrote + flushed 2 file(s)" + "docs/fleet.csv refreshed"; `as_of` 08:56:54Z → 08:56:55Z; `handoff_pending` 0 → 1 (copy's handoff: 1 `### Write` record); real CS `archive/LESSONS.md` md5 unchanged, no handoff created |
 | QA-L6 ⚑ | Machine neutrality (`HOME` elsewhere) | 3 | ✅ | 2026-10-05 | after a real `fleet` run: `HOME=<scratch>/otherhome python scripts/check_doc_coverage.py` → "fleet view: OK", exit 0 (`Path.home()` confirmed = the other dir) |
-| QA-L7 | Operator opens the CSV | post-ship | ⏸ | | |
-| QA-L8 | Session open / close fleet lines | post-ship | ⏸ | | |
+| QA-L7 | Operator opens the CSV | post-ship | ✅ | 2026-10-05 | operator opened `docs/fleet.csv` after the push and confirmed: "QA-L7 is passed" |
+| QA-L8 | Session open / close fleet lines | post-ship | ✅ | 2026-10-05 | next session (the 780-estimator intake): open — SESSION_OPENER § 1.2 `status` 10.1 s, "docs/fleet.csv refreshed — 4 project(s), 3 reachable", the § 4 block carried the fleet line (780-Automation unreachable; 780-VPN `handoff_pending` 3; Capital-Signal open-log 1); close — SESSION_CLOSER § 1.2 `fleet` 10.1 s, same 4 rows / 3 reachable, reported in the wrap-up § 4 block |
 
 ## Phase 5 — Operator gate
 
-- ⏸ Push to BOTH remotes (`origin` GitLab + `github` 780-AI/780-Docset) + `ls-remote` both (no tag —
-  engine-only, no Set Version change).
+- ✅ 2026-10-05 — Pushed to BOTH remotes (operator "push"): `git ls-remote origin master` = `git ls-remote
+  github master` = `8b914db` = HEAD; no tag (engine-only, no Set Version change).

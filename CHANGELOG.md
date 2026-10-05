@@ -83,8 +83,10 @@ Newest entries at the top.
   - ✅ QA-L5 ⚑ — scratch vault + scratch copy of Capital-Signal (stale `archive/LESSONS.md`):
     `sync --write` → `as_of` advanced, `handoff_pending` 0 → 1; the real target untouched.
   - ✅ QA-L6 ⚑ — real vault, `HOME` pointed elsewhere: gate still "fleet view: OK".
-  - ⏸ QA-L7 — operator opens `docs/fleet.csv` in Numbers / Excel (24 columns; `§` and commas render).
-  - ⏸ QA-L8 — next session open (`status`) and close (`fleet`) report the fleet line.
+  - ✅ QA-L7 — operator opens `docs/fleet.csv` in Numbers / Excel (24 columns; `§` and commas render) —
+    passed 2026-10-05 ("QA-L7 is passed"; post-close annotation).
+  - ✅ QA-L8 — next session open (`status`) and close (`fleet`) report the fleet line — passed 2026-10-05
+    (4 rows / 3 reachable at both; post-close annotation, evidence in the PLAN-016 tracker).
 - **Versions:** registry 0.2→0.3, report 0.2→0.3, sync 0.3→0.4, transport 0.2→0.3, fleet 0.1 (new),
   cli 0.7→0.8, `__init__` 0.5→0.6 (CLI 0.6.0), check_doc_coverage 0.1→0.2, test_registry 0.2→0.3,
   test_sync 0.2→0.3, test_transport 0.2→0.3, test_fleet 0.1 (new), test_cli 0.7→0.8, architecture

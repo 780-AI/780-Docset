@@ -1,7 +1,9 @@
-<!-- VERSION: 2.58 -->
+<!-- VERSION: 2.59 -->
 <!-- Last Updated: 2026-10-05 -->
 <!--
 CHANGE LOG
+v2.59 — 2026-10-05 — PLAN-016 post-close QA bookkeeping: row 87 (PLAN-016 tracker) 1.0 → 1.1 (QA-L7 / L8 ✅ +
+Phase 5 push); self-row 5 → 2.59.
 v2.58 — 2026-10-05 — PLAN-017 Phase 2 APPROVED: rows 90 (plan) + 91 (tracker) 0.1 → 0.2, titles DRAFT →
 APPROVED; self-row 5 → 2.58.
 v2.57 — 2026-10-05 — PLAN-017 drafted (780-estimator catch-up + Windows-capable locality tool): new rows
@@ -328,7 +330,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.58 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.59 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.15 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.14 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.20 | Governance | `docs/SESSION_OPENER.md` |
@@ -407,7 +409,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 84 | PLAN-013 — engine write safety: clock floor + accumulating handoffs (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-013_engine_write_safety.md` |
 | 85 | PLAN-013 tracker (CLOSED) | 1.2 | Plan | `docs/Plans/PLAN-013_tracker.md` |
 | 86 | PLAN-016 — fleet view: docs/fleet.csv, generated and always current (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-016_fleet_view.md` |
-| 87 | PLAN-016 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-016_tracker.md` |
+| 87 | PLAN-016 tracker (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-016_tracker.md` |
 | 88 | Engine — fleet view (docs/fleet.csv rows + freshness check) | 0.1 | Engine | `src/standard_document_updater/fleet.py` |
 | 89 | Engine test — fleet | 0.1 | Engine test | `tests/test_fleet.py` |
 | 90 | PLAN-017 — 780-estimator catch-up (first git target) + Windows-capable locality tool (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-017_estimator_catchup.md` |
@@ -420,6 +422,6 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-05
-- **Change**: PLAN-017 Phase 2 APPROVED — rows 90–91 → 0.2 APPROVED; self-row → 2.58.
-- **Previous change**: PLAN-017 drafted — new rows 90–91 (plan + tracker, 0.1 DRAFT); self-row → 2.57; Plans quick-index + 80–87 + 90–91.
+- **Change**: PLAN-016 post-close QA bookkeeping — row 87 → 1.1 (QA-L7 / L8 ✅ + push); self-row → 2.59.
+- **Previous change**: PLAN-017 Phase 2 APPROVED — rows 90–91 → 0.2 APPROVED; self-row → 2.58.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)
