@@ -1,8 +1,9 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-10-05 -->
-<!-- Status: DRAFT (Phase 1 complete; awaiting Phase 2 approval) -->
+<!-- Status: APPROVED (Phase 2 2026-10-05; Phase 3 next, in a fresh session) -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-05 — Phase 2 approval recorded ("Plan-017 is approved"; decisions in plan § 9.1).
 v0.1 — 2026-10-05 — Created with the plan draft (tracker required per CLAUDE.md § 15.7: Phase 3 lands
 as several commits across two repos; Phase 4 has a multi-scenario list, QA-M1…M10; the Windows half
 spans sessions).
@@ -35,7 +36,7 @@ spans sessions).
 
 ## Phase 2 — Operator approval
 
-- ⏸ D17.A + D-1…D-5 (plan § 9).
+- ✅ 2026-10-05 — "Plan-017 is approved" — D17.A; D-1…D-5 = A (plan § 9.1). Plan + tracker → 0.2.
 
 ## Phase 3 — Implement (fresh session)
 

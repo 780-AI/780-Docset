@@ -1,8 +1,12 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-10-05 -->
-<!-- Status: DRAFT (Phase 1 complete; awaiting Phase 2 approval) -->
+<!-- Status: APPROVED (Phase 2 2026-10-05; Phase 3 next, in a fresh session) -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-05 — Phase 2 operator approval recorded ("Plan-017 is approved"); § 9.1 decision record
+added: D17.A approved; D-1…D-5 = A (the recommended options the § 5 code and the § 5n entry implement).
+No § 5 change — the 33 blocks re-extracted from this file stay byte-identical to the proven blocks.
+Status DRAFT → APPROVED.
 v0.1 — 2026-10-05 — Initial draft. § 15.9 intake (operator request, no document) → Rule 16 gate
 (12 candidates; operator: "yes to all recommended") → Phase 0 audit (read-only: a scratch clone of
 780-estimator `45d7c75`) → Phase 1 design. Code proven FIRST in scratch overlays: the locality tool
@@ -158,7 +162,7 @@ is documented completely in the skill.
 |---|---|---|
 | 0 | Audit (read-only) | ✅ 2026-10-05 |
 | 1 | Design + proven code + Rule 13 pass | ✅ 2026-10-05 |
-| 2 | Operator approval | ⏸ |
+| 2 | Operator approval | ✅ 2026-10-05 |
 | 3 | Implement — fresh session: 3.0 pre-checks → 3.1 reconcile → 3.2 vault tool + skill blocks → 3.3 estimator prep commit + push → 3.4 registry + catch-up write → 3.5 CS E002 write-back → 3.6 vault commit | ⏸ |
 | 4 | Validate — QA-M1…M7 inside Phase 3; QA-M8 / M9 on the owner's PC | ⏸ |
 | 5 | Operator gate — vault push (both remotes); closure commit after QA-M8 / M9 | ⏸ |
@@ -1501,6 +1505,22 @@ than the oracle is a defect until explained).
 - **D-5 — registry lifecycle.** RECOMMEND **A**: `onboarding` from Phase 3, `active` at closure
   (§ 6f). B: `active` from Phase 3 — § 5d's value changes in the approval commit and § 6f's FIND drops
   out of the closure commit (config/projects.toml leaves § 7.6).
+
+### 9.1 Decision record (Phase 2, 2026-10-05)
+
+- **D17.A — APPROVED:** operator *"Plan-017 is approved"* (2026-10-05).
+- **D-1 … D-5 = A** — not answered item by item; the agent's read (approving the drafted plan = its
+  recommended options, which the § 5 blocks and the § 5n entry implement) was stated in chat and
+  confirmed at the approval-commit gate:
+  - **D-1 = A** — the owner's session deletes `scripts/bootstrap_memory.sh` (+ manifest row + tree line)
+    once `status` says OK (§ 5n step 4).
+  - **D-2 = A** — tool 0.2 reaches the four existing adopters at v2.8's script-delivery fix.
+  - **D-3 = A** — the plan closes only with QA-M8 + QA-M9 evidence (Rule 15; no waiver).
+  - **D-4 = A** — the handoff's wording for a committed (git) write is explained in the § 5n entry
+    (step 2); the engine fix stays with PLAN-014.
+  - **D-5 = A** — `lifecycle = "onboarding"` from Phase 3, `"active"` at closure (§ 6f).
+- **No § 5 change:** the blocks re-extracted from this file are byte-identical to the proven blocks
+  (re-verified in the approval commit).
 
 ## 10. Rollback path
 

@@ -1,7 +1,9 @@
-<!-- VERSION: 2.57 -->
+<!-- VERSION: 2.58 -->
 <!-- Last Updated: 2026-10-05 -->
 <!--
 CHANGE LOG
+v2.58 — 2026-10-05 — PLAN-017 Phase 2 APPROVED: rows 90 (plan) + 91 (tracker) 0.1 → 0.2, titles DRAFT →
+APPROVED; self-row 5 → 2.58.
 v2.57 — 2026-10-05 — PLAN-017 drafted (780-estimator catch-up + Windows-capable locality tool): new rows
 90 (PLAN-017 plan, 0.1 DRAFT) + 91 (PLAN-017 tracker, 0.1); self-row 5 → 2.57; quick-index Plans range +
 80–87 (the pre-existing gap, a recorded deferred minor on the same line) + 90–91.
@@ -326,7 +328,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.57 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.58 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.15 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.14 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.20 | Governance | `docs/SESSION_OPENER.md` |
@@ -408,8 +410,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 87 | PLAN-016 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-016_tracker.md` |
 | 88 | Engine — fleet view (docs/fleet.csv rows + freshness check) | 0.1 | Engine | `src/standard_document_updater/fleet.py` |
 | 89 | Engine test — fleet | 0.1 | Engine test | `tests/test_fleet.py` |
-| 90 | PLAN-017 — 780-estimator catch-up (first git target) + Windows-capable locality tool (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-017_estimator_catchup.md` |
-| 91 | PLAN-017 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-017_tracker.md` |
+| 90 | PLAN-017 — 780-estimator catch-up (first git target) + Windows-capable locality tool (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-017_estimator_catchup.md` |
+| 91 | PLAN-017 tracker (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-017_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -418,6 +420,6 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-05
-- **Change**: PLAN-017 drafted — new rows 90–91 (plan + tracker, 0.1 DRAFT); self-row → 2.57; Plans quick-index + 80–87 + 90–91.
-- **Previous change**: PLAN-016 Phase 3 — fleet view (`docs/fleet.csv`, generated + gitignored): new rows 88–89 (fleet.py, test_fleet.py); 15 cells bumped + self-row; PLAN-016 + tracker (86–87) → 1.0 CLOSED.
+- **Change**: PLAN-017 Phase 2 APPROVED — rows 90–91 → 0.2 APPROVED; self-row → 2.58.
+- **Previous change**: PLAN-017 drafted — new rows 90–91 (plan + tracker, 0.1 DRAFT); self-row → 2.57; Plans quick-index + 80–87 + 90–91.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

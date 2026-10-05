@@ -2,6 +2,18 @@
 
 Newest entries at the top.
 
+## [2026-10-05] — PLAN-017 Phase 2: APPROVED ("Plan-017 is approved")
+
+- **Type:** Plan (Phase 2 approval commit — the PLAN-016 `9f15f5a` precedent).
+- **Decisions (plan § 9.1):** D17.A approved; D-1…D-5 = A — the owner's session deletes the old
+  `bootstrap_memory.sh` once `status` is OK; tool 0.2 reaches the four existing adopters at v2.8; the plan
+  closes only with the Windows evidence (QA-M8 / M9, Rule 15); the git-write handoff wording is explained in
+  the estimator's CHANGELOG entry (engine fix stays with PLAN-014); registry lifecycle `onboarding` →
+  `active` at closure. Read from the terse approval, stated in chat, confirmed at the commit gate.
+- **Files:** PLAN-017 plan + tracker 0.1 → 0.2 APPROVED; `docs/documents_manifest.md` 2.57 → 2.58.
+- **Impact:** none at runtime. No § 5 change (the 33 blocks re-extract byte-identical). Phase 3 next, in
+  a fresh session (§ 15.3); `docs/Plans/OPEN_TASKS.md` carries the handoff.
+
 ## [2026-10-05] — PLAN-017 drafted: 780-estimator catch-up (the first git target) + a Windows-capable locality tool
 
 - **Type:** Plan (Phase 1 design commit; § 15 plan — Critical Files ahead: `config/projects.toml`, plus
