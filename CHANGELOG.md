@@ -2,6 +2,29 @@
 
 Newest entries at the top.
 
+## [2026-10-05] — Session opener + closer: two push remotes (GitLab + GitHub)
+
+- **Type:** Governance docs (binding session procedures) + a mechanical anchor shift in an approved
+  plan. No engine change, no Set Version change, no tool behavior change.
+- **What:** completes the deferred half of the second-remote change (entry below), on the operator's
+  direction ("fix the session opener/closer"):
+  - `docs/SESSION_OPENER.md` 1.18 → 1.19 — § 1.1 probes unpushed commits per remote (`origin` =
+    GitLab, `github` = GitHub `780-AI/780-Docset`), names both remotes, and reconciles a recorded
+    push-state against BOTH real remotes (`git ls-remote` each — L055); a push counts as done only
+    when both show the same tip. § 4 "unpushed commits" line reports both.
+  - `docs/SESSION_CLOSER.md` 1.6 → 1.7 — § 1.1 probes both remotes and states the push rule (every
+    push to both, `--tags` to both on a release; done = `ls-remote` on both shows HEAD); § 1.4
+    push-state flip only after both; § 4 "Unpushed" line reports both.
+- **PLAN-016 0.2 → 0.3 — mechanical anchor shift (no design change; PLAN-011 0.4 precedent):** this
+  commit took SESSION_OPENER 1.19 + SESSION_CLOSER 1.7, the numbers PLAN-016 § 6f / § 6g had reserved,
+  so their header + CHANGE LOG FINDs now anchor on 1.19 / 1.7 and write 1.20 / 1.8 (§ 6h version list
+  follows). Verified mechanically: the eight § 6f / § 6g blocks, re-extracted from the plan file, each
+  match the live files exactly once and apply cleanly in order (results keep this commit's wording).
+  Status stays APPROVED.
+- **QA scenarios:** exempt per Rule 11 (governance-doc edits + plan bookkeeping, no tool behavior).
+- **Versions:** SESSION_OPENER 1.18 → 1.19, SESSION_CLOSER 1.6 → 1.7, PLAN-016 0.2 → 0.3, manifest
+  2.54 → 2.55. Impact: no runtime impact; every session now probes, pushes and verifies both remotes.
+
 ## [2026-10-05] — Second push remote: the vault is also on GitHub (`780-AI/780-Docset`)
 
 - **Type:** Governance doc (Rule 14 machine-migration catalog) + repository hosting. Doc-only — no

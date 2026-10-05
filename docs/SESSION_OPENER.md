@@ -1,8 +1,9 @@
-<!-- VERSION: 1.18 -->
-<!-- Last Updated: 2026-10-03 -->
+<!-- VERSION: 1.19 -->
+<!-- Last Updated: 2026-10-05 -->
 <!-- Source: docs/standards/SESSION_OPENER.md (template) v1.7. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.19 — 2026-10-05 — Two push remotes (operator 2026-10-05): § 1.1 probes unpushed commits per remote (`origin` = GitLab, `github` = GitHub 780-AI/780-Docset) and reconciles a recorded push-state against BOTH real remotes (`git ls-remote` each) — a push counts as done only when both show the same tip; § 4 "unpushed commits" line reports both.
 v1.18 — 2026-10-03 — Fourth target registered: EverOn.Equinex (§ 2 registry row — local `~/` transport, Dropbox-synced; adopted 2026-10-03 via the skill's adopt mode, EverOn own line retired — PLAN-011). Also (operator-confirmed fact, PLAN-011 Phase 3c execution delta): the 780-VPN row's "team member's account / Mac" wording corrected — the old ssh host was the operator's own second Mac (account `parsaazad`).
 v1.17 — 2026-10-03 — 780-Automation DHCP IP change (§ 2 registry row: 172.16.11.60 → 172.16.10.245, operator-supplied; the host's ED25519/RSA/ECDSA keys verified identical to the ones trusted at .10.61/.11.60 before trusting the new address; same repo — origin 780-AI/780-Automation, bootstrap `cb62527` in history — clean tree, Set v2.5, no un-landed handoff).
 v1.16 — 2026-10-03 — 780-VPN re-pointed ssh → local `~/` (§ 2 target row): the repo lives in a SHARED Dropbox folder that also syncs to the curator machine; its ssh host had been unreachable since 2026-09-08. Drops the DHCP-IP dependency; one-machine-at-a-time caution now spans both Dropbox accounts.
@@ -41,13 +42,14 @@ Run these (single tool-call message where possible) and produce the § 4 output 
 ### 1.1 Repository state
 ```bash
 git log --oneline -3                          # recent local commits (tip of master)
-git log --oneline origin/master..HEAD 2>/dev/null  # unpushed local commits (if a remote exists)
+git log --oneline origin/master..HEAD 2>/dev/null  # unpushed to GitLab (origin)
+git log --oneline github/master..HEAD 2>/dev/null  # unpushed to GitHub (github)
 git status --short                            # working-tree dirt
 ```
 
-This project's default branch is `master`. A remote may not be configured yet (local-only CLI tool) — the `origin/master..HEAD` probe is skipped gracefully if there is no `origin`.
+This project's default branch is `master`. It has **two remotes, and every push goes to both**: `origin` = GitLab `yaser.khosravi/standard-docset` (private; the CI of record) and `github` = GitHub `780-AI/780-Docset` (private; 780-AI members read-only, only the operator writes). Either probe is skipped gracefully if that remote is not configured (a fresh clone re-adds `github` per `docs/NEW_MACHINE_SETUP.md` § 1).
 
-When `OPEN_TASKS.md` or a tracker records a push-state ("unpushed" / "push held"), reconcile it against the **real** remote (`git ls-remote origin master`) — not the local `origin/master` cache — before trusting it (per `archive/LESSONS.md` L055). Committed trackers stay frozen at their commit; only the live register is reconciled.
+When `OPEN_TASKS.md` or a tracker records a push-state ("unpushed" / "push held"), reconcile it against **both real remotes** (`git ls-remote origin master` and `git ls-remote github master`) — not the local `origin/master` / `github/master` caches — before trusting it (per `archive/LESSONS.md` L055). A push counts as done only when both remotes show the same tip. Committed trackers stay frozen at their commit; only the live register is reconciled.
 
 ### 1.2 Operating context (read-only)
 
@@ -161,7 +163,7 @@ Each row links to the memory/lesson that codifies it. Recall the linked memory w
 
 **Repo state**
 - master tip: <sha> <subject>
-- unpushed commits: <N> (or "none" / "no remote configured")
+- unpushed commits: GitLab <N> / GitHub <N> (or "none — both remotes at HEAD")
 - working tree: <clean | M file1, file2, ...>
 
 **Tool + suite state**

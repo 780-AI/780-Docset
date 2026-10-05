@@ -1,8 +1,14 @@
-<!-- VERSION: 0.2 -->
-<!-- Last Updated: 2026-10-04 -->
+<!-- VERSION: 0.3 -->
+<!-- Last Updated: 2026-10-05 -->
 <!-- Status: APPROVED (Phase 2 landed 2026-10-04 — operator: "plan 016 is approved"; Phase 3 runs in a fresh session after the PLAN-011 closure commit) -->
 <!--
 CHANGE LOG
+v0.3 — 2026-10-05 — Mechanical anchor shift (no design change; the PLAN-011 0.4 precedent): the
+2026-10-05 two-remote commit took SESSION_OPENER 1.19 + SESSION_CLOSER 1.7 (operator-directed), so § 6f /
+§ 6g move by one — their header / CHANGE LOG FINDs now anchor on 1.19 / 1.7 and the REPLACEs write 1.20 /
+1.8; § 6h's version list follows. § 6f.3 / 6f.4 / 6g.3 / 6g.4 unchanged (regions untouched). Re-verified
+mechanically: all eight § 6f / § 6g FIND blocks, re-extracted from this file, match the live files exactly
+once and apply cleanly in order. Status stays APPROVED.
 v0.2 — 2026-10-04 — Phase 2 operator approval recorded ("plan 016 is approved"); § 9.1 decision
 record added: D-1 / D-2 / D-4 / D-5 = A (the recommended options the § 5 code implements); D-3 —
 780-VPN owner corrected team → operator (the § 6a.4 block updated; re-proven: 85 blocks re-extracted,
@@ -2298,22 +2304,22 @@ REPLACE WITH:
 │   └── test_cli.py
 ```
 
-### 6f — `docs/SESSION_OPENER.md` — header 1.18 → 1.19 + § 1.2 fleet bullet + § 4 line
+### 6f — `docs/SESSION_OPENER.md` — header 1.19 → 1.20 + § 1.2 fleet bullet + § 4 line
 
 **6f.1**
 
 FIND:
 
 ```text
-<!-- VERSION: 1.18 -->
-<!-- Last Updated: 2026-10-03 -->
+<!-- VERSION: 1.19 -->
+<!-- Last Updated: 2026-10-05 -->
 <!-- Source: docs/standards/SESSION_OPENER.md (template) v1.7. Project-local instance for Standard DocSet. -->
 ```
 
 REPLACE WITH:
 
 ```text
-<!-- VERSION: 1.19 -->
+<!-- VERSION: 1.20 -->
 <!-- Last Updated: <P3-DATE> -->
 <!-- Source: docs/standards/SESSION_OPENER.md (template) v1.7. Project-local instance for Standard DocSet. -->
 ```
@@ -2324,15 +2330,15 @@ FIND:
 
 ```text
 CHANGE LOG
-v1.18 — 2026-10-03 — Fourth target registered: EverOn.Equinex (§ 2 registry row — local `~/` transport, Dropbox-synced; adopted 2026-10-03 via the skill's adopt mode, EverOn own line retired — PLAN-011). Also (operator-confirmed fact, PLAN-011 Phase 3c execution delta): the 780-VPN row's "team member's account / Mac" wording corrected — the old ssh host was the operator's own second Mac (account `parsaazad`).
+v1.19 — 2026-10-05 — Two push remotes (operator 2026-10-05): § 1.1 probes unpushed commits per remote (`origin` = GitLab, `github` = GitHub 780-AI/780-Docset) and reconciles a recorded push-state against BOTH real remotes (`git ls-remote` each) — a push counts as done only when both show the same tip; § 4 "unpushed commits" line reports both.
 ```
 
 REPLACE WITH:
 
 ```text
 CHANGE LOG
-v1.19 — <P3-DATE> — PLAN-016: § 1.2 fleet-view bullet (run `status` — prints every target's state and regenerates `docs/fleet.csv`; call out unreachable / not-current / handoff-pending targets); § 4 "Registered target suites" line reads from that run.
-v1.18 — 2026-10-03 — Fourth target registered: EverOn.Equinex (§ 2 registry row — local `~/` transport, Dropbox-synced; adopted 2026-10-03 via the skill's adopt mode, EverOn own line retired — PLAN-011). Also (operator-confirmed fact, PLAN-011 Phase 3c execution delta): the 780-VPN row's "team member's account / Mac" wording corrected — the old ssh host was the operator's own second Mac (account `parsaazad`).
+v1.20 — <P3-DATE> — PLAN-016: § 1.2 fleet-view bullet (run `status` — prints every target's state and regenerates `docs/fleet.csv`; call out unreachable / not-current / handoff-pending targets); § 4 "Registered target suites" line reads from that run.
+v1.19 — 2026-10-05 — Two push remotes (operator 2026-10-05): § 1.1 probes unpushed commits per remote (`origin` = GitLab, `github` = GitHub 780-AI/780-Docset) and reconciles a recorded push-state against BOTH real remotes (`git ls-remote` each) — a push counts as done only when both show the same tip; § 4 "unpushed commits" line reports both.
 ```
 
 **6f.3**
@@ -2370,22 +2376,22 @@ REPLACE WITH:
 - Project data: <OK: N memory files | repaired (link/adopt run) | EMPTY — operator warned>
 ```
 
-### 6g — `docs/SESSION_CLOSER.md` — header 1.6 → 1.7 + § 1.2 fleet bullet + § 4 line
+### 6g — `docs/SESSION_CLOSER.md` — header 1.7 → 1.8 + § 1.2 fleet bullet + § 4 line
 
 **6g.1**
 
 FIND:
 
 ```text
-<!-- VERSION: 1.6 -->
-<!-- Last Updated: 2026-08-27 -->
+<!-- VERSION: 1.7 -->
+<!-- Last Updated: 2026-10-05 -->
 <!-- Source: docs/standards/SESSION_CLOSER.md (template) v1.7. Project-local instance for Standard DocSet. -->
 ```
 
 REPLACE WITH:
 
 ```text
-<!-- VERSION: 1.7 -->
+<!-- VERSION: 1.8 -->
 <!-- Last Updated: <P3-DATE> -->
 <!-- Source: docs/standards/SESSION_CLOSER.md (template) v1.7. Project-local instance for Standard DocSet. -->
 ```
@@ -2396,15 +2402,15 @@ FIND:
 
 ```text
 CHANGE LOG
-v1.6 — 2026-08-27 — Deferred-minor sweep: stale header Source ref template v1.3 → v1.7 (the template moved at Sets v2.0/v2.1/v2.3; surgical omission since — cleared from the register).
+v1.7 — 2026-10-05 — Two push remotes (operator 2026-10-05): § 1.1 probes unpushed commits per remote and states the push rule (every push to BOTH `origin` = GitLab and `github` = GitHub 780-AI/780-Docset, + tags on a release; pushed = `git ls-remote` on both shows HEAD); § 1.4 push-state flip only after both; § 4 "Unpushed" line reports both.
 ```
 
 REPLACE WITH:
 
 ```text
 CHANGE LOG
-v1.7 — <P3-DATE> — PLAN-016: § 1.2 fleet-view bullet (run `fleet` — regenerates `docs/fleet.csv`; report unreachable / not-current / handoff-pending rows); § 4 template gains the Fleet line.
-v1.6 — 2026-08-27 — Deferred-minor sweep: stale header Source ref template v1.3 → v1.7 (the template moved at Sets v2.0/v2.1/v2.3; surgical omission since — cleared from the register).
+v1.8 — <P3-DATE> — PLAN-016: § 1.2 fleet-view bullet (run `fleet` — regenerates `docs/fleet.csv`; report unreachable / not-current / handoff-pending rows); § 4 template gains the Fleet line.
+v1.7 — 2026-10-05 — Two push remotes (operator 2026-10-05): § 1.1 probes unpushed commits per remote and states the push rule (every push to BOTH `origin` = GitLab and `github` = GitHub 780-AI/780-Docset, + tags on a release; pushed = `git ls-remote` on both shows HEAD); § 1.4 push-state flip only after both; § 4 "Unpushed" line reports both.
 ```
 
 **6g.3**
@@ -2449,7 +2455,7 @@ REPLACE WITH:
 - Bump the version cell of every other row in § 7 that the commit touches to the file's new header
   (registry 0.3, report 0.3, sync 0.4, transport 0.3 [D-4 = A], cli 0.8, `__init__` 0.6,
   check_doc_coverage 0.2, test_registry 0.3, test_sync 0.3, test_transport 0.3 [D-4 = A],
-  test_cli 0.8, architecture 0.14, folder_structure 0.15, SESSION_OPENER 1.19, SESSION_CLOSER 1.7,
+  test_cli 0.8, architecture 0.14, folder_structure 0.15, SESSION_OPENER 1.20, SESSION_CLOSER 1.8,
   PLAN-016 plan + tracker 1.0). Files without a VERSION header (`config/projects.toml`, `.gitignore`,
   `validation_ownership.toml`) have no row — state so in the manifest CHANGE LOG line.
 - Retitle row 46 `Engine — CLI (status / drift / harvest / integrate / sync)` →

@@ -1,7 +1,11 @@
-<!-- VERSION: 2.54 -->
+<!-- VERSION: 2.55 -->
 <!-- Last Updated: 2026-10-05 -->
 <!--
 CHANGE LOG
+v2.55 — 2026-10-05 — Two push remotes in the session docs: bumped cells 8 (SESSION_OPENER 1.18→1.19,
+§ 1.1 + § 4 both remotes), 9 (SESSION_CLOSER 1.6→1.7, § 1.1 push rule + § 1.4 + § 4 both remotes), 86
+(PLAN-016 0.2→0.3, mechanical § 6f / § 6g anchor shift). Self-row 2.54 → 2.55 (grep-verified against the
+header per L063).
 v2.54 — 2026-10-05 — Second push remote (GitHub `780-AI/780-Docset`): bumped cell 58
 (NEW_MACHINE_SETUP 1.3→1.4, § 1 both remotes + § 3 GitHub key and trusted github.com host keys).
 Self-row 2.53 → 2.54 (grep-verified against the header per L063).
@@ -307,11 +311,11 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.54 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.55 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.14 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.13 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.18 | Governance | `docs/SESSION_OPENER.md` |
-| 9 | Session Closer (project-local, binding) | 1.6 | Governance | `docs/SESSION_CLOSER.md` |
+| 8 | Session Opener (project-local, binding) | 1.19 | Governance | `docs/SESSION_OPENER.md` |
+| 9 | Session Closer (project-local, binding) | 1.7 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.15 | Governance | `docs/SET_VERSION_ADOPTED.md` |
 | 11 | CLAUDE.md (template) | 1.7 | Standards | `docs/standards/CLAUDE.md` |
 | 12 | Lessons Archive (template) | 1.2 | Standards | `docs/standards/LESSONS.md` |
@@ -385,7 +389,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 83 | PLAN-011 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-011_tracker.md` |
 | 84 | PLAN-013 — engine write safety: clock floor + accumulating handoffs (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-013_engine_write_safety.md` |
 | 85 | PLAN-013 tracker (CLOSED) | 1.2 | Plan | `docs/Plans/PLAN-013_tracker.md` |
-| 86 | PLAN-016 — fleet view: docs/fleet.csv, generated and always current (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-016_fleet_view.md` |
+| 86 | PLAN-016 — fleet view: docs/fleet.csv, generated and always current (APPROVED) | 0.3 | Plan | `docs/Plans/PLAN-016_fleet_view.md` |
 | 87 | PLAN-016 tracker (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-016_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
@@ -395,6 +399,6 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-05
-- **Change**: Second push remote — NEW_MACHINE_SETUP (58) → 1.4 (GitHub `780-AI/780-Docset`).
-- **Previous change**: QA bookkeeping — PLAN-012 tracker (81) → 1.3, PLAN-013 tracker (85) → 1.2 (QA-H6 / QA-K5 ✅).
+- **Change**: Two push remotes in the session docs — SESSION_OPENER (8) → 1.19, SESSION_CLOSER (9) → 1.7, PLAN-016 (86) → 0.3 (anchor shift).
+- **Previous change**: Second push remote — NEW_MACHINE_SETUP (58) → 1.4 (GitHub `780-AI/780-Docset`).
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

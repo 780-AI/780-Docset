@@ -1,8 +1,9 @@
-<!-- VERSION: 1.6 -->
-<!-- Last Updated: 2026-08-27 -->
+<!-- VERSION: 1.7 -->
+<!-- Last Updated: 2026-10-05 -->
 <!-- Source: docs/standards/SESSION_CLOSER.md (template) v1.7. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.7 — 2026-10-05 — Two push remotes (operator 2026-10-05): § 1.1 probes unpushed commits per remote and states the push rule (every push to BOTH `origin` = GitLab and `github` = GitHub 780-AI/780-Docset, + tags on a release; pushed = `git ls-remote` on both shows HEAD); § 1.4 push-state flip only after both; § 4 "Unpushed" line reports both.
 v1.6 — 2026-08-27 — Deferred-minor sweep: stale header Source ref template v1.3 → v1.7 (the template moved at Sets v2.0/v2.1/v2.3; surgical omission since — cleared from the register).
 v1.5 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008): heading block wrapped in PROJECT-OWNED — reconciles with the v1.6 template structure; owned-block count now 2 = template's 2.
 v1.4 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): § 1.6 retitled "/tmp cleanup + locality confirm" — adds the Rule 14 close-side confirm (claude_project_data.sh status → STATUS: OK; new out-of-folder state moved in or cataloged same-commit); header Source ref → template v1.3.
@@ -31,9 +32,14 @@ Run steps in order; each step's output goes into the § 4 block.
 ### 1.1 Repo state
 ```bash
 git status --short                              # working-tree state
-git log --oneline origin/master..HEAD 2>/dev/null  # unpushed commits (if remote exists)
+git log --oneline origin/master..HEAD 2>/dev/null  # unpushed to GitLab (origin)
+git log --oneline github/master..HEAD 2>/dev/null  # unpushed to GitHub (github)
 git log --oneline -<N>                          # session commits (N ≈ count made this session)
 ```
+
+**Two remotes — every push goes to both:** `git push origin master` (GitLab, the CI of record) and
+`git push github master` (GitHub `780-AI/780-Docset`), plus `--tags` to both on a release. A push counts
+as done only when `git ls-remote origin master` and `git ls-remote github master` both show HEAD.
 
 ### 1.2 Tool + standards versions
 - Engine version — `src/standard_document_updater/` `# VERSION:` headers (once the engine lands).
@@ -48,7 +54,7 @@ git log --oneline -<N>                          # session commits (N ≈ count m
 ### 1.4 Outstanding `docs/Plans/OPEN_TASKS.md` (if present, gitignored)
 Surface active items, drafting/future items, operator-driven items, maintenance items, and the **Lesson candidates** section.
 
-**Push-state flip (per `archive/LESSONS.md` L055):** if a `git push` happened this session, flip the matching OPEN_TASKS push-state line(s) ("unpushed" / "push held" → pushed + date) in this same wrap-up. Committed trackers stay frozen at their commit; only the live register is flipped.
+**Push-state flip (per `archive/LESSONS.md` L055):** if a `git push` happened this session, flip the matching OPEN_TASKS push-state line(s) ("unpushed" / "push held" → pushed + date) in this same wrap-up — only once BOTH remotes show HEAD (§ 1.1). Committed trackers stay frozen at their commit; only the live register is flipped.
 
 ### 1.5 Memory updates landed this session
 List new/modified memory files under `~/.claude/projects/<sanitized-cwd>/memory/` + any `MEMORY.md` index changes.
@@ -113,7 +119,7 @@ Operator may explicitly say "skip wrap-up". Operator-only authorization — neve
 - Working tree: <clean | M file1, ...>
 - Commits this session: <count> (newest first):
   - <SHA1> <subject>
-- Unpushed: <N> ahead of origin/master (or "no remote")
+- Unpushed: GitLab <N> ahead of origin/master / GitHub <N> ahead of github/master (or "none — both remotes at HEAD")
 
 **Tool + standards versions**
 - Engine version: <version or "not yet implemented">
