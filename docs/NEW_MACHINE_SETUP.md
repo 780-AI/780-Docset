@@ -1,8 +1,9 @@
-<!-- VERSION: 1.3 -->
-<!-- Last Updated: 2026-10-04 -->
+<!-- VERSION: 1.4 -->
+<!-- Last Updated: 2026-10-05 -->
 <!-- Re-home checklist: bring this vault to full operation on a new machine. Project-local (not a suite file). -->
 <!--
 CHANGE LOG
+v1.4 — 2026-10-05 — Second push remote: the vault is also pushed to GitHub `780-AI/780-Docset` (private; org members read-only, operator-only write) alongside GitLab. § 1 checks both remotes (the `github` remote lives in `.git/config` and travels with the folder; a fresh clone re-adds it); § 3 registers the push key on GitHub too and trusts github.com only on a fingerprint match with GitHub's published keys (recorded); catalog intro names it.
 v1.3 — 2026-10-04 — Rule 14 catalog gap closed: added § 3.1 ssh-target access (the § 3 key authorized on each `transport = "ssh"` target + its trusted host keys in `~/.ssh/known_hosts` — machine-local state uncataloged since the first ssh registration 2026-08-19); trusted host-key fingerprints recorded as the new-machine trust anchor; catalog intro + opening paragraph name it.
 v1.2 — 2026-08-17 — PLAN-009 (Set v2.0): added § 5 delivery-skill symlink (machine-local ~/.claude/skills/standard-docset; restore via bash scripts/bootstrap_skill.sh, idempotent) + its entry in the Rule 14 catalog intro; Pre-flight renumbered § 5 → § 6.
 v1.1 — 2026-08-16 — Standard Set Version v1.5 (PLAN-010): this doc now doubles as the Rule 14 machine-migration catalog (§§ 2–3 ARE the out-of-folder state entries); § 4 retargeted memory symlink → project-data link (claude_project_data.sh status/adopt/link replaces bootstrap_memory.sh); § 1 intro mentions .claude/project-data/.
@@ -20,15 +21,19 @@ Derived from the 2026-06-17 re-home (see `archive/LESSONS.md` L050).
 
 > **This doc is also the Rule 14 machine-migration catalog** — the named register of project state that
 > genuinely cannot live in the project folder. Its entries are the sections below: the Python toolchain
-> (§ 2, rebuilt per machine), SSH credentials (§ 3, per-machine keys — the push key, plus § 3.1
+> (§ 2, rebuilt per machine), SSH credentials (§ 3, per-machine keys — the push key, registered on GitLab
+> **and** GitHub, plus github.com's trusted host keys; § 3.1
 > ssh-target access: the key authorized on each ssh target and its trusted host keys), and the
 > delivery-skill symlink (§ 5, re-created by `bash scripts/bootstrap_skill.sh`). Anything new that must
 > live outside the folder is added here with its migration steps, same-commit (per `CLAUDE.md` Rule 14).
 
 ## 1. Repo
 
-Sync/clone the repo. Confirm `git status` is clean and `git rev-parse HEAD` matches the remote
-(`git ls-remote origin master`).
+Sync/clone the repo. Confirm `git status` is clean and `git rev-parse HEAD` matches **both** remotes:
+`git ls-remote origin master` (GitLab) and `git ls-remote github master` (GitHub `780-AI/780-Docset`,
+private — org members read-only, only the operator writes). The `github` remote lives in `.git/config`,
+so it travels with the folder; a fresh clone re-adds it:
+`git remote add github git@github.com:780-AI/780-Docset.git`.
 
 ## 2. Python toolchain (engine needs ≥ 3.11 — `tomllib`, `StrEnum`)
 
@@ -52,7 +57,18 @@ Verify: `.venv/bin/python -m standard_document_updater --version`, `.venv/bin/ru
 ssh-keygen -t ed25519 -C "<your-email>" -f ~/.ssh/id_ed25519
 pbcopy < ~/.ssh/id_ed25519.pub        # then add it at GitLab → Settings → SSH Keys
 ssh -T git@gitlab.com                 # expect: Welcome to GitLab, @<user>!
+pbcopy < ~/.ssh/id_ed25519.pub        # also add at GitHub → Settings → SSH and GPG keys (+ Configure SSO → 780-AI, if shown)
+ssh-keyscan -t ed25519,ecdsa,rsa github.com 2>/dev/null | ssh-keygen -lf -   # must match the table below
+ssh -T git@github.com                 # expect: Hi <user>! You've successfully authenticated…
 ```
+
+Trust github.com (answer `yes` to the first host-key prompt, or append the keyscan output to
+`~/.ssh/known_hosts`) only when its fingerprints match GitHub's published ones
+(`https://api.github.com/meta` → `ssh_key_fingerprints`) and the table below:
+
+| Host | Host keys trusted since | Fingerprints (SHA256) |
+|---|---|---|
+| github.com | 2026-10-05 (matched `api.github.com/meta`) | ED25519 `+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU` · ECDSA `p2QAMXNIC1TJYWeIOttrVc98/R1BUFWu3/LiyKgUfQM` · RSA `uNiVztksCsDhcc0u9e8BujQXVUpKZIDTMczCvj3tD2s` |
 
 ### 3.1 ssh-target access (each `transport = "ssh"` target in `config/projects.toml`)
 

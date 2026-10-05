@@ -2,6 +2,31 @@
 
 Newest entries at the top.
 
+## [2026-10-05] — Second push remote: the vault is also on GitHub (`780-AI/780-Docset`)
+
+- **Type:** Governance doc (Rule 14 machine-migration catalog) + repository hosting. Doc-only — no
+  engine change, no Set Version change, no Critical File content touched (manifest cell only).
+- **Operator decisions (2026-10-04/05):** push this repo to GitLab (unchanged, the CI of record) AND
+  GitHub, inside the 780-AI organization; the repo as-is (operator accepted that org members can read
+  the EverOn project MENTIONS in the vault's files and history — the EverOn code itself stays on
+  private GitLab only); org members view-only (780-AI base permission = Read, operator-confirmed),
+  only the operator writes; every push goes to both remotes (no server-side mirror). Operator created
+  the private, empty repo `780-AI/780-Docset`.
+- **Setup on this Mac:** github.com's three host keys trusted only after matching GitHub's published
+  fingerprints (`api.github.com/meta`); this Mac's push key added to the operator's GitHub account
+  (`ssh -T git@github.com` → "Hi yaserkho!"); `github` remote added (`.git/config` — travels with the
+  folder). Pre-publish scan of the tracked tree + full history: no passwords, tokens or private keys
+  (only the `test_password` example in a CI template).
+- **Fix:** `docs/NEW_MACHINE_SETUP.md` 1.3 → 1.4 — § 1 checks both remotes (+ how a fresh clone
+  re-adds `github`); § 3 registers the push key on GitHub too and records github.com's trusted
+  fingerprints as the new-machine trust anchor; catalog intro names it.
+- **Deferred (same session decision):** `SESSION_OPENER` § 1.1 (push-state reconcile on both remotes)
+  and `SESSION_CLOSER` (push to both) — both files are anchored verbatim by the approved PLAN-016
+  § 6f / § 6g, so they change right after PLAN-016 ships; until then every push runs to both remotes
+  and is verified with `ls-remote` on each.
+- **Versions:** NEW_MACHINE_SETUP 1.3 → 1.4, manifest 2.53 → 2.54. Impact: no runtime impact.
+  Rule 11 exempt (governance-doc edit, no tool behavior change).
+
 ## [2026-10-04] — QA bookkeeping: 780-VPN E001 write-back closes v2.6 QA-E4 = PLAN-012 QA-H6 = PLAN-013 QA-K5
 
 - **Type:** Plan/QA bookkeeping (post-close annotations, the PLAN-010 QA-I precedent). No behavior
