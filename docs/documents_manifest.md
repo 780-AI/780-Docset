@@ -1,7 +1,10 @@
-<!-- VERSION: 2.60 -->
-<!-- Last Updated: 2026-10-05 -->
+<!-- VERSION: 2.61 -->
+<!-- Last Updated: 2026-10-07 -->
 <!--
 CHANGE LOG
+v2.61 — 2026-10-07 — PLAN-017 Phase 3b revision drafted (locality tool 0.3 after the Windows store loss):
+rows 90–91 0.3 → 0.4 (EXECUTING, revision DRAFT). No `docs/standards/` change — no Set Version bump.
+Self-row 2.60 → 2.61 (every touched cell grep-verified against its file header per L063).
 v2.60 — 2026-10-05 — PLAN-017 Phase 3 (780-estimator caught up over git + locality tool 0.2): new row 92
 (Governance script test, `tests/test_claude_project_data.py` 0.1); bumped cells 6 (folder_structure
 0.15→0.16), 8 (SESSION_OPENER 1.20→1.21, § 2 780-estimator row), 56 (claude_project_data.sh 0.1→0.2), 64
@@ -338,7 +341,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.60 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.61 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.16 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.14 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.21 | Governance | `docs/SESSION_OPENER.md` |
@@ -420,8 +423,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 87 | PLAN-016 tracker (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-016_tracker.md` |
 | 88 | Engine — fleet view (docs/fleet.csv rows + freshness check) | 0.1 | Engine | `src/standard_document_updater/fleet.py` |
 | 89 | Engine test — fleet | 0.1 | Engine test | `tests/test_fleet.py` |
-| 90 | PLAN-017 — 780-estimator catch-up (first git target) + Windows-capable locality tool (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-017_estimator_catchup.md` |
-| 91 | PLAN-017 tracker (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-017_tracker.md` |
+| 90 | PLAN-017 — 780-estimator catch-up (first git target) + Windows-capable locality tool (EXECUTING) | 0.4 | Plan | `docs/Plans/PLAN-017_estimator_catchup.md` |
+| 91 | PLAN-017 tracker (EXECUTING) | 0.4 | Plan | `docs/Plans/PLAN-017_tracker.md` |
 | 92 | Project-data locality script test | 0.1 | Governance script test | `tests/test_claude_project_data.py` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
@@ -430,7 +433,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 ## Last updated
 
-- **Date**: 2026-10-05
-- **Change**: PLAN-017 Phase 3 — new row 92; cells 6, 8, 56, 64, 76 + rows 90–91 → 0.3 EXECUTING; self-row → 2.60.
-- **Previous change**: PLAN-016 post-close QA bookkeeping — row 87 → 1.1 (QA-L7 / L8 ✅ + push); self-row → 2.59.
+- **Date**: 2026-10-07
+- **Change**: PLAN-017 Phase 3b revision drafted — rows 90–91 → 0.4; self-row → 2.61.
+- **Previous change**: PLAN-017 Phase 3 — new row 92; cells 6, 8, 56, 64, 76 + rows 90–91 → 0.3 EXECUTING; self-row → 2.60.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

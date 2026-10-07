@@ -2,6 +2,26 @@
 
 Newest entries at the top.
 
+## [2026-10-07] — PLAN-017 Phase 3b revision drafted: locality tool 0.3 after the Windows store loss
+
+- **Type:** Plan revision (design only — Phase 1b of a fix-forward; operator "A"). No code, config or
+  target change in this commit; no `docs/standards/` change → no Set Version bump, no tag.
+- **Incident (2026-10-06, the 780-estimator owner's Windows PC):** after a correct `adopt`, a manual
+  Explorer move of the harness junction emptied the in-repo store; the owner's opener § 1.5 halt-on-empty
+  caught it at her next session; 14 memories recovered byte-identical from the Recycle Bin. Tool 0.2 has
+  no path that empties the store, but two weaknesses: F1 (`status` recommended `link` for an empty store)
+  and F2 (the backup sat beside the junction and the tool said "delete it once…").
+- **The revision:** tool 0.3 + tests 0.2 — F1, F2 and a `cleanup` verb that removes a backup only when
+  the store fully covers it, never through a link — proven in scratch (pytest 163; positive control 13
+  failed / 10 passed against 0.2; replay of the owner's state in both orders); one curator commit
+  delivers it to the estimator; QA-M11…M16 + the QA-M8 re-run; decisions D-6…D-9 await the operator.
+  Rule 13 pass recorded at the foot of the plan.
+- **Also recorded:** QA-M9 ✅ (2026-10-06) — the owner landed the engine handoff (`7e466f8`) and retired
+  `bootstrap_memory.sh` (`1ddbbf9`), fleet `handoff_pending` 0; the vault push of `fb8960c` (2026-10-06,
+  both remotes) in the tracker's Phase 5.
+- **Files:** PLAN-017 plan + tracker 0.3 → 0.4; `docs/documents_manifest.md` 2.61.
+- **Impact:** none at runtime — planning documents only.
+
 ## [2026-10-05] — PLAN-017 Phase 3: 780-estimator caught up to v2.7 over git (the first git target) + locality tool 0.2
 
 - **Type:** Plan Phase 3 (Major — Critical Files: `config/projects.toml`, plus two target writes); fresh
