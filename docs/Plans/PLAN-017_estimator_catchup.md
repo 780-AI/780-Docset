@@ -1,8 +1,16 @@
-<!-- VERSION: 0.5 -->
+<!-- VERSION: 0.6 -->
 <!-- Last Updated: 2026-10-07 -->
-<!-- Status: EXECUTING — Phase 3b APPROVED (implement in a fresh session; QA-M8 re-runs with tool 0.3) -->
+<!-- Status: EXECUTING — Phase 3b DONE (tool 0.3 in the vault + on the estimator's main `515ea96`); QA-M8 re-run with 0.3 open on the owner's PC -->
 <!--
 CHANGE LOG
+v0.6 — 2026-10-07 — Phase 3b executed in a fresh session. Reconcile pass: the 11 Phase 3b blocks + the § 5w
+message re-extracted from this file by a parser written fresh in that session — vault 4 / 4 and estimator
+7 / 7 matched (pre-blobs, single FINDs); zero block defects; checker positive control 1 FAIL as expected.
+§ 5q–5s applied to the vault and § 5t–5v to a fresh estimator clone with `<P3B-DATE>` = 2026-10-07
+(clock checked against gitlab.com); their `main` was still `1ddbbf9` (§ 6i not triggered). Delivery
+commit `515ea96` pushed fast-forward. QA-M11…M16 ✅ (evidence in the tracker). Process note: the fresh
+clone had no git identity on this machine — set repo-locally to the vault's before the commit (Rule 14
+fresh-clone clause). Status stays EXECUTING — QA-M8 (owner's PC, with 0.3) gates the closure.
 v0.5 — 2026-10-07 — Phase 3b approval recorded (operator: "commit; Phase 3b approved, all A"); § 9.3
 decision record added: D17.B approved; D-6…D-9 = A. No § 5 change — the 11 Phase 3b blocks re-extracted
 from this file stay byte-identical to the proven files.
@@ -220,8 +228,8 @@ is documented completely in the skill.
 | 4 | Validate — QA-M1…M7 inside Phase 3; QA-M8 / M9 on the owner's PC | 🔄 M1…M7 + M10 ✅ 2026-10-05; M9 ✅ 2026-10-06; M8 re-runs with 0.3 (Phase 3b) |
 | 1b | Phase 3b design — incident record, tool 0.3 proven, Rule 13 pass | ✅ 2026-10-07 |
 | 2b | Operator approval of the revision | ✅ 2026-10-07 |
-| 3b | Implement — fresh session: 3b.0 pre-checks → 3b.1 reconcile → 3b.2 vault § 5q–5s + QA-M11…M15 → 3b.3 estimator delivery commit + push (QA-M16) → 3b.4 vault bookkeeping + commit | ⏸ |
-| 4b | Validate — QA-M11…M16 inside Phase 3b; QA-M8 re-run on the owner's PC with 0.3 | ⏸ |
+| 3b | Implement — fresh session: 3b.0 pre-checks → 3b.1 reconcile → 3b.2 vault § 5q–5s + QA-M11…M15 → 3b.3 estimator delivery commit + push (QA-M16) → 3b.4 vault bookkeeping + commit | ✅ 2026-10-07 (estimator `515ea96`) |
+| 4b | Validate — QA-M11…M16 inside Phase 3b; QA-M8 re-run on the owner's PC with 0.3 | 🔄 M11…M16 ✅ 2026-10-07; M8 ⏸ (owner's PC) |
 | 5 | Operator gate — vault push ✅ 2026-10-06 (`fb8960c`, both remotes); Phase 3b vault push; closure commit after QA-M8 | 🔄 |
 
 ## 5. Verbatim transformation rules (code proven in scratch; Phase 3 copies byte-for-byte)

@@ -1,8 +1,11 @@
-<!-- VERSION: 0.5 -->
+<!-- VERSION: 0.6 -->
 <!-- Last Updated: 2026-10-07 -->
-<!-- Status: EXECUTING — Phase 3b APPROVED (implement in a fresh session; QA-M8 re-runs with tool 0.3) -->
+<!-- Status: EXECUTING — Phase 3b DONE (tool 0.3 in the vault + on the estimator's main `515ea96`); QA-M8 re-run with 0.3 open on the owner's PC -->
 <!--
 CHANGE LOG
+v0.6 — 2026-10-07 — Phase 3b executed in a fresh session (3b.0–3b.4 ✅): reconcile 11 / 11 clean; vault
+tool 0.3 + tests 0.2 + folder_structure 0.17; estimator delivery commit `515ea96` pushed; QA-M11…M16 ✅
+with evidence. QA-M8 stays ⏸ (owner's PC, with 0.3).
 v0.5 — 2026-10-07 — Phase 2b ✅: "commit; Phase 3b approved, all A" (plan § 9.3).
 v0.4 — 2026-10-07 — QA-M9 ✅ (evidence); QA-M8 partial evidence + the 2026-10-06 incident record; Phase
 1b ✅ (tool 0.3 proven, replay, Rule 13), Phase 2b / 3b sub-tasks ⏸; QA-M11…M16 rows; Phase 5 push ✅.
@@ -101,14 +104,22 @@ spans sessions).
 
 ## Phase 3b — Implement (fresh session)
 
-- ⏸ 3b.0 Pre-checks: clock vs an external authority → `<P3B-DATE>`; vault tree clean; estimator
-  `ls-remote` main (`1ddbbf9` expected — otherwise plan § 6i); the operator has told the owner (R15).
-- ⏸ 3b.1 Reconcile pass: § 5q–5v + § 5w re-extracted from the plan; pre-blobs `4e3d1f0…` (vault tool and
-  their copy) + `f66fc29…` (tests); every FIND matched once.
-- ⏸ 3b.2 Vault § 5q, 5r, 5s → QA-M11…M15.
-- ⏸ 3b.3 Estimator § 5t–5v on a fresh clone → their governance 0 / 0 → Rule 10 review → operator "go" →
-  commit (§ 5w via `-F`) → push → QA-M16.
-- ⏸ 3b.4 § 6h bookkeeping → governance → Rule 10 review → vault commit (§ 7.9; no push) → OPEN_TASKS.
+- ✅ 2026-10-07 — 3b.0 Pre-checks: local clock 13:32:27 UTC vs `gitlab.com` `Date:` 13:32:33 GMT →
+  `<P3B-DATE>` = 2026-10-07 (local 17:17 +0330); vault tree clean at `d4c6e2f`; estimator `ls-remote` main
+  = `1ddbbf9` (§ 6i not triggered); operator: "bahere is informed go on" (R15).
+- ✅ 2026-10-07 — 3b.1 Reconcile pass: all 11 blocks + the § 5w message re-extracted from the plan by a
+  parser written fresh in this session (fence counts asserted per block kind) — vault 4 / 4 and estimator
+  7 / 7 OK: pre-blobs `4e3d1f0…` (vault tool and their copy) + `f66fc29…` (tests) matched, every FIND
+  matched once. **Zero block defects.** Checker positive control: one FIND corrupted → exactly 1 FAIL.
+- ✅ 2026-10-07 — 3b.2 Vault § 5q, 5r, 5s applied (script mode 100755 kept; no `<P3B-DATE>` left); tool and
+  tests byte-identical to the drafting session's proven files → QA-M11…M15 ✅.
+- ✅ 2026-10-07 — 3b.3 Estimator § 5t–5v applied on a fresh clone (3 files == § 7.10; § 5t `cmp` identical,
+  mode 755) → their governance exit 0 / 0 → Rule 10 review table posted → operator "go" → commit `515ea96`
+  (§ 5w message via `-F`; author Yaser Khosravi — the fresh clone had NO identity on this machine, set
+  repo-locally to the vault's before committing, matching `b4cae64`) → pushed `1ddbbf9..515ea96` →
+  QA-M16 ✅. Clone deleted after use.
+- ✅ 2026-10-07 — 3b.4 § 6h bookkeeping → governance → Rule 10 review → vault commit (§ 7.9; no push) →
+  OPEN_TASKS.
 
 ## Phase 4 — Validate
 
@@ -121,15 +132,15 @@ spans sessions).
 | QA-M5 ⚑ | First live git write | 3.4 | ✅ | 2026-10-05 | `status` (git read path) 780-estimator v1.3 / v2.7 behind; dry-run 7/11; live `--diff` identical to the QA-M4 oracle diff; `--write` → "wrote + flushed 8 file(s) (incl. the handoff)"; `ls-remote` main `b4cae64` → `fdb87b9`; `fdb87b9` parent = `b4cae64`, author `Standard DocSet <standard-docset@localhost>`; `git show --stat` = the 8 files of § 7.3; re-run up-to-date 11/11 (notes the un-landed handoff); `status` v2.7 / v2.7 current; `docs/fleet.csv` row: registry columns == § 5d (registered_on 2026-10-05), `reachable` yes, `handoff_pending` 1 |
 | QA-M6 ⚑ | Post-sync integrity | 3.4 | ✅ | 2026-10-05 | fresh clone of `main`: PROJECT-OWNED BEGIN/END CLAUDE 4/4, opener 3/3, closer 2/2; 15 `### Rule` headings; Rule 14 names `scripts/claude_project_data.sh` (4×), file present + executable; opener heading (l.14) + § 2 "Current state" note (l.92) + § 3.2 popup row intact; closer heading (l.13); SVA bullets v2.7 / 2026-10-05, rows v2.7 + v1.3 |
 | QA-M7 ⚑ | CS E002 write-back | 3.5 | ✅ | 2026-10-05 | operator "go" (no CS session); dry-run → `--write` → Status read back == § 5p's rendering verbatim; CS `docs/SYNC_HANDOFF.md` new, `### Write 1` = integrate write-back of `docs/STANDARDS_LOG.md`; `harvest` → "No open log entries across registered projects" (780-Automation skipped, unreachable). Idle-gate process note above |
-| QA-M8 ⚑ | Windows `adopt` on the owner's PC — re-run with 0.3 (plan § 8.2) | post-3b | ⏸ | 2026-10-06 (partial) | before: 14 (stated beforehand); Git Bash `adopt` → "Adopted." + `STATUS: OK (14 memory files)`; `link` → "Already linked." — then the store was emptied by a manual Explorer move (incident below); remaining sub-checks in plan § 8.2 |
+| QA-M8 ⚑ | Windows `adopt` on the owner's PC — re-run with 0.3 (plan § 8.2) | post-3b | ⏸ | 2026-10-06 (partial) | before: 14 (stated beforehand); Git Bash `adopt` → "Adopted." + `STATUS: OK (14 memory files)`; `link` → "Already linked." — then the store was emptied by a manual Explorer move (incident below); remaining sub-checks in plan § 8.2. 0.3 is on their `main` since 2026-10-07 (`515ea96`) — the owner's steps are in its CHANGELOG entry |
 | QA-M9 ⚑ | Handoff landing observed | post-3 | ✅ | 2026-10-06 | `ls-remote` main `fdb87b9` → `1ddbbf9`; fresh clone: `7e466f8` = CHANGELOG + manifest 1.57 (cells == headers) + `docs/SYNC_HANDOFF.md` deleted; `1ddbbf9` = `bootstrap_memory.sh` + its manifest row + tree line removed (manifest 1.58, CHANGELOG 1.41, folder_structure 1.18); linear, governance paths only; their tool blob `4e3d1f0` == the vault's; vault `status` 780-estimator v2.7 current, fleet `handoff_pending` 0 |
 | QA-M10 | Domain-neutral grep | 3.2 | ✅ | 2026-10-05 | `grep -rniE "780\|estimator\|everon\|equinex\|capital-signal\|bahereh\|parsaazad\|a780" skill/ docs/standards/ scripts/claude_project_data.sh tests/test_claude_project_data.py` → no output, exit 1; control: same pattern on `config/projects.toml` → 23 hits |
-| QA-M11 | Tools (ruff / mypy / pytest 163) | 3b | ⏸ | | |
-| QA-M12 | Tests go red on tool 0.2 (13 of 23) | 3b | ⏸ | | |
-| QA-M13 ⚑ | Vault's own locality `status` + `cleanup` | 3b | ⏸ | | |
-| QA-M14 ⚑ | Replay of the owner's state, both orders | 3b | ⏸ | | |
-| QA-M15 | Domain-neutral grep | 3b | ⏸ | | |
-| QA-M16 ⚑ | Delivery commit on their `main` | 3b | ⏸ | | |
+| QA-M11 | Tools (ruff / mypy / pytest 163) | 3b | ✅ | 2026-10-07 | `ruff check src tests` → All checks passed; `MYPYPATH=src mypy --cache-dir <fresh> src tests` → no issues in 25 source files; `bash -n scripts/claude_project_data.sh` exit 0; pytest → 163 passed |
+| QA-M12 | Tests go red on tool 0.2 (13 of 23) | 3b | ✅ | 2026-10-07 | tests 0.2 vs a scratch copy of the § 5q pre-image (tool 0.2) → 13 failed / 10 passed: the 12 new tests + `test_windows_adopt_migrates_the_old_junction_layout` fail; the 10 unchanged pass |
+| QA-M13 ⚑ | Vault's own locality `status` + `cleanup` | 3b | ✅ | 2026-10-07 | pre-probe (`find`, positive control: the key seen): 0 `pre-locality` entries, no backup root; `status` → `symlink: -> …/.claude/project-data`, `STATUS: OK (18 memory files)`, no `WARNING`, no `backup kept:`, exit 0; then (own step) `cleanup` → "No backups to clean up for this project." exit 0; count 18 → 18; no backup root created |
+| QA-M14 ⚑ | Replay of the owner's state, both orders | 3b | ✅ | 2026-10-07 | Windows stand-ins (the tests' shims): store = 2 memories + `d65a220e` (A+H) + `335dbc56` (159 lines); harness = H + a 4-line stub + a later session. Order 1 (`link` 0.3): backup under `~/.claude/locality-backups/`, link → store, nothing beside it, later session copied, store copies not overwritten; `status` OK + `backup kept:`; `cleanup` → `KEPT`, lists exactly `differs …: d65a220e.jsonl` + `differs …: 335dbc56.jsonl`, store + backup hashes unchanged. Order 2 (`link` 0.2, then 0.3): backup beside the link; `status` lists it; `cleanup` → `KEPT` + "moved away from the link to: …/locality-backups/…", backup intact there, only the link left for the key, store unchanged. 17 / 17 checks pass (11 + 6) |
+| QA-M15 | Domain-neutral grep | 3b | ✅ | 2026-10-07 | QA-M10's pattern over the tool + tests → no output, exit 1 (also over `skill/` + `docs/standards/`: exit 1); control on `config/projects.toml` → 29 lines (23 at QA-M10, before § 5d added the estimator entry) |
+| QA-M16 ⚑ | Delivery commit on their `main` | 3b | ✅ | 2026-10-07 | before the commit: their `check_doc_coverage.py` / `check_test_coverage_drift.py --ci` exit 0 / 0; after the push: `ls-remote` main = `515ea96`, parent `1ddbbf9`; `git show --name-only` = the 3 files of § 7.10; their tool `100755 blob 24f758b…` == vault 0.3 `git hash-object`; cells == headers at `515ea96` (CHANGELOG 1.42, manifest 1.59, tool 0.3); vault `status` → 780-estimator v2.7 / v2.7 current, fleet `handoff_pending` 0 |
 
 **Waiver register (Rule 15):** _(none)_
 

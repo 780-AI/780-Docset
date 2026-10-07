@@ -1,7 +1,10 @@
-<!-- VERSION: 2.62 -->
+<!-- VERSION: 2.63 -->
 <!-- Last Updated: 2026-10-07 -->
 <!--
 CHANGE LOG
+v2.63 — 2026-10-07 — PLAN-017 Phase 3b (locality tool 0.3 + its delivery to the estimator): cells 56
+(claude_project_data.sh 0.2→0.3), 92 (test 0.1→0.2), 6 (folder_structure 0.16→0.17), 90–91 (plan +
+tracker 0.5→0.6). Self-row 2.62 → 2.63 (every touched cell grep-verified against its file header per L063).
 v2.62 — 2026-10-07 — PLAN-017 Phase 3b APPROVED: rows 90–91 0.4 → 0.5. Self-row 2.61 → 2.62 (cells
 grep-verified against their file headers per L063).
 v2.61 — 2026-10-07 — PLAN-017 Phase 3b revision drafted (locality tool 0.3 after the Windows store loss):
@@ -343,8 +346,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.62 | Governance | `docs/documents_manifest.md` |
-| 6 | Folder Structure | 0.16 | Governance | `docs/folder_structure.md` |
+| 5 | Documents Manifest | 2.63 | Governance | `docs/documents_manifest.md` |
+| 6 | Folder Structure | 0.17 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.14 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.21 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.8 | Governance | `docs/SESSION_CLOSER.md` |
@@ -392,7 +395,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 53 | Engine — harvest report (open-entry consolidation) | 0.1 | Engine | `src/standard_document_updater/harvest.py` |
 | 54 | Engine test — logentry | 0.1 | Engine test | `tests/test_logentry.py` |
 | 55 | Engine test — harvest | 0.1 | Engine test | `tests/test_harvest.py` |
-| 56 | Project-data locality script | 0.2 | Governance script | `scripts/claude_project_data.sh` |
+| 56 | Project-data locality script | 0.3 | Governance script | `scripts/claude_project_data.sh` |
 | 58 | New-Machine Setup (re-home checklist + Rule 14 migration catalog) | 1.4 | Docs | `docs/NEW_MACHINE_SETUP.md` |
 | 59 | PLAN-006 — Slice 4 (integrate) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-006_integrate.md` |
 | 60 | PLAN-006 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-006_tracker.md` |
@@ -425,9 +428,9 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 87 | PLAN-016 tracker (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-016_tracker.md` |
 | 88 | Engine — fleet view (docs/fleet.csv rows + freshness check) | 0.1 | Engine | `src/standard_document_updater/fleet.py` |
 | 89 | Engine test — fleet | 0.1 | Engine test | `tests/test_fleet.py` |
-| 90 | PLAN-017 — 780-estimator catch-up (first git target) + Windows-capable locality tool (EXECUTING) | 0.5 | Plan | `docs/Plans/PLAN-017_estimator_catchup.md` |
-| 91 | PLAN-017 tracker (EXECUTING) | 0.5 | Plan | `docs/Plans/PLAN-017_tracker.md` |
-| 92 | Project-data locality script test | 0.1 | Governance script test | `tests/test_claude_project_data.py` |
+| 90 | PLAN-017 — 780-estimator catch-up (first git target) + Windows-capable locality tool (EXECUTING) | 0.6 | Plan | `docs/Plans/PLAN-017_estimator_catchup.md` |
+| 91 | PLAN-017 tracker (EXECUTING) | 0.6 | Plan | `docs/Plans/PLAN-017_tracker.md` |
+| 92 | Project-data locality script test | 0.2 | Governance script test | `tests/test_claude_project_data.py` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -436,6 +439,6 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-07
-- **Change**: PLAN-017 Phase 3b APPROVED — rows 90–91 → 0.5; self-row → 2.62.
-- **Previous change**: PLAN-017 Phase 3b revision drafted — rows 90–91 → 0.4; self-row → 2.61.
+- **Change**: PLAN-017 Phase 3b — rows 56 → 0.3, 92 → 0.2, 6 → 0.17, 90–91 → 0.6; self-row → 2.63.
+- **Previous change**: PLAN-017 Phase 3b APPROVED — rows 90–91 → 0.5; self-row → 2.62.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

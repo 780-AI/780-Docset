@@ -1,8 +1,12 @@
 # ==============================================================
-# VERSION: 0.1
+# VERSION: 0.2
 # Behavior tests for scripts/claude_project_data.sh (CLAUDE.md Rule 14 locality tool).
 #
 # CHANGE LOG
+# v0.2 — 2026-10-07 — PLAN-017 Phase 3b: an empty store is reported, never recommended for
+#         link; Windows backups live in ~/.claude/locality-backups/ (not beside the link);
+#         the new cleanup verb removes only fully covered backups, never follows a link, and
+#         moves a kept old-location backup away from the link.
 # v0.1 — 2026-10-05 — Initial (PLAN-017): the script runs for real against throwaway repo +
 #         HOME trees — POSIX status / link / adopt, the pre-v1.5 memory layout, the E002
 #         folder-move merge — and its Windows branch through stand-in uname / cygpath / cmd
@@ -56,6 +60,10 @@ def _write(path: Path, text: str = "x", mtime: float | None = None) -> None:
     path.write_text(text, encoding="utf-8")
     if mtime is not None:
         os.utime(path, (mtime, mtime))
+
+
+def _backups(tree: Tree) -> list[Path]:
+    return sorted((tree.home / ".claude" / "locality-backups").glob("*.pre-locality-*"))
 
 
 def _make_repo(repo: Path) -> None:
@@ -207,6 +215,53 @@ def test_posix_stale_symlink_is_repointed(posix: Tree, tmp_path: Path) -> None:
     assert os.readlink(harness) == str(posix.data)
 
 
+def test_posix_empty_store_is_reported_not_recommended(posix: Tree) -> None:
+    posix.data.mkdir(parents=True)  # the store exists but its files are gone
+    harness = posix.harness()
+    (harness / "memory").mkdir(parents=True)  # what Claude Code creates on session start
+    out = posix.run("status")
+    assert out.returncode == 1, out.stdout
+    assert "in-repo store is EMPTY" in out.stdout and "STOP" in out.stdout
+    assert "holds 0 memory files" in out.stdout
+    assert "in-repo data exists" not in out.stdout
+
+
+def test_posix_empty_store_without_harness_says_stop(posix: Tree) -> None:
+    posix.data.mkdir(parents=True)
+    out = posix.run("status")
+    assert out.returncode == 1
+    assert "STATUS: EMPTY — the in-repo store exists but holds no files" in out.stdout
+    assert "STOP" in out.stdout and "in-repo data exists" not in out.stdout
+
+
+def test_posix_ok_with_no_memory_files_warns(posix: Tree) -> None:
+    linked = posix.run("link")
+    assert linked.returncode == 0 and "never move, rename or delete" in linked.stdout
+    out = posix.run("status")
+    assert out.returncode == 0 and "(0 memory files)" in out.stdout
+    assert "WARNING: no memory files" in out.stdout
+    _write(posix.data / "memory" / "a.md")
+    again = posix.run("status")
+    assert "(1 memory files)" in again.stdout and "WARNING" not in again.stdout
+
+
+def test_posix_cleanup_with_no_backups_is_a_no_op(posix: Tree) -> None:
+    assert posix.run("link").returncode == 0
+    out = posix.run("cleanup")
+    assert out.returncode == 0 and "No backups to clean up" in out.stdout
+
+
+def test_cleanup_refused_unless_status_is_ok(posix: Tree) -> None:
+    harness = posix.harness()
+    _write(harness / "s.jsonl")  # data still outside the project folder: not adopted
+    backup = posix.home / ".claude" / "locality-backups" / f"{harness.name}.pre-locality-1"
+    _write(backup / "s.jsonl")
+    assert f"backup kept:   {backup}" in posix.run("status").stdout
+    out = posix.run("cleanup")
+    assert out.returncode == 1 and "cleanup refused" in out.stdout
+    assert (backup / "s.jsonl").is_file()
+
+
 # ---- Windows (Git Bash) through stand-in uname / cygpath / cmd ---------------
 
 
@@ -230,7 +285,8 @@ def test_windows_adopt_migrates_the_old_junction_layout(windows: Tree) -> None:
     assert "STATUS: OK" in out.stdout and "(2 memory files)" in out.stdout
     assert harness.is_symlink() and harness.resolve() == windows.data.resolve()
     assert (windows.data / "old.jsonl").read_text(encoding="utf-8") == "transcript"
-    backups = list(harness.parent.glob(f"{harness.name}.pre-locality-*"))
+    assert not list(harness.parent.glob(f"{harness.name}.pre-locality-*"))  # not beside the link
+    backups = _backups(windows)
     assert len(backups) == 1 and (backups[0] / "old.jsonl").is_file()
     assert windows.log is not None
     calls = windows.log.read_text(encoding="utf-8")
@@ -245,6 +301,7 @@ def test_windows_refuses_while_a_session_is_live(windows: Tree) -> None:
     assert out.returncode == 1 and "looks active" in out.stdout
     assert harness.is_dir() and not harness.is_symlink()
     assert not list(harness.parent.glob(f"{harness.name}.pre-locality-*"))
+    assert _backups(windows) == []
 
 
 def test_windows_e002_link_after_move_keeps_memories(windows: Tree) -> None:
@@ -260,3 +317,93 @@ def test_windows_e002_link_after_move_keeps_memories(windows: Tree) -> None:
     again = windows.run("link")
     assert again.returncode == 0 and "Already linked." in again.stdout
     assert "junction:" in again.stdout
+
+
+def _adopt_with_session(windows: Tree) -> Path:
+    harness = windows.harness()
+    _write(harness / "memory" / "m1.md", "memory one", mtime=OLD)
+    _write(harness / "s1.jsonl", "line1\n", mtime=OLD)
+    out = windows.run("adopt")
+    assert out.returncode == 0, out.stdout + out.stderr
+    return harness
+
+
+def test_windows_backup_goes_to_the_backup_root_not_beside_the_link(windows: Tree) -> None:
+    harness = _adopt_with_session(windows)
+    assert harness.is_symlink()
+    assert not list(harness.parent.glob(f"{harness.name}.pre-locality-*"))
+    backups = _backups(windows)
+    assert len(backups) == 1 and (backups[0] / "s1.jsonl").is_file()
+    assert f"backup kept:   {backups[0]}" in windows.run("status").stdout
+
+
+def test_windows_adopt_output_points_to_cleanup_not_to_deleting(windows: Tree) -> None:
+    harness = windows.harness()
+    _write(harness / "s1.jsonl", mtime=OLD)
+    out = windows.run("adopt").stdout
+    assert "bash scripts/claude_project_data.sh cleanup" in out
+    assert "delete it once" not in out
+    assert "never move, rename or delete" in out
+
+
+def test_windows_cleanup_removes_a_fully_covered_backup(windows: Tree) -> None:
+    harness = _adopt_with_session(windows)
+    with (windows.data / "s1.jsonl").open("a", encoding="utf-8") as fh:
+        fh.write("line2\n")  # the resumed session grew its transcript
+    out = windows.run("cleanup")
+    assert out.returncode == 0 and "removed:" in out.stdout, out.stdout + out.stderr
+    assert _backups(windows) == []
+    assert (windows.data / "memory" / "m1.md").read_text(encoding="utf-8") == "memory one"
+    assert (windows.data / "s1.jsonl").read_text(encoding="utf-8") == "line1\nline2\n"
+    assert harness.is_symlink()
+
+
+def test_windows_cleanup_keeps_a_backup_the_store_does_not_cover(windows: Tree) -> None:
+    _adopt_with_session(windows)
+    (windows.data / "memory" / "m1.md").unlink()  # the store lost a file the backup still has
+    _write(windows.data / "s1.jsonl", "rewritten\n")  # and holds other bytes for another
+    out = windows.run("cleanup")
+    assert out.returncode == 0, out.stdout + out.stderr
+    assert "KEPT" in out.stdout
+    assert "missing from the project folder: memory/m1.md" in out.stdout
+    assert "differs from the project folder copy: s1.jsonl" in out.stdout
+    backups = _backups(windows)
+    assert len(backups) == 1 and (backups[0] / "memory" / "m1.md").is_file()
+
+
+def test_cleanup_never_follows_a_link_inside_a_backup(windows: Tree) -> None:
+    harness = _adopt_with_session(windows)
+    trap = harness.parent / f"{harness.name}.pre-locality-20261006-093516"  # the v0.2 spot
+    trap.mkdir()
+    (trap / "memory").symlink_to(windows.data / "memory")  # a junction into the real store
+    out = windows.run("cleanup")
+    assert out.returncode == 0, out.stdout + out.stderr
+    assert "link (never followed): memory" in out.stdout
+    assert (windows.data / "memory" / "m1.md").read_text(encoding="utf-8") == "memory one"
+    assert not (windows.data / "memory").is_symlink()
+    moved = windows.home / ".claude" / "locality-backups" / trap.name
+    assert not trap.exists() and (moved / "memory").is_symlink()
+
+
+def test_cleanup_keeps_a_backup_entry_that_is_itself_a_link(windows: Tree) -> None:
+    harness = _adopt_with_session(windows)
+    fake = harness.parent / f"{harness.name}.pre-locality-20261006-000000"
+    fake.symlink_to(windows.data)  # what renaming a mis-detected junction would leave
+    out = windows.run("cleanup")
+    assert out.returncode == 0 and "KEPT (a link" in out.stdout, out.stdout + out.stderr
+    assert fake.is_symlink() and (windows.data / "memory" / "m1.md").is_file()
+
+
+def test_cleanup_handles_backups_left_beside_the_link_by_v02(windows: Tree) -> None:
+    harness = _adopt_with_session(windows)
+    covered = harness.parent / f"{harness.name}.pre-locality-20261006-093516"
+    _write(covered / "s1.jsonl", "line1\n")
+    unique = harness.parent / f"{harness.name}.pre-locality-20261006-101010"
+    _write(unique / "only-here.jsonl", "unique")
+    out = windows.run("cleanup")
+    assert out.returncode == 0, out.stdout + out.stderr
+    assert not covered.exists() and not unique.exists()
+    assert "moved away from the link" in out.stdout
+    moved = windows.home / ".claude" / "locality-backups" / unique.name
+    assert (moved / "only-here.jsonl").read_text(encoding="utf-8") == "unique"
+    assert [b.name for b in _backups(windows)] == [unique.name]

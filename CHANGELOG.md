@@ -2,6 +2,41 @@
 
 Newest entries at the top.
 
+## [2026-10-07] — PLAN-017 Phase 3b: locality tool 0.3 (safer backups + `cleanup`), delivered to 780-estimator
+
+- **Type:** Plan Phase 3b (fix-forward inside PLAN-017 after the 2026-10-06 Windows store loss); fresh
+  implementer session from the committed plan. No engine source change; no `docs/standards/` change → **no
+  Set Version bump, no tag**.
+- **Locality tool `scripts/claude_project_data.sh` 0.2 → 0.3** (F1 + F2): `status` reports an EMPTY in-repo
+  store as empty and says STOP instead of recommending `link`, warns on an OK link with no memory files, and
+  lists kept backups; Windows backups go to `~/.claude/locality-backups/` instead of beside the link;
+  `adopt` / `link` warn never to handle the link in a file manager; new `cleanup` verb removes a backup only
+  when every file in it is in the store (same leading bytes, file by file, never `rm -r`, never through a
+  link) and moves a kept old-location backup away from the link. Tests `tests/test_claude_project_data.py`
+  0.1 → 0.2 (12 new cases, 2 updated); `docs/folder_structure.md` 0.17.
+- **780-estimator (GitHub `780-AI/780-estimator`):** curator delivery commit `515ea96` (the tool copied
+  byte-for-byte, manifest 1.59, CHANGELOG 1.42 with the owner's next-session steps) pushed fast-forward
+  from `1ddbbf9`.
+- **Also:** PLAN-017 plan + tracker 0.6 EXECUTING; `docs/documents_manifest.md` 2.63. Reconcile pass 11 / 11
+  blocks clean (zero plan defects). Process note: the fresh estimator clone had no git identity on this
+  machine — set repo-locally to the vault's before committing.
+- **Impact:** the vault's own locality tool gains a `cleanup` verb and safer messages (POSIX link behavior
+  unchanged — QA-M13 on the live store); no engine change. One target written by a curator commit
+  (780-estimator, still v2.7 current — scripts are outside SYNC_MAP).
+
+### QA scenarios (Rule 11; evidence in `docs/Plans/PLAN-017_tracker.md`)
+
+- ✅ QA-M11 — ruff clean / `mypy --strict` 0 in 25 files / `bash -n` clean / pytest 163.
+- ✅ QA-M12 — tests 0.2 vs tool 0.2 → 13 failed / 10 passed (exactly the new-behavior cases).
+- ✅ QA-M13 ⚑ — the vault's own `status` → `STATUS: OK (18 memory files)`, no warning, no backup line;
+  `cleanup` → "No backups to clean up for this project."; count unchanged.
+- ✅ QA-M14 ⚑ — replay of the owner's post-incident state, both orders: the backup is KEPT, listing exactly
+  the two transcripts that differ; nothing deleted; a 0.2-era backup is moved away from the link.
+- ✅ QA-M15 — domain-neutral grep over the tool + tests: no hits (control: hits).
+- ✅ QA-M16 ⚑ — delivery: their governance 0 / 0; `main` = `515ea96` on `1ddbbf9`; the § 7.10 files;
+  their tool == the vault's 0.3 blob, mode 100755; cells == headers; vault `status` v2.7 current.
+- ⏸ QA-M8 ⚑ — Windows re-run with 0.3 on the owner's PC (operator-relayed; ship-gating), then closure (§ 7.6).
+
 ## [2026-10-07] — PLAN-017 Phase 3b APPROVED
 
 - **Type:** Plan approval record (Phase 2b). Operator: *"commit; Phase 3b approved, all A"* — D17.B

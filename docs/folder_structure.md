@@ -1,7 +1,8 @@
-<!-- VERSION: 0.16 -->
-<!-- Last Updated: 2026-10-05 -->
+<!-- VERSION: 0.17 -->
+<!-- Last Updated: 2026-10-07 -->
 <!--
 CHANGE LOG
+v0.17 — 2026-10-07 — PLAN-017 Phase 3b: the claude_project_data.sh line names the new `cleanup` verb.
 v0.16 — 2026-10-05 — PLAN-017: added tests/test_claude_project_data.py to the tree; the claude_project_data.sh comment notes the Windows junction.
 v0.15 — 2026-10-05 — PLAN-016 (fleet view): added docs/fleet.csv (generated, gitignored), src/standard_document_updater/fleet.py and tests/test_fleet.py to the tree; noted the fleet subcommand on cli.py, the fleet-info keys on registry.py + config/projects.toml, and the engine-tree comment ("PLAN-016: + fleet").
 v0.14 — 2026-08-17 — PLAN-009 (skill delivery, Standard Set Version v2.0): added the skill/ top-level dir (SKILL.md + modes/bootstrap.md + modes/adopt.md) and scripts/bootstrap_skill.sh to the tree; removed the retired SETUP.md + NEW_PROJECT_BOOTSTRAP.md lines from docs/standards/ (MDRP was never listed — pre-existing gap recorded in the plan); suite caption v1.6 → v2.0; STANDARDS_LOG template caption retargeted SETUP → the delivery skill; rider — root CLAUDE.md caption "13 standing rules" → "15 standing rules".
@@ -107,7 +108,7 @@ Standard DocSet/
 │   └── README_memory.md
 ├── scripts/
 │   ├── bootstrap_skill.sh        # per-machine skill installer (idempotent symlink)
-│   ├── claude_project_data.sh    # Rule 14 project-data locality tool (status / adopt / link; symlink, or a junction on Windows)
+│   ├── claude_project_data.sh    # Rule 14 project-data locality tool (status / adopt / link / cleanup; symlink, or a junction on Windows)
 │   ├── check_doc_coverage.py
 │   ├── check_test_coverage_drift.py
 │   ├── doc_coverage_allowlist.toml
