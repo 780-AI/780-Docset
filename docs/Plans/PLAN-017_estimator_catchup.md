@@ -1,8 +1,11 @@
-<!-- VERSION: 0.4 -->
+<!-- VERSION: 0.5 -->
 <!-- Last Updated: 2026-10-07 -->
-<!-- Status: EXECUTING — Phase 3b revision DRAFT (fix-forward after the 2026-10-06 Windows store loss; awaiting operator approval) -->
+<!-- Status: EXECUTING — Phase 3b APPROVED (implement in a fresh session; QA-M8 re-runs with tool 0.3) -->
 <!--
 CHANGE LOG
+v0.5 — 2026-10-07 — Phase 3b approval recorded (operator: "commit; Phase 3b approved, all A"); § 9.3
+decision record added: D17.B approved; D-6…D-9 = A. No § 5 change — the 11 Phase 3b blocks re-extracted
+from this file stay byte-identical to the proven files.
 v0.4 — 2026-10-07 — Phase 3b revision (operator "A": fix inside this plan before it closes). Incident
 record (§ 2): after a correct `adopt` the owner's store was emptied by a manual Explorer move of the
 junction (recovered from the Recycle Bin); tool 0.2 had no path that empties the store, but F1 (`status`
@@ -216,7 +219,7 @@ is documented completely in the skill.
 | 3 | Implement — fresh session: 3.0 pre-checks → 3.1 reconcile → 3.2 vault tool + skill blocks → 3.3 estimator prep commit + push → 3.4 registry + catch-up write → 3.5 CS E002 write-back → 3.6 vault commit | ✅ 2026-10-05 |
 | 4 | Validate — QA-M1…M7 inside Phase 3; QA-M8 / M9 on the owner's PC | 🔄 M1…M7 + M10 ✅ 2026-10-05; M9 ✅ 2026-10-06; M8 re-runs with 0.3 (Phase 3b) |
 | 1b | Phase 3b design — incident record, tool 0.3 proven, Rule 13 pass | ✅ 2026-10-07 |
-| 2b | Operator approval of the revision | ⏸ |
+| 2b | Operator approval of the revision | ✅ 2026-10-07 |
 | 3b | Implement — fresh session: 3b.0 pre-checks → 3b.1 reconcile → 3b.2 vault § 5q–5s + QA-M11…M15 → 3b.3 estimator delivery commit + push (QA-M16) → 3b.4 vault bookkeeping + commit | ⏸ |
 | 4b | Validate — QA-M11…M16 inside Phase 3b; QA-M8 re-run on the owner's PC with 0.3 | ⏸ |
 | 5 | Operator gate — vault push ✅ 2026-10-06 (`fb8960c`, both remotes); Phase 3b vault push; closure commit after QA-M8 | 🔄 |
@@ -2653,6 +2656,18 @@ replace-mode files matched `set-v1.3`; MEMORY_PROTOCOL's 3 non-header lines are 
   Possible only while her harness path is still a plain folder — once she has linked, A is impossible and
   B applies. B: accept the unit test `test_windows_refuses_while_a_session_is_live` for sub-check (b) —
   an operator waiver recorded in the tracker's waiver register (D-3 otherwise stands).
+
+### 9.3 Phase 3b decision record (2026-10-07)
+
+- **D17.B — APPROVED:** operator *"commit; Phase 3b approved, all A"* (2026-10-07).
+- **D-6 = A** — Windows backups go to `~/.claude/locality-backups/` (§ 5q).
+- **D-7 = A** — backups are removed by the `cleanup` verb (§ 5q).
+- **D-8 = A** — one curator commit on their `main` delivers 0.3 (§ 5t–5w).
+- **D-9 = A** — sub-check (b) is captured live before she links (the in-session line was handed to the
+  operator 2026-10-07); if she has already linked when it arrives, A is impossible and B needs the
+  operator's explicit waiver, recorded in the tracker's waiver register.
+- **No § 5 change:** the blocks re-extracted from this file stay byte-identical to the proven files
+  (re-verified in the approval commit).
 
 ## 10. Rollback path
 

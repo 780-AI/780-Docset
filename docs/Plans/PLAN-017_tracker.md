@@ -1,8 +1,9 @@
-<!-- VERSION: 0.4 -->
+<!-- VERSION: 0.5 -->
 <!-- Last Updated: 2026-10-07 -->
-<!-- Status: EXECUTING — Phase 3b revision DRAFT (QA-M9 ✅; QA-M8 re-runs with tool 0.3) -->
+<!-- Status: EXECUTING — Phase 3b APPROVED (implement in a fresh session; QA-M8 re-runs with tool 0.3) -->
 <!--
 CHANGE LOG
+v0.5 — 2026-10-07 — Phase 2b ✅: "commit; Phase 3b approved, all A" (plan § 9.3).
 v0.4 — 2026-10-07 — QA-M9 ✅ (evidence); QA-M8 partial evidence + the 2026-10-06 incident record; Phase
 1b ✅ (tool 0.3 proven, replay, Rule 13), Phase 2b / 3b sub-tasks ⏸; QA-M11…M16 rows; Phase 5 push ✅.
 v0.3 — 2026-10-05 — Phase 3 executed in a fresh session (3.0–3.6 ✅); QA-M1…M7 + M10 ✅ with evidence;
@@ -96,7 +97,7 @@ spans sessions).
 
 ## Phase 2b — Operator approval of the revision
 
-- ⏸ D17.B + D-6…D-9 (plan § 9.2).
+- ✅ 2026-10-07 — "commit; Phase 3b approved, all A" — D17.B; D-6…D-9 = A (plan § 9.3). Plan + tracker → 0.5.
 
 ## Phase 3b — Implement (fresh session)
 

@@ -2,6 +2,16 @@
 
 Newest entries at the top.
 
+## [2026-10-07] — PLAN-017 Phase 3b APPROVED
+
+- **Type:** Plan approval record (Phase 2b). Operator: *"commit; Phase 3b approved, all A"* — D17.B
+  approved; D-6…D-9 = A (plan § 9.3): backups to `~/.claude/locality-backups/`, the `cleanup` verb, one
+  curator commit to the estimator, the in-session refusal captured live.
+- **Files:** PLAN-017 plan + tracker 0.4 → 0.5 APPROVED; `docs/documents_manifest.md` 2.62.
+- **Next:** Phase 3b in a fresh session from the committed plan (§ 15.3).
+- **Impact:** none at runtime — planning documents only. No § 5 change (the 11 blocks re-verified
+  byte-identical to the proven files).
+
 ## [2026-10-07] — PLAN-017 Phase 3b revision drafted: locality tool 0.3 after the Windows store loss
 
 - **Type:** Plan revision (design only — Phase 1b of a fix-forward; operator "A"). No code, config or
