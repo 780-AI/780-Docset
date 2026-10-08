@@ -1,7 +1,8 @@
-<!-- VERSION: 0.3 -->
-<!-- Last Updated: 2026-10-03 -->
+<!-- VERSION: 0.4 -->
+<!-- Last Updated: 2026-10-08 -->
 <!--
 CHANGE LOG
+v0.4 — 2026-10-08 — PLAN-018: § 5 notes the Windows locality refusal while this session is live (the operator links from Git Bash afterwards); § 8 ends with the handoff report (SKILL.md).
 v0.3 — 2026-10-03 — PLAN-011 (S2): § 3 lessons-archive bullet made explicit — archive/LESSONS.md is a SYNC_MAP replace item, so a converging project's own archive is preserved verbatim as archive/LESSONS_LEGACY.md (frozen, carrying the numbering crosswalk) and every entry is classified; nothing dropped silently.
 v0.2 — 2026-08-19 — W-D1 fix: the sync-ready SVA shape gains the required CHANGE LOG comment block — the engine's record-update (sync.py _split_header) hard-requires it; the spec omitted it (the pilot adoption dodged the defect only because its session wrote the block unprompted).
 v0.1 — 2026-08-16 — Initial (PLAN-009, Set v2.0). Migration mode for EXISTING projects: dry-run
@@ -87,7 +88,9 @@ every mapped customization inside PROJECT-OWNED markers. Also:
 - TARGET/`docs/STANDARDS_LOG.md` — instantiate from `$SUITE/STANDARDS_LOG.md` (drop the example)
   if absent; existing log kept as-is.
 - Project-data locality (Rule 14): COPY `$VAULT/scripts/claude_project_data.sh` verbatim; run
-  `adopt` (machine already has harness data for this path) or `link`; paste output; seed
+  `adopt` (machine already has harness data for this path) or `link`; paste output (on Windows
+  the script refuses while this session is live — expected: the operator runs it from Git Bash with
+  Claude Code closed, listed as a follow-up in the handoff report); seed
   `docs/MACHINE_MIGRATION.md` if absent; ensure `.claude/` + `docs/Plans/OPEN_TASKS.md` are
   gitignored; seed `OPEN_TASKS.md` if absent.
 - Governance scaffolds (the two check scripts + TOMLs) if absent — never overwrite existing ones.
@@ -112,3 +115,6 @@ Named review table → "go on commit?" → `git add -A`, re-check `git status --
 (3) the project's log-recording discipline is now binding: new experience lands ONLY as `E0NN`
 entries in its `STANDARDS_LOG.md` (`Status: open`), harvested by the vault — never as edits to its
 own suite files.
+
+Then write the handoff report (SKILL.md § Handoff report, mode `adopt`) — it carries the facts the
+curator needs for (1).

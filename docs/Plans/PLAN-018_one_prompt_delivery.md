@@ -1,8 +1,12 @@
-<!-- VERSION: 0.2 -->
+<!-- VERSION: 0.3 -->
 <!-- Last Updated: 2026-10-08 -->
-<!-- Status: APPROVED — Phase 3 next, in a fresh session -->
+<!-- Status: EXECUTING — Phase 3 shipped 2026-10-08; push, then QA-S4…S6 (S6 on Windows) -->
 <!--
 CHANGE LOG
+v0.3 — 2026-10-08 — Phase 3 shipped (fresh session): `<P3-DATE>` = 2026-10-08 (local clock within 1 s of
+gitlab.com / github.com); reconcile pass 11 / 11 blocks clean, ZERO plan defects (pre-blobs matched,
+`selftest.md` absent, every FIND once in order; positive control → exactly 1 FAIL); the six files written
+byte-for-byte; QA-S1…S3 ✅ (evidence in the tracker). § 4 Phase 3 ✅. No § 5 change.
 v0.2 — 2026-10-08 — Phase 2 operator approval recorded ("go on commit; plan 018 approved, all A"); § 9.1
 decision record added: D18.A approved; D-1…D-4 = A (D-1 = A carries the operator's Rule 15 waiver for
 adopt mode's feature-ON evidence until its next real use — tracker waiver register). No § 5 change — the
@@ -139,8 +143,8 @@ replaced it, and the 0.2 control proves it sees the defect.)
 | 0 | Audit + pre-tests (§ 3) | ✅ 2026-10-08 |
 | 1 | Design + proven files + Rule 13 pass | ✅ 2026-10-08 |
 | 2 | Operator approval (§ 9) | ✅ 2026-10-08 — "plan 018 approved, all A" |
-| 3 | Implement — fresh session: 3.0 pre-checks → 3.1 reconcile → 3.2 apply § 5 + QA-S1 / S2 → 3.3 bookkeeping § 6c + QA-S3 → Rule 10 review → vault commit (§ 7.3; no push) | ⏸ |
-| 4 | Validate — QA-S1…S3 inside Phase 3; QA-S4 / S5 (operator, this Mac) and QA-S6 (Windows) after the push | ⏸ |
+| 3 | Implement — fresh session: 3.0 pre-checks → 3.1 reconcile → 3.2 apply § 5 + QA-S1 / S2 → 3.3 bookkeeping § 6c + QA-S3 → Rule 10 review → vault commit (§ 7.3; no push) | ✅ 2026-10-08 — reconcile 11 / 11, zero plan defects |
+| 4 | Validate — QA-S1…S3 inside Phase 3; QA-S4 / S5 (operator, this Mac) and QA-S6 (Windows) after the push | 🔄 QA-S1…S3 ✅ 2026-10-08; QA-S4…S6 ⏸ (after the push) |
 | 5 | Operator gate — push (§ 6d, before QA-S4…S6); closure commit (§ 7.4) | ⏸ |
 
 ## 5. Verbatim transformation rules (files proven in scratch; Phase 3 copies byte-for-byte)

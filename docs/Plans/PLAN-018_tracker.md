@@ -1,8 +1,9 @@
-<!-- VERSION: 0.2 -->
+<!-- VERSION: 0.3 -->
 <!-- Last Updated: 2026-10-08 -->
-<!-- Status: APPROVED — Phase 3 next, in a fresh session -->
+<!-- Status: EXECUTING — Phase 3 shipped 2026-10-08; push, then QA-S4…S6 (S6 on Windows) -->
 <!--
 CHANGE LOG
+v0.3 — 2026-10-08 — Phase 3 ✅ (3.0–3.3; reconcile 11 / 11, zero plan defects); QA-S1…S3 ✅ with evidence.
 v0.2 — 2026-10-08 — Phase 2 ✅: "go on commit; plan 018 approved, all A" (plan § 9.1); waiver register:
 D-1 = A (adopt mode's feature-ON evidence until its next real use).
 v0.1 — 2026-10-08 — Created with the plan draft (tracker required per CLAUDE.md § 15.7: Phase 4 has a
@@ -40,20 +41,25 @@ the plan spans sessions).
 
 ## Phase 3 — Implement (fresh session; one vault commit)
 
-- ⏸ 3.0 Pre-checks: clock vs an external authority → `<P3-DATE>`; vault tree clean; HEAD == both remotes.
-- ⏸ 3.1 Reconcile pass: § 5 re-extracted (11 blocks); pre-blobs `b8e3757…` (SKILL.md) + `56d37dc…`
-  (README.md); `selftest.md` absent; every FIND matched once, in order; checker positive control.
-- ⏸ 3.2 Apply § 5 → QA-S1, QA-S2.
-- ⏸ 3.3 § 6c bookkeeping → QA-S3 → Rule 10 review table → operator "go on commit?" → commit (§ 7.3; no
-  push) → OPEN_TASKS (§ 6f).
+- ✅ 2026-10-08 3.0 Pre-checks: local `date -u` 14:14:06 vs `Date:` gitlab.com 14:14:07 / github.com 14:14:05
+  → `<P3-DATE>` = 2026-10-08; vault tree clean; HEAD `977a1ca` == `ls-remote` origin == github; the six
+  files unchanged since the audit commit (`git diff 9b1c49e HEAD` on them empty).
+- ✅ 2026-10-08 3.1 Reconcile pass — a parser written fresh in this session: 11 blocks extracted (5a 5b
+  5c.1–3 5d.1–3 5e 5f.1–2); pre-blobs `b8e3757…` (SKILL.md) + `56d37dc…` (README.md) matched;
+  `selftest.md` absent; every FIND matched exactly once, in order; **zero plan defects**. Positive
+  control (FIND 5c.2 corrupted) → exactly 1 FAIL. Applied to an export of `9b1c49e` → the same six blobs.
+- ✅ 2026-10-08 3.2 Apply § 5 → the six files written byte-for-byte (blobs in QA-S3); QA-S1 ✅, QA-S2 ✅.
+- ✅ 2026-10-08 3.3 § 6c bookkeeping (manifest 2.67: cells 6 / 76 / 77 / 78, rows 93–94 → 0.3, new row 95,
+  Delivery quick-index; CHANGELOG with QA scenarios; plan + tracker 0.3) → QA-S3 ✅ → Rule 10 review table
+  in chat → operator "go on commit?" → commit (§ 7.3, 10 files; no push) → OPEN_TASKS (§ 6f).
 
 ## Phase 4 — Validate
 
 | # | Scenario | Phase | Status | Date | Evidence |
 |---|---|---|---|---|---|
-| QA-S1 | Domain-neutral gate over `skill/` | 3.2 | ⏸ | | |
-| QA-S2 ⚑ | Step 0 matrix 5 / 5 (control red on 0.2) | 3.2 | ⏸ | | |
-| QA-S3 | Governance, cells == headers, fences, blobs | 3.3 | ⏸ | | |
+| QA-S1 | Domain-neutral gate over `skill/` | 3.2 | ✅ | 2026-10-08 | the § 8 grep over `skill/` → no output, exit 1; control (same pattern on `config/projects.toml`) → 29 lines, exit 0 |
+| QA-S2 ⚑ | Step 0 matrix 5 / 5 (control red on 0.2) | 3.2 | ✅ | 2026-10-08 | § 8.1 script extracted verbatim from the plan (46 lines), vault = a local clone at `977a1ca`. 0.3 Step 0 (13 lines): decoy git calls 0 / 0 / 0 / 0 / 0; cases 1–2 exit 0 `Delivering Standard Set Version v2.7 from vault commit 977a1ca (vault: …)`; cases 3–4 exit 1 `STOP: no vault folder named and no skill link …`, case 5 exit 1 `STOP: '…' is not a Standard DocSet vault` — 0 git calls in 3–5. Control, 0.2 Step 0 (`git show HEAD:skill/SKILL.md`, 7 lines): decoy calls 3 / 0 / 3 / 2 / 3 (`rev-parse`, `pull --ff-only`, `rev-parse`; case 4 via `git -C ""`), cases 1 / 3 / 5 print `Set Version  from vault commit <decoy sha>` — identical to § 3 P4 |
+| QA-S3 | Governance, cells == headers, fences, blobs | 3.3 | ✅ | 2026-10-08 | governance exit 0 / 0 (stdout in the Phase 3 chat); cells 2 / 5 / 6 / 76 / 77 / 78 / 93 / 94 / 95 == their headers (Python check — it read row 94 as a mismatch before this tracker's bump: the checker sees a stale cell); fence lines even in all 10 files; blobs after apply: SKILL.md `69541b8`, selftest.md `e00e308`, bootstrap.md `a6882e9`, adopt.md `5abf898`, README.md `4ca4623`, folder_structure.md `b8551f8` (== § 5 applied to `9b1c49e`) |
 | QA-S4 ⚑ | Real self-test from the GitHub page (operator, this Mac) | post-push | ⏸ | | |
 | QA-S5 ⚑ | Project setup with launcher 2 (operator, this Mac) | post-push | ⏸ | | |
 | QA-S6 ⚑ | Windows self-test (D-2) | post-push | ⏸ | | |

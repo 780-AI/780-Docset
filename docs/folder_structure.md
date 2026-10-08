@@ -1,7 +1,8 @@
-<!-- VERSION: 0.17 -->
-<!-- Last Updated: 2026-10-07 -->
+<!-- VERSION: 0.18 -->
+<!-- Last Updated: 2026-10-08 -->
 <!--
 CHANGE LOG
+v0.18 — 2026-10-08 — PLAN-018: added skill/modes/selftest.md to the tree; the skill/ line says a plain clone works too; SKILL.md's line names the handoff report.
 v0.17 — 2026-10-07 — PLAN-017 Phase 3b: the claude_project_data.sh line names the new `cleanup` verb.
 v0.16 — 2026-10-05 — PLAN-017: added tests/test_claude_project_data.py to the tree; the claude_project_data.sh comment notes the Windows junction.
 v0.15 — 2026-10-05 — PLAN-016 (fleet view): added docs/fleet.csv (generated, gitignored), src/standard_document_updater/fleet.py and tests/test_fleet.py to the tree; noted the fleet subcommand on cli.py, the fleet-info keys on registry.py + config/projects.toml, and the engine-tree comment ("PLAN-016: + fleet").
@@ -67,11 +68,12 @@ Standard DocSet/
 │   │   └── VALIDATION_STANDARDS.md
 │   └── Plans/                     # committed planning docs (Rule 1); OPEN_TASKS.md is gitignored
 │       └── .gitkeep
-├── skill/                         # delivery skill (live-reference; PLAN-009) — symlinked to ~/.claude/skills/standard-docset by scripts/bootstrap_skill.sh
-│   ├── SKILL.md                   # mode dispatch + step-0 vault resolve/self-pull
+├── skill/                         # delivery skill (live-reference; PLAN-009) — symlinked to ~/.claude/skills/standard-docset by scripts/bootstrap_skill.sh, or read from a plain clone (PLAN-018)
+│   ├── SKILL.md                   # mode dispatch + step-0 vault resolve/self-pull + the handoff report
 │   └── modes/
 │       ├── bootstrap.md           # NEW-project delivery (successor to SETUP.md)
-│       └── adopt.md               # EXISTING-project migration (dry-run gated)
+│       ├── adopt.md               # EXISTING-project migration (dry-run gated)
+│       └── selftest.md            # unattended throwaway self-test on a practice project (PLAN-018)
 ├── pyproject.toml                 # packaging + tool config (setuptools / ruff / mypy / pytest)
 ├── config/
 │   └── projects.toml              # registry of managed projects (name + transport + connection fields + optional fleet info; per architecture.md § 8)

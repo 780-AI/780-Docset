@@ -1,41 +1,55 @@
 # Standard DocSet
 
-A domain-neutral CLI tool that keeps **standards / governance documentation suites** up to date and
-synchronized across any project it is given access to.
+A domain-neutral standards vault and CLI tool that keeps **standards / governance documentation
+suites** up to date across the projects that adopt them.
 
-It reads a canonical standards suite (the "source"), compares it against one or more adopting
-project repositories (the "targets"), and helps propagate updates — per-file `VERSION` headers,
-`CHANGE LOG` entries, the documents manifest, and the `STANDARDS_INDEX` Set-Version state — under
-the explicit-backport discipline the suite itself defines. It is not tied to any single project's
-domain; the projects it operates on are inputs, supplied at runtime.
+It holds the canonical suite (`docs/standards/`), the delivery skill that sets a project up on it
+(`skill/`), and the engine that keeps every registered project current afterwards
+(`src/standard_document_updater/`). It is not tied to any single project's domain — the projects it
+operates on are inputs, supplied at runtime.
 
-> Status: **bootstrapped** (governance scaffold in place). The engine is not yet implemented — that
-> is the next milestone. See `docs/Plans/` and `CHANGELOG.md`.
+## Use the standards — one prompt in Claude Code
 
-## Quick start
+You need: read access to this repository with an SSH key registered at its host, `git`, and Claude
+Code (on Windows, Claude Code runs its commands in Git Bash). Nothing from this repository is
+installed and nothing in it changes — Claude reads it from a clone in your home folder. Claude Code
+asks before it runs a command; approve them.
 
-```bash
-# (once the engine lands)
-python -m standard_document_updater --help
+**1. Test it first — changes nothing on your computer.** Open Claude Code in your home folder (not
+inside a project) and send:
+
+```text
+Run the Standard DocSet self-test on this computer.
+
+1. Clone git@github.com:780-AI/780-Docset.git into the new folder docset-selftest in my home folder (it is cloned for this self-test). If that folder already exists, stop and tell me.
+2. Read skill/SKILL.md in that folder and follow it in selftest mode. The vault folder is that docset-selftest folder.
 ```
 
-Until the engine exists, this repository is a governed, empty project: the operating contract,
-standards suite, governance scripts, and CI scaffold are in place so that all feature work follows
-the same discipline from the first commit.
+Claude works on its own (about 10 minutes), deletes everything it made, and leaves
+`standard-docset-selftest-report-<time>.txt` on your Desktop. Send that file to the curator.
 
-## How it's organized
+**2. Set up a project.** Open Claude Code in the project's folder and send:
 
-- `CLAUDE.md` — the binding operating contract (read first; 13 standing rules).
-- `docs/standards/` — the adopted standards suite (Standard Set Version v1.0) + `SET_VERSION_ADOPTED.md`.
-- `docs/SESSION_OPENER.md` / `docs/SESSION_CLOSER.md` — binding session start/end routines (Rules 9 & 12).
-- `docs/documents_manifest.md` — the version index of every tracked doc and code file.
-- `docs/folder_structure.md` — the authoritative layout.
-- `docs/Plans/` — committed planning documents (per Rule 1).
-- `scripts/` — governance scripts (run before every push, per Rule 2).
-- `archive/LESSONS.md` — the incident-to-rule archive (49 lessons).
+```text
+Set up the Standard DocSet standards for the project in this folder.
 
-## Standards
+1. If the folder Standard-DocSet exists in my home folder, update it with git pull --ff-only; otherwise clone git@github.com:780-AI/780-Docset.git into that folder.
+2. Read skill/SKILL.md in that folder and follow it. The vault folder is that Standard-DocSet folder; the project is the folder this session was opened in.
+```
 
-This project adopts the standards suite at **Standard Set Version v1.1**
-(see `docs/SET_VERSION_ADOPTED.md`). The binding contract is `CLAUDE.md` at the repo root.
-Backports from the standards source are explicit — see `docs/standards/STANDARDS_INDEX.md` § 4.3.
+Claude asks a few questions about the project, one at a time, sets it up in one commit (it never
+pushes), and leaves a handoff report on your Desktop. Send that file to the curator, who registers
+the project — from then on, suite updates reach it without running this again.
+
+A project that already carries the suite needs neither prompt: its updates come from the curator.
+
+## For the curator
+
+- `CLAUDE.md` — the binding operating contract; read it first.
+- Engine: `python -m standard_document_updater {status,drift,fleet,harvest,integrate,sync}` —
+  behavior in `docs/architecture.md`; the registry of projects is `config/projects.toml`.
+- The current Standard Set Version and its history: `docs/standards/STANDARDS_INDEX.md`.
+- `docs/SESSION_OPENER.md` / `docs/SESSION_CLOSER.md` — binding session start / end routines.
+- `docs/documents_manifest.md` — the version index; `docs/folder_structure.md` — the layout.
+- `docs/Plans/` — committed plans; `archive/LESSONS.md` — the incident-to-rule archive.
+- A new machine: `docs/NEW_MACHINE_SETUP.md`.

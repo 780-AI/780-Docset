@@ -2,6 +2,48 @@
 
 Newest entries at the top.
 
+## [2026-10-08] — PLAN-018 Phase 3: one-prompt delivery — the skill from a plain clone, a selftest mode, the handoff report
+
+- **Type:** Plan Phase 3 (Major — delivery behavior); fresh implementer session from the committed plan.
+  Vault files only: no engine source, no `docs/standards/`, no target write → **no Set Version bump, no
+  tag**; `docs/architecture.md` untouched (the § 4 drift rule is not triggered).
+- **`skill/SKILL.md` 0.2 → 0.3:** Step 0 takes the vault folder the operator's prompt names (a plain clone
+  works — no installed link needed, so Windows works too), otherwise the installed skill link; it checks
+  the folder IS a vault before any git command and never falls back to the current folder (the 0.2 Step 0
+  ran `git pull` in the current folder's repo when no link existed — the audit's wrong-source defect). A
+  third mode, `selftest`; a new **Handoff report** section — the last step of every mode writes one
+  fixed-layout text file (CHECK lines, SUMMARY, REGISTRATION, ANSWERS, STOPS, NOTES, RAW) for the curator.
+- **`skill/modes/selftest.md` 0.1 (new):** an unattended, throwaway run of bootstrap mode on a practice
+  project in a temporary folder (`HOME` sandboxed for both scripts, absolute paths everywhere), every result
+  checked, everything removed — the clone too, under three guards — and the real `~/.claude` never touched.
+- **`skill/modes/bootstrap.md` 0.3 / `skill/modes/adopt.md` 0.4:** the Windows locality refusal inside the
+  live session is expected (the operator links from Git Bash afterwards — a report follow-up); both end
+  with the handoff report.
+- **`README.md`:** refreshed as a whole (it still said "engine not yet implemented") — the repository's
+  landing page now carries the two launchers: (1) the self-test, (2) set up a project. The only file that
+  carries the clone URL.
+- **Also:** `docs/folder_structure.md` 0.18 (the skill tree); `docs/documents_manifest.md` 2.67 (new row
+  95); PLAN-018 plan + tracker 0.3 EXECUTING.
+- **Reconcile pass:** 11 / 11 blocks clean, zero plan defects (pre-blobs matched, every FIND once in
+  order; positive control → exactly 1 FAIL); the six files written byte-for-byte.
+- **Impact:** the delivery skill gains a named-vault Step 0, a selftest mode and the handoff report; the
+  README is refreshed; no engine change, no `docs/standards/` change, no Set Version bump. A session that
+  names no vault folder and has no installed skill link now STOPs at Step 0 instead of reading the suite
+  from the current folder's repo. Registered targets are unaffected (the engine never delivers `skill/`).
+
+### QA scenarios (Rule 11; evidence in `docs/Plans/PLAN-018_tracker.md`)
+
+- ✅ QA-S1 — domain-neutral gate over `skill/`: no hits (exit 1); control on `config/projects.toml` → 29.
+- ✅ QA-S2 ⚑ — Step 0 matrix (plan § 8.1, extracted verbatim): 0 git calls on the decoy in all 5 cases;
+  cases 1–2 deliver v2.7 from `977a1ca`, cases 3–5 STOP with exit 1 and no git call. Control on the 0.2
+  Step 0 → 3 / 0 / 3 / 2 / 3 decoy calls (identical to the plan's P4).
+- ✅ QA-S3 — governance exit 0 / 0; every touched manifest cell == its header; fences even; the six blobs
+  == § 5 applied to `9b1c49e`.
+- ⏸ QA-S4 ⚑ — the real self-test from the repository page (operator, this Mac) — after the push.
+- ⏸ QA-S5 ⚑ — project setup with launcher 2 (operator, this Mac) — after the push.
+- ⏸ QA-S6 ⚑ — Windows self-test (ship-gating, D-2 = A) — after the push.
+- Waiver (Rule 15, operator, D-1 = A): adopt mode's feature-ON evidence until its next real use.
+
 ## [2026-10-08] — PLAN-017 CLOSED: 780-estimator active; the locality tool verified on Windows
 
 - **Type:** Plan closure (§ 7.6, 5 files) + registry change (Critical File `config/projects.toml`: the

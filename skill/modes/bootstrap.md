@@ -1,7 +1,8 @@
-<!-- VERSION: 0.2 -->
-<!-- Last Updated: 2026-08-19 -->
+<!-- VERSION: 0.3 -->
+<!-- Last Updated: 2026-10-08 -->
 <!--
 CHANGE LOG
+v0.3 — 2026-10-08 — PLAN-018: § 6 — the locality script makes the Windows junction itself (since tool 0.2) and, on Windows, refuses while this session is live — the operator links from Git Bash afterwards; § 9 ends with the handoff report (SKILL.md).
 v0.2 — 2026-08-19 — W-D1 fix: § 4 sync-ready SVA shape gains the required CHANGE LOG comment block — the engine's record-update (sync.py _split_header) hard-requires it; the spec omitted it, so the first live bootstrap shipped an SVA that failed on its first version delta.
 v0.1 — 2026-08-16 — Initial (PLAN-009, Set v2.0). Successor to SETUP.md's one-shot prompt: same
 procedure, but the lay-down COPIES the live vault suite (no generation) and no machinery ever
@@ -94,7 +95,11 @@ templates/meta — there is nothing to strip afterwards).
   a one-line "everything project-local lives in the folder (Rule 14); list here ONLY what cannot,
   with migration steps" note, and an empty two-column table (What | How to migrate). Register it in
   the manifest.
-- POSIX symlink — macOS/Linux. On Windows, adapt (directory junction) and say so.
+- The script makes a symlink on macOS / Linux and a directory junction on Windows (Git Bash) by
+  itself. On Windows it refuses while this very session is live (`ABORT: … looks active` — its
+  transcript sits in the harness folder): that is expected, not a failure. Finish the bootstrap, then
+  tell the operator to close Claude Code and run `bash scripts/claude_project_data.sh link` from a
+  Git Bash window; list it as a follow-up in the handoff report.
 
 ## 7. Validate
 
@@ -114,3 +119,5 @@ Summarize what shipped (files + commit SHA). Tell the operator the two follow-up
 (1) curator-side — register the project in the vault's `config/projects.toml` so `sync` maintains
 it from now on; (2) project-side — first feature session opens per the new CLAUDE.md Rule 9
 (SESSION_OPENER pre-flight).
+
+Then write the handoff report (SKILL.md § Handoff report, mode `bootstrap`).
