@@ -1,7 +1,9 @@
-<!-- VERSION: 2.64 -->
+<!-- VERSION: 2.65 -->
 <!-- Last Updated: 2026-10-08 -->
 <!--
 CHANGE LOG
+v2.65 — 2026-10-08 — PLAN-018 APPROVED: rows 93–94 0.1 → 0.2 (DRAFT → APPROVED). Self-row 2.64 → 2.65 (cells
+grep-verified against their file headers per L063).
 v2.64 — 2026-10-08 — PLAN-018 drafted (one-prompt delivery): new rows 93 (plan, 0.1 DRAFT) + 94 (tracker,
 0.1); quick-index Plans + 93–94. Self-row 2.63 → 2.64 (cells grep-verified against their file headers per L063).
 v2.63 — 2026-10-07 — PLAN-017 Phase 3b (locality tool 0.3 + its delivery to the estimator): cells 56
@@ -348,7 +350,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.64 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.65 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.17 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.14 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.21 | Governance | `docs/SESSION_OPENER.md` |
@@ -433,8 +435,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 90 | PLAN-017 — 780-estimator catch-up (first git target) + Windows-capable locality tool (EXECUTING) | 0.6 | Plan | `docs/Plans/PLAN-017_estimator_catchup.md` |
 | 91 | PLAN-017 tracker (EXECUTING) | 0.6 | Plan | `docs/Plans/PLAN-017_tracker.md` |
 | 92 | Project-data locality script test | 0.2 | Governance script test | `tests/test_claude_project_data.py` |
-| 93 | PLAN-018 — one-prompt delivery: the skill from a plain clone, a self-test mode, a handoff report (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-018_one_prompt_delivery.md` |
-| 94 | PLAN-018 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-018_tracker.md` |
+| 93 | PLAN-018 — one-prompt delivery: the skill from a plain clone, a self-test mode, a handoff report (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-018_one_prompt_delivery.md` |
+| 94 | PLAN-018 tracker (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-018_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -443,6 +445,6 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-08
-- **Change**: PLAN-018 drafted — new rows 93–94 (0.1); quick-index Plans + 93–94; self-row → 2.64.
-- **Previous change**: PLAN-017 Phase 3b — rows 56 → 0.3, 92 → 0.2, 6 → 0.17, 90–91 → 0.6; self-row → 2.63.
+- **Change**: PLAN-018 APPROVED — rows 93–94 → 0.2; self-row → 2.65.
+- **Previous change**: PLAN-018 drafted — new rows 93–94 (0.1); quick-index Plans + 93–94; self-row → 2.64.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

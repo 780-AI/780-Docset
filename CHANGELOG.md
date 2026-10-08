@@ -2,6 +2,17 @@
 
 Newest entries at the top.
 
+## [2026-10-08] — PLAN-018 APPROVED
+
+- **Type:** Plan approval record (Phase 2). Operator: *"go on commit; plan 018 approved, all A"* — D18.A
+  approved; D-1…D-4 = A (plan § 9.1): the self-test covers bootstrap mode (adopt mode's feature-ON
+  evidence waived until its next real use — tracker waiver register), Windows is ship-gating, the README
+  is refreshed whole, the self-test deletes its own clone (guarded).
+- **Files:** PLAN-018 plan + tracker 0.1 → 0.2 APPROVED; `docs/documents_manifest.md` 2.65.
+- **Next:** Phase 3 in a fresh session from the committed plan (§ 15.3) — after the PLAN-017 closure.
+- **Impact:** none at runtime — planning documents only. No § 5 change (the 11 blocks re-verified
+  byte-identical to the proven files).
+
 ## [2026-10-08] — PLAN-018 drafted: one-prompt delivery (the skill from a plain clone, a self-test mode, a handoff report)
 
 - **Type:** Plan draft (Phase 1; § 15.9 feature intake — operator request in chat, operator "c, a, a").

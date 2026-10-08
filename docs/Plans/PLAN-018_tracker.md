@@ -1,8 +1,10 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-10-08 -->
-<!-- Status: DRAFT — awaiting operator approval (Phase 2) -->
+<!-- Status: APPROVED — Phase 3 next, in a fresh session -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-08 — Phase 2 ✅: "go on commit; plan 018 approved, all A" (plan § 9.1); waiver register:
+D-1 = A (adopt mode's feature-ON evidence until its next real use).
 v0.1 — 2026-10-08 — Created with the plan draft (tracker required per CLAUDE.md § 15.7: Phase 4 has a
 multi-scenario list, QA-S1…S6, and the feature-ON half runs after the push and on a Windows machine —
 the plan spans sessions).
@@ -33,7 +35,8 @@ the plan spans sessions).
 
 ## Phase 2 — Operator approval
 
-- ⏸ D18.A + D-1…D-4 (plan § 9).
+- ✅ 2026-10-08 — "go on commit; plan 018 approved, all A" — D18.A; D-1…D-4 = A (plan § 9.1). Plan +
+  tracker → 0.2.
 
 ## Phase 3 — Implement (fresh session; one vault commit)
 
@@ -55,7 +58,11 @@ the plan spans sessions).
 | QA-S5 ⚑ | Project setup with launcher 2 (operator, this Mac) | post-push | ⏸ | | |
 | QA-S6 ⚑ | Windows self-test (D-2) | post-push | ⏸ | | |
 
-**Waiver register (Rule 15):** _(none)_
+**Waiver register (Rule 15):**
+
+| Date | Scope | Waiver | By |
+|---|---|---|---|
+| 2026-10-08 | adopt mode's § 5 Windows note + § 8 handoff report (plan § 5d) | feature-ON evidence deferred to adopt mode's next real use — its handoff report is the evidence (D-1 = A) | operator ("plan 018 approved, all A") |
 
 ## Phase 5 — Operator gate
 

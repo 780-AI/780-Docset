@@ -1,8 +1,12 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-10-08 -->
-<!-- Status: DRAFT — awaiting operator approval (Phase 2) -->
+<!-- Status: APPROVED — Phase 3 next, in a fresh session -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-08 — Phase 2 operator approval recorded ("go on commit; plan 018 approved, all A"); § 9.1
+decision record added: D18.A approved; D-1…D-4 = A (D-1 = A carries the operator's Rule 15 waiver for
+adopt mode's feature-ON evidence until its next real use — tracker waiver register). No § 5 change — the
+11 blocks re-extracted from this file stay byte-identical to the proven files.
 v0.1 — 2026-10-08 — Initial draft. § 15.9 intake (operator request in chat, no document; operator
 "c, a, a") → Phase 0 audit against the live source (`9b1c49e`) → Phase 1 design. Code proven FIRST:
 the six changed files drafted in a scratch overlay of a fresh GitHub clone; § 5 GENERATED from it
@@ -134,7 +138,7 @@ replaced it, and the 0.2 control proves it sees the defect.)
 |---|---|---|
 | 0 | Audit + pre-tests (§ 3) | ✅ 2026-10-08 |
 | 1 | Design + proven files + Rule 13 pass | ✅ 2026-10-08 |
-| 2 | Operator approval (§ 9) | ⏸ |
+| 2 | Operator approval (§ 9) | ✅ 2026-10-08 — "plan 018 approved, all A" |
 | 3 | Implement — fresh session: 3.0 pre-checks → 3.1 reconcile → 3.2 apply § 5 + QA-S1 / S2 → 3.3 bookkeeping § 6c + QA-S3 → Rule 10 review → vault commit (§ 7.3; no push) | ⏸ |
 | 4 | Validate — QA-S1…S3 inside Phase 3; QA-S4 / S5 (operator, this Mac) and QA-S6 (Windows) after the push | ⏸ |
 | 5 | Operator gate — push (§ 6d, before QA-S4…S6); closure commit (§ 7.4) | ⏸ |
@@ -834,6 +838,19 @@ run_case "5 named folder is not a vault"       "$W/not-a-vault"   "$W/home-none"
   folder was cloned for this self-test, its name is `docset-selftest`, its tree is clean) — the run is
   fully hands-off. B: keep it; the closing message tells the user to delete the folder (§ 5b § 7.4
   becomes that sentence).
+
+### 9.1 Decision record (Phase 2, 2026-10-08)
+
+- **D18.A — APPROVED:** operator *"go on commit; plan 018 approved, all A"* (2026-10-08).
+- **D-1 = A** — the self-test covers bootstrap mode only. Adopt mode's two changes (§ 5d: the Windows note
+  in § 5 and the handoff report in § 8) are code-reviewed in Phase 3; their feature-ON evidence is
+  **waived by the operator until adopt mode's next real use** (recorded in the tracker's waiver register,
+  Rule 15) — that run's handoff report is the evidence.
+- **D-2 = A** — Windows is ship-gating: the plan closes only with a Windows self-test report (QA-S6).
+- **D-3 = A** — the README is refreshed as a whole (§ 5e as written).
+- **D-4 = A** — the self-test deletes its own clone, guarded (§ 5b § 7.4 as written).
+- **No § 5 change:** the blocks re-extracted from this file stay byte-identical to the proven files
+  (re-verified in the approval commit).
 
 ## 10. Rollback path
 
