@@ -137,7 +137,7 @@ onboarded_on = "2026-06-21"
 onboarded_set = "v1.3"
 registered_on = "2026-10-05"
 plan = "PLAN-017"
-lifecycle = "onboarding"
+lifecycle = "active"
 caveats = "first git-transport target: engine writes are commits pushed to main; Windows PC (Git Bash, Rule 14 via junctions)"
 # NOTE: owner Bahereh Hassanpour. Delivery A (operator, 2026-10-05): the engine commits as
 # "Standard DocSet" and pushes straight to `main` — fast-forward only, so a concurrent push makes

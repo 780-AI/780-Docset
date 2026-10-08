@@ -1,8 +1,17 @@
-<!-- VERSION: 0.6 -->
-<!-- Last Updated: 2026-10-07 -->
-<!-- Status: EXECUTING — Phase 3b DONE (tool 0.3 in the vault + on the estimator's main `515ea96`); QA-M8 re-run with 0.3 open on the owner's PC -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-10-08 -->
+<!-- Status: CLOSED — 2026-10-08: QA-M8 ✅ on the owner's Windows PC with tool 0.3 (all § 8.2 sub-checks, (b) captured live); 780-estimator lifecycle active -->
 <!--
 CHANGE LOG
+v1.0 — 2026-10-08 — CLOSED (§ 7.6 closure commit). QA-M8 ✅ on the owner's Windows PC with tool 0.3, run
+from a self-checking step guide relayed as a .txt (each block printed its own verdict and appended to one
+results file): pull `1ddbbf9..515ea96`; sub-check (b) captured LIVE before the link (`ABORT … looks
+active`, D-9 = A — no waiver); transcripts repaired (d65a220e 188 lines, 335dbc56 identical); `link` with
+0.3 → backup in `~/.claude/locality-backups/`, `STATUS: OK (14)`, `<JUNCTION>`; a fresh session named a
+known memory before reading any file; `cleanup` → KEPT, exactly the two repaired transcripts listed (the
+expectation was written down before the output), only the junction left for the key. The owner confirmed
+the 2026-10-06 Explorer move ("YES, I DID"). Acceptance § 12 items 1–10 checked one by one (tracker).
+Registry `lifecycle` → `active`. Clock checked against gitlab.com.
 v0.6 — 2026-10-07 — Phase 3b executed in a fresh session. Reconcile pass: the 11 Phase 3b blocks + the § 5w
 message re-extracted from this file by a parser written fresh in that session — vault 4 / 4 and estimator
 7 / 7 matched (pre-blobs, single FINDs); zero block defects; checker positive control 1 FAIL as expected.
@@ -134,8 +143,8 @@ is documented completely in the skill.
   the loss); **F2** the backup sat beside the junction with the same name prefix and `adopt` / `link`
   said "delete it once…" with no safe way — it sent the owner into the one folder where a file-manager
   action destroys data (§ 11 had no row for it). Operator: **"A"** — fix inside this plan before closing
-  (tool 0.3 + delivery + QA-M8 re-run), not deferred to v2.8. The owner's confirmation of the Explorer
-  action is pending; it does not change the design.
+  (tool 0.3 + delivery + QA-M8 re-run), not deferred to v2.8. The owner confirmed the Explorer action on
+  2026-10-08 ("YES, I DID"); it does not change the design.
 
 ## 3. Scope summary
 
@@ -225,12 +234,12 @@ is documented completely in the skill.
 | 1 | Design + proven code + Rule 13 pass | ✅ 2026-10-05 |
 | 2 | Operator approval | ✅ 2026-10-05 |
 | 3 | Implement — fresh session: 3.0 pre-checks → 3.1 reconcile → 3.2 vault tool + skill blocks → 3.3 estimator prep commit + push → 3.4 registry + catch-up write → 3.5 CS E002 write-back → 3.6 vault commit | ✅ 2026-10-05 |
-| 4 | Validate — QA-M1…M7 inside Phase 3; QA-M8 / M9 on the owner's PC | 🔄 M1…M7 + M10 ✅ 2026-10-05; M9 ✅ 2026-10-06; M8 re-runs with 0.3 (Phase 3b) |
+| 4 | Validate — QA-M1…M7 inside Phase 3; QA-M8 / M9 on the owner's PC | ✅ M1…M7 + M10 2026-10-05; M9 2026-10-06; M8 (re-run with 0.3) 2026-10-08 |
 | 1b | Phase 3b design — incident record, tool 0.3 proven, Rule 13 pass | ✅ 2026-10-07 |
 | 2b | Operator approval of the revision | ✅ 2026-10-07 |
 | 3b | Implement — fresh session: 3b.0 pre-checks → 3b.1 reconcile → 3b.2 vault § 5q–5s + QA-M11…M15 → 3b.3 estimator delivery commit + push (QA-M16) → 3b.4 vault bookkeeping + commit | ✅ 2026-10-07 (estimator `515ea96`) |
-| 4b | Validate — QA-M11…M16 inside Phase 3b; QA-M8 re-run on the owner's PC with 0.3 | 🔄 M11…M16 ✅ 2026-10-07; M8 ⏸ (owner's PC) |
-| 5 | Operator gate — vault push ✅ 2026-10-06 (`fb8960c`, both remotes); Phase 3b vault push; closure commit after QA-M8 | 🔄 |
+| 4b | Validate — QA-M11…M16 inside Phase 3b; QA-M8 re-run on the owner's PC with 0.3 | ✅ M11…M16 2026-10-07; M8 2026-10-08 |
+| 5 | Operator gate — vault push ✅ 2026-10-06 (`fb8960c`, both remotes); Phase 3b vault push ✅ 2026-10-07 (`9b1c49e`, both remotes); closure commit after QA-M8 ✅ 2026-10-08 | ✅ |
 
 ## 5. Verbatim transformation rules (code proven in scratch; Phase 3 copies byte-for-byte)
 

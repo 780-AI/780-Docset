@@ -2,6 +2,36 @@
 
 Newest entries at the top.
 
+## [2026-10-08] — PLAN-017 CLOSED: 780-estimator active; the locality tool verified on Windows
+
+- **Type:** Plan closure (§ 7.6, 5 files) + registry change (Critical File `config/projects.toml`: the
+  780-estimator entry's `lifecycle` `onboarding` → `active`, § 6f). No engine, tool or `docs/standards/`
+  change → no Set Version bump, no tag.
+- **What closed it:** QA-M8, the last ship-gating scenario, passed on the owner's Windows PC with locality
+  tool 0.3. The owner ran a self-checking step guide relayed as a `.txt` file (each Git Bash block printed
+  its own verdict and appended to one results file). The tool refused to link while a Claude Code session
+  was live (captured before the link, so no waiver was needed); the two transcripts from the 2026-10-06
+  incident were rebuilt from the owner's backup; `link` put its backup in `~/.claude/locality-backups/`
+  (not beside the junction) and reported `STATUS: OK (14 memory files)`; a new session recalled a memory
+  before reading any file; `cleanup` kept the backup and listed exactly the two rebuilt transcripts, as
+  written down before the output. The owner confirmed the 2026-10-06 cause: a manual Explorer move of the
+  junction.
+- **Acceptance (plan § 12):** items 1–10 checked one by one — evidence in `docs/Plans/PLAN-017_tracker.md`
+  (Closure section): the estimator's `main` holds exactly the plan's three commits, linear; vault `status`
+  v2.7 current with a no-op dry-run; Capital-Signal E002 reads `integrated`; the estimator's tool is
+  byte-identical to the vault's 0.3.
+- **Versions:** PLAN-017 plan + tracker 0.6 → 1.0 / CLOSED; `docs/documents_manifest.md` 2.66.
+- **Impact:** the fleet view now lists 780-estimator as `active` (was `onboarding`); no runtime behavior
+  changes. 780-estimator remains v2.7 current.
+
+### QA scenarios (Rule 11; evidence in `docs/Plans/PLAN-017_tracker.md`)
+
+- ✅ QA-M8 ⚑ — Windows `adopt` / `link` on the owner's PC, re-run with tool 0.3 (2026-10-08): pull to
+  `515ea96`; in-session refusal `ABORT … looks active` (live); transcripts repaired (188 lines; identical);
+  `link` → backup in `locality-backups`, `STATUS: OK (14)`, `<JUNCTION>`; new-session recall; `cleanup` →
+  KEPT, exactly the two rebuilt transcripts; only the junction left for the key; count 14 = 14.
+- ✅ QA-M9 ⚑ — handoff landing on their `main` (2026-10-06): `7e466f8` + `1ddbbf9`; fleet `handoff_pending` 0.
+
 ## [2026-10-08] — PLAN-018 APPROVED
 
 - **Type:** Plan approval record (Phase 2). Operator: *"go on commit; plan 018 approved, all A"* — D18.A

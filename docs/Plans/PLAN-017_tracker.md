@@ -1,8 +1,11 @@
-<!-- VERSION: 0.6 -->
-<!-- Last Updated: 2026-10-07 -->
-<!-- Status: EXECUTING — Phase 3b DONE (tool 0.3 in the vault + on the estimator's main `515ea96`); QA-M8 re-run with 0.3 open on the owner's PC -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-10-08 -->
+<!-- Status: CLOSED — 2026-10-08: QA-M8 ✅ on the owner's Windows PC with tool 0.3; acceptance § 12 items 1–10 met -->
 <!--
 CHANGE LOG
+v1.0 — 2026-10-08 — CLOSED: QA-M8 ✅ with evidence (all plan § 8.2 sub-checks; (b) captured live, no
+waiver); incident record gains the owner's confirmation; Phase 5 ✅ (Phase 3b push 2026-10-07 + this
+closure commit); new Closure section — acceptance § 12 items 1–10 checked one by one.
 v0.6 — 2026-10-07 — Phase 3b executed in a fresh session (3b.0–3b.4 ✅): reconcile 11 / 11 clean; vault
 tool 0.3 + tests 0.2 + folder_structure 0.17; estimator delivery commit `515ea96` pushed; QA-M11…M16 ✅
 with evidence. QA-M8 stays ⏸ (owner's PC, with 0.3).
@@ -132,7 +135,7 @@ spans sessions).
 | QA-M5 ⚑ | First live git write | 3.4 | ✅ | 2026-10-05 | `status` (git read path) 780-estimator v1.3 / v2.7 behind; dry-run 7/11; live `--diff` identical to the QA-M4 oracle diff; `--write` → "wrote + flushed 8 file(s) (incl. the handoff)"; `ls-remote` main `b4cae64` → `fdb87b9`; `fdb87b9` parent = `b4cae64`, author `Standard DocSet <standard-docset@localhost>`; `git show --stat` = the 8 files of § 7.3; re-run up-to-date 11/11 (notes the un-landed handoff); `status` v2.7 / v2.7 current; `docs/fleet.csv` row: registry columns == § 5d (registered_on 2026-10-05), `reachable` yes, `handoff_pending` 1 |
 | QA-M6 ⚑ | Post-sync integrity | 3.4 | ✅ | 2026-10-05 | fresh clone of `main`: PROJECT-OWNED BEGIN/END CLAUDE 4/4, opener 3/3, closer 2/2; 15 `### Rule` headings; Rule 14 names `scripts/claude_project_data.sh` (4×), file present + executable; opener heading (l.14) + § 2 "Current state" note (l.92) + § 3.2 popup row intact; closer heading (l.13); SVA bullets v2.7 / 2026-10-05, rows v2.7 + v1.3 |
 | QA-M7 ⚑ | CS E002 write-back | 3.5 | ✅ | 2026-10-05 | operator "go" (no CS session); dry-run → `--write` → Status read back == § 5p's rendering verbatim; CS `docs/SYNC_HANDOFF.md` new, `### Write 1` = integrate write-back of `docs/STANDARDS_LOG.md`; `harvest` → "No open log entries across registered projects" (780-Automation skipped, unreachable). Idle-gate process note above |
-| QA-M8 ⚑ | Windows `adopt` on the owner's PC — re-run with 0.3 (plan § 8.2) | post-3b | ⏸ | 2026-10-06 (partial) | before: 14 (stated beforehand); Git Bash `adopt` → "Adopted." + `STATUS: OK (14 memory files)`; `link` → "Already linked." — then the store was emptied by a manual Explorer move (incident below); remaining sub-checks in plan § 8.2. 0.3 is on their `main` since 2026-10-07 (`515ea96`) — the owner's steps are in its CHANGELOG entry |
+| QA-M8 ⚑ | Windows `adopt` on the owner's PC — re-run with 0.3 (plan § 8.2) | post-3b | ✅ | 2026-10-08 | 2026-10-06: before 14 (stated beforehand); Git Bash `adopt` → "Adopted." + `STATUS: OK (14 memory files)`; `link` → "Already linked." — then the Explorer move (incident below). **Re-run 2026-10-08 with 0.3** (owner, Git Bash, a self-checking step guide relayed as a .txt — every block printed its verdict and appended to one results file): `git pull --ff-only` `1ddbbf9..515ea96`, `# VERSION: 0.3`; `status` NOT LINKED (harness dir + in-repo data), repaired 0 of 2; **(b) live, before the link:** Claude Code open + a new message → `link` → `ABORT: a Claude Code session for this project looks active …` (17:00:58), nothing changed (D-9 = A); transcripts repaired from the Desktop backup: d65a220e 188 lines (63 + 125), 335dbc56 identical, git status unchanged, 14 memories; Claude Code closed → `link` (17:05): harness dir → `C:\Users\<owner>\.claude\locality-backups\<key>.pre-locality-20261008-170519`, `skip` exactly the two repaired transcripts, "Linked.", `backup kept:`, `STATUS: OK (14 memory files)`; `cmd //c dir` → the key `<JUNCTION>` → `E:\…\780-estimator\.claude\project-data`, nothing beside it; **new session** named the memory `project_plan_pipeline_status` (citing `45d7c75`, their `main` at our 2026-10-05 audit) before reading any file, `status` OK 14 exit 0, `backup kept:` line, no `WARNING`, d65a220e 188; **`cleanup`** (17:26) → `KEPT` + exactly `differs …: 335dbc56…` and `differs …: d65a220e…` (expectation written down before the output — matched; no "moved away" line, Order 1), `dir` → only the `<JUNCTION>` for the key. Memory count 14 before = 14 after (acceptance #4) |
 | QA-M9 ⚑ | Handoff landing observed | post-3 | ✅ | 2026-10-06 | `ls-remote` main `fdb87b9` → `1ddbbf9`; fresh clone: `7e466f8` = CHANGELOG + manifest 1.57 (cells == headers) + `docs/SYNC_HANDOFF.md` deleted; `1ddbbf9` = `bootstrap_memory.sh` + its manifest row + tree line removed (manifest 1.58, CHANGELOG 1.41, folder_structure 1.18); linear, governance paths only; their tool blob `4e3d1f0` == the vault's; vault `status` 780-estimator v2.7 current, fleet `handoff_pending` 0 |
 | QA-M10 | Domain-neutral grep | 3.2 | ✅ | 2026-10-05 | `grep -rniE "780\|estimator\|everon\|equinex\|capital-signal\|bahereh\|parsaazad\|a780" skill/ docs/standards/ scripts/claude_project_data.sh tests/test_claude_project_data.py` → no output, exit 1; control: same pattern on `config/projects.toml` → 23 hits |
 | QA-M11 | Tools (ruff / mypy / pytest 163) | 3b | ✅ | 2026-10-07 | `ruff check src tests` → All checks passed; `MYPYPATH=src mypy --cache-dir <fresh> src tests` → no issues in 25 source files; `bash -n scripts/claude_project_data.sh` exit 0; pytest → 163 passed |
@@ -142,7 +145,7 @@ spans sessions).
 | QA-M15 | Domain-neutral grep | 3b | ✅ | 2026-10-07 | QA-M10's pattern over the tool + tests → no output, exit 1 (also over `skill/` + `docs/standards/`: exit 1); control on `config/projects.toml` → 29 lines (23 at QA-M10, before § 5d added the estimator entry) |
 | QA-M16 ⚑ | Delivery commit on their `main` | 3b | ✅ | 2026-10-07 | before the commit: their `check_doc_coverage.py` / `check_test_coverage_drift.py --ci` exit 0 / 0; after the push: `ls-remote` main = `515ea96`, parent `1ddbbf9`; `git show --name-only` = the 3 files of § 7.10; their tool `100755 blob 24f758b…` == vault 0.3 `git hash-object`; cells == headers at `515ea96` (CHANGELOG 1.42, manifest 1.59, tool 0.3); vault `status` → 780-estimator v2.7 / v2.7 current, fleet `handoff_pending` 0 |
 
-**Waiver register (Rule 15):** _(none)_
+**Waiver register (Rule 15):** _(none — QA-M8 sub-check (b) was captured live on 2026-10-08, D-9 = A)_
 
 > **Incident 2026-10-06 (QA-M8, the owner's PC).** At 09:35 `adopt` ran correctly. At 09:45 the junction
 > and the tool's backup beside it were cut into a new Desktop folder in Explorer; moving the junction moved
@@ -152,10 +155,34 @@ spans sessions).
 > deletion times, folder timestamps, no shell-history hits (her Claude, read-only). Recovered from the
 > Recycle Bin by her Claude: 14 memories byte-identical; the two transcripts' re-assembly sent with the
 > `link` steps. Tool 0.2 has no path that empties the store; the design gaps F1 / F2 are Phase 3b.
+> **Owner confirmation 2026-10-08:** "YES, I DID" — the cut-and-paste of both entries into
+> `Desktop\calude_BAK` in Explorer at about 09:45 on 2026-10-06 (incident cause confirmed).
 
 ## Phase 5 — Operator gate
 
 - ✅ 2026-10-06 — Vault push (`fb8960c`) to BOTH remotes (`origin` GitLab + `github` 780-AI/780-Docset):
   governance exit 0 / 0; `ls-remote` origin master = github master = `fb8960c` = HEAD; no tag.
-- ⏸ Push the Phase 3b vault commits to BOTH remotes + `ls-remote` both (no tag).
-- ⏸ Closure commit (§ 7.6) after QA-M8 (re-run with 0.3) — QA-M9 ✅.
+- ✅ 2026-10-07 — Phase 3b vault commits (`b4ce2ce` `d4c6e2f` `9b1c49e`) pushed to BOTH remotes (operator
+  "push"): governance exit 0 / 0; `ls-remote` origin master = github master = `9b1c49e` = HEAD; no tag.
+- ✅ 2026-10-08 — Closure commit (§ 7.6, 5 files) after QA-M8 ✅ (QA-M9 ✅); its push to both remotes runs
+  on the operator's "push" (recorded in OPEN_TASKS — this tracker is frozen at closure).
+
+## Closure — acceptance (plan § 12), checked 2026-10-08
+
+1. ✅ QA-M1…M7 + M10 (2026-10-05) and QA-M8 + M9 (2026-10-08 / 2026-10-06) with evidence above; no waiver.
+2. ✅ The estimator's `main` (fresh clone, `ls-remote` = `515ea96`): `45d7c75..main` = `b4cae64` (prep,
+   curator) → `fdb87b9` (engine sync, "Standard DocSet") → `7e466f8` + `1ddbbf9` (the owner's landing) →
+   `515ea96` (delivery, curator); 0 merges; all three plan commits are ancestors of `main` — no force-push.
+3. ✅ Vault `status`: 780-estimator v2.7 / v2.7 current over git; `sync --project 780-estimator` dry-run
+   → every item `ok` (no-op).
+4. ✅ Memory count 14 before `adopt` (2026-10-06) = 14 after the 0.3 `link` (2026-10-08).
+5. ✅ Capital-Signal `docs/STANDARDS_LOG.md` E002: `Status: integrated → vault scripts/claude_project_data.sh
+   v0.2 (PLAN-017 locality-tool fix — …)` (plain read).
+6. ✅ Every manifest cell touched by the closure == its file header (grep, L063); governance exit 0 / 0 in
+   the vault at the closure commit.
+7. ✅ Plan + tracker 1.0 / CLOSED; OPEN_TASKS updated; its v2.8 queue holds Rule 16 items #4, #5, #8 and the
+   D-2 tool-delivery item.
+8. ✅ QA-M11…M16 (2026-10-07) + QA-M8 with tool 0.3 on the owner's PC, sub-check (b) live.
+9. ✅ The estimator's tool blob `24f758b…` == the vault's 0.3 `git hash-object` (re-checked 2026-10-08).
+10. ✅ After the QA-M8 `cleanup`, `dir C:\Users\<owner>\.claude\projects` shows only the `<JUNCTION>` for the
+    key — the kept backup lives in `~/.claude/locality-backups/`.
