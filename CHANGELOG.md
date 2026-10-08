@@ -2,6 +2,28 @@
 
 Newest entries at the top.
 
+## [2026-10-08] — PLAN-018 drafted: one-prompt delivery (the skill from a plain clone, a self-test mode, a handoff report)
+
+- **Type:** Plan draft (Phase 1; § 15.9 feature intake — operator request in chat, operator "c, a, a").
+  No code, skill, config or target change in this commit; no `docs/standards/` change → no Set Version
+  bump, no tag.
+- **The feature:** anyone with read access to the vault repository uses the suite through one short
+  prompt in Claude Code — a plain clone, no installer, Windows included — and every delivery ends in a
+  plain-text handoff report the curator checks. Self-test mode = an unattended, throwaway run on a
+  practice project; the README (the repository's landing page) is refreshed and carries the two
+  launchers.
+- **Found by the audit:** with no skill link (or the copy Git Bash makes on Windows), the current Step 0
+  runs `git pull` on the CURRENT folder's repository and reads the suite from it — measured: 2–3 git
+  calls on a decoy repository in 4 of 5 situations; the draft makes 0.
+- **Pre-tests (numbers):** GitHub clone 18 s / 3.5 MB, nothing private published; § 5 generated and
+  parsed back byte-identical (11 blocks; control 1 FAIL); a fresh agent given ONLY the self-test launcher
+  ran it unattended on the draft — 17 PASS / 0 FAIL / 1 INFO in about 8 minutes, the machine identical
+  before and after (curator snapshot); its notes fixed or queued; a second fresh agent on the final text: 17 / 0 / 1 again, every fix followed. The self-test also exposed five pre-existing delivery gaps (queued).
+- **Files:** `docs/Plans/PLAN-018_one_prompt_delivery.md` + `PLAN-018_tracker.md` (0.1 DRAFT);
+  `docs/documents_manifest.md` 2.64.
+- **Next:** operator approval (plan § 9: D18.A; D-1…D-4), then Phase 3 in a fresh session.
+- **Impact:** none at runtime — planning documents only.
+
 ## [2026-10-07] — PLAN-017 Phase 3b: locality tool 0.3 (safer backups + `cleanup`), delivered to 780-estimator
 
 - **Type:** Plan Phase 3b (fix-forward inside PLAN-017 after the 2026-10-06 Windows store loss); fresh
