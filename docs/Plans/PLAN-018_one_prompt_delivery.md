@@ -1,8 +1,11 @@
-<!-- VERSION: 0.3 -->
-<!-- Last Updated: 2026-10-08 -->
-<!-- Status: EXECUTING — Phase 3 shipped 2026-10-08; push, then QA-S4…S6 (S6 on Windows) -->
+<!-- VERSION: 1.0 -->
+<!-- Last Updated: 2026-10-11 -->
+<!-- Status: CLOSED — 2026-10-11: QA-S1…S6 ✅ (S6 on Windows); acceptance § 12 met (tracker Closure section) -->
 <!--
 CHANGE LOG
+v1.0 — 2026-10-11 — CLOSED: QA-S4 / S5 (2026-10-10) and QA-S6 on Windows (2026-10-11) ✅ — evidence, the two
+waivers and the acceptance check in the tracker; § 4 Phases 4–5 ✅; § 9.2 closure decision record (the
+bootstrap § 6 Windows-note waiver; Windows findings W1–W3 → a follow-up change). No § 5 change.
 v0.3 — 2026-10-08 — Phase 3 shipped (fresh session): `<P3-DATE>` = 2026-10-08 (local clock within 1 s of
 gitlab.com / github.com); reconcile pass 11 / 11 blocks clean, ZERO plan defects (pre-blobs matched,
 `selftest.md` absent, every FIND once in order; positive control → exactly 1 FAIL); the six files written
@@ -144,8 +147,8 @@ replaced it, and the 0.2 control proves it sees the defect.)
 | 1 | Design + proven files + Rule 13 pass | ✅ 2026-10-08 |
 | 2 | Operator approval (§ 9) | ✅ 2026-10-08 — "plan 018 approved, all A" |
 | 3 | Implement — fresh session: 3.0 pre-checks → 3.1 reconcile → 3.2 apply § 5 + QA-S1 / S2 → 3.3 bookkeeping § 6c + QA-S3 → Rule 10 review → vault commit (§ 7.3; no push) | ✅ 2026-10-08 — reconcile 11 / 11, zero plan defects |
-| 4 | Validate — QA-S1…S3 inside Phase 3; QA-S4 / S5 (operator, this Mac) and QA-S6 (Windows) after the push | 🔄 QA-S1…S3 ✅ 2026-10-08; QA-S4…S6 ⏸ (after the push) |
-| 5 | Operator gate — push (§ 6d, before QA-S4…S6); closure commit (§ 7.4) | ⏸ |
+| 4 | Validate — QA-S1…S3 inside Phase 3; QA-S4 / S5 (operator, this Mac) and QA-S6 (Windows) after the push | ✅ QA-S1…S3 2026-10-08; QA-S4 + S5 2026-10-10; QA-S6 (Windows) 2026-10-11 |
+| 5 | Operator gate — push (§ 6d, before QA-S4…S6); closure commit (§ 7.4) | ✅ push 2026-10-08 (both remotes `d57c56b`); closure 2026-10-11 |
 
 ## 5. Verbatim transformation rules (files proven in scratch; Phase 3 copies byte-for-byte)
 
@@ -855,6 +858,18 @@ run_case "5 named folder is not a vault"       "$W/not-a-vault"   "$W/home-none"
 - **D-4 = A** — the self-test deletes its own clone, guarded (§ 5b § 7.4 as written).
 - **No § 5 change:** the blocks re-extracted from this file stay byte-identical to the proven files
   (re-verified in the approval commit).
+
+### 9.2 Decision record (closure, 2026-10-11)
+
+- **QA-S4 on the operator's second Mac — accepted (option (a), 2026-10-10):** no "before" snapshot existed on
+  that machine; the vault half was checked from the curator Mac (same Dropbox folder) and the machine half by
+  a read-only after-check run there (tracker QA-S4 row).
+- **Bootstrap § 6 Windows live-session note (§ 5c.2) — WAIVED** until the first real Windows bootstrap (its
+  handoff report is the evidence): the self-test cannot reach it — its sandbox HOME means the session is
+  never live there. Operator *"do as suggested"* (2026-10-11); tracker waiver register.
+- **Windows findings W1–W3 (tracker Closure section) — a follow-up change after closure**, not a fix-forward
+  here: none failed a check (W1 Python names, W2 Git Bash ssh vs the Windows ssh-agent, W3 write-list drift).
+  Operator *"do as suggested"* (2026-10-11).
 
 ## 10. Rollback path
 

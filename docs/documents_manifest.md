@@ -1,7 +1,9 @@
-<!-- VERSION: 2.67 -->
-<!-- Last Updated: 2026-10-08 -->
+<!-- VERSION: 2.68 -->
+<!-- Last Updated: 2026-10-11 -->
 <!--
 CHANGE LOG
+v2.68 — 2026-10-11 — PLAN-018 CLOSED: rows 93 (plan) + 94 (tracker) 0.3 EXECUTING → 1.0 CLOSED (titles too).
+Self-row 2.67 → 2.68 (cells grep-verified against their file headers per L063).
 v2.67 — 2026-10-08 — PLAN-018 Phase 3 (one-prompt delivery): new row 95 (Delivery, `skill/modes/selftest.md`
 0.1); bumped cells 6 (folder_structure 0.17→0.18), 76 (skill/SKILL.md 0.2→0.3), 77 (bootstrap mode 0.2→0.3),
 78 (adopt mode 0.3→0.4); PLAN-018 plan + tracker (93–94) 0.2/APPROVED → 0.3/EXECUTING; Delivery-skill
@@ -359,7 +361,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.67 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.68 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.18 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.14 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.21 | Governance | `docs/SESSION_OPENER.md` |
@@ -444,8 +446,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 90 | PLAN-017 — 780-estimator catch-up (first git target) + Windows-capable locality tool (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-017_estimator_catchup.md` |
 | 91 | PLAN-017 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-017_tracker.md` |
 | 92 | Project-data locality script test | 0.2 | Governance script test | `tests/test_claude_project_data.py` |
-| 93 | PLAN-018 — one-prompt delivery: the skill from a plain clone, a self-test mode, a handoff report (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-018_one_prompt_delivery.md` |
-| 94 | PLAN-018 tracker (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-018_tracker.md` |
+| 93 | PLAN-018 — one-prompt delivery: the skill from a plain clone, a self-test mode, a handoff report (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-018_one_prompt_delivery.md` |
+| 94 | PLAN-018 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-018_tracker.md` |
 | 95 | Delivery skill — selftest mode | 0.1 | Delivery | `skill/modes/selftest.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
@@ -454,7 +456,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 ## Last updated
 
-- **Date**: 2026-10-08
-- **Change**: PLAN-018 Phase 3 — new row 95; cells 6, 76, 77, 78 + rows 93–94 → 0.3 EXECUTING; self-row → 2.67.
-- **Previous change**: PLAN-017 CLOSED — rows 90–91 → 1.0 (CLOSED); self-row → 2.66.
+- **Date**: 2026-10-11
+- **Change**: PLAN-018 CLOSED — rows 93–94 → 1.0 (CLOSED); self-row → 2.68.
+- **Previous change**: PLAN-018 Phase 3 — new row 95; cells 6, 76, 77, 78 + rows 93–94 → 0.3 EXECUTING; self-row → 2.67.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

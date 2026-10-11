@@ -2,6 +2,35 @@
 
 Newest entries at the top.
 
+## [2026-10-11] — PLAN-018 CLOSED: one-prompt delivery verified on macOS and Windows
+
+- **Type:** Plan closure (§ 7.4, 4 files). No skill, engine or `docs/standards/` change → no Set Version
+  bump, no tag.
+- **What closed it:** the three feature-ON scenarios that run after the push. QA-S4: launcher 1, copied from
+  the GitHub page into a new session on the operator's second Mac, ran the self-test unattended — 17 PASS /
+  0 FAIL, the clone of `d57c56b` deleted, the machine as it was. QA-S5: launcher 2 set up a throwaway project
+  on the curator Mac in one commit, with a report whose REGISTRATION facts all match the real repo, and the
+  vault's engine reads the result as up-to-date. QA-S6: the self-test on the 780-estimator owner's Windows
+  PC — 16 PASS / 0 FAIL / 2 INFO (the clock, and `installer` — Git Bash copies instead of linking, the
+  expected Windows result), the project-data junction removed with `cmd rmdir`.
+- **Waivers (Rule 15, operator):** adopt mode's § 5 / § 8 changes until its next real use (D-1 = A); bootstrap
+  mode's § 6 Windows live-session note until the first real Windows bootstrap — the self-test cannot reach it.
+- **Queued as a follow-up change (none failed a check):** W1 selftest § 4 lists no Windows Python names
+  (`python`, `py -3`); W2 Git Bash's bundled ssh cannot use a key held by the Windows ssh-agent — the
+  launchers' clone needs git pointed at Windows' ssh on such a machine; W3 one write outside the sandbox
+  (a report copy in `/tmp`, deleted again).
+- **Versions:** PLAN-018 plan + tracker 0.3 → 1.0 / CLOSED; `docs/documents_manifest.md` 2.68.
+- **Impact:** none at runtime — bookkeeping only. The delivery shipped in `d57c56b` (2026-10-08) is now
+  verified on both platforms.
+
+### QA scenarios (Rule 11; evidence in `docs/Plans/PLAN-018_tracker.md`)
+
+- ✅ QA-S1 / QA-S2 ⚑ / QA-S3 — 2026-10-08 (Phase 3; see the Phase 3 entry below).
+- ✅ QA-S4 ⚑ — the real self-test from the GitHub page (2026-10-10; the operator's second Mac — no "before"
+  snapshot there: the vault checked from the curator Mac, the machine by a read-only after-check).
+- ✅ QA-S5 ⚑ — project setup with launcher 2 (2026-10-10; `c60571a`; engine oracle 11 / 11 ok; cleaned up).
+- ✅ QA-S6 ⚑ — Windows self-test (2026-10-11; 16 / 0 / 2; `unlink` via `cmd rmdir`).
+
 ## [2026-10-08] — PLAN-018 Phase 3: one-prompt delivery — the skill from a plain clone, a selftest mode, the handoff report
 
 - **Type:** Plan Phase 3 (Major — delivery behavior); fresh implementer session from the committed plan.
