@@ -2,6 +2,26 @@
 
 Newest entries at the top.
 
+## [2026-10-12] — PLAN-020 drafted: Standard Set Version v2.8 (lessons batch, senior-review checklist, template fixes, decision-log template)
+
+- **Type:** Plan draft (Phase 1; § 15.9 intake — operator "start 2.8", no document). No suite, code,
+  config or project change in this commit.
+- **Intake:** the v2.8 inventory (every recorded candidate with source + recommendation; the adopter
+  items as the Rule 16 list) answered in chat — Q1 = A docs-only, rest queued right after; Q2 = yes
+  (Rule 16 gate: 780-estimator items #4 / #5 / #8 + Capital-Signal E002's remainder; #6 deferred);
+  Q3 = A; Q4 = yes (plain-language memory + a decision log); Q5 = A (decision log in two steps);
+  Q6 = yes. Verbatim answers become DL-004 … DL-009 in the new `docs/DECISION_LOG.md` (Phase 3).
+- **The plan:** lessons L082–L089 (+ an L080 data point); CLAUDE.md § 15.8 senior-review checklist;
+  template fixes (the four dangling Project Instructions references, the Rule 12 alias, § 14 stub
+  wording, the Windows junction, the opener's leftover-`memory/` line, INDEX § 4); PROMPT § 3.12,
+  ENGINEERING § 2.7, PROJECT § 8.10; the DECISION_LOG template + the vault's own log + a vault
+  CLAUDE.md § 10 rule; two skill lines; delivery to the four reachable projects. 67 § 5 blocks + 3 QA
+  harnesses, proven on a scratch export (oracle on copies of the projects: exactly a 10-item delta
+  each, idempotent; baseline + controls). Decisions open for Phase 2: D20, D-1 … D-4 (plan § 9).
+- **Files:** `docs/Plans/PLAN-020_set_v2_8.md` (0.1), `docs/Plans/PLAN-020_tracker.md` (0.1),
+  `docs/documents_manifest.md` 2.72.
+- **Impact:** none at runtime — planning documents only.
+
 ## [2026-10-12] — PLAN-019: the git transport fails fast (ssh timeouts + keepalives, a 300 s cap on every transport command)
 
 - **Type:** Engine fix (Major per § 4 — Critical File `src/standard_document_updater/`; § 15 plan Phase 3
