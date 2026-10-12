@@ -1,8 +1,9 @@
-<!-- VERSION: 1.0 -->
+<!-- VERSION: 1.1 -->
 <!-- Last Updated: 2026-10-12 -->
 <!-- Source: docs/standards/DECISION_LOG.md (template) v0.1. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.1 — 2026-10-12 — DL-015 … DL-017: the PLAN-020 Phase 3b delivery choices (which projects to write, closing with 780-VPN held, the decision log in the close commit).
 v1.0 — 2026-10-12 — Created (PLAN-020, Standard Set Version v2.8): the vault's decision log; seeded with the decisions of 2026-10-12 (DL-001 … DL-009, verbatim) and the PLAN-020 Phase 2 answers (DL-010 … DL-014). Decisions before 2026-10-12 live in each plan's § 9.1.
 -->
 
@@ -43,6 +44,40 @@ decision".
 ---
 
 ## Decisions (newest first)
+
+### DL-017 — 2026-10-12 — PLAN-020: record the delivery choices in the close commit
+
+- **Question:** The new § 10 rule puts every operator choice in this log in the same commit as the
+  work, but the plan's close-commit list (§ 7.2) has 4 files and not this one. Add this file to the
+  close commit, or record the choices in a later commit?
+- **Options:** A — add `docs/DECISION_LOG.md` to the close commit (5 files), named as a deviation in
+  the plan and CHANGELOG / B — keep 4 files; record in the next commit that touches the log (breaks
+  "same commit" on the rule's first day) (recommended: A)
+- **Answer:** "do as recommanded" — 2026-10-12
+- **Decision:** A — the close commit carries 5 files.
+- **Applied in:** PLAN-020 close commit (§ 7.2 deviation recorded in the plan's CHANGE LOG).
+
+### DL-016 — 2026-10-12 — PLAN-020: close now with 780-VPN held, or wait for it
+
+- **Question:** 780-VPN is reachable but a session is live in it on the operator's other Mac, so it
+  was not written. Close the plan now with 780-VPN recorded as held, or keep it open until that
+  session ends?
+- **Options:** A — close now; 780-VPN catches up after its session ends (one command, recorded as a
+  post-close note, like 780-Automation) — acceptance criterion 4 partly met, reason recorded / B —
+  keep the plan open until 780-VPN can be written (recommended: A)
+- **Answer:** "do as recommanded" — 2026-10-12
+- **Decision:** A — PLAN-020 closes with 780-VPN held and 780-Automation unreachable; both catch up later.
+- **Applied in:** PLAN-020 close commit; OPEN_TASKS catch-up item.
+
+### DL-015 — 2026-10-12 — PLAN-020 D-4: which projects to write v2.8 to now
+
+- **Question:** With each project's idle evidence shown, which projects get the v2.8 write now?
+- **Options:** go Capital-Signal (idle 5 h), go Equinex (idle 6 days), go 780-estimator (git — a
+  concurrent push makes the write fail, never overwrite); hold 780-VPN (a session live on the other
+  Mac — transcript written under a minute before); 780-Automation unreachable (recommended: as listed)
+- **Answer:** "go as recommended" — 2026-10-12
+- **Decision:** Capital-Signal, Equinex and 780-estimator written; 780-VPN held.
+- **Applied in:** PLAN-020 Phase 3b (tracker 3b.1–3b.5); 780-estimator `af5968b`.
 
 ### DL-014 — 2026-10-12 — PLAN-020 D-4: deliver v2.8 to the projects in the same session
 

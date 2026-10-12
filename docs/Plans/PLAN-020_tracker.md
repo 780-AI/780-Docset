@@ -1,8 +1,9 @@
-<!-- VERSION: 0.3 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-10-12 -->
-<!-- Status: EXECUTING — Phase 3a committed; Phase 3b (delivery) next -->
+<!-- Status: CLOSED — 2026-10-12 (Phase 5 push + tag pending the operator's "push") -->
 <!--
 CHANGE LOG
+v1.0 — 2026-10-12 — Phase 3b ✅ (3b.1–3b.6) + QA-V6 ✅ with evidence; 780-VPN held (DL-016), 780-Automation unreachable; CLOSED.
 v0.3 — 2026-10-12 — Phase 3a ✅ (3a.0–3a.4) with evidence; QA-V1…V5, V7, V8 ✅.
 v0.2 — 2026-10-12 — Phase 2 ✅: "go on commit; approve 020, all A" (plan § 9.1); D-3 = A waiver recorded under Phase 4.
 v0.1 — 2026-10-12 — Created with the plan draft (tracker required per CLAUDE.md § 15.7: Phase 3 lands as
@@ -48,12 +49,25 @@ two commits plus project writes; Phase 4 has a multi-scenario list, QA-V1…V8).
 
 ## Phase 3b — Delivery (same session, D-4)
 
-- ⏸ 3b.1 — EverOn.Capital-Signal: idle evidence → "go" → `sync --project … --write` → re-run up-to-date.
-- ⏸ 3b.2 — 780-VPN: same.
-- ⏸ 3b.3 — EverOn.Equinex: same (high-stakes — only between its work sessions).
-- ⏸ 3b.4 — 780-estimator (git): write = one engine commit pushed to their `main` → re-run up-to-date.
-- ⏸ 3b.5 — 780-Automation: probe; unreachable → recorded, catch-up later.
-- ⏸ 3b.6 — `status` → QA-V6; § 6 rule 5 → Rule 10 review → "go on commit?" → commit 2 (§ 7.2, 4 files).
+- ✅ 2026-10-12 3b.1 — EverOn.Capital-Signal: idle evidence (newest transcript 05:33 UTC, ~5 h; no Claude
+  process in the folder; no handoff) → operator "go as recommended" (DL-015) → re-checked 10:39 UTC (unchanged)
+  as its own step → `sync --project EverOn.Capital-Signal --write`: 10 of 11 + handoff ("Write 1") → re-run
+  up-to-date; merged CLAUDE.md PO 4, TEMPLATE-ONLY / `Closeout_Mode` 0.
+- ⏭ 2026-10-12 3b.2 — 780-VPN: **HELD, not written** — a session live on the operator's other Mac (transcripts
+  written 10:34 and again 10:51 UTC; no Claude process on this Mac). Operator: hold (DL-015), close with it
+  held (DL-016). Catch-up after that session: idle evidence → "go" → write → re-run (OPEN_TASKS). New at
+  10:55 UTC: its log shows 1 open entry (0 at 10:19) — next harvest, own Rule 16 gate.
+- ✅ 2026-10-12 3b.3 — EverOn.Equinex: idle evidence (newest transcript 2026-10-06 06:05 UTC; no process; no
+  handoff) → "go" (DL-015) → re-checked 10:43 UTC → write: 10 of 11 + handoff ("Write 1") → re-run
+  up-to-date; PO 4, TEMPLATE-ONLY / `Closeout_Mode` 0.
+- ✅ 2026-10-12 3b.4 — 780-estimator (git): timed dry-run first (143 s, the 10-item delta — the session-open
+  `unknown` was a slow read, PLAN-019 R4 watch item) → "go" (DL-015) → write 241 s: their `main`
+  `515ea96` → `af5968b` "Standard DocSet: sync to Standard Set Version v2.8" (11 files incl. the handoff) →
+  re-run up-to-date; the pushed CLAUDE.md PO 4, TEMPLATE-ONLY / `Closeout_Mode` 0, checklist 1.
+- ✅ 2026-10-12 3b.5 — 780-Automation: ssh probe 10:51 UTC → port 22 timed out → recorded unreachable;
+  catch-up when its host answers (R6).
+- ✅ 2026-10-12 3b.6 — `status` (130 s) → QA-V6; § 6 rule 5 + the decision-log entries → Rule 10 review →
+  commit 2 (§ 7.2 + `docs/DECISION_LOG.md` = 5 files, DL-017) — this commit.
 
 ## Phase 4 — Validate (QA scenarios, plan § 8)
 
@@ -68,7 +82,9 @@ two commits plus project writes; Phase 4 has a multi-scenario list, QA-V1…V8).
   Real projects untouched (CLAUDE.md times unchanged, no handoff).
 - ✅ 2026-10-12 QA-V5 — governance exit 0 / 0 (stdout in the session chat); harness 8d `SUMMARY CLEAN` (98
   rows); its control — the § 5-applied tree before § 6 rule 1 → exactly 21 failures (19 cells + 2 unlisted).
-- ⏸ QA-V6 ⚑ — live delivery: four projects `v2.8 v2.8 current`, each idempotent; 780-Automation recorded.
+- ✅ 2026-10-12 QA-V6 ⚑ — live: Capital-Signal, Equinex, 780-estimator `v2.8 v2.8 current`, each re-run
+  up-to-date (handoff_pending 1 each — their next sessions land them); 780-VPN `v2.7 v2.8 behind` — HELD
+  (live session; DL-016); 780-Automation `unknown` (unreachable). Criterion 4 partly met by operator decision.
 - ✅ 2026-10-12 QA-V7 — `docs/DECISION_LOG.md`: DL-001 … DL-014, each with a dated verbatim answer; § 9.1
   cites DL-010 … DL-014; harness 8b fence check passes on it.
 - ✅ 2026-10-12 QA-V8 — the engine's `strip_template_only` on the template CLAUDE.md: body TEMPLATE-ONLY 0,

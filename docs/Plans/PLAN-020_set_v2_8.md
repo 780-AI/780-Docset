@@ -1,8 +1,13 @@
-<!-- VERSION: 0.3 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-10-12 -->
-<!-- Status: EXECUTING — Phase 3a committed; Phase 3b (delivery) next, same session -->
+<!-- Status: CLOSED — 2026-10-12 -->
 <!--
 CHANGE LOG
+v1.0 — 2026-10-12 — CLOSED. Phase 3a committed `49588dc`; Phase 3b delivered v2.8 to Capital-Signal, Equinex and
+780-estimator (`af5968b` on their main), each re-run up-to-date (QA-V6 ✅); 780-VPN HELD — a session live on the
+operator's other Mac — and 780-Automation unreachable, both to catch up (DL-015, DL-016). Named deviation: the
+close commit adds `docs/DECISION_LOG.md` to § 7.2 (5 files) so the Phase 3b choices land same-commit under the
+new § 10 rule (DL-017) — the plan predates its own rule. Phase 5 (push + tag) awaits the operator.
 v0.3 — 2026-10-12 — Phase 3a: reconcile 70 / 70 blocks re-extracted (67 edits + 3 harnesses), zero plan defects;
 § 5 applied (21 files, byte-identical to a scratch export); QA-V1…V5, V7, V8 ✅; § 6 rules 1–4 applied;
 § 9.1 now cites DL-010 … DL-014. Status EXECUTING.
@@ -145,8 +150,8 @@ per reachable project (their trees, not this repo).
 | 1 — Design (+ Rule 13 pass) | ✅ | 2026-10-12 |
 | 2 — Operator approval | ✅ "go on commit; approve 020, all A" | 2026-10-12 |
 | 3a — Release commit (fresh session) | ✅ | 2026-10-12 |
-| 3b — Delivery to the reachable projects + record commit | ⏸ pending | — |
-| 4 — Validate (QA-V1…V8) | ⏸ pending | — |
+| 3b — Delivery to the reachable projects + record commit | ✅ (780-VPN held, DL-016) | 2026-10-12 |
+| 4 — Validate (QA-V1…V8) | ✅ | 2026-10-12 |
 | 5 — Operator gate (push both remotes + tag `set-v2.8`) | ⏸ pending | — |
 
 ## 5. Verbatim transformation rules (text proven in scratch; Phase 3 copies byte-for-byte)
@@ -2268,6 +2273,9 @@ REPLACE WITH:
 - `docs/documents_manifest.md`
 - `CHANGELOG.md`
 
+**Phase 3 deviation (DL-017, 2026-10-12):** + `docs/DECISION_LOG.md` (DL-015 … DL-017, the Phase 3b choices) —
+5 files.
+
 Anything else in `git status --short` → STOP and report (Rule 6). `docs/fleet.csv` is gitignored.
 The project writes in Phase 3b land in THEIR trees (handoff + their own landing commit), never here.
 
@@ -2618,6 +2626,8 @@ which rewrites the v2.7 content (merge and replace are content-driven).
 3. Structure clean: anchors, fences, INDEX cells, 89 lessons (QA-V3).
 4. The engine delivers exactly the 10-item delta to every reachable project, keeps every PROJECT-OWNED
    block, and is idempotent — on copies (QA-V4 ⚑) and live (QA-V6 ⚑).
+   **At close (2026-10-12):** met on copies (4 / 4) and live for 3 of 4 reachable projects; 780-VPN held
+   by operator decision (DL-016, a live session) — its catch-up is recorded in OPEN_TASKS.
 5. Governance exit 0 / 0; every manifest cell == its file header; both new files registered (QA-V5).
 6. The vault's decision log holds every 2026-10-12 decision verbatim, Phase 2 answers included (QA-V7).
 7. Bootstrap / adopt instructions delete `TEMPLATE-ONLY` blocks from CLAUDE.md (QA-V8; real run per D-3).

@@ -2,6 +2,29 @@
 
 Newest entries at the top.
 
+## [2026-10-12] — PLAN-020 CLOSED: Standard Set Version v2.8 delivered to three projects; 780-VPN held
+
+- **Type:** Delivery record + plan close (Phase 3b, D-4 = A). Commit 2 of PLAN-020 — 5 files: § 7.2's four plus
+  `docs/DECISION_LOG.md` (named deviation, DL-017 — the plan predates its own § 10 rule).
+- **Delivery (QA-V6 ⚑),** each as separate steps — idle evidence shown → operator "go as recommended" (DL-015)
+  → idle re-checked just before the write → `sync --project NAME --write` → dry-run re-run:
+  - **EverOn.Capital-Signal:** 10 of 11 + `docs/SYNC_HANDOFF.md` ("Write 1"); re-run up-to-date; merged
+    CLAUDE.md keeps 4 PROJECT-OWNED blocks, no TEMPLATE-ONLY / `Closeout_Mode`.
+  - **EverOn.Equinex:** the same (idle since 2026-10-06).
+  - **780-estimator (git):** one engine commit pushed fast-forward to their `main` — `515ea96` → `af5968b`
+    "Standard DocSet: sync to Standard Set Version v2.8" (11 files incl. the handoff; 241 s); re-run up-to-date.
+    A timed dry run first took 143 s — the session-open `unknown` was a slow read (PLAN-019 R4 watch item).
+  - **780-VPN: HELD, not written** — a session live on the operator's other Mac (transcripts at 10:34 and
+    10:51 UTC). Operator: close with it held (DL-016); catch-up after that session. Its log now shows 1 open
+    entry (next harvest, own Rule 16 gate).
+  - **780-Automation:** unreachable (ssh port 22 timed out, 10:51 UTC) — catch-up when its host answers.
+- **`status` after:** Capital-Signal, Equinex, 780-estimator `v2.8 v2.8 current` (handoff_pending 1 each — their
+  next sessions land the writes); 780-VPN `v2.7 v2.8 behind`; 780-Automation `unknown`.
+- **Files:** PLAN-020 plan + tracker → 1.0 CLOSED; `docs/DECISION_LOG.md` 1.1 (DL-015 … DL-017); manifest 2.75.
+- **Next:** Phase 5 on the operator's "push" — push both remotes, annotated tag `set-v2.8` on `49588dc`.
+- **Impact:** none in this repo at runtime (records only). The three written projects carry the v2.8 files +
+  a handoff until their next session lands them.
+
 ## [2026-10-12] — Standard Set Version v2.8: lessons batch, senior-review checklist, template fixes, decision-log template (PLAN-020)
 
 - **Type:** Standards-suite release (Critical Files `docs/standards/` + root `CLAUDE.md` + the manifest,
@@ -48,7 +71,8 @@ Newest entries at the top.
 - ✅ **QA-V4 ⚑** engine as oracle on copies (harness 8c) — `pass=13 fail=0`; baseline `pass=5 fail=0`;
   control `pass=5 fail=8`.
 - ✅ **QA-V5** governance 0 / 0 + manifest cells (harness 8d) CLEAN; control 21 failures before § 6 rule 1.
-- ⏸ **QA-V6 ⚑** live delivery to the four reachable projects — Phase 3b.
+- ✅ **QA-V6 ⚑** live delivery — Capital-Signal, Equinex, 780-estimator current + idempotent; 780-VPN held
+  (DL-016) — see the PLAN-020 CLOSED entry above.
 - ✅ **QA-V7** decision log — DL-001 … DL-014 verbatim, cited from plan § 9.1.
 - ✅ **QA-V8** skill change — mechanical strip check; real-run proof waived until the next bootstrap /
   adopt / selftest (D-3 = A, DL-013).

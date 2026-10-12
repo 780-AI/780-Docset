@@ -1,7 +1,10 @@
-<!-- VERSION: 2.74 -->
+<!-- VERSION: 2.75 -->
 <!-- Last Updated: 2026-10-12 -->
 <!--
 CHANGE LOG
+v2.75 — 2026-10-12 — PLAN-020 CLOSED (Set v2.8 delivered — Phase 3b): rows 98 (plan) + 99 (tracker) 0.3 EXECUTING →
+1.0 CLOSED (titles too); row 101 (Decision Log) 1.0 → 1.1 (DL-015 … DL-017). Self-row 2.74 → 2.75 (every cell
+checked against its file header by script per L063 — PLAN-020 harness 8d CLEAN).
 v2.74 — 2026-10-12 — Standard Set Version v2.8 released (PLAN-020 Phase 3a): bumped cells 1 (root CLAUDE.md
 1.9→1.10), 6 (folder_structure 0.18→0.19), 8 (SESSION_OPENER 1.21→1.22), 9 (SESSION_CLOSER 1.8→1.9), 10
 (SET_VERSION_ADOPTED 1.15→1.16), 11–14, 16–17, 19–23 (the suite files § 5 bumps), 30 (archive/LESSONS
@@ -381,7 +384,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.74 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.75 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.19 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.15 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.22 | Governance | `docs/SESSION_OPENER.md` |
@@ -471,10 +474,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 95 | Delivery skill — selftest mode | 0.1 | Delivery | `skill/modes/selftest.md` |
 | 96 | PLAN-019 — git transport fails fast: ssh timeouts + keepalives, a cap on every transport command (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-019_git_fail_fast.md` |
 | 97 | PLAN-019 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-019_tracker.md` |
-| 98 | PLAN-020 — Standard Set Version v2.8: lessons batch, senior-review checklist, template fixes, decision-log template (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-020_set_v2_8.md` |
-| 99 | PLAN-020 tracker (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-020_tracker.md` |
+| 98 | PLAN-020 — Standard Set Version v2.8: lessons batch, senior-review checklist, template fixes, decision-log template (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-020_set_v2_8.md` |
+| 99 | PLAN-020 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-020_tracker.md` |
 | 100 | Decision Log — template (meta) | 0.1 | Standards | `docs/standards/DECISION_LOG.md` |
-| 101 | Decision Log — operator decisions | 1.0 | Governance | `docs/DECISION_LOG.md` |
+| 101 | Decision Log — operator decisions | 1.1 | Governance | `docs/DECISION_LOG.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -483,7 +486,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-12
-- **Change**: Standard Set Version v2.8 released (PLAN-020 Phase 3a) — 19 cells bumped, rows 98–99 → 0.3
+- **Change**: PLAN-020 CLOSED — rows 98–99 → 1.0 (CLOSED), row 101 → 1.1; self-row → 2.75.
+- **Previous change**: Standard Set Version v2.8 released (PLAN-020 Phase 3a) — 19 cells bumped, rows 98–99 → 0.3
   (EXECUTING), new rows 100–101 (Decision Log template + the vault's log); self-row → 2.74.
-- **Previous change**: PLAN-020 APPROVED — rows 98–99 → 0.2 (APPROVED); self-row → 2.73.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)
