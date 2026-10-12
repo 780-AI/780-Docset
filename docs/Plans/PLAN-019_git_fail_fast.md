@@ -1,8 +1,14 @@
-<!-- VERSION: 0.2 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-10-12 -->
-<!-- Status: APPROVED — Phase 3 next, in a fresh session -->
+<!-- Status: CLOSED — 2026-10-12 -->
 <!--
 CHANGE LOG
+v1.0 — 2026-10-12 — CLOSED. Phase 3 + 4 in a fresh session, one commit: reconcile 16 / 16 blocks clean, zero
+plan defects (checker control: one corrupted FIND → exactly that block fails); § 5 applied with
+<P3-DATE> = 2026-10-12 (clock vs gitlab.com / apple.com, Δ ≤ 3 s); QA-T1…T5 ✅ (evidence in the
+tracker). R4 annotated: on a slow link (24 KB/s) a normal read took up to 176 s — under the cap, kept
+at 300 s (approved D-2); the first harness run's T2 HANG at its 60 s watchdog was that link (old code
+equally slow), the re-run on a recovered link 4 / 4 PASS. Phase 5 (push) stays pending.
 v0.2 — 2026-10-12 — Phase 2 operator approval recorded ("D1. A , D2. A" + "go"); § 9.1 decision record added: D19.A
 approved; D-1 = A, D-2 = A. No § 5 change — the 16 blocks + harness re-extracted from this file stay
 byte-identical to the proven files.
@@ -111,8 +117,8 @@ tracker → 1.0 CLOSED.
 | 0 — Audit (+ § 15.9 intake, pre-tests) | ✅ | 2026-10-12 |
 | 1 — Design (+ Rule 13 pass) | ✅ | 2026-10-12 |
 | 2 — Operator approval | ✅ "D1. A , D2. A" + "go" | 2026-10-12 |
-| 3 — Implement (fresh session, one commit) | ⏸ pending | — |
-| 4 — Validate (QA-T1…T5, same session as Phase 3) | ⏸ pending | — |
+| 3 — Implement (fresh session, one commit) | ✅ | 2026-10-12 |
+| 4 — Validate (QA-T1…T5, same session as Phase 3) | ✅ | 2026-10-12 |
 | 5 — Operator gate (push both remotes; no tag) | ⏸ pending | — |
 
 ## 5. Verbatim transformation rules (code proven in scratch; Phase 3 copies byte-for-byte)
@@ -896,6 +902,10 @@ Set Version state changes, so nothing else to undo.
   per-target isolation + fetch-fresh rule (architecture § 9).
 - **R4 — 300 s too short for a legitimately huge clone:** reads are shallow + blobless + sparse (3–11 s
   measured); a write clones one branch tip at depth 1. Revisit the constant if a target ever trips it.
+  **Phase 3 observation (2026-10-12):** on a slow link (GitHub 24 KB/s, ~316 ms RTT) normal 780-estimator
+  reads took 42–176 s on BOTH the old and the new code — the blobless `checkout` (lazy blob fetch) was
+  36–156 s of it. All succeeded under the cap; the margin on a bad link is ~1.7×, not ~30×. Kept at
+  300 s (D-2 as approved); a read that trips it shows the target `unknown` (non-fatal).
 - **R5 — keepalive timing varies:** a stall is dropped 30–41 s after it starts, depending on where the
   10 s probe cycle is (both seen). QA-T4 accepts 15–60 s.
 

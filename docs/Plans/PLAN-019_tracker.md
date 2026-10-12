@@ -1,8 +1,9 @@
-<!-- VERSION: 0.2 -->
+<!-- VERSION: 1.0 -->
 <!-- Last Updated: 2026-10-12 -->
-<!-- Status: APPROVED — Phase 3 next, in a fresh session -->
+<!-- Status: CLOSED — 2026-10-12 (Phase 5 push pending) -->
 <!--
 CHANGE LOG
+v1.0 — 2026-10-12 — CLOSED: Phase 3 (3.0–3.4) + Phase 4 (QA-T1…T5) ✅ with evidence, one commit.
 v0.2 — 2026-10-12 — Phase 2 ✅: "D1. A , D2. A" + "go" (plan § 9.1); 3.0 pre-check no longer requires
 HEAD == both remotes (the planning commits may still be unpushed).
 v0.1 — 2026-10-12 — Created with the plan draft (tracker required per CLAUDE.md § 15.7: Phase 4 has a
@@ -37,22 +38,42 @@ multi-scenario list, QA-T1…T5).
 
 ## Phase 3 — Implement (fresh session, one commit)
 
-- ⏸ 3.0 — clock vs an external authority → `<P3-DATE>`; tree clean; HEAD contains the approval commit;
-  push state vs both remotes recorded (unpushed planning commits are expected — no push needed first).
-- ⏸ 3.1 — reconcile: re-extract the 16 § 5 blocks from the plan; every FIND once, in order; checker
-  positive control.
-- ⏸ 3.2 — apply § 5 (4 files) → QA-T1.
-- ⏸ 3.3 — QA-T2 … T4 (live) → QA-T5 governance.
-- ⏸ 3.4 — § 6 bookkeeping (manifest, CHANGELOG, plan + tracker → 1.0 CLOSED) → Rule 10 review →
-  "go on commit?" → commit (§ 7, 8 files; no push).
+- ✅ 2026-10-12 3.0 — local 07:57:35 UTC vs gitlab.com 07:57:37 / apple.com 07:57:38 GMT (Δ ≤ 3 s) →
+  `<P3-DATE>` = 2026-10-12; tree clean; HEAD `63e6c1f` (contains the approval commit); both remotes
+  `ls-remote` = `63e6c1f` (nothing unpushed).
+- ✅ 2026-10-12 3.1 — reconcile: 17 blocks parsed from the plan (16 replace + harness 8a); every FIND
+  exactly once, in order → CLEAN, **zero plan defects**. Checker positive control: corrupted 5c.3 →
+  only 5c.3 FAIL (0x); corrupted 5a.6 → only 5a.6 FAIL. All `transport._run` fakes accounted for (4 in
+  `test_cli.py` + `_capture`); rsync callers keep `env=None`.
+- ✅ 2026-10-12 3.2 — § 5 applied (4 files: transport 0.4, test_transport 0.4, test_cli 0.9,
+  architecture 0.15); no `<P3-DATE>` left → QA-T1.
+- ✅ 2026-10-12 3.3 — QA-T2 … T4 (live) → QA-T5 governance (below).
+- ✅ 2026-10-12 3.4 — § 6 bookkeeping (manifest 2.71, CHANGELOG, plan + tracker → 1.0 CLOSED) → Rule 10
+  review → "go on commit?" → commit (§ 7, 8 files; no push).
 
 ## Phase 4 — Validate (QA scenarios, plan § 8)
 
-- ⏸ QA-T1 — ruff / mypy / pytest 172; control 8 failed / 20 passed.
-- ⏸ QA-T2 ⚑ — real fleet `status`: 780-estimator current over the new env.
-- ⏸ QA-T3 ⚑ — silent git server: `TransportError` < 15 s; CLI `status` row `unknown`, exit 0, < 20 s.
-- ⏸ QA-T4 ⚑ — mid-transfer stall dropped in 15–60 s with the operator's base kept.
-- ⏸ QA-T5 — governance exit 0 / 0 (stdout pasted).
+- ✅ 2026-10-12 QA-T1 — `ruff check src tests` "All checks passed!"; `MYPYPATH=src mypy --strict
+  --cache-dir <fresh>` "Success: no issues found in 25 source files"; `pytest` **172 passed**. Control
+  (scratch tree, `transport.py` = `bf8669e`'s 0.3): `pytest tests/test_transport.py` → **8 failed, 20
+  passed** — the 8 new-behavior tests; the rsync guard passes on both.
+- ✅ 2026-10-12 QA-T2 ⚑ — real `status` (no `GIT_SSH*` env, `core.sshCommand` unset → `ssh` + the four
+  options): 780-estimator `v2.7 v2.7 current`; Capital-Signal / 780-VPN / Equinex current; 780-Automation
+  `unknown` (ssh rsync host down — as at session open). Step timing confirmed every git command carried
+  `GIT_SSH_COMMAND=ssh -o ConnectTimeout=10 -o BatchMode=yes -o ServerAliveInterval=10 -o
+  ServerAliveCountMax=3`.
+- ✅ 2026-10-12 QA-T3 ⚑ — harness (8a, extracted from the plan): T3a silent server `transport-error in
+  10.1s`; T3b CLI `status` exit 0 in 10.1 s, row `silent … ? v2.7 unknown 0`.
+- ✅ 2026-10-12 QA-T4 ⚑ — harness T4: `transport-error in 32.0s` with `GIT_SSH_COMMAND="ssh -o
+  HostKeyAlias=github.com"` as the base (kept — the relay's host-key check passed). Harness run
+  08:16 UTC: `SUMMARY pass=4 fail=0` (T2 real GitHub read ok 15.4 s); `pgrep` → no ssh left. Control on
+  `bf8669e` src: `SUMMARY pass=1 fail=3` (T3a / T3b HANG 30 s, T4 HANG 75 s); no ssh left.
+  **Deviation (recorded, not a defect):** the first harness run (~08:01 UTC) gave `pass=3 fail=1` — T2
+  HANG at its 60 s watchdog. Investigated: GitHub link slow at the time (24 KB/s download, ~316 ms
+  RTT); direct read sessions took 64.2 / 79.5 / 176.4 s on the NEW code and 42.3 / 105.8 s on the OLD
+  (the blobless `checkout` = 36–156 s of it) → environment, not the change. Re-run on the recovered link
+  (unchanged harness) 4 / 4. Plan R4 annotated (cap margin on a bad link ~1.7×; kept at 300 s).
+- ✅ 2026-10-12 QA-T5 — governance exit 0 / 0 (stdout in the session chat; summary in CHANGELOG).
 
 ## Phase 5 — Operator gate
 

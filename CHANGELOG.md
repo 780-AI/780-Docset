@@ -2,6 +2,43 @@
 
 Newest entries at the top.
 
+## [2026-10-12] — PLAN-019: the git transport fails fast (ssh timeouts + keepalives, a 300 s cap on every transport command)
+
+- **Type:** Engine fix (Major per § 4 — Critical File `src/standard_document_updater/`; § 15 plan Phase 3
+  + 4 in a fresh session, one commit that also CLOSES the plan). Engine-only: no `docs/standards/`
+  change → **no Set Version bump, no tag**, no target write.
+- **What changed:** every git command `GitTarget` runs (`clone` / `sparse-checkout` / `checkout` / `add` /
+  `commit` / `push`) now runs with `GIT_SSH_COMMAND` = the operator's own ssh command (`GIT_SSH_COMMAND`,
+  else `core.sshCommand`, else `ssh`) + `-o ConnectTimeout=10 -o BatchMode=yes -o ServerAliveInterval=10
+  -o ServerAliveCountMax=3` (D-1 = A — appended, never overriding: an option the operator already set
+  wins; a legacy `GIT_SSH` program is left alone). Every transport command (git and rsync) is capped at
+  300 s (D-2 = A); a timeout raises `TransportError` like any other failure — non-fatal for reads (the
+  target shows `unknown`), fatal for that run on the write path. `docs/architecture.md` § 8 transport
+  paragraph updated same-commit (§ 4 drift rule).
+- **Phase 3 record:** clock checked vs gitlab.com / apple.com (Δ ≤ 3 s); reconcile — 16 § 5 blocks + the
+  harness re-extracted from the plan, every FIND exactly once in order, **zero plan defects** (checker
+  control: one corrupted FIND → exactly that block fails); applied byte-for-byte.
+- **QA scenarios (Rule 11/15 — statuses + full evidence in `docs/Plans/PLAN-019_tracker.md`):**
+  - ✅ QA-T1 — ruff clean; mypy --strict 0 issues (25 files, fresh cache); pytest **172 passed** (163 +
+    9). Control: new tests on `bf8669e`'s transport 0.3 → 8 failed, 20 passed.
+  - ✅ QA-T2 ⚑ — real `status`: 780-estimator `v2.7 v2.7 current` over the new git env; other rows as at
+    session open (780-Automation `unknown` — its ssh host is down, unrelated).
+  - ✅ QA-T3 ⚑ — silent git server: `TransportError` in 10.1 s; CLI `status` exit 0 in 10.1 s, row
+    `unknown`.
+  - ✅ QA-T4 ⚑ — transfer stalled mid-way: dropped in 32.0 s with the operator's base command
+    (`ssh -o HostKeyAlias=github.com`) kept. Harness `SUMMARY pass=4 fail=0`; control on `bf8669e`
+    `pass=1 fail=3` (HANG); no ssh left running. Deviation: a first harness run hit a slow GitHub link
+    (24 KB/s) — T2's 60 s watchdog fired on a normal read that the OLD code was equally slow on;
+    re-run on the recovered link 4 / 4. Recorded as plan R4 evidence: a normal read reached 176 s on
+    that link (cap kept at 300 s).
+  - ✅ QA-T5 — governance `check_doc_coverage.py` + `check_test_coverage_drift.py --ci` exit 0 / 0.
+- **Versions:** transport 0.3→0.4, test_transport 0.3→0.4, test_cli 0.8→0.9, architecture 0.14→0.15,
+  PLAN-019 plan + tracker 0.2→1.0 (CLOSED), manifest 2.70→2.71.
+- **Impact:** YES — an unreachable / silent / stalled git target now fails in ~10–40 s instead of
+  hanging `status` / `fleet` / `sync`; reads show it `unknown`; no git or rsync command can run longer
+  than 300 s. Nothing else changes (normal reads and writes behave as before; rsync arguments unchanged).
+- **Rollback:** `git revert` of this commit (no target, registry or Set Version state to undo).
+
 ## [2026-10-12] — PLAN-019 APPROVED
 
 - **Type:** Plan approval record (Phase 2). Operator: *"D1. A , D2. A"* then *"go"* — D19.A approved;

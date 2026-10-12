@@ -1,8 +1,10 @@
 # ==============================================================
-# VERSION: 0.8
+# VERSION: 0.9
 # End-to-end tests for the CLI (status / drift / fleet / harvest / integrate / sync).
 #
 # CHANGE LOG
+# v0.9 — 2026-10-12 — PLAN-019: the transport._run fakes accept the new optional `env` argument
+#         (git commands now run with the fail-fast ssh environment).
 # v0.8 — 2026-10-05 — PLAN-016: docs/fleet.csv — status refreshes it; `fleet` keeps an
 #         unreachable target's last-known row; sync --write and the integrate write-back
 #         refresh it after writing (handoff_pending counts the new handoff).
@@ -177,7 +179,7 @@ def test_status_git_target_row_computed(
     root = make_vault("1.1")
     _write_git_registry(root)
 
-    def fake_run(cmd: list[str]) -> None:
+    def fake_run(cmd: list[str], env: dict[str, str] | None = None) -> None:
         if cmd[1] == "clone":  # populate the materialization the read path would have fetched
             dest = Path(cmd[-1])
             (dest / "docs").mkdir(parents=True, exist_ok=True)
@@ -198,7 +200,7 @@ def test_status_unreachable_git_target_is_nonfatal(
     root = make_vault("1.1")
     _write_git_registry(root)
 
-    def boom(cmd: list[str]) -> None:
+    def boom(cmd: list[str], env: dict[str, str] | None = None) -> None:
         raise transport.TransportError("host unreachable")
 
     monkeypatch.setattr(transport, "_run", boom)
@@ -363,7 +365,7 @@ def test_sync_per_target_failure_is_isolated_exit_one(
 # --- fleet view (PLAN-016) ----------------------------------------------------------
 
 
-def _git_clone_with_sva(cmd: list[str]) -> None:
+def _git_clone_with_sva(cmd: list[str], env: dict[str, str] | None = None) -> None:
     if cmd[1] == "clone":  # populate the materialization the read path would have fetched
         dest = Path(cmd[-1])
         (dest / "docs").mkdir(parents=True, exist_ok=True)
@@ -396,7 +398,7 @@ def test_fleet_keeps_an_unreachable_targets_last_known_row(
     first = fleet.read_rows(root / "docs" / "fleet.csv")["beta"]
     assert (first["reachable"], first["adopted_set"], first["state"]) == ("yes", "v1.0", "behind")
 
-    def boom(cmd: list[str]) -> None:
+    def boom(cmd: list[str], env: dict[str, str] | None = None) -> None:
         raise transport.TransportError("host unreachable")
 
     monkeypatch.setattr(transport, "_run", boom)

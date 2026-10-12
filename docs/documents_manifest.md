@@ -1,7 +1,11 @@
-<!-- VERSION: 2.70 -->
+<!-- VERSION: 2.71 -->
 <!-- Last Updated: 2026-10-12 -->
 <!--
 CHANGE LOG
+v2.71 — 2026-10-12 — PLAN-019 Phase 3 (git transport fails fast) + CLOSED: bumped cells 7 (architecture
+0.14→0.15), 51 (test_cli 0.8→0.9), 65 (transport 0.3→0.4), 66 (test_transport 0.3→0.4); rows 96 (plan) +
+97 (tracker) 0.2 APPROVED → 1.0 CLOSED (titles too). Self-row 2.70 → 2.71 (cells checked against their file
+headers by script per L063).
 v2.70 — 2026-10-12 — PLAN-019 APPROVED: rows 96–97 0.1 → 0.2 (DRAFT → APPROVED). Self-row 2.69 → 2.70 (cells
 grep-verified against their file headers per L063).
 v2.69 — 2026-10-12 — PLAN-019 drafted (git transport fails fast): new rows 96 (plan, 0.1 DRAFT) + 97
@@ -365,9 +369,9 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.70 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.71 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.18 | Governance | `docs/folder_structure.md` |
-| 7 | Architecture (system-design record) | 0.14 | Docs | `docs/architecture.md` |
+| 7 | Architecture (system-design record) | 0.15 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.21 | Governance | `docs/SESSION_OPENER.md` |
 | 9 | Session Closer (project-local, binding) | 1.8 | Governance | `docs/SESSION_CLOSER.md` |
 | 10 | Set Version Adopted | 1.15 | Governance | `docs/SET_VERSION_ADOPTED.md` |
@@ -409,7 +413,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 48 | Engine test — setversion | 0.2 | Engine test | `tests/test_setversion.py` |
 | 49 | Engine test — registry | 0.3 | Engine test | `tests/test_registry.py` |
 | 50 | Engine test — report | 0.2 | Engine test | `tests/test_report.py` |
-| 51 | Engine test — cli | 0.8 | Engine test | `tests/test_cli.py` |
+| 51 | Engine test — cli | 0.9 | Engine test | `tests/test_cli.py` |
 | 52 | Engine — experiences-log entry parser | 0.1 | Engine | `src/standard_document_updater/logentry.py` |
 | 53 | Engine — harvest report (open-entry consolidation) | 0.1 | Engine | `src/standard_document_updater/harvest.py` |
 | 54 | Engine test — logentry | 0.1 | Engine test | `tests/test_logentry.py` |
@@ -422,8 +426,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 62 | Engine test — integrate | 0.1 | Engine test | `tests/test_integrate.py` |
 | 63 | PLAN-007 — remote transport (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-007_remote_transport.md` |
 | 64 | PLAN-007 tracker (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-007_tracker.md` |
-| 65 | Engine — pluggable target transports (local \| git \| ssh) | 0.3 | Engine | `src/standard_document_updater/transport.py` |
-| 66 | Engine test — transport | 0.3 | Engine test | `tests/test_transport.py` |
+| 65 | Engine — pluggable target transports (local \| git \| ssh) | 0.4 | Engine | `src/standard_document_updater/transport.py` |
+| 66 | Engine test — transport | 0.4 | Engine test | `tests/test_transport.py` |
 | 67 | Standards Log — project experiences log | 1.0 | Governance | `docs/STANDARDS_LOG.md` |
 | 68 | PLAN-010 — upstream intake: EverOn v2.x → vault (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-010_everon_upstream_intake.md` |
 | 69 | PLAN-010 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-010_tracker.md` |
@@ -453,8 +457,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 93 | PLAN-018 — one-prompt delivery: the skill from a plain clone, a self-test mode, a handoff report (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-018_one_prompt_delivery.md` |
 | 94 | PLAN-018 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-018_tracker.md` |
 | 95 | Delivery skill — selftest mode | 0.1 | Delivery | `skill/modes/selftest.md` |
-| 96 | PLAN-019 — git transport fails fast: ssh timeouts + keepalives, a cap on every transport command (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-019_git_fail_fast.md` |
-| 97 | PLAN-019 tracker (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-019_tracker.md` |
+| 96 | PLAN-019 — git transport fails fast: ssh timeouts + keepalives, a cap on every transport command (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-019_git_fail_fast.md` |
+| 97 | PLAN-019 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-019_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -463,6 +467,6 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-12
-- **Change**: PLAN-019 APPROVED — rows 96–97 → 0.2 (APPROVED); self-row → 2.70.
-- **Previous change**: PLAN-019 drafted — new rows 96–97 (0.1 DRAFT); self-row → 2.69.
+- **Change**: PLAN-019 Phase 3 + CLOSED — cells 7 / 51 / 65 / 66 bumped; rows 96–97 → 1.0 (CLOSED); self-row → 2.71.
+- **Previous change**: PLAN-019 APPROVED — rows 96–97 → 0.2 (APPROVED); self-row → 2.70.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

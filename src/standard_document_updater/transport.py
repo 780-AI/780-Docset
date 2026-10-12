@@ -1,8 +1,13 @@
 # ==============================================================
-# VERSION: 0.3
+# VERSION: 0.4
 # Pluggable target transports (local | git | ssh): materialize -> operate -> flush.
 #
 # CHANGE LOG
+# v0.4 — 2026-10-12 — PLAN-019: git fails fast too — every git command runs ssh with
+#         ConnectTimeout=10 + BatchMode=yes + ServerAliveInterval=10 x ServerAliveCountMax=3
+#         (a stalled transfer drops in ~30–40 s), appended to the operator's own ssh command
+#         (GIT_SSH_COMMAND / core.sshCommand) when one is set (D-1); every transport command is
+#         capped at 300 s (D-2).
 # v0.3 — 2026-10-05 — PLAN-016 (D-4): ssh fails fast — every rsync runs ssh with
 #         ConnectTimeout=10 (a down host fails in ~10 s, not the ~75 s TCP default) and
 #         BatchMode=yes (never blocks on a password or an unverified host-key prompt).
@@ -24,6 +29,7 @@ Transports (chosen per-target in config/projects.toml):
 """
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
 import tempfile
@@ -42,21 +48,62 @@ _COMMIT_NAME = "Standard DocSet"
 _COMMIT_EMAIL = "standard-docset@localhost"
 # ssh fails fast (D-4): a down host errors in ~10 s; never waits on an interactive prompt.
 _RSYNC = ("rsync", "-az", "-e", "ssh -o ConnectTimeout=10 -o BatchMode=yes")
+# git fails fast too (PLAN-019 D-1): the same two options plus keepalives — a connection that goes
+# silent mid-transfer is dropped after ~30–40 s (three missed 10 s probes).
+_GIT_SSH_OPTS = (
+    "-o ConnectTimeout=10 -o BatchMode=yes -o ServerAliveInterval=10 -o ServerAliveCountMax=3"
+)
+# Last-resort cap on any one transport command (PLAN-019 D-2): catches a slow-but-alive transfer
+# the ssh options cannot see.
+_RUN_TIMEOUT = 300
 
 
 class TransportError(StandardDocSetError):
     """A transport operation (clone / fetch / push / rsync) failed."""
 
 
-def _run(cmd: list[str]) -> None:
-    """Run a subprocess; raise TransportError with captured output on failure."""
+def _run(cmd: list[str], env: dict[str, str] | None = None) -> None:
+    """Run a subprocess (capped at _RUN_TIMEOUT s); raise TransportError on failure."""
     try:
-        proc = subprocess.run(cmd, capture_output=True, text=True, check=False)
+        proc = subprocess.run(
+            cmd, capture_output=True, text=True, check=False, env=env, timeout=_RUN_TIMEOUT
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise TransportError(f"{' '.join(cmd)} timed out after {_RUN_TIMEOUT} s") from exc
     except OSError as exc:  # the binary is missing / not executable
         raise TransportError(f"could not run {cmd[0]}: {exc}") from exc
     if proc.returncode != 0:
         detail = (proc.stderr or proc.stdout or "").strip()
         raise TransportError(f"{' '.join(cmd)} failed (exit {proc.returncode}): {detail}")
+
+
+def _configured_ssh_command() -> str | None:
+    """The operator's `core.sshCommand` git setting, or None when unset."""
+    try:
+        proc = subprocess.run(
+            ["git", "config", "--get", "core.sshCommand"],
+            capture_output=True, text=True, check=False, timeout=10,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    value = proc.stdout.strip()
+    return value if proc.returncode == 0 and value else None
+
+
+def _git_env() -> dict[str, str] | None:
+    """The environment for every git command: the operator's ssh command + _GIT_SSH_OPTS.
+
+    git picks its ssh as GIT_SSH_COMMAND, else core.sshCommand, else GIT_SSH, else `ssh`. The
+    options are appended to the first two — ssh keeps the first value it sees, so an option the
+    operator already set wins. Legacy GIT_SSH names a program that may not take options, so it is
+    left alone (None = inherit the environment); the _RUN_TIMEOUT cap still applies.
+    """
+    env = dict(os.environ)
+    base = env.get("GIT_SSH_COMMAND") or _configured_ssh_command()
+    if base is None and env.get("GIT_SSH"):
+        return None
+    env["GIT_SSH_COMMAND"] = f"{base or 'ssh'} {_GIT_SSH_OPTS}"
+    return env
 
 
 class Target(ABC):
@@ -117,29 +164,31 @@ class GitTarget(Target):
             raise TransportError(f"git target {self.name!r}: missing git_url")
         branch = self.project.git_branch
         dest = Path(tempfile.mkdtemp(prefix="stddocset-git-"))
+        env = _git_env()  # every command: the blobless checkout fetches over ssh too
         base = ["git", "clone", "--depth", "1"]
         if branch:
             base += ["--branch", branch]
         if writable:  # full branch tip so a commit can be pushed
-            _run([*base, url, str(dest)])
+            _run([*base, url, str(dest)], env)
         else:  # read path: shallow + blobless + sparse (D4); cone mode keeps root files
-            _run([*base, "--filter=blob:none", "--no-checkout", url, str(dest)])
+            _run([*base, "--filter=blob:none", "--no-checkout", url, str(dest)], env)
             sparse = [_DOCS, _ARCHIVE] if full else [_DOCS]
-            _run(["git", "-C", str(dest), "sparse-checkout", "set", *sparse])
-            _run(["git", "-C", str(dest), "checkout"])
+            _run(["git", "-C", str(dest), "sparse-checkout", "set", *sparse], env)
+            _run(["git", "-C", str(dest), "checkout"], env)
         return dest
 
     def flush(self, root: Path, changed: list[Path], message: str) -> None:
         rels = [p.as_posix() for p in changed]
-        _run(["git", "-C", str(root), "add", *rels])
+        env = _git_env()
+        _run(["git", "-C", str(root), "add", *rels], env)
         _run([
             "git", "-C", str(root),
             "-c", f"user.name={_COMMIT_NAME}", "-c", f"user.email={_COMMIT_EMAIL}",
             "commit", "-m", message,
-        ])
+        ], env)
         branch = self.project.git_branch
         refspec = f"HEAD:{branch}" if branch else "HEAD"
-        _run(["git", "-C", str(root), "push", "origin", refspec])
+        _run(["git", "-C", str(root), "push", "origin", refspec], env)
 
     def _dispose(self, root: Path) -> None:
         shutil.rmtree(root, ignore_errors=True)

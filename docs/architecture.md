@@ -1,7 +1,8 @@
-<!-- VERSION: 0.14 -->
-<!-- Last Updated: 2026-10-05 -->
+<!-- VERSION: 0.15 -->
+<!-- Last Updated: 2026-10-12 -->
 <!--
 CHANGE LOG
+v0.15 — 2026-10-12 — PLAN-019 (git fail-fast) landed. § 8 transport paragraph: every git command runs ssh with ConnectTimeout / BatchMode / ServerAlive options appended to the operator's own ssh command (D-1); every transport command is capped at 300 s (D-2). Engine-only — no Set Version change.
 v0.14 — 2026-10-05 — PLAN-016 (fleet view) landed. § 8: `fleet` command row; `status` / `drift` now also regenerate `docs/fleet.csv`; the registry paragraph gains the optional fleet-information keys (an unknown key is an error); new Fleet view paragraph (columns, unreachable carry-over, refresh triggers, pre-push freshness gate); transport paragraph: ssh fails fast (D-4). § 9 gains the mirror-never-source invariant. Engine-only — no Set Version change.
 v0.13 — 2026-10-03 — PLAN-013 (engine write safety) landed. § 7 handoff paragraph: handoffs ACCUMULATE (an un-landed handoff's `### Write N` records are kept and the new write appended; a pre-accumulation handoff is wrapped as record 1; an unrecognized one is kept verbatim) + the clock floor (newest_stamp / check_clock refuse a write whose date precedes the target's newest stamp; the sync dry-run warns). § 9 gains the never-stamp-behind invariant. Engine-only — no Set Version change.
 v0.12 — 2026-09-05 — PLAN-012 (sync handoff, Standard Set Version v2.5) landed. § 7 adds the sync-handoff paragraph: every engine write (sync --write AND integrate write-back) also writes + flushes the engine-owned transient docs/SYNC_HANDOFF.md into the target (render_handoff/HANDOFF_REL; project, operation, Set Version, run date with clock caveat, (file, mode) list, six residual steps ending delete-on-landing); not a SYNC_MAP item (idempotence); never manifest-listed (Rule 8 exempt by design); read by the SESSION_OPENER template § 1.1 engine-handoff check.
@@ -255,7 +256,14 @@ validated before any push, so a fetch failure aborts before anything is written.
 git/ssh/rsync use the operator's existing SSH agent/keys. Every ssh rsync runs
 `ssh -o ConnectTimeout=10 -o BatchMode=yes` (PLAN-016 D-4): a down host fails in ~10 s instead of the
 ~75 s TCP default, and no run ever blocks on a password or an unverified host-key prompt (verify a new
-host key per `docs/NEW_MACHINE_SETUP.md` § 3.1 first).
+host key per `docs/NEW_MACHINE_SETUP.md` § 3.1 first). Every **git** command fails fast too
+(PLAN-019, D-1): it runs with `GIT_SSH_COMMAND` = the operator's own ssh command (`GIT_SSH_COMMAND`,
+else `core.sshCommand`, else `ssh`) + `-o ConnectTimeout=10 -o BatchMode=yes -o
+ServerAliveInterval=10 -o ServerAliveCountMax=3` — an unreachable or silent host fails in ~10 s and a
+transfer that stalls mid-way is dropped after ~30–40 s of silence; an option the operator's command
+already sets wins (ssh keeps the first value it sees); a legacy `GIT_SSH` program is left untouched.
+Every transport command (git and rsync) is also capped at 300 s (D-2) — a timeout is a
+`TransportError` like any other: non-fatal for reads, fatal for that run on the write path.
 
 **Full-footprint sessions (PLAN-008, DD-B).** `sync`'s footprint includes `archive/LESSONS.md` and the
 root `CLAUDE.md`, which live outside `docs/` — `Target.session()` therefore takes `full: bool = False`.

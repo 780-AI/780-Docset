@@ -1,8 +1,11 @@
 # ==============================================================
-# VERSION: 0.3
+# VERSION: 0.4
 # Unit tests for the pluggable target transports (local | git | ssh).
 #
 # CHANGE LOG
+# v0.4 — 2026-10-12 — PLAN-019: _capture also records the env each command ran with; new tests —
+#         git fail-fast ssh (every git command; the operator's GIT_SSH_COMMAND / core.sshCommand
+#         kept as the base; legacy GIT_SSH left alone), rsync unchanged, the 300 s run cap.
 # v0.3 — 2026-10-05 — PLAN-016 (D-4): ssh rsyncs carry the fail-fast remote shell
 #         (`-e "ssh -o ConnectTimeout=10 -o BatchMode=yes"`); operand indices shift by 2.
 # v0.2 — 2026-08-16 — PLAN-008: full=True sessions — git sparse set adds archive; ssh
@@ -31,11 +34,15 @@ class _FakeProc:
         self.stderr = stderr
 
 
-def _capture(cmds: list[list[str]]) -> Callable[[list[str]], None]:
-    """A drop-in for transport._run that records the argv it was called with."""
+def _capture(
+    cmds: list[list[str]], envs: list[dict[str, str] | None] | None = None
+) -> Callable[..., None]:
+    """A drop-in for transport._run that records the argv (and env) it was called with."""
 
-    def _fake(cmd: list[str]) -> None:
+    def _fake(cmd: list[str], env: dict[str, str] | None = None) -> None:
         cmds.append(cmd)
+        if envs is not None:
+            envs.append(env)
 
     return _fake
 
@@ -217,3 +224,106 @@ def test_run_raises_when_binary_missing(monkeypatch: pytest.MonkeyPatch) -> None
     monkeypatch.setattr(subprocess, "run", boom)
     with pytest.raises(transport.TransportError, match="could not run"):
         transport._run(["nonexistent-binary-xyz"])
+
+
+# --- git fail-fast ssh + run cap (PLAN-019) ----------------------------------------
+
+_FAIL_FAST = (
+    "-o ConnectTimeout=10 -o BatchMode=yes -o ServerAliveInterval=10 -o ServerAliveCountMax=3"
+)
+
+
+def _git_session_envs(
+    monkeypatch: pytest.MonkeyPatch, configured: str | None
+) -> list[dict[str, str] | None]:
+    """Run a git read session + a flush; return the env of every git command (6 commands)."""
+    cmds: list[list[str]] = []
+    envs: list[dict[str, str] | None] = []
+    monkeypatch.setattr(transport, "_run", _capture(cmds, envs))
+    monkeypatch.setattr(transport, "_configured_ssh_command", lambda: configured)
+    t = transport.make_target(Project(name="b", transport="git", git_url="u", git_branch="main"))
+    with t.session():
+        pass
+    t.flush(Path("/root"), [Path("docs/x.md")], "msg")
+    assert len(envs) == 6  # clone, sparse-checkout, checkout, add, commit, push
+    return envs
+
+
+def test_git_commands_run_fail_fast_ssh(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("GIT_SSH_COMMAND", raising=False)
+    monkeypatch.delenv("GIT_SSH", raising=False)
+    for env in _git_session_envs(monkeypatch, None):
+        assert env is not None
+        assert env["GIT_SSH_COMMAND"] == f"ssh {_FAIL_FAST}"
+
+
+def test_git_ssh_keeps_operator_env_command(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("GIT_SSH_COMMAND", "/opt/ssh -i key")
+    for env in _git_session_envs(monkeypatch, "ignored-config"):  # env beats config, as in git
+        assert env is not None
+        assert env["GIT_SSH_COMMAND"] == f"/opt/ssh -i key {_FAIL_FAST}"
+
+
+def test_git_ssh_keeps_operator_core_sshcommand(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("GIT_SSH_COMMAND", raising=False)
+    monkeypatch.setenv("GIT_SSH", "/opt/legacy")  # core.sshCommand beats GIT_SSH, as in git
+    for env in _git_session_envs(monkeypatch, "C:/Windows/System32/OpenSSH/ssh.exe"):
+        assert env is not None
+        assert env["GIT_SSH_COMMAND"] == f"C:/Windows/System32/OpenSSH/ssh.exe {_FAIL_FAST}"
+
+
+def test_git_legacy_git_ssh_left_alone(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("GIT_SSH_COMMAND", raising=False)
+    monkeypatch.setenv("GIT_SSH", "/opt/legacy")
+    assert _git_session_envs(monkeypatch, None) == [None] * 6  # inherit; the run cap still applies
+
+
+def test_configured_ssh_command_reads_git_config(monkeypatch: pytest.MonkeyPatch) -> None:
+    seen: list[list[str]] = []
+
+    def fake(cmd: list[str], **kwargs: object) -> _FakeProc:
+        seen.append(cmd)
+        return _FakeProc(0, stdout="/opt/ssh -F cfg\n")
+
+    monkeypatch.setattr(subprocess, "run", fake)
+    assert transport._configured_ssh_command() == "/opt/ssh -F cfg"
+    assert seen == [["git", "config", "--get", "core.sshCommand"]]
+
+
+def test_configured_ssh_command_unset_is_none(monkeypatch: pytest.MonkeyPatch) -> None:
+    def fake(*args: object, **kwargs: object) -> _FakeProc:
+        return _FakeProc(1)  # git config --get: exit 1 when the key is unset
+
+    monkeypatch.setattr(subprocess, "run", fake)
+    assert transport._configured_ssh_command() is None
+
+
+def test_rsync_commands_keep_inherited_env(monkeypatch: pytest.MonkeyPatch) -> None:
+    cmds: list[list[str]] = []
+    envs: list[dict[str, str] | None] = []
+    monkeypatch.setattr(transport, "_run", _capture(cmds, envs))
+    t = transport.make_target(Project(name="c", transport="ssh", ssh_host="h", ssh_path="/p"))
+    with t.session():
+        pass
+    assert envs == [None]  # rsync carries its own `-e ssh ...`; no git env
+
+
+def test_run_passes_cap_and_env(monkeypatch: pytest.MonkeyPatch) -> None:
+    seen: dict[str, object] = {}
+
+    def fake(cmd: list[str], **kwargs: object) -> _FakeProc:
+        seen.update(kwargs)
+        return _FakeProc(0)
+
+    monkeypatch.setattr(subprocess, "run", fake)
+    transport._run(["true"], {"K": "V"})
+    assert seen["timeout"] == 300 and seen["env"] == {"K": "V"}
+
+
+def test_run_raises_on_timeout(monkeypatch: pytest.MonkeyPatch) -> None:
+    def slow(cmd: list[str], **kwargs: object) -> _FakeProc:
+        raise subprocess.TimeoutExpired(cmd, 300)
+
+    monkeypatch.setattr(subprocess, "run", slow)
+    with pytest.raises(transport.TransportError, match="timed out after 300 s"):
+        transport._run(["git", "clone", "u", "d"])
