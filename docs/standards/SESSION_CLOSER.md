@@ -1,8 +1,9 @@
-<!-- VERSION: 1.7 -->
-<!-- Last Updated: 2026-08-27 -->
+<!-- VERSION: 1.8 -->
+<!-- Last Updated: 2026-10-12 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.8 — 2026-10-12 — Standard Set Version v2.8: § 1.6 locality confirm names the Windows form of the harness link (a junction).
 v1.7 — 2026-08-27 — Standard Set Version v2.3: § 1.7 gains the BINDING where-codification-lands rule — in an adopter, confirmed lesson/rule candidates are recorded ONLY as STANDARDS_LOG E0NN entries, never appended to the engine-owned archive/LESSONS.md or own suite files (the L069 incident: nine adopter lessons nearly destroyed by sync).
 v1.6 — 2026-08-18 — Standard Set Version v2.1 (first harvest → integrate cycle, adopter entry E001): § 1.2 Set-Version reference retargeted docs/standards/STANDARDS_INDEX.md → docs/SET_VERSION_ADOPTED.md — adopters don't carry the INDEX (vault-side file); the adoption record exists on both sides (lesson L068).
 v1.5 — 2026-08-17 — Standard Set Version v2.0 (PLAN-009): End-of-file bootstrap pointer retargeted — the delivery skill instantiates the project-local copy during bootstrap (was: walk the retired NEW_PROJECT_BOOTSTRAP.md).
@@ -97,7 +98,7 @@ rm -f /tmp/commit_msg.txt /tmp/recent_transcripts.txt
 ```
 
 **Locality confirm (Rule 14):** `bash scripts/claude_project_data.sh status` → expect `STATUS: OK`.
-If any new project state landed outside the folder this session, move it in (same symlink pattern)
+If any new project state landed outside the folder this session, move it in (same link pattern — a symlink; a junction on Windows)
 or catalog it in the machine-migration doc — same-commit.
 
 ### 1.7 Lessons-learned scan (the detail-capture step)

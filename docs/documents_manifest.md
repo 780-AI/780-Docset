@@ -1,7 +1,14 @@
-<!-- VERSION: 2.73 -->
+<!-- VERSION: 2.74 -->
 <!-- Last Updated: 2026-10-12 -->
 <!--
 CHANGE LOG
+v2.74 — 2026-10-12 — Standard Set Version v2.8 released (PLAN-020 Phase 3a): bumped cells 1 (root CLAUDE.md
+1.9→1.10), 6 (folder_structure 0.18→0.19), 8 (SESSION_OPENER 1.21→1.22), 9 (SESSION_CLOSER 1.8→1.9), 10
+(SET_VERSION_ADOPTED 1.15→1.16), 11–14, 16–17, 19–23 (the suite files § 5 bumps), 30 (archive/LESSONS
+1.0→1.1), 77 (bootstrap mode 0.3→0.4), 78 (adopt mode 0.4→0.5); rows 98–99 0.2 APPROVED → 0.3 EXECUTING
+(titles too); new rows 100 (Decision Log template, 0.1) + 101 (the vault's Decision Log, 1.0); quick-index:
+suite caption Set v2.0 → v2.8 + 100, Operating contract + 101. Self-row 2.73 → 2.74 (every cell checked
+against its file header by script per L063 — PLAN-020 harness 8d CLEAN).
 v2.73 — 2026-10-12 — PLAN-020 APPROVED: rows 98–99 0.1 → 0.2 (DRAFT → APPROVED). Self-row 2.72 → 2.73 (cells
 checked against their file headers by script per L063).
 v2.72 — 2026-10-12 — PLAN-020 drafted (Standard Set Version v2.8 — lessons batch, senior-review checklist,
@@ -358,8 +365,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 | Module / Section | Entry range |
 |---|---|
-| Operating contract + project docs | 1–10, 58, 67 |
-| Canonical standards suite (Set v2.0) | 11–23, 25, 27 |
+| Operating contract + project docs | 1–10, 58, 67, 101 |
+| Canonical standards suite (Set v2.8) | 11–23, 25, 27, 100 |
 | Governance scripts | 28–29, 56, 92 |
 | Archive | 30 |
 | Plans | 31–39, 59–60, 63–64, 68–71, 74–75, 80–87, 90–91, 93–94, 96–97, 98–99 |
@@ -370,34 +377,34 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 | # | Title | Version | Category | Path |
 |---|---|---|---|---|
-| 1 | Operating Contract (binding) | 1.9 | Governance | `CLAUDE.md` |
+| 1 | Operating Contract (binding) | 1.10 | Governance | `CLAUDE.md` |
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.73 | Governance | `docs/documents_manifest.md` |
-| 6 | Folder Structure | 0.18 | Governance | `docs/folder_structure.md` |
+| 5 | Documents Manifest | 2.74 | Governance | `docs/documents_manifest.md` |
+| 6 | Folder Structure | 0.19 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.15 | Docs | `docs/architecture.md` |
-| 8 | Session Opener (project-local, binding) | 1.21 | Governance | `docs/SESSION_OPENER.md` |
-| 9 | Session Closer (project-local, binding) | 1.8 | Governance | `docs/SESSION_CLOSER.md` |
-| 10 | Set Version Adopted | 1.15 | Governance | `docs/SET_VERSION_ADOPTED.md` |
-| 11 | CLAUDE.md (template) | 1.7 | Standards | `docs/standards/CLAUDE.md` |
-| 12 | Lessons Archive (template) | 1.2 | Standards | `docs/standards/LESSONS.md` |
-| 13 | Project Standards | 1.1 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
-| 14 | Prompt Standards | 1.0 | Standards | `docs/standards/PROMPT_STANDARDS.md` |
+| 8 | Session Opener (project-local, binding) | 1.22 | Governance | `docs/SESSION_OPENER.md` |
+| 9 | Session Closer (project-local, binding) | 1.9 | Governance | `docs/SESSION_CLOSER.md` |
+| 10 | Set Version Adopted | 1.16 | Governance | `docs/SET_VERSION_ADOPTED.md` |
+| 11 | CLAUDE.md (template) | 1.8 | Standards | `docs/standards/CLAUDE.md` |
+| 12 | Lessons Archive (template) | 1.3 | Standards | `docs/standards/LESSONS.md` |
+| 13 | Project Standards | 1.2 | Standards | `docs/standards/PROJECT_STANDARDS.md` |
+| 14 | Prompt Standards | 1.1 | Standards | `docs/standards/PROMPT_STANDARDS.md` |
 | 15 | Project Instructions Template | 1.1 | Standards | `docs/standards/PROJECT_INSTRUCTIONS_TEMPLATE.md` |
-| 16 | Memory Protocol | 1.1 | Standards | `docs/standards/MEMORY_PROTOCOL.md` |
-| 17 | Engineering Standards | 1.0 | Standards | `docs/standards/ENGINEERING_STANDARDS.md` |
+| 16 | Memory Protocol | 1.2 | Standards | `docs/standards/MEMORY_PROTOCOL.md` |
+| 17 | Engineering Standards | 1.1 | Standards | `docs/standards/ENGINEERING_STANDARDS.md` |
 | 18 | Validation Standards | 1.0 | Standards | `docs/standards/VALIDATION_STANDARDS.md` |
-| 19 | CI/CD Standards | 1.0 | Standards | `docs/standards/CICD_STANDARDS.md` |
-| 20 | Session Opener (template) | 1.8 | Standards | `docs/standards/SESSION_OPENER.md` |
-| 21 | Session Closer (template) | 1.7 | Standards | `docs/standards/SESSION_CLOSER.md` |
-| 22 | Standards README (meta) | 1.5 | Standards | `docs/standards/README.md` |
-| 23 | Standards Index (meta) | 2.7 | Standards | `docs/standards/STANDARDS_INDEX.md` |
+| 19 | CI/CD Standards | 1.1 | Standards | `docs/standards/CICD_STANDARDS.md` |
+| 20 | Session Opener (template) | 1.9 | Standards | `docs/standards/SESSION_OPENER.md` |
+| 21 | Session Closer (template) | 1.8 | Standards | `docs/standards/SESSION_CLOSER.md` |
+| 22 | Standards README (meta) | 1.6 | Standards | `docs/standards/README.md` |
+| 23 | Standards Index (meta) | 2.8 | Standards | `docs/standards/STANDARDS_INDEX.md` |
 | 25 | How To Use (meta) | 1.1 | Standards | `docs/standards/HOW_TO_USE.md` |
 | 27 | Standards Log — experiences-log template (meta) | 1.1 | Standards | `docs/standards/STANDARDS_LOG.md` |
 | 28 | Doc Coverage Check | 0.2 | Governance script | `scripts/check_doc_coverage.py` |
 | 29 | Test Coverage Drift Check | 0.1 | Governance script | `scripts/check_test_coverage_drift.py` |
-| 30 | Lessons Archive (adopter copy) | 1.0 | Governance | `archive/LESSONS.md` |
+| 30 | Lessons Archive (adopter copy) | 1.1 | Governance | `archive/LESSONS.md` |
 | 31 | PLAN-001 — domain-neutral suite (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-001_domain_neutral_suite.md` |
 | 32 | PLAN-001 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-001_tracker.md` |
 | 33 | PLAN-002 — Slice 1 (setup-strip + log + markers) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-002_setup_strip_log_markers.md` |
@@ -443,8 +450,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 74 | PLAN-009 — skill-based delivery (Set v2.0) (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-009_skill_delivery.md` |
 | 75 | PLAN-009 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-009_tracker.md` |
 | 76 | Delivery skill — mode dispatch + step-0 vault resolve | 0.3 | Delivery | `skill/SKILL.md` |
-| 77 | Delivery skill — bootstrap mode | 0.3 | Delivery | `skill/modes/bootstrap.md` |
-| 78 | Delivery skill — adopt mode | 0.4 | Delivery | `skill/modes/adopt.md` |
+| 77 | Delivery skill — bootstrap mode | 0.4 | Delivery | `skill/modes/bootstrap.md` |
+| 78 | Delivery skill — adopt mode | 0.5 | Delivery | `skill/modes/adopt.md` |
 | 79 | Delivery-skill installer (per-machine symlink) | 0.1 | Delivery | `scripts/bootstrap_skill.sh` |
 | 80 | PLAN-012 — sync handoff report (CLOSED) | 1.1 | Plan | `docs/Plans/PLAN-012_sync_handoff.md` |
 | 81 | PLAN-012 tracker (CLOSED) | 1.3 | Plan | `docs/Plans/PLAN-012_tracker.md` |
@@ -464,8 +471,10 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 95 | Delivery skill — selftest mode | 0.1 | Delivery | `skill/modes/selftest.md` |
 | 96 | PLAN-019 — git transport fails fast: ssh timeouts + keepalives, a cap on every transport command (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-019_git_fail_fast.md` |
 | 97 | PLAN-019 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-019_tracker.md` |
-| 98 | PLAN-020 — Standard Set Version v2.8: lessons batch, senior-review checklist, template fixes, decision-log template (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-020_set_v2_8.md` |
-| 99 | PLAN-020 tracker (APPROVED) | 0.2 | Plan | `docs/Plans/PLAN-020_tracker.md` |
+| 98 | PLAN-020 — Standard Set Version v2.8: lessons batch, senior-review checklist, template fixes, decision-log template (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-020_set_v2_8.md` |
+| 99 | PLAN-020 tracker (EXECUTING) | 0.3 | Plan | `docs/Plans/PLAN-020_tracker.md` |
+| 100 | Decision Log — template (meta) | 0.1 | Standards | `docs/standards/DECISION_LOG.md` |
+| 101 | Decision Log — operator decisions | 1.0 | Governance | `docs/DECISION_LOG.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -474,6 +483,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 ## Last updated
 
 - **Date**: 2026-10-12
-- **Change**: PLAN-020 APPROVED — rows 98–99 → 0.2 (APPROVED); self-row → 2.73.
-- **Previous change**: PLAN-020 drafted — new rows 98–99 (0.1 DRAFT); self-row → 2.72.
+- **Change**: Standard Set Version v2.8 released (PLAN-020 Phase 3a) — 19 cells bumped, rows 98–99 → 0.3
+  (EXECUTING), new rows 100–101 (Decision Log template + the vault's log); self-row → 2.74.
+- **Previous change**: PLAN-020 APPROVED — rows 98–99 → 0.2 (APPROVED); self-row → 2.73.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)

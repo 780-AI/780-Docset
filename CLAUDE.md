@@ -1,8 +1,9 @@
-<!-- VERSION: 1.9 -->
-<!-- Last Updated: 2026-10-03 -->
+<!-- VERSION: 1.10 -->
+<!-- Last Updated: 2026-10-12 -->
 <!-- Source: docs/standards/ (this repo). Bootstrapped from Standard Set v1.0 on 2026-06-07. Independent versions from this point forward. -->
 <!--
 CHANGE LOG
+v1.10 — 2026-10-12 — Standard Set Version v2.8 adoption (PLAN-020): mirrors the template — § 15.8 senior-review checklist; Rule 14 names the Windows junction + the never-handle-the-link-by-hand bullet (L087); Rule 12 alias text genericized. NEW § 10 "Record every operator decision" + § 13 single-source line — this vault keeps `docs/DECISION_LOG.md` from v2.8 (PLAN-020 D-1 = § 10 bullet, no rule number; projects receive the log and the rule at a later Set Version). § 12 keeps the Project Instructions row — the file exists in this repo. No rule added or renumbered (16).
 v1.9 — 2026-10-03 — Standard Set Version v2.7 adoption (PLAN-011 fleet-convergence intake, operator-confirmed at the Rule 16 gate): NEW § 15.9 Feature intake (before Phase 0) + § 15.2 Phase 0 pointer (L080 — from EverOn.Equinex's own-line Rule 16; landed in § 15 so this contract's Rule 16, the harvest gate, keeps its number); Rule 14 gains the cloud-synced-folder bullet (L081 — operative here: the vault lives in Dropbox); Rule 12 step 6 retitled to match SESSION_CLOSER § 1.6 "`/tmp/` cleanup + locality confirm" (L063-class drift since v1.5). Rule count unchanged (16).
 v1.8 — 2026-08-27 — NEW Rule 16 (operator confirmation gate on harvested/intaken content: list + explain + per-item confirm BEFORE any integration edit — operator-decreed, firm, no abbreviation). § 3 heading + § 13 bullet 15 → 16 standing rules. Motivated by the nine orphaned adopter lessons found in 780-Automation's replace-mode archive (L069). Project-specific (root copy only — curator-workflow rule; adopters don't integrate; template § 3 untouched) — no Set Version bump.
 v1.7 — 2026-08-16 — Standard Set Version v1.5 adoption (PLAN-010 upstream intake): Rule 14 upgraded in place to full project-data locality (memory + session transcripts at .claude/project-data/, managed by scripts/claude_project_data.sh, verified at session open AND close); NEW Rule 15 (post-implementation verification of the NEW behavior is mandatory); § 3 heading + § 13 bullet corrected 13 → 15 standing rules (stale two rule-additions — the L063 class, found in this plan's audit); § 8.4 Rule 15 checklist row added.
@@ -190,7 +191,7 @@ See `archive/LESSONS.md` L047 for the codifying pattern.
 
 ### Rule 12 — Session wrap-up routine on operator command is MANDATORY
 
-When the operator says **"wrap up"** (or any of these aliases: `wrap` / `end session` / `close out` [context-disambiguated from `Closeout_Mode`] / `end of session` / `finish up`), Claude MUST read [`docs/SESSION_CLOSER.md`](docs/SESSION_CLOSER.md) and execute its § 1 routine BEFORE posting any farewell message. The § 4 first-response output block MUST be posted before the session is considered closed.
+When the operator says **"wrap up"** (or any of these aliases: `wrap` / `end session` / `close out` [context-disambiguated — not a session-end trigger when the talk is about project-specific closeout logic] / `end of session` / `finish up`), Claude MUST read [`docs/SESSION_CLOSER.md`](docs/SESSION_CLOSER.md) and execute its § 1 routine BEFORE posting any farewell message. The § 4 first-response output block MUST be posted before the session is considered closed.
 
 This is binding because session-end detail loss is a real cost — across long sessions, new patterns / new rules / new lessons / scope expansions / memory updates emerge organically and are easy to forget by farewell time. Without a forcing function at session-end, codification slips and the next session can't pick up cleanly. The wrap-up is the forcing function; the output block is the proof-of-wrap-up visible to the operator.
 
@@ -242,17 +243,19 @@ copying the folder moves the project completely — nothing project-related may 
 The Claude Code per-project store (persistent memory + session transcripts) is the canonical case: the
 harness keeps it at `~/.claude/projects/<path-key>/`, keyed to the folder's **absolute path** — a
 folder move or rename orphans it silently; a machine change loses it. Its physical home is
-**`<repo>/.claude/project-data/`**, with a symlink left at the harness path, managed by
-`scripts/claude_project_data.sh`:
+**`<repo>/.claude/project-data/`**, with a link left at the harness path (a symlink; a directory
+junction on Windows), managed by `scripts/claude_project_data.sh`:
 
 ```bash
-bash scripts/claude_project_data.sh status   # health check (symlink + store)
+bash scripts/claude_project_data.sh status   # health check (link + store)
 bash scripts/claude_project_data.sh adopt    # one-time move-in of existing harness data
 bash scripts/claude_project_data.sh link     # new machine, or after any folder move/rename
 ```
 
 - **`.claude/` stays gitignored** — memory may carry local-only sensitive values; the data travels
   with folder sync/copies (Dropbox here), never the git remote.
+- **Never handle the link by hand** — moving, copying or deleting it in a file manager acts on the
+  data behind it; use the tool's verbs (L087).
 - **Session-open forcing function:** `SESSION_OPENER.md` § 1.5 runs `status` on every pre-flight,
   self-heals via the verb `status` names (`link`/`adopt`), and **HALTS with a warning** if the store
   is unexpectedly empty (the signal that data was lost).
@@ -613,6 +616,17 @@ When the user questions an answer ("how can X be Y?" / "but isn't Y supposed to 
 - Right move: query the underlying state. Wrong move: re-explain with more confidence.
 - If the data confirms the original answer, paste the data verbatim. If the data contradicts, update the answer and note the correction.
 
+### Record every operator decision
+
+Every choice the operator is asked to make — scope, design options, plan approvals, Rule 16 gate
+answers, waivers — is recorded once in `docs/DECISION_LOG.md` as a `DL-NNN` entry: the question in
+plain words, the options, the operator's **verbatim** answer with its date, and where it was
+applied. It lands in the same commit as the work it governs (or the next commit, when no work
+follows). Plans' § 9.1 decision records and CHANGELOG entries cite the `DL-NNN` id. Ask in plain
+words first — what the decision is, a real example, each option and its downside, a
+recommendation, a one-line reply format. Routine "go on commit?" / "push" confirmations are not
+entries. Decisions before 2026-10-12 live in each plan's § 9.1.
+
 ---
 
 ## 11. Commit policy
@@ -704,6 +718,7 @@ When a pushed commit fails CI:
 - **Critical files list:** this file, § 4
 - **Document version index:** `docs/documents_manifest.md`
 - **Cross-cutting project history:** `CHANGELOG.md` (root)
+- **Operator decisions:** `docs/DECISION_LOG.md` (from 2026-10-12; earlier decisions live in each plan's § 9.1)
 - **Folder layout authoritative reference:** `docs/folder_structure.md`
 <!-- PROJECT-OWNED:BEGIN (sync preserves this block) -->
 - **Domain behavior:** the engine source under `src/standard_document_updater/` is the dispositive truth for how the tool reads, diffs, merges, and version-bumps standards documents. `docs/architecture.md` is the navigable reference and MUST be kept in sync per § 4. Until the engine exists, this README + the `docs/standards/` suite describe intended behavior.
@@ -848,6 +863,21 @@ Per Rule 13, the **final task of every plan's development** — after all sectio
 - A CHANGE LOG entry on the plan recording what the review found and changed.
 - An operator-facing summary of the findings.
 - Any newly-exposed design decision surfaced as an explicit operator choice (not silently resolved).
+
+**Checklist the pass walks** (each line exists because a plan once shipped without it):
+
+- **Positive controls** — every check, test, gate and QA harness the plan relies on is shown to fail
+  once on a known-bad input before its pass is trusted (L082).
+- **Tools on the extracted text** — linter, type checker and tests run on the code as extracted
+  from the plan file, at its final indentation (L051, L083).
+- **Varied inputs** — more than one size and shape, every degraded input the code claims to handle,
+  and at least three successive writes for code that reads its own output (L082).
+- **Reachable fixtures** — each QA scenario's fixture provably reaches the code path it claims to
+  exercise (L082).
+- **Gates check content** — every gate is its own step, read before the guarded action, and checks
+  the content it protects (a diff, ancestry) rather than a commit id (L084).
+- **Verified premises** — every environmental fact the design rests on was probed before design,
+  not assumed (L080).
 
 **Ordering (the "last task" requirement):** the pass MUST see the complete plan. It does not run section-by-section during drafting; it runs once, at the end, on the finished plan (and its sibling tracker, if any). If the plan is materially revised after the pass but before approval, re-run it.
 

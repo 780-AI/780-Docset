@@ -1,8 +1,9 @@
-<!-- VERSION: 1.7 -->
-<!-- Last Updated: 2026-10-03 -->
+<!-- VERSION: 1.8 -->
+<!-- Last Updated: 2026-10-12 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). TEMPLATE — adopters copy to repo root and fill <placeholders>. -->
 <!--
 CHANGE LOG
+v1.8 — 2026-10-12 — Standard Set Version v2.8: § 15.8 gains the senior-review checklist (positive controls, final-indentation tool runs, varied inputs, fixture reachability, content-checking gates, verified environmental premises — L080, L082–L084); Rule 14 names the Windows form of the harness link (a directory junction) and gains the never-handle-the-link-by-hand bullet (L087); § 12 dispatcher row for the Project Instructions template moved into a TEMPLATE-ONLY note — the file is never delivered to projects, so their copies no longer point at it (L068 recurrence); Rule 12 alias text genericized (a leftover domain identifier removed); § 1 + § 14 single-agent wording aligned with the delivery skill — replace § 14 with a "NOT IN USE" stub, never delete the block. No rule added or renumbered (15).
 v1.7 — 2026-10-03 — Standard Set Version v2.7 (fleet-convergence intake, operator-confirmed at the intake gate): NEW § 15.9 Feature intake (before Phase 0) — every new feature and every feature document enters through preserve → investigate → redesign → plan (L080), pointer added to the § 15.2 Phase 0 row; Rule 14 gains the cloud-synced-folder bullet — one machine at a time, sync settled before switching, folder pinned offline, `link` per machine, push when a batch completes, gitignored ≠ sync-ignored, git identity before a fresh clone's first commit (L081); Rule 12 step 6 retitled to match SESSION_CLOSER § 1.6 "`/tmp/` cleanup + locality confirm" (L063-class drift since v1.5). No rule added or renumbered (15).
 v1.6 — 2026-08-27 — Standard Set Version v2.4 (environment portability): Rule 2 gains the binding Runner note (command examples are generic — substitute the project's Python runner / CI flavor at run time, never edit suite-owned text to localize); Rule 5 sentence + § 8.6 YAML one-liner neutralized (CI-flavor-agnostic). Motivated by a live adopter whose runner/CI adaptations in suite-owned text were reverted on every sync.
 v1.5 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008): § 14 marker comment — stub-keep wording: deleting the block would break sync's ordinal block matching; aligns with SETUP step 4's stub guidance.
@@ -28,7 +29,7 @@ If a rule below conflicts with a request, **refuse or propose a compliant altern
 **Domain:** `<one-line description of what this project does>`
 **Primary languages:** `<e.g., Python 3.11, TypeScript, Bash>`
 **Deployment shape:** `<e.g., "Dockerized, CI → VPS via registry-pull" / "local CLI tool" / "serverless">`
-**Multi-agent:** `<yes — Claude + a second agent (keep § 14); or no — single-agent (delete § 14)>`
+**Multi-agent:** `<yes — Claude + a second agent (keep § 14); or no — single-agent (replace the § 14 body with a "NOT IN USE" stub, markers kept)>`
 <!-- PROJECT-OWNED:END -->
 
 ---
@@ -195,7 +196,7 @@ See `archive/LESSONS.md` L047 for the codifying pattern.
 
 ### Rule 12 — Session wrap-up routine on operator command is MANDATORY
 
-When the operator says **"wrap up"** (or any of these aliases: `wrap` / `end session` / `close out` [context-disambiguated from `Closeout_Mode`] / `end of session` / `finish up`), Claude MUST read [`docs/SESSION_CLOSER.md`](docs/SESSION_CLOSER.md) and execute its § 1 routine BEFORE posting any farewell message. The § 4 first-response output block MUST be posted before the session is considered closed.
+When the operator says **"wrap up"** (or any of these aliases: `wrap` / `end session` / `close out` [context-disambiguated — not a session-end trigger when the talk is about project-specific closeout logic] / `end of session` / `finish up`), Claude MUST read [`docs/SESSION_CLOSER.md`](docs/SESSION_CLOSER.md) and execute its § 1 routine BEFORE posting any farewell message. The § 4 first-response output block MUST be posted before the session is considered closed.
 
 This is binding because session-end detail loss is a real cost — across long sessions, new patterns / new rules / new lessons / scope expansions / memory updates emerge organically and are easy to forget by farewell time. Without a forcing function at session-end, codification slips and the next session can't pick up cleanly. The wrap-up is the forcing function; the output block is the proof-of-wrap-up visible to the operator.
 
@@ -247,17 +248,19 @@ copying the folder moves the project completely — nothing project-related may 
 The Claude Code per-project store (persistent memory + session transcripts) is the canonical case: the
 harness keeps it at `~/.claude/projects/<path-key>/`, keyed to the folder's **absolute path** — a
 folder move or rename orphans it silently; a machine change loses it. Its physical home is
-**`<repo>/.claude/project-data/`**, with a symlink left at the harness path, managed by
-`scripts/claude_project_data.sh`:
+**`<repo>/.claude/project-data/`**, with a link left at the harness path (a symlink; a directory
+junction on Windows), managed by `scripts/claude_project_data.sh`:
 
 ```bash
-bash scripts/claude_project_data.sh status   # health check (symlink + store)
+bash scripts/claude_project_data.sh status   # health check (link + store)
 bash scripts/claude_project_data.sh adopt    # one-time move-in of existing harness data
 bash scripts/claude_project_data.sh link     # new machine, or after any folder move/rename
 ```
 
 - **`.claude/` stays gitignored** — memory may carry local-only sensitive values; the data travels
   with folder sync/copies, never the git remote.
+- **Never handle the link by hand** — moving, copying or deleting it in a file manager acts on the
+  data behind it; use the tool's verbs (L087).
 - **Session-open forcing function:** `SESSION_OPENER.md` § 1.5 runs `status` on every pre-flight,
   self-heals via the verb `status` names (`link`/`adopt`), and **HALTS with a warning** if the store
   is unexpectedly empty (the signal that data was lost).
@@ -657,9 +660,14 @@ When a pushed commit fails CI:
 | Documentation (any `.md`, manifest, CHANGELOG, version headers) | `docs/standards/PROJECT_STANDARDS.md` |
 | Drafting a multi-file AI agent prompt (Cursor, Claude Code) | `docs/standards/PROMPT_STANDARDS.md` |
 | Memory hygiene (what to memorize, what NOT to) | `docs/standards/MEMORY_PROTOCOL.md` |
-| Setting up Claude.ai Project Instructions for a new project | `docs/standards/PROJECT_INSTRUCTIONS_TEMPLATE.md` |
 | Researching a past decision or incident ("why does X exist?") | `archive/LESSONS.md` and `archive/postmortems/` |
 | Drafting OR executing a vital change to a Critical File (central domain logic) | this file, § 15 (plan workflow) — and the plan in `docs/Plans/` |
+
+<!-- TEMPLATE-ONLY:BEGIN (curator-only dispatcher note — sync never propagates this block; projects do not receive the file it names) -->
+> **Curator only (the vault):** setting up Claude.ai Project Instructions for a new project →
+> `docs/standards/PROJECT_INSTRUCTIONS_TEMPLATE.md`. The file stays in the vault; projects never
+> receive it, so their copy of this table does not name it.
+<!-- TEMPLATE-ONLY:END -->
 
 ---
 
@@ -683,7 +691,7 @@ If you find content in multiple places, that is a **defect**. Resolve it: keep t
 <!-- PROJECT-OWNED:BEGIN (sync preserves this block) — single-agent adopters replace the § 14 body with a "NOT IN USE" stub INSIDE this block; keep the markers (sync matches blocks by position) -->
 ## 14. Codex handoff protocol (OPTIONAL — only if using a second AI agent)
 
-**Adopt this section only if your project uses a second AI coding agent (Codex, Devin, or other) alongside the primary agent (Claude). Single-agent projects delete this section entirely** and set § 1 Multi-agent to "no".
+**Adopt this section only if your project uses a second AI coding agent (Codex, Devin, or other) alongside the primary agent (Claude). Single-agent projects replace this section's body with a short "NOT IN USE" stub — inside the PROJECT-OWNED markers, which stay (sync matches blocks by position)** — and set § 1 Multi-agent to "no".
 
 ### 14.1 Domain boundary
 
@@ -867,6 +875,21 @@ Per Rule 13, the **final task of every plan's development** — after all sectio
 - A CHANGE LOG entry on the plan recording what the review found and changed.
 - An operator-facing summary of the findings.
 - Any newly-exposed design decision surfaced as an explicit operator choice (not silently resolved).
+
+**Checklist the pass walks** (each line exists because a plan once shipped without it):
+
+- **Positive controls** — every check, test, gate and QA harness the plan relies on is shown to fail
+  once on a known-bad input before its pass is trusted (L082).
+- **Tools on the extracted text** — linter, type checker and tests run on the code as extracted
+  from the plan file, at its final indentation (L051, L083).
+- **Varied inputs** — more than one size and shape, every degraded input the code claims to handle,
+  and at least three successive writes for code that reads its own output (L082).
+- **Reachable fixtures** — each QA scenario's fixture provably reaches the code path it claims to
+  exercise (L082).
+- **Gates check content** — every gate is its own step, read before the guarded action, and checks
+  the content it protects (a diff, ancestry) rather than a commit id (L084).
+- **Verified premises** — every environmental fact the design rests on was probed before design,
+  not assumed (L080).
 
 **Ordering (the "last task" requirement):** the pass MUST see the complete plan. It does not run section-by-section during drafting; it runs once, at the end, on the finished plan (and its sibling tracker, if any). If the plan is materially revised after the pass but before approval, re-run it.
 

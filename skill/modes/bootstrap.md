@@ -1,7 +1,8 @@
-<!-- VERSION: 0.3 -->
-<!-- Last Updated: 2026-10-08 -->
+<!-- VERSION: 0.4 -->
+<!-- Last Updated: 2026-10-12 -->
 <!--
 CHANGE LOG
+v0.4 — 2026-10-12 — Standard Set Version v2.8: § 3 — instantiating CLAUDE.md deletes every TEMPLATE-ONLY block (the § 12 Project Instructions note is curator-only since v2.8); the PROJECT_INSTRUCTIONS_TEMPLATE bullet no longer says the project's dispatcher names the file.
 v0.3 — 2026-10-08 — PLAN-018: § 6 — the locality script makes the Windows junction itself (since tool 0.2) and, on Windows, refuses while this session is live — the operator links from Git Bash afterwards; § 9 ends with the handoff report (SKILL.md).
 v0.2 — 2026-08-19 — W-D1 fix: § 4 sync-ready SVA shape gains the required CHANGE LOG comment block — the engine's record-update (sync.py _split_header) hard-requires it; the spec omitted it, so the first live bootstrap shipped an SVA that failed on its first version delta.
 v0.1 — 2026-08-16 — Initial (PLAN-009, Set v2.0). Successor to SETUP.md's one-shot prompt: same
@@ -41,14 +42,15 @@ templates/meta — there is nothing to strip afterwards).
   critical files (always include `docs/documents_manifest.md` + `CLAUDE.md` itself); § 13
   domain-behavior bullet; § 14 — single-agent: replace the body with the "NOT IN USE" stub INSIDE
   the PROJECT-OWNED markers (never delete the block — sync's ordinal matching needs it);
-  multi-agent: keep § 14 and name the second agent. Reset the header to VERSION 1.0 with a one-line
+  multi-agent: keep § 14 and name the second agent. Delete every TEMPLATE-ONLY block (markers
+  included — e.g. the § 12 curator-only note). Reset the header to VERSION 1.0 with a one-line
   "Project bootstrap" CHANGE LOG; Source line = "docs/standards/ (this repo). Bootstrapped from
   Standard Set $SET_VERSION (vault commit $VAULT_SHA) on <today>."
 - `$SUITE/LESSONS.md` → TARGET/`archive/LESSONS.md` (verbatim).
 - The 6 topical standards → TARGET/`docs/standards/` (verbatim).
-- `$SUITE/PROJECT_INSTRUCTIONS_TEMPLATE.md` → NOT copied (vault-side reference; the dispatcher row
-  in the instantiated CLAUDE.md § 12 still names it — the project loads it from the vault when that
-  topic is in scope, via the curator).
+- `$SUITE/PROJECT_INSTRUCTIONS_TEMPLATE.md` → NOT copied (curator-only; since Set v2.8 the project's
+  CLAUDE.md does not name it — the curator uses it from the vault when setting up a Claude.ai
+  Project).
 - `$SUITE/SESSION_OPENER.md` + `SESSION_CLOSER.md` → instantiate to TARGET/`docs/SESSION_OPENER.md`
   + `docs/SESSION_CLOSER.md`: delete the TEMPLATE-ONLY block (markers included); fill the
   PROJECT-OWNED heading block with the project's name; customize the PROJECT-OWNED blocks (§ 2

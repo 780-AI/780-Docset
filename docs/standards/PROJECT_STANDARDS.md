@@ -1,8 +1,9 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-10-03 -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-10-12 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.2 — 2026-10-12 — Standard Set Version v2.8: NEW § 8.10 — before the first push to a new audience, scan the tree and the full history for secrets and audience-sensitive content, ask the operator with concrete examples, trust a new host key only on a fingerprint match, verify every remote after the push.
 v1.1 — 2026-10-03 — Standard Set Version v2.6: § 5.6 added — stamp dates are checked against the previous
 change-log line and the clock is verified against an external authority before stamping (L079).
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
@@ -796,6 +797,18 @@ Push triggers (push only on one of these):
 Otherwise: commit locally, batch with other commits, push once when a trigger is hit.
 
 Effect: pipeline run count drops ~5-10× during multi-commit sessions. Pipeline UI stays meaningful. Each pipeline run has a purpose.
+
+### 8.10 Publishing a repository to a wider audience
+
+Before the first push to a new audience — a new remote, an organization, a public mirror:
+
+1. **Scan the tracked tree AND the full history** — for secrets, and for content that audience
+   should not see: other projects' names, internal addresses, account names, host fingerprints,
+   personal data.
+2. **Ask the operator with concrete examples** of what the scan found ("these three files name
+   another project — acceptable for this audience?") and record the answer.
+3. **Trust a new host key only on a fingerprint match** with the provider's published keys.
+4. **After the push, verify every remote shows the same tip** (`git ls-remote`, L055).
 
 ---
 

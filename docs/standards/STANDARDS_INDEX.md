@@ -1,8 +1,9 @@
-<!-- VERSION: 2.7 -->
-<!-- Last Updated: 2026-10-03 -->
+<!-- VERSION: 2.8 -->
+<!-- Last Updated: 2026-10-12 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v2.8 — 2026-10-12 — Standard Set Version v2.8 (lessons batch + senior-review checklist + template fixes + decision-log template): lessons L082–L089 (L082–L088 the curator's own, consolidated; L089 adopter-originated, confirmed at the intake gate) + an L080 data point; CLAUDE.md 1.8 (§ 15.8 checklist, Rule 14 junction + never-by-hand, TEMPLATE-ONLY dispatcher note, Rule 12 alias, § 1/§ 14 stub wording); PROMPT_STANDARDS 1.1 (§ 3.12), ENGINEERING_STANDARDS 1.1 (§ 2.7), PROJECT_STANDARDS 1.2 (§ 8.10), MEMORY_PROTOCOL 1.2 + CICD_STANDARDS 1.1 (dangling reference), SESSION_OPENER 1.9, SESSION_CLOSER 1.8, LESSONS 1.3, README 1.6; NEW meta template DECISION_LOG.md 0.1. § 1 block → v2.8; § 2 rows; § 3 caption + cells + totals (16 files = 11 binding + 5 meta; 89 lessons); § 4 self-service wording; § 6 v2.8 entry.
 v2.7 — 2026-10-03 — Standard Set Version v2.7 (fleet-convergence intake — an operator adopter's own-line suite, under the intake gate): lessons L080 (feature intake — preserve, investigate, redesign, plan) + L081 (cloud-synced folder operating rules; gitignored ≠ sync-ignored) added; CLAUDE.md → 1.7 (NEW § 15.9 Feature intake + § 15.2 Phase 0 pointer; Rule 14 cloud-synced-folder bullet; Rule 12 step 6 retitled to match SESSION_CLOSER § 1.6). § 1 block → v2.7 (counts → 81 lessons); § 2 row 9 → 81; § 3 caption → v2.7 + cells (CLAUDE 1.7, README 1.5, STANDARDS_INDEX 2.7) + lesson total → 81; § 6 history entry. No rule change (15).
 v2.6 — 2026-10-03 — Standard Set Version v2.6 (clock trust — the second harvested adopter entry, under the Rule 16 gate): lesson L079 added (the machine clock is an untrusted input — verify against an external authority before stamping or recording skew); PROJECT_STANDARDS → 1.1 (§ 5.6 stamp-date check). § 1 block → v2.6 (counts → 79 lessons); § 2 row 9 → 79; § 3 caption → v2.6 + cells (PROJECT_STANDARDS 1.1, README 1.4, STANDARDS_INDEX 2.6) + lesson total → 79; § 6 history entry. No rule change (15).
 v2.5 — 2026-09-05 — Standard Set Version v2.5 (PLAN-012 sync handoff): every engine write into a target (sync --write AND integrate write-back) now leaves the engine-transient docs/SYNC_HANDOFF.md explaining what landed + what remains; SESSION_OPENER → 1.8 (§ 1.1 engine-handoff check); LESSONS → 1.2 (L069–L078 date-line corrections — the vault clock ran ~9d slow at intake). § 1 block → v2.5; § 3 caption → v2.5 (caption had drifted, stuck at v2.2 — L063 class) + cells (SESSION_OPENER 1.8, LESSONS 1.2, STANDARDS_INDEX 2.5); § 6 history entry. Counts unchanged (78 lessons / 15 rules).
@@ -47,10 +48,10 @@ Version** tracks the suite as a whole — files added, structure changed, patter
 ## 1. Standard Set Version (current)
 
 ```
-Standard Set Version: v2.7
-Released:             2026-10-03
-Baseline:             v2.6 (clock trust — L079 + PROJECT_STANDARDS § 5.6) + fleet-convergence intake: lesson L080 + CLAUDE.md § 15.9 Feature intake (before Phase 0) — preserve the document, investigate, redesign from scratch, then plan; lesson L081 + the Rule 14 cloud-synced-folder bullet; Rule 12 step 6 aligned with SESSION_CLOSER § 1.6.
-Adopter contract:     11 binding files + 3 meta files (+ STANDARDS_LOG.md); 81 lessons (L001–L081); 15 standing rules in CLAUDE.md
+Standard Set Version: v2.8
+Released:             2026-10-12
+Baseline:             v2.7 (fleet-convergence intake — L080 feature intake, L081 cloud-synced folders) + lessons batch: L082–L088 (proof must be able to fail; prove first, generate and re-extract plan blocks; gates as their own step; engine as oracle; writes into another repository; shared folders; check before acting or telling) + L089 (a connection that opens is not a service that answers); CLAUDE.md § 15.8 senior-review checklist; template fixes (dangling Project Instructions references, Rule 12 alias, § 14 stub wording, Windows junction); PROMPT § 3.12 relayed guides; ENGINEERING § 2.7 shell safety; PROJECT § 8.10 publishing; the DECISION_LOG.md template.
+Adopter contract:     11 binding files + 3 meta files (+ STANDARDS_LOG.md); 89 lessons (L001–L089); 15 standing rules in CLAUDE.md. Vault-only for now: the DECISION_LOG.md template (delivered to projects at a later Set Version).
 ```
 
 When adopting this suite, record the Set Version in the new project's `CHANGELOG.md` or its own
@@ -76,7 +77,7 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 | 6 | `ENGINEERING_STANDARDS.md` | Engineering substrate — architecture invariants, coding standards, secrets, container discipline, ops |
 | 7 | `VALIDATION_STANDARDS.md` | Test framework — tiered model, ownership map, deliberate-failure protocol, soak, first-fire expectations |
 | 8 | `CICD_STANDARDS.md` | Pipeline architecture — staged shape, registry-pull deploy, smoke gating, auto-rollback, soak gate, explicit PROD authorization |
-| 9 | `LESSONS.md` | Incident-to-rule archive — 81 lessons (append-only), each with incident + cost + codification + cross-references |
+| 9 | `LESSONS.md` | Incident-to-rule archive — 89 lessons (append-only), each with incident + cost + codification + cross-references |
 | 10 | `SESSION_OPENER.md` | Session-start pre-flight (binding per Rule 9) — environment mapping + failure-mode catalog + first-response output template |
 | 11 | `SESSION_CLOSER.md` | Session-end wrap-up (binding per Rule 12) — wrap-up routine + failure-mode catalog + output template |
 
@@ -88,6 +89,7 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 | 2 | `STANDARDS_INDEX.md` | This file — versioned set manifest, per-file table, bump policy |
 | 3 | `HOW_TO_USE.md` | Practical usage guide — supporting prompts (Day-One, code review, audit); delivery is the vault-side skill |
 | + | `STANDARDS_LOG.md` | **Experiences-log template** — the per-project contribution channel; the delivery skill copies it to the project's `docs/STANDARDS_LOG.md` (an adopter artifact, not a binding rule) |
+| + | `DECISION_LOG.md` | **Decision-log template** — one entry per operator decision, with the operator's verbatim answer; the vault keeps its own `docs/DECISION_LOG.md` from v2.8; delivery to projects comes with a later Set Version |
 
 > **Delivery (not part of the set):** the suite is delivered by the vault-side skill
 > (`skill/SKILL.md` + `skill/modes/` + `scripts/bootstrap_skill.sh`) — live-reference vault
@@ -97,37 +99,42 @@ topic is in scope, except `SESSION_OPENER.md` (loaded every session per Rule 9) 
 
 ## 3. Per-file version table
 
-Current state as of Set Version v2.7 (2026-10-03). Files unchanged since v1.0 keep their 2026-06-07 dates.
+Current state as of Set Version v2.8 (2026-10-12). Files unchanged since v1.0 keep their 2026-06-07 dates.
 
 | File | Tier | Version | Last Updated |
 |---|---|---|---|
-| `CLAUDE.md` | Binding | 1.7 | 2026-10-03 |
-| `PROJECT_STANDARDS.md` | Binding | 1.1 | 2026-10-03 |
-| `PROMPT_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
+| `CLAUDE.md` | Binding | 1.8 | 2026-10-12 |
+| `PROJECT_STANDARDS.md` | Binding | 1.2 | 2026-10-12 |
+| `PROMPT_STANDARDS.md` | Binding | 1.1 | 2026-10-12 |
 | `PROJECT_INSTRUCTIONS_TEMPLATE.md` | Binding | 1.1 | 2026-08-19 |
-| `MEMORY_PROTOCOL.md` | Binding | 1.1 | 2026-08-19 |
-| `ENGINEERING_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
+| `MEMORY_PROTOCOL.md` | Binding | 1.2 | 2026-10-12 |
+| `ENGINEERING_STANDARDS.md` | Binding | 1.1 | 2026-10-12 |
 | `VALIDATION_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
-| `CICD_STANDARDS.md` | Binding | 1.0 | 2026-06-07 |
-| `LESSONS.md` | Binding | 1.2 | 2026-09-05 |
-| `SESSION_OPENER.md` | Binding | 1.8 | 2026-09-05 |
-| `SESSION_CLOSER.md` | Binding | 1.7 | 2026-08-27 |
-| `README.md` | Meta | 1.5 | 2026-10-03 |
-| `STANDARDS_INDEX.md` | Meta | 2.7 | 2026-10-03 |
+| `CICD_STANDARDS.md` | Binding | 1.1 | 2026-10-12 |
+| `LESSONS.md` | Binding | 1.3 | 2026-10-12 |
+| `SESSION_OPENER.md` | Binding | 1.9 | 2026-10-12 |
+| `SESSION_CLOSER.md` | Binding | 1.8 | 2026-10-12 |
+| `README.md` | Meta | 1.6 | 2026-10-12 |
+| `STANDARDS_INDEX.md` | Meta | 2.8 | 2026-10-12 |
 | `HOW_TO_USE.md` | Meta | 1.1 | 2026-08-17 |
 | `STANDARDS_LOG.md` | Meta | 1.1 | 2026-08-17 |
+| `DECISION_LOG.md` | Meta | 0.1 | 2026-10-12 |
 
-**Total file count:** 15 (11 binding + 4 meta).
-**Total lesson count in `LESSONS.md`:** 81 (L001–L081).
+**Total file count:** 16 (11 binding + 5 meta).
+**Total lesson count in `LESSONS.md`:** 89 (L001–L089).
 
 ---
 
 ## 4. How to apply this set to a new project
 
-The delivery path is the **standard-docset skill** (vault-side): concierge — the curator runs
-it against the target; or self-service — clone the vault repo and run
-`bash scripts/bootstrap_skill.sh` once, then invoke the skill in a session opened at the
-target. Bootstrap mode covers new projects; adopt mode migrates existing ones (dry-run gated).
+The delivery path is the **standard-docset skill** (vault-side). **Concierge:** the curator runs
+it against the target. **Self-service:** paste one of the launcher prompts from the vault's
+README into a Claude Code session — Claude clones the vault into a named folder, checks that it
+is a vault, and reads the skill from that clone; nothing is installed
+(`bash scripts/bootstrap_skill.sh` remains an optional macOS / Linux convenience). Modes:
+**bootstrap** (new projects), **adopt** (existing ones, dry-run gated) and **selftest** (a
+throwaway practice run that proves the skill works on the machine). Every mode ends with a
+handoff report for the curator.
 
 ### 4.1 What you get
 
@@ -176,6 +183,34 @@ coordinated multi-file pattern is a Set-Version Minor; a structural change is a 
 ## 6. Standard Set Version history
 
 Newest first. Append-only.
+
+### v2.8 — 2026-10-12 — Lessons batch, senior-review checklist, template fixes, decision-log template
+
+Additive Minor, mostly authored by the curator. Lessons **L082–L088** consolidate about 25
+recorded data points into seven lessons: a proof must be able to fail (positive controls); prove
+the change first, then generate the plan's blocks and re-extract them; a gate is its own step and
+checks content, not a commit id; engine as oracle; writes into another repository (explanations
+accumulate, a landing is proven by the branch); a folder shared by several machines; check before
+acting or telling. **L089** (adopter-originated, confirmed at the intake gate): a connection that
+opens is not a service that answers. L080 gains an adopter data point (verify an environmental
+premise before designing). **CLAUDE.md → 1.8:** § 15.8 gains the senior-review checklist; Rule 14
+names the Windows form of the harness link (a directory junction) and forbids handling it by hand;
+the dispatcher row for the Project Instructions template becomes a TEMPLATE-ONLY note — projects
+never receive that file (an L068 recurrence; MEMORY_PROTOCOL → 1.2, PROMPT_STANDARDS and
+CICD_STANDARDS → 1.1 reword the same reference); the Rule 12 alias text loses a leftover domain
+identifier; § 1 and § 14 tell single-agent projects to keep a "NOT IN USE" stub, matching the
+delivery skill. **PROMPT_STANDARDS** § 3.12 relayed prompts and step guides; **ENGINEERING_STANDARDS
+→ 1.1** § 2.7 shell safety; **PROJECT_STANDARDS → 1.2** § 8.10 publishing a repository to a wider
+audience; **SESSION_OPENER → 1.9** (§ 1.5 leftover-`memory/` line — adopter-originated, confirmed
+at the intake gate; § 3.1 row 14 junction wording); **SESSION_CLOSER → 1.8** (junction wording).
+New meta template **DECISION_LOG.md** (0.1): one entry per operator decision with the operator's
+verbatim answer — the vault keeps its own log from this release; delivery to projects comes with a
+later Set Version. § 4 self-service wording updated (launcher prompts, selftest mode, handoff
+report). LESSONS → 1.3, which also covers L079–L081 (added at v2.6–v2.7 without a header bump).
+Lesson count → 89; no rule change (15). Sync note: adopters receive a 10-item delta — CLAUDE.md,
+SESSION_OPENER and SESSION_CLOSER merges; LESSONS, MEMORY_PROTOCOL, PROMPT_STANDARDS,
+CICD_STANDARDS, ENGINEERING_STANDARDS and PROJECT_STANDARDS replaces; the SET_VERSION_ADOPTED
+record — plus the handoff.
 
 ### v2.7 — 2026-10-03 — Fleet-convergence intake (feature intake + cloud-synced folders)
 

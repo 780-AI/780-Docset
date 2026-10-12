@@ -1,8 +1,9 @@
-<!-- VERSION: 1.1 -->
-<!-- Last Updated: 2026-08-19 -->
+<!-- VERSION: 1.2 -->
+<!-- Last Updated: 2026-10-12 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.2 — 2026-10-12 — Standard Set Version v2.8: § 4.6 fix line no longer names the Project Instructions template file (never delivered to projects — the reference dangled in every copy; L068 recurrence).
 v1.1 — 2026-08-19 — Standard Set Version v2.2 (domain-neutral scrub): 3 example paths still carried a real username (survived the v1.0 genericization — the identifier-token class) → `/Users/you/...`.
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
@@ -221,7 +222,7 @@ Why bad: the rationale belongs in `archive/LESSONS.md` (incident → rule → wh
 
 Why bad: the entry now applies (incorrectly) to every project. The agent uses the wrong path on a different project's session.
 
-✅ Fix: Project-specific facts go in the **Project Instructions** field of that project (Tier B per `PROJECT_INSTRUCTIONS_TEMPLATE.md`), not in user-wide memory. Memory is for facts that span all projects.
+✅ Fix: Project-specific facts go in the **Project Instructions** field of that project (Tier B — the curator keeps the Project Instructions template), not in user-wide memory. Memory is for facts that span all projects.
 
 ### 4.7 "We discussed this before" memorization
 

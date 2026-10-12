@@ -1,8 +1,14 @@
-<!-- VERSION: 1.2 -->
-<!-- Last Updated: 2026-09-05 -->
+<!-- VERSION: 1.3 -->
+<!-- Last Updated: 2026-10-12 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.3 — 2026-10-12 — Standard Set Version v2.8: lessons L082–L089 added (L082–L088 the curator's
+own lesson candidates, consolidated from about 25 recorded data points; L089 an adopter-originated
+lesson confirmed at the intake gate); L080 gains a data-point paragraph (verify an environmental
+premise before designing — adopter-originated, confirmed at the intake gate). Stamp catch-up: L079
+(v2.6) and L080–L081 (v2.7) were added without a VERSION bump — this 1.3 covers them too (L063
+class). Counts 81 → 89.
 v1.2 — 2026-09-05 — Standard Set Version v2.5 (PLAN-012, riding the release): L069–L078 date
 lines corrected — the vault machine's clock ran ~9 days slow at intake (real date 2026-09-05,
 stamped 2026-08-27). Date-line corrections only; no lesson content change.
@@ -37,6 +43,14 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L089 — A connection that opens is not a service that answers: only a real request proves reachability](#l089--a-connection-that-opens-is-not-a-service-that-answers-only-a-real-request-proves-reachability)
+ - [L088 — Check before acting or telling: a derived path, a message for someone else, an identity fact](#l088--check-before-acting-or-telling-a-derived-path-a-message-for-someone-else-an-identity-fact)
+ - [L087 — A folder shared by several machines: no git command is read-only, links into real data are never handled by hand, same name is not same content](#l087--a-folder-shared-by-several-machines-no-git-command-is-read-only-links-into-real-data-are-never-handled-by-hand-same-name-is-not-same-content)
+ - [L086 — Writes into another repository: explanations accumulate, and a landing is proven by the branch, not by a deleted note](#l086--writes-into-another-repository-explanations-accumulate-and-a-landing-is-proven-by-the-branch-not-by-a-deleted-note)
+ - [L085 — Engine as oracle: verify a produced artifact with the program that will consume it](#l085--engine-as-oracle-verify-a-produced-artifact-with-the-program-that-will-consume-it)
+ - [L084 — A gate is its own step: run it before the action, read its result, and check content rather than a commit id](#l084--a-gate-is-its-own-step-run-it-before-the-action-read-its-result-and-check-content-rather-than-a-commit-id)
+ - [L083 — Prove the change first, then generate the plan's blocks from it and re-extract them from the plan](#l083--prove-the-change-first-then-generate-the-plans-blocks-from-it-and-re-extract-them-from-the-plan)
+ - [L082 — A proof must be able to fail: show every check, test and gate failing once before trusting its pass](#l082--a-proof-must-be-able-to-fail-show-every-check-test-and-gate-failing-once-before-trusting-its-pass)
  - [L081 — A cloud-synced repository folder needs explicit operating rules; gitignored is not sync-ignored](#l081--a-cloud-synced-repository-folder-needs-explicit-operating-rules-gitignored-is-not-sync-ignored)
  - [L080 — New features enter through intake: preserve the document, investigate, redesign from scratch, then plan](#l080--new-features-enter-through-intake-preserve-the-document-investigate-redesign-from-scratch-then-plan)
  - [L079 — The machine clock is an untrusted input: verify it against an external authority before stamping or recording skew](#l079--the-machine-clock-is-an-untrusted-input-verify-it-against-an-external-authority-before-stamping-or-recording-skew)
@@ -172,6 +186,334 @@ where it lives now (which standards file, which section).>
 
 ## 3. The lessons (newest first)
 
+### L089 — A connection that opens is not a service that answers: only a real request proves reachability
+
+**Date:** 2026-09-05
+**Project:** an adopter project (team) → vault
+**Phase / Task:** an adopter's cloud-publication plan, blocked by an outbound network filter → its change log → intake gate (confirmed) → Standard Set Version v2.8
+
+#### Incident
+
+A project behind an organization's outbound filter needed a cloud storage API. After the security
+team opened one hostname, a TLS probe reported three API hosts "REACHABLE": each completed the
+handshake and presented a genuine certificate from the provider's own authority. Two of the three
+then dropped every real request ("remote disconnected"). The filter could see only the hostname
+announced in the handshake — a host allowlist, not a path filter — so the handshake succeeded while
+requests through it were cut. The project spent a month treating the API as blocked, then as open,
+before real requests against further hostnames found one that served; a full live run then passed.
+
+#### Diagnosis
+
+A handshake proves that a socket opened and a certificate was presented. It says nothing about
+whether the service will process a request on that path: filtering proxies, hostname allowlists,
+maintenance pages and half-open load balancers all complete the handshake and then refuse. A probe
+that stops at the handshake reports false positives exactly where reachability is in doubt.
+
+#### Codification
+
+Reachability is proven only by a real application-level request. Any response from the service
+counts as reached — an authentication error or a not-found is still the service answering; a
+disconnect or a timeout after the handshake counts as unreachable. Probes, health checks and QA
+scenarios that claim "reachable" make a real request and record the status it returned.
+
+#### Cross-references
+
+- L082 (a check that cannot fail — a handshake probe cannot report the failure that matters)
+- L079 (environment facts are untrusted until verified against an authority)
+
+---
+
+### L088 — Check before acting or telling: a derived path, a message for someone else, an identity fact
+
+**Date:** 2026-10-03 → 2026-10-08
+**Project:** cross-project (the curator vault and its adopters)
+**Phase / Task:** a delivery-skill audit, a message drafted for a project owner, a registry record
+
+#### Incident
+
+Three separate near-misses shared one cause. (1) A delivery script resolved a missing link to an
+empty string; `git -C ""` and `cd ""` then ran silently in the current folder — a different
+repository from the one intended. (2) A message drafted for a project owner told their agent to
+update seven manifest cells (only four existed in that project) and to "fix any other reference" to
+an old script — which would have edited a tool copied verbatim from the vault; a check against a
+fresh clone of their repository caught both before the message was sent. (3) "This machine belongs
+to a team member" was inferred from an account name and recorded as fact; it stayed in the records
+for five weeks before the operator said it was their own second machine.
+
+#### Diagnosis
+
+Each value was derived, not observed: a path computed from a link, a list of cells assumed from the
+curator's own repository, an owner guessed from an account name. A derived value inherits none of
+the certainty of its source, and each was acted on — or nearly sent to someone else — as if it had
+been checked.
+
+#### Codification
+
+- **Before running anything in a derived path**, check its identity (`git rev-parse
+  --show-toplevel`, an expected marker file) and stop on an empty or unexpected value.
+- **Before sending instructions to another person or their agent**, check every concrete claim
+  (file names, counts, rows, commands) against their live files.
+- **Record identity facts with their source** — who said it and when; an unsourced identity fact
+  is a guess and is marked as one.
+
+#### Cross-references
+
+- L032 (investigate the underlying data — the same discipline, applied before acting)
+- L059 (verify evidence provenance before recording a result)
+
+---
+
+### L087 — A folder shared by several machines: no git command is read-only, links into real data are never handled by hand, same name is not same content
+
+**Date:** 2026-10-03 → 2026-10-07
+**Project:** cross-project (the curator vault and its adopters)
+**Phase / Task:** work in cloud-synced repository folders shared by two machines; a project-data store recovery; an adopter's experiences-log entry (confirmed at the intake gate)
+
+#### Incident
+
+(1) `git status` and `git log` were run from one machine while a session on another machine was
+active in the same synced repository; `git status` can rewrite `.git/index`. No damage, caught
+mid-session. (2) On a project owner's machine, a file-manager move of the per-project harness link
+(a directory junction on Windows) emptied the in-repo store it pointed into — and the locality
+tool's own message had sent the owner to that folder. (3) Recovering from that, an agent kept the
+older of two same-name transcript files because the other looked newer; the "newer" file was a
+stub and the "older" one held half a session. (4) An adopter reported that a session started before
+`link` leaves an empty `memory/` in the harness directory, and that the locality tool's `link` and
+`adopt` aborted on it.
+
+#### Diagnosis
+
+A synced folder makes every write visible to every machine, and git's index is a write. A link into
+real data, sitting in a folder a person can browse, looks like an ordinary folder — moving or
+deleting it acts on the data behind it. After a move, file names and modification times say nothing
+about content.
+
+#### Codification
+
+- **No git command is read-only in a shared synced folder** while another machine's session is
+  active there; read the `.git` files directly if a state check is needed.
+- **Never move, copy or delete the harness link by hand** (a symlink; a junction on Windows) — use
+  the locality tool's verbs.
+- **Compare content, not names or dates**, before choosing between two same-name files (first and
+  last entries, sizes).
+- **A session started before `link` leaves an empty `memory/`** in the harness directory: the
+  locality tool absorbs it from 0.2 on; an older copy aborts — remove the empty directory, rerun
+  `link` (SESSION_OPENER § 1.5).
+
+#### Cross-references
+
+- L050 (project data lives inside the repo — the link this lesson protects)
+- L081 (operating rules for a cloud-synced repository folder — this lesson adds three)
+
+---
+
+### L086 — Writes into another repository: explanations accumulate, and a landing is proven by the branch, not by a deleted note
+
+**Date:** 2026-09-05 → 2026-10-05
+**Project:** cross-project (the sync engine and its adopters)
+**Phase / Task:** engine writes into adopter working trees; the engine's per-write handoff note
+
+#### Incident
+
+(1) The engine left a handoff note in a target explaining each write, but rewrote the note on every
+write; when writes stacked up before the target landed them, the earlier explanations were lost —
+the very failure the note existed to prevent. (2) Engine-written files sat uncommitted in one
+target across four releases, and in another target a session silently discarded uncommitted
+engine writes. (3) A target session deleted the handoff note without committing the files it
+described; the fleet view then read "0 pending" while the write was still uncommitted.
+
+#### Diagnosis
+
+Uncommitted writes in someone else's working tree survive only until a session there decides what
+they are. A note that the next write overwrites cannot explain several writes, and a note's absence
+proves nothing about the files it described.
+
+#### Codification
+
+- **Explanations accumulate**: while a write is un-landed, each further write appends its own
+  record; nothing is overwritten.
+- **A landing is proven by the target branch moving past the write** (plain reads of `.git` refs
+  and logs are safe across machines) — never by the note having been deleted.
+- **Keep the exposure window short**: the target's session opener checks for an un-landed note
+  first (SESSION_OPENER § 1.1) and lands it before other work.
+
+#### Cross-references
+
+- L069 (engine-owned files invite edits; contributions need a visible channel)
+- L082 (a "0 pending" reading that cannot see the failure is not a check)
+
+---
+
+### L085 — Engine as oracle: verify a produced artifact with the program that will consume it
+
+**Date:** 2026-08-17 → 2026-10-05
+**Project:** cross-project (the delivery skill, the sync engine and their adopters)
+**Phase / Task:** delivery-skill QA; an old adopter's catch-up; replace-mode deltas
+
+#### Incident
+
+(1) The delivery skill produced an adoption-record file that passed review against its own spec but
+lacked fields the sync engine requires; it was found only when the engine's own planner was run on
+a freshly produced fixture. (2) A documented catch-up path for old adopters named one of the three
+preparation steps actually needed; a dry run of the engine against the real repository exposed the
+other two. (3) A dry run proposed removing lines from replace-mode files in a target; whether that
+was safe depended on whether the target's copy was byte-identical to the vault's tagged release —
+one hash comparison settled it.
+
+#### Diagnosis
+
+A spec reviewed against itself agrees with itself; only the consumer knows its hard requirements.
+A documented path that has never run on a real target is a hypothesis, and a delta that removes
+content is safe only if the content removed is the vault's own.
+
+#### Codification
+
+- **Feature-ON QA for any producer runs the consumer's own parser or planner** on the produced
+  output (for example the sync engine's dry-run planner on a fresh bootstrap).
+- **A delivery path is supported only after a run** on a real target, or on a faithful copy of one.
+- **Before trusting a replace-mode delta that removes content**, prove the target copy equals the
+  vault's tag for its adopted version (`git rev-parse <tag>:<path>` against `git hash-object`).
+
+#### Cross-references
+
+- L067 (verification must exercise the new behavior itself)
+- L068 (template cross-references must resolve in the adopter)
+
+---
+
+### L084 — A gate is its own step: run it before the action, read its result, and check content rather than a commit id
+
+**Date:** 2026-10-03 → 2026-10-12
+**Project:** cross-project (the curator vault and its adopters)
+**Phase / Task:** a pre-write idle check; two plan pre-checks
+
+#### Incident
+
+(1) A pre-write idle check and the write it guarded ran in one shell command. The check found a
+session transcript on another machine changed minutes earlier — and the write ran anyway, because
+the check only printed. No collision, by luck. (2) A plan gate required "HEAD equals the release
+commit"; a legitimate bookkeeping commit moved HEAD while every protected file stayed identical, so
+the gate would have blocked a correct run. (3) A pre-check copied from a predecessor plan ("HEAD
+equals both remotes") would have blocked its successor, whose planning commits were legitimately
+still unpushed.
+
+#### Diagnosis
+
+A check printed alongside its action is output, not a gate. A gate keyed to an exact commit id tests
+history instead of the content it protects: routine commits trip it, and it says nothing about the
+files that matter.
+
+#### Codification
+
+- **Every precondition runs as its own step**, and its result is read before the guarded action
+  starts.
+- **A gate checks the content it protects** (`git diff --quiet <ref> HEAD -- <paths>`, ancestry via
+  `git merge-base --is-ancestor`), not equality with a commit id.
+- **When two machines share a folder**, the "is it idle?" question to the operator comes with the
+  evidence (recent session-transcript times on the other side).
+
+#### Cross-references
+
+- L082 (a gate is a check — it too must be shown able to stop)
+- L081 (one machine at a time in a cloud-synced folder)
+
+---
+
+### L083 — Prove the change first, then generate the plan's blocks from it and re-extract them from the plan
+
+**Date:** 2026-08-16 → 2026-10-12
+**Project:** cross-project (the curator vault and its adopters)
+**Phase / Task:** ten consecutive plans drafted and implemented this way (up to 85 blocks across 24 files)
+
+#### Incident
+
+Hand-composed find-and-replace blocks kept carrying defects into implementation: anchors written as
+inline code with backslash-escaped backticks the source never had; code that read correctly but
+failed the linter at its real indentation. From one large plan on, the order was reversed — the
+change was made and tool-proven in a scratch copy of the tree first; the plan's blocks were
+generated from that proven copy, each with a machine-readable marker; the senior-review pass
+re-extracted the blocks from the plan file and re-ran the tools on the extracted text; the
+implementing session re-extracted them again with a freshly written parser. Across ten plans the
+reconcile pass found zero plan defects, and two independently written extractors produced
+byte-identical files.
+
+#### Diagnosis
+
+The tools prove the code, not its copy: hand-copying between a working tree and a plan is where
+drift enters. Markdown is a lossy carrier — inline code mangles backticks, and a block that itself
+contains fences ends early unless its own fence is longer.
+
+#### Codification
+
+- **Prove first**, in a scratch copy of the tree, with the real tools.
+- **Generate the blocks from the proven copy** — each with a marker (`<!-- block id=… path=…
+  kind=… -->`); FIND and REPLACE as raw fenced text (4-backtick fences when the content holds
+  fences), never inline code.
+- **Re-extract from the plan file** and re-run the tools on the extracted text (Rule 13); the
+  implementing session re-extracts again and applies byte-for-byte — every FIND matches exactly
+  once, in order, and a corrupted-FIND control proves the checker.
+- **When a change must touch a file that an approved-but-unimplemented plan anchors**, shift that
+  plan's anchors in the same commit and re-prove them.
+
+#### Cross-references
+
+- L049 (the senior-review pass) and L051 (it must run the tools)
+- L062 (plan-embedded code must satisfy the plan's own criteria at every site)
+- L082 (the corrupted-FIND control is a positive control)
+
+---
+
+### L082 — A proof must be able to fail: show every check, test and gate failing once before trusting its pass
+
+**Date:** 2026-06-22 → 2026-10-12
+**Project:** cross-project (the curator vault and its adopters)
+**Phase / Task:** a series of green results that proved nothing, across plans, QA scenarios and governance checks
+
+#### Incident
+
+Again and again a "pass" turned out to have checked nothing; each was caught only because a number
+or an output looked wrong. A shell `&&` chain broke on a typo, the patch step never ran, and
+the tests went green on the unpatched code — one test short of the expected count. A shell glob
+error aborted a search, and its exit code read as "no matches". A comparison loop assigned a
+variable the shell ties to its command path; every later command vanished and every row compared
+empty with empty — "OK". An after-check's `find` was a different implementation that rejected the
+date format, and a redirect hid the error — "nothing created". A bench test's extractor matched the
+examples in the document it was testing. A QA harness ran a hung probe with output redirected, so
+every later failure line vanished. An adopter's test fixture hard-coded one input size; the review
+tried only that size and missed that every other size crashed before reaching the guard under test.
+A renderer that parses its own output passed one-write tests and truncated content on the third
+successive write. And a QA scenario named a fixture state that could never reach the code it
+claimed to test.
+
+#### Diagnosis
+
+A check that cannot fail looks exactly like a check that passed. Negative results — no matches,
+exit 1, an empty diff, equal values — are the easiest to produce by accident: a broken tool, a
+swallowed error, an empty input or a probe that never ran all yield them.
+
+#### Codification
+
+- **Positive control**: before trusting a check, run it once against a known-bad input (the old
+  code, a corrupted anchor, a planted hit) and see it fail *by the check*, not by a crash.
+- **Never hide a check's errors**; an empty value is a failure, never a match.
+- **Assert that it ran**: state the expected counts (tests, files, blocks, rows) before the run and
+  compare after.
+- **Vary the input**: more than one size and shape, including each degraded input the code claims
+  to handle; code that reads its own output gets at least three successive writes (the composed
+  round trip).
+- **A QA fixture must provably reach** the code path it claims to exercise.
+
+Lives in CLAUDE.md § 15.8 (the senior-review checklist) and ENGINEERING_STANDARDS § 2.7 (shell
+safety).
+
+#### Cross-references
+
+- L051 (the senior-review pass must run the tools — this lesson says how to trust what they print)
+- L067 (verification must exercise the new behavior itself)
+- L016 (a check that is allowed to fail is decoration — the same failure from the other side)
+
+---
+
 ### L081 — A cloud-synced repository folder needs explicit operating rules; gitignored is not sync-ignored
 
 **Date:** 2026-10-03
@@ -264,6 +606,16 @@ nothing, adopt / deviate recorded per item; (2) investigate before designing —
 audit by `file:line`, existing-machinery inventory, explicit absorb-or-supersede against open
 plans, the design hypothesis pre-tested where feasible; (3) redesign from scratch per the repo's
 conventions; (4) formalize as a § 15 plan. Pointer from the § 15.2 Phase 0 row.
+
+#### Data point (Set v2.8 — an adopter, confirmed at the intake gate)
+
+A plan to make a daily scheduled job survive a nightly server reboot was drafted, senior-reviewed
+and approved before the server was probed — the probe had been deferred as "trigger choice only".
+When it finally ran, a one-command process check showed there was no scheduler process at all:
+nothing was being killed. Two of the plan's three premises were false, and most of its sub-tasks
+became unnecessary. Step 2 of § 15.9 covers environmental facts too: **when a design rests on an
+unverified fact about the environment, verify the fact before Phase 1 design, not after Phase 2
+approval** — a one-command probe is cheaper than any design.
 
 #### Cross-references
 

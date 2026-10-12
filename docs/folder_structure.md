@@ -1,7 +1,8 @@
-<!-- VERSION: 0.18 -->
-<!-- Last Updated: 2026-10-08 -->
+<!-- VERSION: 0.19 -->
+<!-- Last Updated: 2026-10-12 -->
 <!--
 CHANGE LOG
+v0.19 — 2026-10-12 — PLAN-020 (Standard Set Version v2.8): added docs/DECISION_LOG.md (the vault's decision log) and docs/standards/DECISION_LOG.md (the template) to the tree; caught up two stale captions — suite "Set Version v2.0" → v2.8, template LESSONS "L001–L067" → L001–L089.
 v0.18 — 2026-10-08 — PLAN-018: added skill/modes/selftest.md to the tree; the skill/ line says a plain clone works too; SKILL.md's line names the handoff report.
 v0.17 — 2026-10-07 — PLAN-017 Phase 3b: the claude_project_data.sh line names the new `cleanup` verb.
 v0.16 — 2026-10-05 — PLAN-017: added tests/test_claude_project_data.py to the tree; the claude_project_data.sh comment notes the Windows junction.
@@ -49,11 +50,13 @@ Standard DocSet/
 │   ├── SESSION_CLOSER.md          # binding session-end wrap-up (Rule 12)
 │   ├── SET_VERSION_ADOPTED.md     # adopted Standard Set Version (moved here so it survives the setup strip)
 │   ├── STANDARDS_LOG.md           # this project's experiences log (contribution channel; kept file)
+│   ├── DECISION_LOG.md            # operator decisions — one DL-NNN entry each, verbatim answer (CLAUDE.md § 10; from Set v2.8)
 │   ├── fleet.csv                  # GENERATED fleet view — gitignored, never hand-edited (PLAN-016; `fleet` / `status` regenerate it)
-│   ├── standards/                 # canonical domain-neutral suite (Set Version v2.0)
+│   ├── standards/                 # canonical domain-neutral suite (Set Version v2.8)
 │   │   ├── CLAUDE.md             # operating-contract TEMPLATE (with placeholders)
-│   │   ├── LESSONS.md            # lessons archive (canonical template, L001–L067)
+│   │   ├── LESSONS.md            # lessons archive (canonical template, L001–L089)
 │   │   ├── CICD_STANDARDS.md
+│   │   ├── DECISION_LOG.md       # decision-log TEMPLATE (vault-only until a later Set Version delivers it)
 │   │   ├── ENGINEERING_STANDARDS.md
 │   │   ├── HOW_TO_USE.md
 │   │   ├── MEMORY_PROTOCOL.md

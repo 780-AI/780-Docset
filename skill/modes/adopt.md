@@ -1,7 +1,8 @@
-<!-- VERSION: 0.4 -->
-<!-- Last Updated: 2026-10-08 -->
+<!-- VERSION: 0.5 -->
+<!-- Last Updated: 2026-10-12 -->
 <!--
 CHANGE LOG
+v0.5 — 2026-10-12 — Standard Set Version v2.8: § 5 — every instantiated template has its TEMPLATE-ONLY blocks deleted (markers included), CLAUDE.md included.
 v0.4 — 2026-10-08 — PLAN-018: § 5 notes the Windows locality refusal while this session is live (the operator links from Git Bash afterwards); § 8 ends with the handoff report (SKILL.md).
 v0.3 — 2026-10-03 — PLAN-011 (S2): § 3 lessons-archive bullet made explicit — archive/LESSONS.md is a SYNC_MAP replace item, so a converging project's own archive is preserved verbatim as archive/LESSONS_LEGACY.md (frozen, carrying the numbering crosswalk) and every entry is classified; nothing dropped silently.
 v0.2 — 2026-08-19 — W-D1 fix: the sync-ready SVA shape gains the required CHANGE LOG comment block — the engine's record-update (sync.py _split_header) hard-requires it; the spec omitted it (the pilot adoption dodged the defect only because its session wrote the block unprompted).
@@ -70,7 +71,8 @@ written before that approval. If the run later deviates from the approved list, 
 
 ## 5. Apply (only after § 4 approval)
 
-Per the approved list, copying suite content from `$SUITE` (read-only on the vault), preserving
+Per the approved list, copying suite content from `$SUITE` (read-only on the vault) — deleting every
+TEMPLATE-ONLY block (markers included) from each template it instantiates, CLAUDE.md included — preserving
 every mapped customization inside PROJECT-OWNED markers. Also:
 
 - TARGET/`docs/SET_VERSION_ADOPTED.md` — Standard Set Version `$SET_VERSION`, vault commit

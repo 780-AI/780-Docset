@@ -1,8 +1,9 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-10-12 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-10-12 — Standard Set Version v2.8: NEW § 3.12 relayed prompts and step guides (sent as a file; one self-checking block per step; one results file; bench-tested; plain words — L082, L084, L088); § 6.12 no longer names the Project Instructions template file (never delivered to projects; L068 recurrence).
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
@@ -510,6 +511,25 @@ When the multi-file edit is being handed off to a secondary AI agent (Codex, Dev
 
 If Codex deviated from the prompt's ALLOWLIST or scope, the recovery prompt to Codex follows the **PRIOR DEVIATION WARNING** pattern in § 9.5.
 
+### 3.12 Relayed prompts and step guides (for another person or their agent)
+
+When the operator relays a prompt or a step-by-step guide to someone else — a project owner, or
+the agent in their project — through a chat app:
+
+- **Send it as a file** (a `.txt` attachment), never as pasted text: chat apps render paired `*`
+  and `_` as formatting and silently drop them — a pattern once lost its `*` this way, and only the
+  prompt's own gate caught it.
+- **One block per step, and every block prints its own verdict** — `>>> OK`, `>>> NOT YET` or
+  `>>> STOP: <reason>`, computed by the block itself, not judged by the reader.
+- **Every block appends to one results file** that the person sends back — the curator reads the
+  evidence, not a summary of it.
+- **A step that would do harm if run too early checks its own precondition first**, so a mistimed
+  paste is harmless (L084).
+- **Bench-test the guide** against the real tool in a mock of the recipient's layout, including
+  negative controls (L082), and check every concrete claim — file names, counts, rows — against
+  their live files before sending (L088).
+- **Plain words** — for each step: what it does, what you should see, what to do if you don't.
+
 ---
 
 ## 4. Anchor selection for FIND blocks
@@ -888,7 +908,7 @@ Agent self-reports "passed" without showing output. Per CLAUDE.md Rule 6, self-r
 
 ❌ Pattern: using the harness's question-popup UI (`AskUserQuestion` or equivalent) for routine clarification when an inline option list in the chat would work just as well.
 
-Why bad: popup UIs break the conversational flow. The operator has to click through a modal instead of reading and replying inline. For session protocols that run "one task per message" (per `PROJECT_INSTRUCTIONS_TEMPLATE.md`), popups add a context-switch that linear chat avoids.
+Why bad: popup UIs break the conversational flow. The operator has to click through a modal instead of reading and replying inline. For session protocols that run "one task per message" (as set in the project's Claude.ai Project Instructions), popups add a context-switch that linear chat avoids.
 
 This is specific to Claude Code (and other harnesses that ship a question-UI). For pure Claude.ai conversations, this doesn't apply.
 

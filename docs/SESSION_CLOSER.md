@@ -1,8 +1,9 @@
-<!-- VERSION: 1.8 -->
-<!-- Last Updated: 2026-10-05 -->
-<!-- Source: docs/standards/SESSION_CLOSER.md (template) v1.7. Project-local instance for Standard DocSet. -->
+<!-- VERSION: 1.9 -->
+<!-- Last Updated: 2026-10-12 -->
+<!-- Source: docs/standards/SESSION_CLOSER.md (template) v1.8. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.9 — 2026-10-12 — Standard Set Version v2.8 adoption (PLAN-020): § 1.6 locality confirm names the Windows junction (mirrors template 1.8); header Source ref → template v1.8.
 v1.8 — 2026-10-05 — PLAN-016: § 1.2 fleet-view bullet (run `fleet` — regenerates `docs/fleet.csv`; report unreachable / not-current / handoff-pending rows); § 4 template gains the Fleet line.
 v1.7 — 2026-10-05 — Two push remotes (operator 2026-10-05): § 1.1 probes unpushed commits per remote and states the push rule (every push to BOTH `origin` = GitLab and `github` = GitHub 780-AI/780-Docset, + tags on a release; pushed = `git ls-remote` on both shows HEAD); § 1.4 push-state flip only after both; § 4 "Unpushed" line reports both.
 v1.6 — 2026-08-27 — Deferred-minor sweep: stale header Source ref template v1.3 → v1.7 (the template moved at Sets v2.0/v2.1/v2.3; surgical omission since — cleared from the register).
@@ -68,7 +69,7 @@ rm -f /tmp/commit_msg.txt /tmp/recent_transcripts.txt
 Remove any other session scratch artifacts.
 
 **Locality confirm (Rule 14):** `bash scripts/claude_project_data.sh status` → expect `STATUS: OK`.
-If any new project state landed outside the folder this session, move it in (same symlink pattern)
+If any new project state landed outside the folder this session, move it in (same link pattern — a symlink; a junction on Windows)
 or catalog it in the machine-migration doc — same-commit.
 
 ### 1.7 Lessons-learned scan (the detail-capture step)

@@ -1,8 +1,9 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-10-12 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-10-12 — Standard Set Version v2.8 (PLAN-020): the L082–L089 provenance entry (sources per lesson; the full texts live in docs/standards/LESSONS.md). Stamp catch-up: the v2.3 (L070–L078), v2.6 (L079) and v2.7 (L080–L081) entries were added without a VERSION bump — this 1.1 covers them too (L063 class).
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
@@ -22,6 +23,7 @@ specifics removed; examples genericized. Established as Standard Set Version v1.
 1. [How to read this file](#1-how-to-read-this-file)
 2. [Lesson entry format](#2-lesson-entry-format)
 3. [The lessons (newest first)](#3-the-lessons-newest-first)
+ - [L082–L089 — v2.8 lessons batch: curator candidates + two 780-estimator intake items (PLAN-020)](#l082l089--v28-lessons-batch-curator-candidates--two-780-estimator-intake-items-plan-020)
  - [L080–L081 — Fleet-convergence intake from EverOn.Equinex (PLAN-011)](#l080l081--fleet-convergence-intake-from-everonequinex-plan-011)
  - [L079 — The machine clock is an untrusted input: verify it against an external authority before stamping or recording skew](#l079--the-machine-clock-is-an-untrusted-input-verify-it-against-an-external-authority-before-stamping-or-recording-skew)
  - [L070–L078 — First adopter-originated intake batch (rescued from 780-Automation)](#l070l078--first-adopter-originated-intake-batch-rescued-from-780-automation)
@@ -147,6 +149,42 @@ where it lives now (which standards file, which section).>
 ---
 
 ## 3. The lessons (newest first)
+
+### L082–L089 — v2.8 lessons batch: curator candidates + two 780-estimator intake items (PLAN-020)
+
+**Date:** 2026-10-12
+**Project:** Standard DocSet (vault) — curator lesson candidates recorded 2026-06-16 → 2026-10-12 in the
+local OPEN_TASKS register; 780-estimator (L089 + the L080 data point); EverOn.Capital-Signal (E002's
+remainder → L087)
+**Phase / Task:** v2.8 inventory → operator answers 2026-10-12 (`docs/DECISION_LOG.md` DL-004 … DL-009;
+Rule 16 gate "Q2. yes" = DL-005) → PLAN-020 → Standard Set Version v2.8
+
+**Provenance record** (project-voice entry; the full genericized lessons live in the canonical
+`docs/standards/LESSONS.md` — dual-voice practice per L068):
+
+| Vault # | Source | Title (canonical) |
+|---|---|---|
+| L082 | "a green proof must prove it ran" data points #1–#9 (PLAN-013 D2 session → PLAN-019 harness) + PLAN-013 D2 composed round trip + PLAN-013 QA-K3 fixture reachability + 780-estimator PLAN-004 v0.3 (one input size — gate item #8) | A proof must be able to fail |
+| L083 | proven-code-first + generated plan blocks, data points #1–#10 (PLAN-008 → PLAN-019) + PLAN-009 raw-anchor note + approved-plan anchor shifts (PLAN-011 0.4, PLAN-016 0.3) | Prove first; generate and re-extract plan blocks |
+| L084 | PLAN-017 QA-M7 incident (check printed beside the write) + PLAN-011 D1 (sha-keyed gate) + PLAN-019 tracker 3.0 pre-check | A gate is its own step and checks content |
+| L085 | PLAN-009 D3 (SVA shape vs `record_adoption`) + PLAN-017 catch-up path (1 of 3 prep steps documented) + PLAN-017 D1 replace-mode provenance | Engine as oracle |
+| L086 | PLAN-012 → PLAN-013 handoff overwrite + 780-Automation's discarded v2.3 + v2.4 writes + Capital-Signal's uncommitted v2.1–v2.5 writes + Equinex's deleted-but-unlanded handoff (2026-10-05) | Writes into another repository |
+| L087 | cross-machine `git status` (2026-10-03) + 780-estimator store-loss incident (2026-10-06, Explorer move of the junction) + the same-name transcript choice + Capital-Signal E002 Suggested (3) + its lesson half | A folder shared by several machines |
+| L088 | PLAN-018 audit (Step 0 `git -C ""`) + the owner message checked against a fresh clone (2026-10-05 wrap-up) + the 780-VPN machine-ownership record (corrected 2026-10-03) | Check before acting or telling |
+| L089 | 780-estimator CHANGELOG 2026-09-05 (their PLAN-014 — a TLS handshake reported REACHABLE) — gate item #5 | A connection that opens is not a service that answers |
+| L080 + data point | 780-estimator PLAN-013 § 14.4 (no scheduler process at all) — gate item #4 | (data-point paragraph in L080) |
+
+**Gate:** the 780-estimator items #4, #5 and #8 were first confirmed at the 2026-10-05 PLAN-017 gate and
+confirmed again for integration at the v2.8 Rule 16 gate (DL-005), together with Capital-Signal E002's
+remainder; item #6 (ALLOWLIST-count automation) went to the vault-tooling queue, not the suite. E002's
+status in Capital-Signal's log already reads `integrated` (its script half shipped in PLAN-017); its
+lesson half lands here as L087 item 4 — no further write-back.
+
+**Not codified** (operator Q6 = yes, DL-009): C5 (QA when a run moves machines) deferred; C6 (an agent
+safety check blocking transcript recovery) rejected as tool-specific; the dropped list (already
+codified, already done, or single soft data points) is in the PLAN-020 § 2 intake record.
+
+---
 
 ### L080–L081 — Fleet-convergence intake from EverOn.Equinex (PLAN-011)
 

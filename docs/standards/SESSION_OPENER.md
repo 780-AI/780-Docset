@@ -1,8 +1,9 @@
-<!-- VERSION: 1.8 -->
-<!-- Last Updated: 2026-09-05 -->
+<!-- VERSION: 1.9 -->
+<!-- Last Updated: 2026-10-12 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.9 — 2026-10-12 — Standard Set Version v2.8: § 1.5 gains the leftover-`memory/` line (a session started before `link` leaves an empty `memory/` in the harness directory; older locality tools abort on it — adopter-originated, confirmed at the intake gate; L087); § 3.1 row 14 names the Windows form of the harness link (a junction).
 v1.8 — 2026-09-05 — Standard Set Version v2.5 (PLAN-012): § 1.1 engine-handoff check — if docs/SYNC_HANDOFF.md exists (or git status shows engine-modified suite files), read it FIRST and land it per its § 2 before any other work.
 v1.7 — 2026-08-17 — Standard Set Version v2.0 (PLAN-009): End-of-file bootstrap pointer retargeted — the delivery skill instantiates the project-local copy during bootstrap (was: walk the retired NEW_PROJECT_BOOTSTRAP.md Step <N>).
 v1.6 — 2026-08-16 — Standard Set Version v1.6 (PLAN-008 sync-enablement): TEMPLATE-ONLY banner block + PROJECT-OWNED instance-heading block, so section-merge sync never propagates template banners and preserves the adopter's heading.
@@ -89,6 +90,10 @@ ls -1 .claude/project-data/memory/*.md 2>/dev/null | wc -l
 - Store **unexpectedly empty** when prior sessions are known to have written memory → **STOP**
   and warn the operator in the § 4 block (Rule 14 + `LESSONS.md` L050); do not proceed
   as if there is genuinely no history.
+- **A session that started before `link`** leaves an empty `memory/` in the harness directory;
+  `link` absorbs it (locality tool 0.2 and later). If `link` aborts on it, the project's copy of
+  the tool is older — remove that empty directory, rerun `link`, and note it in the § 4 block
+  (`LESSONS.md` L087).
 
 ---
 
@@ -141,7 +146,7 @@ Each row links to the memory that codifies it. Recall the linked memory when its
 | 11 | Starting a § 15 plan without granular sub-task tracking — either (a) big plan without sibling tracker, OR (b) small plan without expanded § 4 in-file checklist | any new `docs/Plans/PLAN-NNN_*.md` | `LESSONS.md` L045 + `CLAUDE.md` § 15.7 |
 | 12 | Local-only OPEN_TASKS.md register stale or unmaintained (if the project uses the convention) | every session start | `LESSONS.md` L046 + `CLAUDE.md` § 15.7 |
 | 13 | Behavior-affecting change shipped without a paired QA / smoke-test scenario in the plan's tracker or OPEN_TASKS | every behavior-affecting commit | `CLAUDE.md` **Rule 11 (binding)** + `LESSONS.md` L047 |
-| 14 | Project data written or left outside the project folder — locality symlink absent/broken after a machine change or folder move, silently orphaning memory + transcripts | § 1.5 probe on every session-open; any tool creating project state outside the repo | `CLAUDE.md` Rule 14 + `LESSONS.md` L050 (+ v1.5 generalization) |
+| 14 | Project data written or left outside the project folder — locality link (a symlink; a junction on Windows) absent/broken after a machine change or folder move, silently orphaning memory + transcripts | § 1.5 probe on every session-open; any tool creating project state outside the repo | `CLAUDE.md` Rule 14 + `LESSONS.md` L050 (+ v1.5 generalization) |
 | 15 | Rule 13 senior-review pass not actually executed against the plan's embedded code — or run on an unindented draft snippet instead of the final indentation it ships at (linter / type-checker / tests) | finalizing any § 15 plan (the Rule 13 pass) | `CLAUDE.md` Rule 13 + `LESSONS.md` L051 (recurrence #4) |
 | 16 | Implementation closed on rollback-guarantee QA alone — the NEW behavior never exercised; broken feature ships with an unbounded defect window | every behavior-affecting implementation, at completion | `CLAUDE.md` **Rule 15 (binding)** + `LESSONS.md` L067 |
 | 17 | Version stamp edited in the change log but not in the stamp field itself (headers, § 3 heading counts, manifest cells, count tables) | every stamp-touching edit + the Rule 10 review | `LESSONS.md` L063 |

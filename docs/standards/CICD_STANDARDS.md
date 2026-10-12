@@ -1,8 +1,9 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-10-12 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-10-12 — Standard Set Version v2.8: § 11.4 token-storage bullet no longer names the Project Instructions template file (never delivered to projects; L068 recurrence).
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
@@ -1006,7 +1007,7 @@ Per `archive/LESSONS.md` L031 — when pipeline status / job status / job trace 
 
 - Token kept at `~/.<provider>-token` (gitignored, per-machine, file permissions `600`)
 - Never in any tracked file, never in user-wide memory
-- Per-project access details (project ID, base URL, token path) go in the project's Project Instructions Tier B (per `PROJECT_INSTRUCTIONS_TEMPLATE.md` § 5.9)
+- Per-project access details (project ID, base URL, token path) go in the project's Project Instructions Tier B (the curator keeps the Project Instructions template)
 
 **GitLab REST API recipes (use as template; adapt for other providers):**
 

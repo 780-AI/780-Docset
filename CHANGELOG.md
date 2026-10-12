@@ -2,6 +2,57 @@
 
 Newest entries at the top.
 
+## [2026-10-12] — Standard Set Version v2.8: lessons batch, senior-review checklist, template fixes, decision-log template (PLAN-020)
+
+- **Type:** Standards-suite release (Critical Files `docs/standards/` + root `CLAUDE.md` + the manifest,
+  plus the delivery skill's `skill/modes/bootstrap.md` / `adopt.md`) — documents only, no engine change —
+  under § 15 plan PLAN-020 (Phase 3a, § 7.1 ALLOWLIST — 25 files). Fresh session per § 15.3; reconcile pass
+  70 / 70 blocks, zero plan defects; § 5 copied byte-for-byte from the plan.
+- **What changed:**
+  - **Lessons (`docs/standards/LESSONS.md` 1.3):** L082–L088 consolidate the curator's recorded data points
+    (a proof must be able to fail; prove first, then generate + re-extract plan blocks; a gate is its own
+    step and checks content; engine as oracle; writes into another repository; a folder shared by several
+    machines; check before acting or telling); L089 (a connection that opens is not a service that
+    answers) and an L080 data point from the 780-estimator intake. Stamp catch-up for L079–L081. Counts
+    81 → 89.
+  - **Template `CLAUDE.md` 1.8:** the § 15.8 senior-review checklist; the § 12 Project Instructions row
+    becomes a curator-only `TEMPLATE-ONLY` note; the Rule 12 alias genericized; § 1 / § 14 "keep a stub"
+    made consistent; Rule 14 "symlink (junction on Windows)" + "never handle the link by hand".
+  - **Template opener 1.9 / closer 1.8:** § 1.5 leftover-`memory/` line; junction wording.
+  - **Notes:** PROMPT_STANDARDS 1.1 § 3.12 relayed prompts and step guides; ENGINEERING_STANDARDS 1.1
+    § 2.7 shell safety; PROJECT_STANDARDS 1.2 § 8.10 publishing a repository to a wider audience;
+    MEMORY_PROTOCOL 1.2 + CICD_STANDARDS 1.1 dangling references reworded.
+  - **Release record:** STANDARDS_INDEX 2.8 (§ 3 cells, § 4 self-service wording, § 6 v2.8 entry),
+    README 1.6 (lesson count).
+  - **Decision log, step 1:** new template `docs/standards/DECISION_LOG.md` 0.1 (not yet in `SYNC_MAP` —
+    PLAN-021 delivers it); the vault's own `docs/DECISION_LOG.md` 1.0 seeded with DL-001 … DL-014
+    verbatim; vault `CLAUDE.md` § 10 "Record every operator decision" (D-1 = A).
+  - **Skill (D-2 = A):** bootstrap 0.4 / adopt 0.5 delete every `TEMPLATE-ONLY` block when instantiating
+    `CLAUDE.md`.
+  - **Own-instance reconcile:** root `CLAUDE.md` 1.10, `archive/LESSONS.md` 1.1 (L082–L089 provenance entry
+    + stamp catch-up), `docs/SESSION_OPENER.md` 1.22, `docs/SESSION_CLOSER.md` 1.9,
+    `docs/SET_VERSION_ADOPTED.md` 1.16 (v2.8 backport row), `docs/folder_structure.md` 0.19.
+- **Intake:** DL-004 … DL-009 (scope, the Rule 16 gate for the four adopter items, Q3 = A, decision log);
+  Phase 2: DL-010 … DL-014.
+- **Versions:** manifest 2.74 (19 cells, rows 98–99 → 0.3 EXECUTING, new rows 100–101); PLAN-020 plan +
+  tracker 0.3 EXECUTING.
+- **Impact:** no engine change (`docs/architecture.md` unchanged). Adopters receive a 10-item delta at their
+  next sync (CLAUDE.md, opener, closer merge; five topical standards + `archive/LESSONS.md` replace; the SVA
+  record). Delivery to the reachable projects follows in Phase 3b.
+
+### QA scenarios (Rule 11 / Rule 15 — statuses live in `PLAN-020_tracker.md`)
+
+- ✅ **QA-V1** apply — 67 edit blocks CLEAN; corrupted-FIND control → exactly that block FAILs.
+- ✅ **QA-V2** domain-neutral gate — no output; planted-name control → 1 hit.
+- ✅ **QA-V3** structure (harness 8b) — CLEAN; three-defect control → 3 FAILs.
+- ✅ **QA-V4 ⚑** engine as oracle on copies (harness 8c) — `pass=13 fail=0`; baseline `pass=5 fail=0`;
+  control `pass=5 fail=8`.
+- ✅ **QA-V5** governance 0 / 0 + manifest cells (harness 8d) CLEAN; control 21 failures before § 6 rule 1.
+- ⏸ **QA-V6 ⚑** live delivery to the four reachable projects — Phase 3b.
+- ✅ **QA-V7** decision log — DL-001 … DL-014 verbatim, cited from plan § 9.1.
+- ✅ **QA-V8** skill change — mechanical strip check; real-run proof waived until the next bootstrap /
+  adopt / selftest (D-3 = A, DL-013).
+
 ## [2026-10-12] — PLAN-020 APPROVED
 
 - **Type:** Plan approval record (Phase 2). Operator: *"go on commit; approve 020, all A"* — D20.A approved; D-1 = A (the

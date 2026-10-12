@@ -1,8 +1,9 @@
-<!-- VERSION: 1.0 -->
-<!-- Last Updated: 2026-06-07 -->
+<!-- VERSION: 1.1 -->
+<!-- Last Updated: 2026-10-12 -->
 <!-- Source: standards-source/ (canonical, domain-neutral). -->
 <!--
 CHANGE LOG
+v1.1 — 2026-10-12 — Standard Set Version v2.8: NEW § 2.7 shell safety — variable-name clashes, zsh `=` and glob traps, guarded destructive commands, never-hidden check errors, per-machine tool differences, precondition checks as their own step, pinned tool recipes (L082, L084).
 v1.0 — 2026-06-07 — Clean domain-neutral baseline. Project identity and source-domain
 specifics removed; examples genericized. Established as Standard Set Version v1.0.
 -->
@@ -239,6 +240,29 @@ Branch names follow a convention too: `<type>/<task-id>-<short-description>` (e.
 - Tests pass (per `VALIDATION_STANDARDS.md`)
 
 If a linter rule is genuinely wrong for the project's context, suppress it with an inline comment + reason — don't disable the rule globally.
+
+### 2.7 Shell safety — scripts and one-off commands
+
+Shell mistakes fail quietly; each item below once turned a broken check into a "pass" (L082).
+
+- **Never reuse the shell's own variable names.** In zsh, `path` is tied to `PATH`: assigning it
+  empties the command search path and every later command silently vanishes. Use distinct names
+  (`file_path`, `rel`).
+- **zsh expands a leading `=`** (`echo =====` fails with "not found") — quote separators.
+- **An unmatched glob aborts the whole command in zsh** ("no matches found"), and its exit code can
+  read as "no results" — quote globs passed to tools (`--include='*.py'`).
+- **Guard every variable in a destructive command**: `rm -rf "${DIR:?}"/*`, never
+  `rm -rf "$DIR"/*` — an empty variable turns the second into `rm -rf /*`.
+- **Never hide a check's errors** — `2>/dev/null` on the check itself turns a broken check into a
+  pass; treat an empty value as a failure.
+- **Tools differ by machine** — `find`, `sed`, `date` and `timeout` may be a different
+  implementation on another machine, or absent; name the binary, or test the exact command on the
+  target platform.
+- **A precondition check is its own command**, read before the guarded action (L084) — a check
+  chained with `;` or printed beside the action does not stop it.
+- **Pin the tool recipe** in synced or editable environments — for example a type checker with an
+  explicit module path and a fresh cache directory; a stale cache inside a synced folder once
+  reported phantom errors.
 
 ---
 

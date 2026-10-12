@@ -1,8 +1,9 @@
-<!-- VERSION: 1.21 -->
-<!-- Last Updated: 2026-10-05 -->
-<!-- Source: docs/standards/SESSION_OPENER.md (template) v1.7. Project-local instance for Standard DocSet. -->
+<!-- VERSION: 1.22 -->
+<!-- Last Updated: 2026-10-12 -->
+<!-- Source: docs/standards/SESSION_OPENER.md (template) v1.9. Project-local instance for Standard DocSet. -->
 <!--
 CHANGE LOG
+v1.22 — 2026-10-12 — Standard Set Version v2.8 adoption (PLAN-020): § 1.5 leftover-`memory/` line + § 3.1 row 13 junction wording (mirrors template 1.9); header Source ref → template v1.9 (stale since v2.5 — deferred-minor cleared). The template's § 1.1 engine-handoff check stays out of this instance by design: the engine never writes into the vault.
 v1.21 — 2026-10-05 — Fifth target registered: 780-estimator (§ 2 registry row — git transport, the first git target; team project on a Windows PC; Set v1.3 old-SETUP adopter caught up to v2.7 after a one-time prep commit — PLAN-017).
 v1.20 — 2026-10-05 — PLAN-016: § 1.2 fleet-view bullet (run `status` — prints every target's state and regenerates `docs/fleet.csv`; call out unreachable / not-current / handoff-pending targets); § 4 "Registered target suites" line reads from that run.
 v1.19 — 2026-10-05 — Two push remotes (operator 2026-10-05): § 1.1 probes unpushed commits per remote (`origin` = GitLab, `github` = GitHub 780-AI/780-Docset) and reconciles a recorded push-state against BOTH real remotes (`git ls-remote` each) — a push counts as done only when both show the same tip; § 4 "unpushed commits" line reports both.
@@ -94,6 +95,9 @@ ls -1 .claude/project-data/memory/*.md 2>/dev/null | wc -l
 - Store **unexpectedly empty** when prior sessions are known to have written memory → **STOP**
   and warn the operator in the § 4 block (Rule 14 + `archive/LESSONS.md` L050); do not proceed
   as if there is genuinely no history.
+- **A session that started before `link`** leaves an empty `memory/` in the harness directory;
+  `link` absorbs it (locality tool 0.2 and later). If `link` aborts on it, the copy of the tool is
+  older — remove that empty directory, rerun `link`, and note it in the § 4 block (L087).
 
 ---
 
@@ -142,7 +146,7 @@ Each row links to the memory/lesson that codifies it. Recall the linked memory w
 | 10 | Behavior-affecting change without a paired QA scenario | every behavior-affecting commit | `CLAUDE.md` **Rule 11 (binding)** + `LESSONS.md` L047 |
 | 11 | Starting a § 15 plan without granular sub-task tracking | any new `docs/Plans/PLAN-NNN_*.md` | `LESSONS.md` L045 + `CLAUDE.md` § 15.7 |
 | 12 | Local-only OPEN_TASKS.md register stale | every session start | `LESSONS.md` L046 + `CLAUDE.md` § 15.7 |
-| 13 | Project data written or left outside the project folder — locality symlink absent/broken after a machine change or folder move, silently orphaning memory + transcripts | § 1.5 probe on every session-open; any tool creating project state outside the repo | `CLAUDE.md` Rule 14 + `LESSONS.md` L050 (+ v1.5 generalization) |
+| 13 | Project data written or left outside the project folder — locality link (a symlink; a junction on Windows) absent/broken after a machine change or folder move, silently orphaning memory + transcripts | § 1.5 probe on every session-open; any tool creating project state outside the repo | `CLAUDE.md` Rule 14 + `LESSONS.md` L050 (+ v1.5 generalization) |
 | 14 | Rule 13 senior-review pass not actually executed against the § 5 code — or run on an unindented draft snippet instead of the final indentation it ships at (`ruff` / `mypy --strict` / tests) | finalizing any § 15 plan (the Rule 13 pass) | `CLAUDE.md` Rule 13 + `LESSONS.md` L051 (recurrence #4) |
 | 15 | Implementation closed on rollback-guarantee QA alone — the NEW behavior never exercised; broken feature ships with an unbounded defect window | every behavior-affecting implementation, at completion | `CLAUDE.md` **Rule 15 (binding)** + `LESSONS.md` L067 |
 | 16 | Version stamp edited in the change log but not in the stamp field itself (headers, § 3 heading counts, manifest cells, count tables) | every stamp-touching edit + the Rule 10 review | `LESSONS.md` L063 |
