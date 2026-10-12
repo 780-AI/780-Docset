@@ -2,6 +2,28 @@
 
 Newest entries at the top.
 
+## [2026-10-12] — PLAN-019 drafted: the git transport fails fast (ssh timeouts + keepalives, a 300 s cap on every transport command)
+
+- **Type:** Plan draft (Phase 1; § 15.9 feature intake — operator request in chat, "yes get it done as
+  quickly as possible"; no document). No code, config or target change in this commit; no
+  `docs/standards/` change → no Set Version bump, no tag.
+- **The problem (queued 2026-10-05):** every git command the engine runs has no time limit — a git target
+  that does not answer can hang `status` / `fleet` / `sync`, and the session opener runs `status` every
+  session. The ssh transport has failed fast since PLAN-016 (D-4); git never got the same.
+- **The fix:** every git command runs ssh with `ConnectTimeout=10`, `BatchMode=yes` and keepalives
+  (`ServerAliveInterval=10`, `ServerAliveCountMax=3`), appended to the operator's own ssh command when one
+  is set (D-1 — a blind override would break the Windows ssh-agent setup W2 needs); every transport
+  command is capped at 300 s (D-2).
+- **Pre-tests (numbers):** with no options, a silent server, an unreachable address and a transfer frozen
+  1.5 s in all still hung at their 40–75 s caps; with them they failed in 10.0 / 10.0 / 41.2 s; a normal
+  clone 3.0 s. Code proven first in a scratch export (pytest 172, mypy --strict 0; positive control 8
+  failed / 20 passed on transport 0.3); § 5 generated (16 blocks) and parsed back byte-identical; the § 8
+  QA harness passes 4 / 4 on the draft and catches the old code (1 pass / 3 hang).
+- **Files:** `docs/Plans/PLAN-019_git_fail_fast.md` + `PLAN-019_tracker.md` (0.1 DRAFT);
+  `docs/documents_manifest.md` 2.69.
+- **Next:** operator approval (plan § 9: D19.A; D-1, D-2), then Phase 3 in a fresh session.
+- **Impact:** none at runtime — planning documents only.
+
 ## [2026-10-11] — PLAN-018 CLOSED: one-prompt delivery verified on macOS and Windows
 
 - **Type:** Plan closure (§ 7.4, 4 files). No skill, engine or `docs/standards/` change → no Set Version

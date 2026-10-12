@@ -1,7 +1,9 @@
-<!-- VERSION: 2.68 -->
-<!-- Last Updated: 2026-10-11 -->
+<!-- VERSION: 2.69 -->
+<!-- Last Updated: 2026-10-12 -->
 <!--
 CHANGE LOG
+v2.69 — 2026-10-12 — PLAN-019 drafted (git transport fails fast): new rows 96 (plan, 0.1 DRAFT) + 97
+(tracker, 0.1); quick-index Plans + 96–97. Self-row 2.68 → 2.69 (cells grep-verified against their file headers per L063).
 v2.68 — 2026-10-11 — PLAN-018 CLOSED: rows 93 (plan) + 94 (tracker) 0.3 EXECUTING → 1.0 CLOSED (titles too).
 Self-row 2.67 → 2.68 (cells grep-verified against their file headers per L063).
 v2.67 — 2026-10-08 — PLAN-018 Phase 3 (one-prompt delivery): new row 95 (Delivery, `skill/modes/selftest.md`
@@ -349,7 +351,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | Canonical standards suite (Set v2.0) | 11–23, 25, 27 |
 | Governance scripts | 28–29, 56, 92 |
 | Archive | 30 |
-| Plans | 31–39, 59–60, 63–64, 68–71, 74–75, 80–87, 90–91, 93–94 |
+| Plans | 31–39, 59–60, 63–64, 68–71, 74–75, 80–87, 90–91, 93–94, 96–97 |
 | Engine (src + tests) | 40–55, 61–62, 65–66, 72–73, 88–89 |
 | Delivery skill (vault-side) | 76–79, 95 |
 
@@ -361,7 +363,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 2 | Project README | - | Docs | `README.md` |
 | 3 | CHANGELOG | - | Docs | `CHANGELOG.md` |
 | 4 | Docs Index | - | Docs | `docs/README.md` |
-| 5 | Documents Manifest | 2.68 | Governance | `docs/documents_manifest.md` |
+| 5 | Documents Manifest | 2.69 | Governance | `docs/documents_manifest.md` |
 | 6 | Folder Structure | 0.18 | Governance | `docs/folder_structure.md` |
 | 7 | Architecture (system-design record) | 0.14 | Docs | `docs/architecture.md` |
 | 8 | Session Opener (project-local, binding) | 1.21 | Governance | `docs/SESSION_OPENER.md` |
@@ -449,6 +451,8 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 | 93 | PLAN-018 — one-prompt delivery: the skill from a plain clone, a self-test mode, a handoff report (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-018_one_prompt_delivery.md` |
 | 94 | PLAN-018 tracker (CLOSED) | 1.0 | Plan | `docs/Plans/PLAN-018_tracker.md` |
 | 95 | Delivery skill — selftest mode | 0.1 | Delivery | `skill/modes/selftest.md` |
+| 96 | PLAN-019 — git transport fails fast: ssh timeouts + keepalives, a cap on every transport command (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-019_git_fail_fast.md` |
+| 97 | PLAN-019 tracker (DRAFT) | 0.1 | Plan | `docs/Plans/PLAN-019_tracker.md` |
 
 > `.toml` config (`scripts/doc_coverage_allowlist.toml`, `scripts/validation_ownership.toml`) and
 > non-versioned config (`.gitlab-ci.yml`, `.gitignore`, MR template) carry no VERSION header and are not
@@ -456,7 +460,7 @@ Lists every committed `.md` file and every tracked code file (`.py`/`.sh` with a
 
 ## Last updated
 
-- **Date**: 2026-10-11
-- **Change**: PLAN-018 CLOSED — rows 93–94 → 1.0 (CLOSED); self-row → 2.68.
-- **Previous change**: PLAN-018 Phase 3 — new row 95; cells 6, 76, 77, 78 + rows 93–94 → 0.3 EXECUTING; self-row → 2.67.
+- **Date**: 2026-10-12
+- **Change**: PLAN-019 drafted — new rows 96–97 (0.1 DRAFT); self-row → 2.69.
+- **Previous change**: PLAN-018 CLOSED — rows 93–94 → 1.0 (CLOSED); self-row → 2.68.
 - **Previous audit**: (none — first audit will be quarterly per `PROJECT_STANDARDS.md` § 2.9)
