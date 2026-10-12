@@ -1,8 +1,9 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-10-12 -->
-<!-- Status: DRAFT — awaiting Phase 2 approval -->
+<!-- Status: APPROVED — Phase 3 next, in a fresh session -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-12 — Phase 2 ✅: "go on commit; approve 020, all A" (plan § 9.1); D-3 = A waiver recorded under Phase 4.
 v0.1 — 2026-10-12 — Created with the plan draft (tracker required per CLAUDE.md § 15.7: Phase 3 lands as
 two commits plus project writes; Phase 4 has a multi-scenario list, QA-V1…V8).
 -->
@@ -27,7 +28,7 @@ two commits plus project writes; Phase 4 has a multi-scenario list, QA-V1…V8).
 
 ## Phase 2 — Operator approval
 
-- ⏸ D20 + D-1 … D-4 (plan § 9) → § 9.1 decision record → plan + tracker 0.2.
+- ✅ 2026-10-12 — "go on commit; approve 020, all A" — D20.A; D-1 = A, D-2 = A, D-3 = A, D-4 = A (plan § 9.1). Plan + tracker → 0.2.
 
 ## Phase 3a — Release commit (fresh session)
 
@@ -59,7 +60,8 @@ two commits plus project writes; Phase 4 has a multi-scenario list, QA-V1…V8).
 - ⏸ QA-V5 — governance 0 / 0 (pasted) + manifest cells (8d) CLEAN.
 - ⏸ QA-V6 ⚑ — live delivery: four projects `v2.8 v2.8 current`, each idempotent; 780-Automation recorded.
 - ⏸ QA-V7 — decision log: DL-001 … DL-009 + the Phase 2 entries, verbatim, cited from § 9.1.
-- ⏸ QA-V8 — skill change: mechanical strip check; real-run evidence per D-3.
+- ⏸ QA-V8 — skill change: mechanical strip check. **Rule 15 waiver (D-3 = A, operator 2026-10-12):** the
+  real-run evidence is the next bootstrap / adopt / selftest report — record it here as a post-close note.
 
 ## Phase 5 — Operator gate
 

@@ -1,8 +1,11 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-10-12 -->
-<!-- Status: DRAFT — awaiting Phase 2 approval -->
+<!-- Status: APPROVED — Phase 3 next, in a fresh session -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-12 — Phase 2 operator approval recorded ("go on commit; approve 020, all A"); § 9.1 decision record added:
+D20.A approved; D-1 = A, D-2 = A, D-3 = A, D-4 = A. No § 5 change — the 67 blocks + 3 harnesses
+re-extracted from this file stay byte-identical to the proven tree.
 v0.1 — 2026-10-12 — Initial draft. § 15.9 intake (operator request "start 2.8"; no document) → the v2.8
 inventory in chat (every recorded candidate, with source and recommendation; Rule 16 list for the adopter
 items) → operator answers DL-004 … DL-009 → Phase 0 audit against the live source (`9366b7a`) → Phase 1
@@ -137,7 +140,7 @@ per reachable project (their trees, not this repo).
 |---|---|---|
 | 0 — Audit (+ § 15.9 intake, inventory, operator answers) | ✅ | 2026-10-12 |
 | 1 — Design (+ Rule 13 pass) | ✅ | 2026-10-12 |
-| 2 — Operator approval | ⏸ pending | — |
+| 2 — Operator approval | ✅ "go on commit; approve 020, all A" | 2026-10-12 |
 | 3a — Release commit (fresh session) | ⏸ pending | — |
 | 3b — Delivery to the reachable projects + record commit | ⏸ pending | — |
 | 4 — Validate (QA-V1…V8) | ⏸ pending | — |
@@ -2564,6 +2567,22 @@ Asked in plain words (`feedback_plain_language_decisions`). Reply on one line, e
   release commit, for each reachable project I show you its idle evidence, you say "go", I write and
   re-check (QA-V6); 780-Automation catches up when its host answers. **B:** release only; deliver later
   (the plan stays open until then).
+
+### 9.1 Decision record (Phase 2, 2026-10-12)
+
+Operator, verbatim: *"go on commit; approve 020, all A"* (2026-10-12) — one reply answering the commit gate for the draft and
+all five decisions. Phase 3 records each as a `docs/DECISION_LOG.md` entry (§ 6 rule 2; DL-010 … DL-014)
+and this record then cites the ids.
+
+- **D20.A — APPROVED** — PLAN-020 as written.
+- **D-1 = A** — the vault's decision-log rule is a CLAUDE.md § 10 sub-section; no rule number.
+- **D-2 = A** — the two skill lines (5m, 5n) ship in this plan.
+- **D-3 = A** — Rule 15 waiver for the skill change until its next real use (bootstrap / adopt /
+  selftest); that run's report is the evidence; QA-V8's mechanical check still runs. Recorded in the
+  tracker.
+- **D-4 = A** — deliver to the reachable projects in the Phase 3 session (QA-V6), each after its idle
+  evidence and the operator's "go".
+- **No § 5 change:** the blocks re-extracted from this file stay byte-identical to the proven tree.
 
 ## 10. Rollback path
 

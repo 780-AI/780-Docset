@@ -2,6 +2,18 @@
 
 Newest entries at the top.
 
+## [2026-10-12] — PLAN-020 APPROVED
+
+- **Type:** Plan approval record (Phase 2). Operator: *"go on commit; approve 020, all A"* — D20.A approved; D-1 = A (the
+  vault's decision-log rule as a CLAUDE.md § 10 sub-section), D-2 = A (the two skill lines ship in the
+  plan), D-3 = A (Rule 15 waiver for the skill change until its next real use), D-4 = A (deliver to the
+  reachable projects in the Phase 3 session) (plan § 9.1).
+- **Files:** PLAN-020 plan + tracker 0.1 → 0.2 APPROVED; `docs/documents_manifest.md` 2.73.
+- **Next:** Phase 3 in a fresh session from the committed plan (§ 15.3) — release commit, delivery,
+  close, then push + tag `set-v2.8`.
+- **Impact:** none at runtime — planning documents only. No § 5 change (the 67 blocks + 3 harnesses
+  re-verified byte-identical to the proven tree).
+
 ## [2026-10-12] — PLAN-020 drafted: Standard Set Version v2.8 (lessons batch, senior-review checklist, template fixes, decision-log template)
 
 - **Type:** Plan draft (Phase 1; § 15.9 intake — operator "start 2.8", no document). No suite, code,
