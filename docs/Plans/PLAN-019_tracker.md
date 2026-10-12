@@ -1,8 +1,10 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-10-12 -->
-<!-- Status: DRAFT — awaiting operator approval (plan § 9) -->
+<!-- Status: APPROVED — Phase 3 next, in a fresh session -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-12 — Phase 2 ✅: "D1. A , D2. A" + "go" (plan § 9.1); 3.0 pre-check no longer requires
+HEAD == both remotes (the planning commits may still be unpushed).
 v0.1 — 2026-10-12 — Created with the plan draft (tracker required per CLAUDE.md § 15.7: Phase 4 has a
 multi-scenario list, QA-T1…T5).
 -->
@@ -31,11 +33,12 @@ multi-scenario list, QA-T1…T5).
 
 ## Phase 2 — Operator approval
 
-- ⏸ D19.A + D-1 / D-2 (plan § 9).
+- ✅ 2026-10-12 — "D1. A , D2. A" + "go" — D19.A; D-1 = A, D-2 = A (plan § 9.1). Plan + tracker → 0.2.
 
 ## Phase 3 — Implement (fresh session, one commit)
 
-- ⏸ 3.0 — clock vs an external authority → `<P3-DATE>`; tree clean; HEAD == both remotes.
+- ⏸ 3.0 — clock vs an external authority → `<P3-DATE>`; tree clean; HEAD contains the approval commit;
+  push state vs both remotes recorded (unpushed planning commits are expected — no push needed first).
 - ⏸ 3.1 — reconcile: re-extract the 16 § 5 blocks from the plan; every FIND once, in order; checker
   positive control.
 - ⏸ 3.2 — apply § 5 (4 files) → QA-T1.

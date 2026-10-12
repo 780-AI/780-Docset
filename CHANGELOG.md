@@ -2,6 +2,17 @@
 
 Newest entries at the top.
 
+## [2026-10-12] — PLAN-019 APPROVED
+
+- **Type:** Plan approval record (Phase 2). Operator: *"D1. A , D2. A"* then *"go"* — D19.A approved;
+  D-1 = A (keep the operator's own ssh command, append the fail-fast options), D-2 = A (a 300 s cap on
+  every transport command) (plan § 9.1).
+- **Files:** PLAN-019 plan + tracker 0.1 → 0.2 APPROVED; `docs/documents_manifest.md` 2.70.
+- **Next:** Phase 3 in a fresh session from the committed plan (§ 15.3) — implement, QA-T1…T5, close in
+  one commit.
+- **Impact:** none at runtime — planning documents only. No § 5 change (the 16 blocks + harness
+  re-verified byte-identical to the proven files).
+
 ## [2026-10-12] — PLAN-019 drafted: the git transport fails fast (ssh timeouts + keepalives, a 300 s cap on every transport command)
 
 - **Type:** Plan draft (Phase 1; § 15.9 feature intake — operator request in chat, "yes get it done as

@@ -1,8 +1,11 @@
-<!-- VERSION: 0.1 -->
+<!-- VERSION: 0.2 -->
 <!-- Last Updated: 2026-10-12 -->
-<!-- Status: DRAFT — awaiting operator approval (§ 9) -->
+<!-- Status: APPROVED — Phase 3 next, in a fresh session -->
 <!--
 CHANGE LOG
+v0.2 — 2026-10-12 — Phase 2 operator approval recorded ("D1. A , D2. A" + "go"); § 9.1 decision record added: D19.A
+approved; D-1 = A, D-2 = A. No § 5 change — the 16 blocks + harness re-extracted from this file stay
+byte-identical to the proven files.
 v0.1 — 2026-10-12 — Initial draft. § 15.9 feature intake (operator request in chat: "what is the ssh
 timeout plan?" → "yes get it done as quickly as possible"; no document) → Phase 0 audit against the live
 source (`bf8669e`) + pre-tests with numbers (§ 3) → Phase 1 design. Code proven FIRST in a scratch export
@@ -107,7 +110,7 @@ tracker → 1.0 CLOSED.
 |---|---|---|
 | 0 — Audit (+ § 15.9 intake, pre-tests) | ✅ | 2026-10-12 |
 | 1 — Design (+ Rule 13 pass) | ✅ | 2026-10-12 |
-| 2 — Operator approval | ⏸ pending | — |
+| 2 — Operator approval | ✅ "D1. A , D2. A" + "go" | 2026-10-12 |
 | 3 — Implement (fresh session, one commit) | ⏸ pending | — |
 | 4 — Validate (QA-T1…T5, same session as Phase 3) | ⏸ pending | — |
 | 5 — Operator gate (push both remotes; no tag) | ⏸ pending | — |
@@ -863,6 +866,16 @@ if __name__ == "__main__":
 
 Reply e.g. **"plan 019 approved, all A"**. Choosing B on D-1 or D-2 → a plan revision (re-generated § 5)
 before Phase 3.
+
+### 9.1 Decision record (Phase 2, 2026-10-12)
+
+- **D19.A — APPROVED:** operator *"D1. A , D2. A"* then *"go"* (2026-10-12) — "go" answered the
+  explicit ask to confirm both the plan approval and the two commits.
+- **D-1 = A** — keep the operator's own ssh command (`GIT_SSH_COMMAND`, else `core.sshCommand`) and append
+  the options; a legacy `GIT_SSH` program is left alone.
+- **D-2 = A** — a 300 s cap on every git / rsync command.
+- **No § 5 change:** the blocks re-extracted from this file stay byte-identical to the proven files
+  (re-verified in the approval commit).
 
 ## 10. Rollback path
 
